@@ -2,6 +2,9 @@
 Formula Andy is the State of the art Formula One Manager game, open-source and
 written in Java.
 
+## Chat
+Join the Slack channel at [https://formula-andy.slack.com](https://formula-andy.slack.com).
+
 ## Members
 | Image         | Name                                                    | ID      |
 | ------------- |:-------------------------------------------------------:| :------:|
