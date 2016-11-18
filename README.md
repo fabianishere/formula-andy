@@ -4,7 +4,7 @@ written in Java.
 
 ## Members
 | Image         | Name                                                    | ID      |
-| ------------- |:-------------------------------------------------------:| -------:|
+| ------------- |:-------------------------------------------------------:| :------:|
 |               | [Fabian Mastenbroek](https://github.com/fabianishere)   | 4552199 |
 |               | [Christian Slothouber](https://github.com/ChristovS)    | 4485998 |
 |               | Laetitia Molkenboer                                     | 4553934 |
