@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="https://github.com/fabianishere/formula-andy/blob/master/misc/artwork/logo.png?raw=true" width="100" alt="Formula Andy">
+</p>
 # Formula Andy
 Formula Andy is the State of the art Formula One Manager game, open-source and
 written in Java.
