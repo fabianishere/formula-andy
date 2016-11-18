@@ -11,7 +11,7 @@ written in Java.
     <img src="https://travis-ci.com/fabianishere/formula-andy.svg?token=bU4F3wsxcknXqXqbpdoi&branch=master" alt="Build Status">
   </a>
 </p>
----
+
 ## Chat
 Join the Slack channel at [https://formula-andy.slack.com](https://formula-andy.slack.com).
 
