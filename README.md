@@ -20,7 +20,7 @@ Join the Slack channel at [https://formula-andy.slack.com](https://formula-andy.
 | ------------- |:-------------------------------------------------------:| :------:|
 |               | [Fabian Mastenbroek](https://github.com/fabianishere)   | 4552199 |
 |               | [Christian Slothouber](https://github.com/ChristovS)    | 4485998 |
-|               | [Laetitia Molkenboer](https://github.com/Lmolkenboar)   | 4553934 |
+|               | [Laetitia Molkenboer](https://github.com/Lmolkenboer)   | 4553934 |
 |               | [Nikki Bouman](https://github.com/NikkiBouman)          | 4597648 |
 |               | [Nils de Beukelaar](https://github.com/NilsBeuki)       | 4557234 |
 
