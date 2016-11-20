@@ -22,7 +22,7 @@ Join the Slack channel at [https://formula-andy.slack.com](https://formula-andy.
 |               | [Christian Slothouber](https://github.com/ChristovS)    | 4485998 |
 |               | [Laetitia Molkenboer](https://github.com/Lmolkenboar)   | 4553934 |
 |               | [Nikki Bouman](https://github.com/NikkiBouman)          | 4597648 |
-|               | Nils de Beukelaar                                       | 4557234 |
+|               | [Nils de Beukelaar](https://github.com/NilsBeuki)       | 4557234 |
 
 ## License
 The code is released under the MIT license. See the `LICENSE.txt` file.
