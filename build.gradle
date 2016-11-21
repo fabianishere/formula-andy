@@ -24,4 +24,5 @@
  */
 subprojects {
     apply plugin: 'checkstyle'
+    apply plugin: 'jacoco'
 }
