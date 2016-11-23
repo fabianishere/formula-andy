@@ -15,7 +15,26 @@ written in Java.
 ## Chat
 Join the Slack channel at [https://formula-andy.slack.com](https://formula-andy.slack.com).
 
-## Members
+## Getting the source
+Download the source code by running the following code in your command prompt:
+```sh
+$ git clone  https://github.com/fabianishere/formula-andy.git
+```
+or simply [grab](https://github.com/fabianishere/formula-andy/archive/master.zip) 
+a copy of the source code as a zip file.
+
+## Building
+For building the source code, we use Gradle. To run gradle, enter the following
+in your command prompt:
+```sh
+$ ./gradlew build
+```
+To test the source code, run the following code in your command prompt
+```
+$ ./gradlew test
+```
+
+## Contributors
 | Image         | Name                                                    | ID      |
 | ------------- |:-------------------------------------------------------:| :------:|
 |               | [Fabian Mastenbroek](https://github.com/fabianishere)   | 4552199 |
