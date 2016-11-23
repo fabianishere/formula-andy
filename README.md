@@ -18,7 +18,7 @@ Join the Slack channel at [https://formula-andy.slack.com](https://formula-andy.
 ## Getting the source
 Download the source code by running the following code in your command prompt:
 ```sh
-$ git clone  https://github.com/fabianishere/formula-andy.git
+$ git clone https://github.com/fabianishere/formula-andy.git
 ```
 or simply [grab](https://github.com/fabianishere/formula-andy/archive/master.zip) 
 a copy of the source code as a zip file.
