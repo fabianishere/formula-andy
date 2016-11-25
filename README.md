@@ -41,7 +41,7 @@ $ ./gradlew test
 |               | [Christian Slothouber](https://github.com/ChristovS)    | 4485998 |
 |               | [Laetitia Molkenboer](https://github.com/Lmolkenboer)   | 4553934 |
 | ![Nikki Bouman](misc/contributors/nikki.jpg) | [Nikki Bouman](https://github.com/NikkiBouman)          | 4597648 |
-|               | [Nils de Beukelaar](https://github.com/NilsBeuki)       | 4557234 |
+| ![Nils de Beukelaar](misc/contributors/nils.jpg) | [Nils de Beukelaar](https://github.com/NilsBeuki)       | 4457234 |
 
 ## License
 The code is released under the MIT license. See the `LICENSE.txt` file.
