@@ -40,7 +40,7 @@ $ ./gradlew test
 |               | [Fabian Mastenbroek](https://github.com/fabianishere)   | 4552199 |
 |               | [Christian Slothouber](https://github.com/ChristovS)    | 4485998 |
 |               | [Laetitia Molkenboer](https://github.com/Lmolkenboer)   | 4553934 |
-| ![Nikki Bouman](https://github.com/fabianishere/formula-andy/blob/master/misc/artwork/logo.png?raw=true) | [Nikki Bouman](https://github.com/NikkiBouman)          | 4597648 |
+| ![Nikki Bouman](misc/contributors/nikki.jpg) | [Nikki Bouman](https://github.com/NikkiBouman)          | 4597648 |
 |               | [Nils de Beukelaar](https://github.com/NilsBeuki)       | 4557234 |
 
 ## License
