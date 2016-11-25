@@ -20,7 +20,7 @@ Download the source code by running the following code in your command prompt:
 ```sh
 $ git clone https://github.com/fabianishere/formula-andy.git
 ```
-or simply [grab](https://github.com/fabianishere/formula-andy/archive/master.zip) 
+or simply [grab](https://github.com/fabianishere/formula-andy/archive/master.zip)
 a copy of the source code as a zip file.
 
 ## Building
@@ -40,7 +40,7 @@ $ ./gradlew test
 |               | [Fabian Mastenbroek](https://github.com/fabianishere)   | 4552199 |
 |               | [Christian Slothouber](https://github.com/ChristovS)    | 4485998 |
 |               | [Laetitia Molkenboer](https://github.com/Lmolkenboer)   | 4553934 |
-|               | [Nikki Bouman](https://github.com/NikkiBouman)          | 4597648 |
+| ![Nikki Bouman](https://github.com/fabianishere/formula-andy/blob/master/misc/artwork/logo.png?raw=true) | [Nikki Bouman](https://github.com/NikkiBouman)          | 4597648 |
 |               | [Nils de Beukelaar](https://github.com/NilsBeuki)       | 4557234 |
 
 ## License
