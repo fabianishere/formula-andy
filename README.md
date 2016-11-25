@@ -39,7 +39,7 @@ $ ./gradlew test
 | ------------- |:-------------------------------------------------------:| :------:|
 |               | [Fabian Mastenbroek](https://github.com/fabianishere)   | 4552199 |
 | ![Christian Slothouber](misc/contributors/christian.jpg) | [Christian Slothouber](https://github.com/ChristovS)  | 4485998 |
-|               | [Laetitia Molkenboer](https://github.com/Lmolkenboer)   | 4553934 |
+| ![Laetitia Molkenboer](misc/contributors/laetitia.jpg)   | [Laetitia Molkenboer](https://github.com/Lmolkenboer)   | 4553934 |
 | ![Nikki Bouman](misc/contributors/nikki.jpg) | [Nikki Bouman](https://github.com/NikkiBouman)          | 4597648 |
 |               | [Nils de Beukelaar](https://github.com/NilsBeuki)       | 4557234 |
 
