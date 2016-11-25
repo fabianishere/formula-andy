@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/fabianishere/formula-andy/blob/master/misc/artwork/logo.png?raw=true" width="100" alt="Formula Andy">
+  <img src="misc/artwork/logo.png" width="100" alt="Formula Andy">
 </p>
 <h1 align="center">Formula Andy</h1>
 <p align="center">
