@@ -38,6 +38,8 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
     /**
+     * This method is called when the application is started.
+     *
      * {@inheritDoc}
      */
     @Override
