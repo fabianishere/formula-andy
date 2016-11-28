@@ -23,11 +23,11 @@
  * THE SOFTWARE.
  */
 subprojects {
-	apply plugin: 'checkstyle'
-	apply plugin: 'jacoco'
+    apply plugin: 'checkstyle'
+    apply plugin: 'jacoco'
 
-	checkstyle {
-		configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
-		toolVersion = '7.2'
-	}
+    checkstyle {
+        configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+        toolVersion = '7.2'
+    }
 }
