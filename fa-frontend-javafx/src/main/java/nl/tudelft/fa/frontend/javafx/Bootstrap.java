@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package nl.tudelft.fa.frontend.javafx;
 
 import javafx.application.Application;
@@ -32,12 +33,12 @@ import javafx.application.Application;
  * @author Fabian Mastenbroek
  */
 public class Bootstrap {
-	/**
-	 * The main entry point of the program.
-	 *
-	 * @param args The command line arguments passed to this program.
-	 */
-	public static void main(String[] args) {
-		Application.launch(Main.class, args);
-	}
+    /**
+     * The main entry point of the program.
+     *
+     * @param args The command line arguments passed to this program.
+     */
+    public static void main(String[] args) {
+        Application.launch(Main.class, args);
+    }
 }
