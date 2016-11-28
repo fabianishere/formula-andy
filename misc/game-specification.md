@@ -9,16 +9,16 @@
 - Seizoen
 	* Grand Prixs (21)
 		- Points (Driver) 
-			1.	25
-			2.	18
-			3.	15
-			4.	12
-			5.	10
-			6.	8
-			7.	6
-			8.	4
-			9.	2
-			10.	1
+			1. 25
+			2. 18
+			3. 15
+			4. 12
+			5. 10
+			6. 8
+			7. 6
+			8. 4
+			9. 2
+			10. 1
 		- Points of drivers added to Team’s point total
 		- Per point, $2M added to teambudget
 		- Qualification and race
@@ -50,148 +50,150 @@
 				- Strategic insight
 				- Salary
 		- Strategist
-			1.  Salary
-			2.	Score 1-100 based on risk
+			1. Salary
+			2. Score 1-100 based on risk
 		- Aerodynamicist
-			1.	Salary
-			2.	Score 1-100 based on risk
+			1. Salary
+			2. Score 1-100 based on risk
 		- Mechanic
-			1.	Salary
-			2.	Score 1-100 based on risk
+			1. Salary
+			2. Score 1-100 based on risk
 	* Win
 		- Team
-			1.	$200 M
+			1. $200 M
 		- Driver
-			1.	+10% salary permanent
+			1. +10% salary permanent
 
 ## Drivers
 1.	Mercedes
-	- Nico Rosberg
+	- Nico Rosberg  
 	  $18 M
-	- Lewis Hamilton
+	- Lewis Hamilton  
 	  $40 M
-	- Esteban Ocon (Reserve)
+	- Esteban Ocon (Reserve)  
 	  $1.5 M
 2.	Red Bull
-	- Daniel Riciardo
+	- Daniel Riciardo  
 	  $6 M
-	- Max Verstappen
+	- Max Verstappen  
 	  $750.000
-	- Danill Kyvat (Reserve)
+	- Danill Kyvat (Reserve)  
 	  $750.000
 3.	Ferrari
-	- Sebastian Vettel
+	- Sebastian Vettel  
 	  $30 M
-	- Kimi Räikkönen
+	- Kimi Räikkönen  
 	  $10 M
-	- Antonio Fuocco (Reserve)
+	- Antonio Fuocco (Reserve)  
 	  $1.5 M
 4.	Force India
-	- Sergio Pérez
+	- Sergio Pérez  
 	  $3 M
-	- Nico Hülkenberg
+	- Nico Hülkenberg  
 	  $4 M
-	- Alfonso Celis Jr. (Reserve)
+	- Alfonso Celis Jr. (Reserve)  
 	  $500.000
 5.	Williams
-	- Felipe Massa
+	- Felipe Massa  
 	  $5 M
-	- Valtteri Bottas
+	- Valtteri Bottas  
 	  $3 M
-	- Paul di Resta (Reserve)
+	- Paul di Resta (Reserve)  
 	  $250.000
 6.	McLaren
-	- Fernando Alonso
+	- Fernando Alonso  
 	  $30 M
-	- Jenson Button
+	- Jenson Button  
 	  $12 M
-	- Stoffel Vandoorne (Reserve)
+	- Stoffel Vandoorne (Reserve)  
 	  $500.000
 7.	Torro Rosso
-	- Carlos Sainz Jr.
+	- Carlos Sainz Jr.  
 	  $370.000
-	- Pierre Gasly
+	- Pierre Gasly  
 	  $370.000
-	- Niko Kari (Reserve)
+	- Niko Kari (Reserve)  
 	  $100.000
 8.	Haas
-	- Romain Grosjean
+	- Romain Grosjean  
 	  $3 M
-	- Esteban Gutierrez
+	- Esteban Gutierrez  
 	  $1.3 M
-	- Charles Leclerc (Reserve)
+	- Charles Leclerc (Reserve)  
 	  $300.000
 9.	Renault
-	- Kevin Magnussen
+	- Kevin Magnussen  
 	  $500.000
-	- Jolyon Palmer
+	- Jolyon Palmer  
 	  $500.000
-	- Carmen Jordá (Reserve)
+	- Carmen Jordá (Reserve)  
 	  $80.000
 10.	Sauber
-	- Marcus Ericsson
+	- Marcus Ericsson  
 	  $185.000
-	- Felipe Nasr
+	- Felipe Nasr  
 	  $185.000
-	- Jean-Éric Vergne
+	- Jean-Éric Vergne  
 	  $50.000
 11.	Manor
-	- Jordan King
+	- Jordan King  
 	  $200.000
-	- Rio Haryanto
+	- Rio Haryanto  
 	  $200.000
-	- Pascal Wehrlein (Reserve)
+	- Pascal Wehrlein (Reserve)  
 	  $50.000
 12.	Extra (13)
-	- Michael Schumacher
+	- Michael Schumacher  
 	  $50 M
-	- Ayrton Senna
+	- Ayrton Senna  
 	  $30 M
-	- Mika Häkkinen
+	- Mika Häkkinen  
 	  $25 M
-	- Mark Webber
+	- Mark Webber  
 	  $20 M
-	- Pastor Maldonado
+	- Pastor Maldonado  
 	  $3 M
-	- Andy Zaidman
+	- Andy Zaidman  
 	  $100 M
-	- Ege de Bruin
+	- Ege de Bruin  
 	  $1 M
-	- Nils de Beukelaar
+	- Nils de Beukelaar  
 	  $-2 M
-	- Nikki Bouman
+	- Nikki Bouman  
 	  $0
-	- Fabian Masterhoek
+	- Fabian Masterhoek  
 	  $2 B
-	- Christian Slothouber
+	- Christian Slothouber  
 	  $42.000
-	- Laetitia Molkenboer
+	- Laetitia Molkenboer  
 	  $10.000
 
 ## Circuits
 Circuits stay the same each season for each date
 
 Grand Prix locations:
-1.	Australia, March 26th
-2.	China,  April 9th
-3.	Bahrain, April 16th
-4.	Rusland, April 30th
-5.	Spain, May 14th
-6.	Monaco, May 28th
-7.	Canada, June 11th
-8.	Europa, June 18th
-9.	Austria, July 2nd
-10.	United Kingdom, July 9th
-11.	Hungary, July 23rd
-12.	Germany, July 30th
-13.	Belgium, August 27th
-14.	Italy, September 3rd
-15.	Malaysia, September 17th
-16.	Singapore, October 1st
-17.	Japan, October 8
-18.	United States, October 22nd
-19.	Mexico, November 5th
-20.	Brazil, November 12th
-21.	Abu Dhabi, November 26th
 
+|  n  | Country       | Date           |
+| --- | ------------- | -------------- |
+|  1  | Australia     | March 26th     |
+|  2  | China         | April 9th      |
+|  3  | Bahrain       | April 16th     |
+|  4  | Rusland       | April 30th     |
+|  5  | Spain         | May 14th       |
+|  6  | Monaco        | May 28th       |
+|  7  | Canada        | June 11th      |
+|  8  | Europe        | June 18th      |
+|  9  | Austria       | July 2nd       |
+| 10  | United Kingdom| July 9th       |
+| 11  | Hungary       | July 23rd      |
+| 12  | Germany       | July 30th      |
+| 13  | Belgium       | August 27th    |
+| 14  | Italy         | September 3rd  |
+| 15  | Malaysia      | September 17th |
+| 16  | Singapore     | October 1st    |
+| 17  | Japan         | October 8      |
+| 18  | United States | October 22nd   |
+| 19  | Mexico        | November 5th   |
+| 20  | Brazil        | November 12th  |
+| 21  | Abu Dhabi     | November 26th  |
 
