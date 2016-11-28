@@ -25,4 +25,3 @@
 rootProject.name = 'formula-andy'
 
 include 'fa-frontend-javafx'
-
