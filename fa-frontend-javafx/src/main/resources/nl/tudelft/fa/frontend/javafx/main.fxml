@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.MainController">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+   <children>
+      <BorderPane prefHeight="408.0" prefWidth="600.0">
+         <center>
+            <HBox alignment="CENTER" prefHeight="281.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" text="Continue">
+                     <HBox.margin>
+                        <Insets left="30.0" right="30.0" top="30.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="New Game">
+                     <HBox.margin>
+                        <Insets left="30.0" right="30.0" top="30.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </center>
+         <bottom>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Settings" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </BorderPane.margin>
+            </Button>
+         </bottom>
+      </BorderPane>
+   </children>
+
+</VBox>

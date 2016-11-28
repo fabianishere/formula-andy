@@ -22,7 +22,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
+package nl.tudelft.fa.frontend.javafx;
 
-include 'fa-frontend-javafx'
+import javafx.application.Application;
+import javafx.scene.control.Button;
 
+/**
+ * This class bootstraps the JavaFX graphical user-interface.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class Bootstrap {
+	/**
+	 * The main entry point of the program.
+	 *
+	 * @param args The command line arguments passed to this program.
+	 */
+
+
+
+	public static void main(String[] args) {
+		Application.launch(Main.class, args);
+	}
+
+
+}
