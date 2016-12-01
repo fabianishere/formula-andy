@@ -1,41 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import java.net.URL?>
-<VBox fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.MainController">
+<VBox fx:id="pane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.MainController">
     <stylesheets>
-        <URL value="@style.css" />
+        <URL value="@style.css"/>
     </stylesheets>
-    <children>
-      <BorderPane prefHeight="408.0" prefWidth="600.0">
-         <center>
-            <HBox alignment="CENTER" prefHeight="359.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button mnemonicParsing="false" text="Continue">
-                     <HBox.margin>
-                        <Insets left="30.0" right="30.0" top="200.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="New Game">
-                     <HBox.margin>
-                        <Insets left="30.0" right="30.0" top="200.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-         </center>
-         <bottom>
-            <Button alignment="BOTTOM_RIGHT" contentDisplay="BOTTOM" mnemonicParsing="false" text="Settings" BorderPane.alignment="BOTTOM_RIGHT">
-               <BorderPane.margin>
-                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
-               </BorderPane.margin>
-            </Button>
-         </bottom>
-      </BorderPane>
-   </children>
 
+    <GridPane prefHeight="1106.0" prefWidth="1920.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.0" minWidth="10.0" prefWidth="533.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.0" minWidth="10.0" prefWidth="519.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="876.0" minWidth="10.0" prefWidth="445.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="558.0" minWidth="10.0" prefWidth="204.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="558.0" minWidth="10.0" prefWidth="291.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="264.0" minHeight="10.0" prefHeight="191.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="353.0" minHeight="10.0" prefHeight="341.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="243.0" minHeight="10.0" prefHeight="243.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <Button mnemonicParsing="false" onAction="#NewGame" opacity="0.0" prefHeight="232.0" prefWidth="360.0"
+                rotate="-32.7" text="New Game" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Button mnemonicParsing="false" onAction="#LoadGame" opacity="0.0" prefHeight="230.0" prefWidth="369.0"
+                rotate="33.7" text="Load Game" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#Settings" opacity="0.0"
+                prefHeight="240.0" prefWidth="268.0" text="Settings" textAlignment="CENTER" GridPane.columnIndex="4"
+                GridPane.rowIndex="3"/>
+    </GridPane>
 </VBox>

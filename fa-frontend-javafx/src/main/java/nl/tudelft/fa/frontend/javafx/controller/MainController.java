@@ -1,18 +1,24 @@
 package nl.tudelft.fa.frontend.javafx.controller;
 
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+public class MainController {
 
-/**
- * Created by nikki on 11/28/2016.
- */
-public class MainController implements Initializable {
 
-	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("Loading user data...");
+	@FXML
+	protected void NewGame (ActionEvent event) {
+		System.out.println("NEW GAME!!");
 	}
-}
 
+	@FXML
+	protected void LoadGame (ActionEvent event) {
+		System.out.println("Loading.....");
+	}
+
+	@FXML
+	protected void Settings (ActionEvent event) {
+		System.out.println("SETTINGS yeey");
+	}
+
+}
