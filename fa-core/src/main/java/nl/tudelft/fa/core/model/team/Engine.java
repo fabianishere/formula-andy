@@ -1,4 +1,4 @@
-package nl.tudelft.fa.core.team;
+package nl.tudelft.fa.core.model.team;
 
 /**
  * Class representing a car engine
@@ -88,5 +88,27 @@ public class Engine {
      */
     public void setFuelConsumption(double fuelConsumption) {
         this.fuelConsumption = fuelConsumption;
+    }
+
+    /**
+     * equals method
+     * @param other Object to be tested for equality
+     * @return returns true if Object other is equal to this else returns false
+     */
+    public boolean equals(Object other) {
+        if (!(other instanceof Engine)) return false;
+
+        Engine that = (Engine) other;
+
+        if (!(this.power == that.power)) {
+            return false;
+        }
+        if (!(this.driveAbility == that.driveAbility)) {
+            return false;
+        }
+        if (!(this.fuelConsumption == that.fuelConsumption)) {
+            return false;
+        }
+        return this.brand.equals(that.brand);
     }
 }
