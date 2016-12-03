@@ -38,7 +38,8 @@ public class Tire {
     private double grip;
 
     /**
-     * Constructor
+     * Construct a {@link Tire} instance.
+     *
      * @param type Type of tire e.g. "Ultra Soft" or "Intermidiate"
      * @param durability numeric representation of durability
      * @param grip numeric representation of grip
@@ -50,7 +51,7 @@ public class Tire {
     }
 
     /**
-     * Getter of brand
+     * Getter of brand.
      * @return returns String brand
      */
     public String getBrand() {
@@ -58,7 +59,7 @@ public class Tire {
     }
 
     /**
-     * Setter of brand
+     * Setter of brand.
      * @param brand new brandname
      */
     public void setBrand(String brand) {
@@ -66,7 +67,7 @@ public class Tire {
     }
 
     /**
-     * Getter of tire type
+     * Getter of tire type.
      * @return return textual representation of type
      */
     public String getType() {
@@ -74,7 +75,7 @@ public class Tire {
     }
 
     /**
-     * Setter of tire type
+     * Setter of tire type.
      * @param type new tire type
      */
     public void setType(String type) {
@@ -82,7 +83,7 @@ public class Tire {
     }
 
     /**
-     * Getter of durability
+     * Getter of durability.
      * @return returns double durability
      */
     public double getDurability() {
@@ -90,7 +91,7 @@ public class Tire {
     }
 
     /**
-     * Setter of durability
+     * Setter of durability.
      * @param durability new durability value
      */
     public void setDurability(double durability) {
@@ -98,7 +99,7 @@ public class Tire {
     }
 
     /**
-     * Getter of grip
+     * Getter of grip.
      * @return returns double grip
      */
     public double getGrip() {
@@ -106,7 +107,7 @@ public class Tire {
     }
 
     /**
-     * Setter of grip
+     * Setter of grip.
      * @param grip new grip value
      */
     public void setGrip(double grip) {
@@ -114,14 +115,16 @@ public class Tire {
     }
 
     /**
-     * equals method
-     * @param other Object to tested for equality
-     * @return return true if equal else false
+     * Test whether this {@link Tire} is equal to the given object.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
-    public boolean equals(Object other){
-        if (other instanceof Tire){
+    public boolean equals(Object other) {
+        if (other instanceof Tire) {
             Tire that = (Tire) other;
             return this.type.equals(that.type);
-        } return false;
+        }
+        return false;
     }
 }

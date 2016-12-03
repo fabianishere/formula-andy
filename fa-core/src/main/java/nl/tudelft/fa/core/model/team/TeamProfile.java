@@ -51,6 +51,12 @@ public class TeamProfile {
         this.budget = budget;
     }
 
+    /**
+     * Test whether this {@link TeamProfile} is equal to the given object.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
+     */
     public boolean equals(Object other) {
         if (!(other instanceof  TeamProfile)) {
             return false;

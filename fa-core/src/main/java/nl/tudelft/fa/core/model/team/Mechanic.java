@@ -27,12 +27,13 @@ package nl.tudelft.fa.core.model.team;
 
 /**
  * Class representing a mechanic specialist
- * @version 30 11 2016
+ *
  * @author F.C. Slothouber
  */
 public class Mechanic extends Specialist {
     /**
-     * Constructor
+     * Construct a {@link Mechanic} instance.
+     *
      * @param name name of mechanic
      * @param salary salary of mechanic
      * @param level level of mechanic

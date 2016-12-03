@@ -27,7 +27,7 @@ package nl.tudelft.fa.core.model.team;
 
 /**
  * Class representing a driver
- * @version
+ *
  * @author F.C. Slothouber
  */
 public class Driver extends Member {
@@ -37,22 +37,24 @@ public class Driver extends Member {
     private double strategy;
 
     /**
-     * Constructor
+     * Construct a {@link Driver} instance.
+     *
      * @param name name of driver
      * @param salary salary of driver
      * @param speed numeric representation of speed
      * @param racecraft numeric representation of race craft
      * @param strategy numeric representation of strategy
      */
-    public Driver(String name, int salary, String id, double speed, double racecraft, double strategy) {
-        super (name, salary, id);
+    public Driver(String name, int salary, String id, double speed, double racecraft,
+                  double strategy) {
+        super(name, salary, id);
         this.speed = speed;
         this.raceCraft = racecraft;
         this.strategy = strategy;
     }
 
     /**
-     * Getter of speed
+     * Getter of speed.
      * @return returns double speed
      */
     public double getSpeed() {
@@ -60,7 +62,7 @@ public class Driver extends Member {
     }
 
     /**
-     * Setter speed
+     * Setter speed.
      * @param speed new speed value
      */
     public void setSpeed(double speed) {
@@ -68,7 +70,7 @@ public class Driver extends Member {
     }
 
     /**
-     * Getter race craft
+     * Getter race craft.
      * @return return double racecraft
      */
     public double getRacecraft() {
@@ -76,7 +78,7 @@ public class Driver extends Member {
     }
 
     /**
-     * Setter race craft
+     * Setter race craft.
      * @param racecraft new race craft value
      */
     public void setRacecraft(double racecraft) {
@@ -84,7 +86,7 @@ public class Driver extends Member {
     }
 
     /**
-     * Getter strategy
+     * Getter strategy.
      * @return returns double strategy
      */
     public double getStrategy() {
@@ -92,7 +94,7 @@ public class Driver extends Member {
     }
 
     /**
-     * Setter strategy
+     * Setter strategy.
      * @param strategy new strategy value
      */
     public void setStrategy(double strategy) {

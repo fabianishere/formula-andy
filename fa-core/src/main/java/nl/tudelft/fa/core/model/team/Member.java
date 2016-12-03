@@ -27,7 +27,7 @@ package nl.tudelft.fa.core.model.team;
 
 /**
  * Class representing a crew member
- * @version 30 11 2016
+ *
  * @author F.C. Slothouber
  */
 public abstract class Member {
@@ -37,7 +37,7 @@ public abstract class Member {
     private String id;
 
     /**
-     * Constructor (abstract)
+     * Construct a {@link Member} instance.
      * @param name Name of crew member
      * @param salary salary of crew member
      */
@@ -48,7 +48,7 @@ public abstract class Member {
     }
 
     /**
-     * Getter of name
+     * Getter of name.
      * @return returns String name
      */
     public String getName() {
@@ -56,7 +56,7 @@ public abstract class Member {
     }
 
     /**
-     * Setter name
+     * Setter name.
      * @param name new name
      */
     public void setName(String name) {
@@ -64,7 +64,7 @@ public abstract class Member {
     }
 
     /**
-     * Getter of salary
+     * Getter of salary.
      * @return returns int salary
      */
     public int getSalary() {
@@ -72,7 +72,7 @@ public abstract class Member {
     }
 
     /**
-     * Setter salary
+     * Setter salary.
      * @param salary new int salary
      */
     public void setSalary(int salary) {
@@ -80,29 +80,32 @@ public abstract class Member {
     }
 
     /**
-     * Getter of String ID
+     * Getter of String ID.
      * @return returns String ID
      */
-    public String getID() {
+    public String getId() {
         return this.id;
     }
 
     /**
-     * Setter of ID
+     * Setter of ID.
      * @param id new ID value
      */
-    public void SetID(String id) {
+    public void setId(String id) {
         this.id = id;
     }
+
     /**
-     * equals method
-     * @param other Object to be tested for equality
-     * @return returns true if equal else false
+     * Test whether this {@link Member} is equal to the given object.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
-    public boolean equals(Object other){
+    public boolean equals(Object other) {
         if (other instanceof  Member) {
             Member that = (Member) other;
             return this.id.equals(that.id);
-        } return false;
+        }
+        return false;
     }
 }

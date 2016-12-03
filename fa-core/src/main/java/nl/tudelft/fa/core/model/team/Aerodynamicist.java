@@ -26,11 +26,12 @@
 package nl.tudelft.fa.core.model.team;
 
 /**
- * Class representing aerodynamicist specialist
+ * Class representing aerodynamicist specialist.
  */
 public class Aerodynamicist extends Specialist {
     /**
-     * Constructor
+     * Construct a {@link Aerodynamicist} instance.
+     *
      * @param name name
      * @param salary salary
      * @param level level

@@ -28,17 +28,17 @@ package nl.tudelft.fa.core.model.team;
 /**
  * A class representing a car
  * @version 1 12 2016
- * @author  F.C. Slothouber
+ * @author F.C. Slothouber
  */
 public class Car {
 
     private String skin;
 
     /**
-     * Constructor
-     * @param skin
+     * Construct a {@link Car} instance.
+     * @param skin The skin of this car.
      */
-    public Car (String skin) {
+    public Car(String skin) {
         this.skin = skin;
     }
 
@@ -49,7 +49,8 @@ public class Car {
     public void setSkin(String skin) {
         this.skin = skin;
     }
-// always returns true for testing purposes
+
+    // always returns true for testing purposes
     public boolean equals(Object other) {
         return true;
     }

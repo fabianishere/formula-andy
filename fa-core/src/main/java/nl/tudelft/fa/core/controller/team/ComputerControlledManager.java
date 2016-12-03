@@ -37,7 +37,8 @@ import java.util.List;
 public class ComputerControlledManager extends Manager {
 
     /**
-     * Constructor
+     * Construct a {@link ComputerControlledManager}.
+     *
      * @param teams List of teams owned by bot (only 1 team)
      */
     public ComputerControlledManager(List<Team> teams) {

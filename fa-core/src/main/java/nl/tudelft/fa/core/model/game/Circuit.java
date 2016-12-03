@@ -37,7 +37,8 @@ public class Circuit {
     private int laps;
 
     /**
-     * Constructor
+     * Construct a [@link Circuit} instance.
+     *
      * @param name name of circuit
      * @param country location of circuit
      * @param laps amount of laps each race
@@ -49,7 +50,7 @@ public class Circuit {
     }
 
     /**
-     * Getter name
+     * Getter name.
      * @return return name
      */
     public String getName() {
@@ -57,7 +58,7 @@ public class Circuit {
     }
 
     /**
-     * Setter name
+     * Setter name.
      * @param name new name
      */
     public void setName(String name) {
@@ -65,7 +66,7 @@ public class Circuit {
     }
 
     /**
-     * Getter country
+     * Getter country.
      * @return retuns country
      */
     public String getCountry() {
@@ -73,7 +74,7 @@ public class Circuit {
     }
 
     /**
-     * Setter country
+     * Setter country.
      * @param country new country
      */
     public void setCountry(String country) {
@@ -81,7 +82,7 @@ public class Circuit {
     }
 
     /**
-     * Getter laps
+     * Getter laps.
      * @return returns amount of laps
      */
     public int getLaps() {
@@ -89,7 +90,7 @@ public class Circuit {
     }
 
     /**
-     * Setter laps
+     * Setter laps.
      * @param laps new amount of laps
      */
     public void setLaps(int laps) {

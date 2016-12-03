@@ -26,7 +26,7 @@
 package nl.tudelft.fa.core.model.game;
 
 /**
- * Class representing a Grand Prix
+ * Class representing a Grand Prix.
  * @version 01 12 2016
  * @author F.C. Slothouber
  */
@@ -36,7 +36,7 @@ public class GrandPrix {
     private String date;
 
     /**
-     * Constructor
+     * Construct a {@link GrandPrix} instance.
      * @param circuit the race circuit
      * @param date date of the race
      */
@@ -46,7 +46,7 @@ public class GrandPrix {
     }
 
     /**
-     * Getter circuit
+     * Getter circuit.
      * @return returns circuit
      */
     public Circuit getCircuit() {
@@ -54,7 +54,7 @@ public class GrandPrix {
     }
 
     /**
-     * Setter circuit
+     * Setter circuit.
      * @param circuit new circuit
      */
     public void setCircuit(Circuit circuit) {
@@ -62,7 +62,7 @@ public class GrandPrix {
     }
 
     /**
-     * Getter date
+     * Getter date.
      * @return returns date
      */
     public String getDate() {
@@ -70,7 +70,7 @@ public class GrandPrix {
     }
 
     /**
-     * Setter date
+     * Setter date.
      * @param date new date
      */
     public void setDate(String date) {

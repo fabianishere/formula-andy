@@ -29,7 +29,7 @@ import nl.tudelft.fa.core.model.team.Tire;
 
 /**
  * Class containing changable parameters during race
- * @version 01 12 2016
+ *
  * @author F.C. Slothouber
  */
 public class CarParameters {
@@ -40,7 +40,8 @@ public class CarParameters {
     private Tire tire;
 
     /**
-     * Constructor
+     * Construct a {@link CarParameters} instance.
+     *
      * @param mechanicRisk the risk of the car setup
      * @param aerodynamicistRisk the risk of the car design
      * @param strategistRisk the risk of the strategy
@@ -54,7 +55,7 @@ public class CarParameters {
     }
 
     /**
-     * Getter of setup risk
+     * Getter of setup risk.
      * @return return mechanic risk
      */
     public int getMechanicRisk() {
@@ -62,7 +63,7 @@ public class CarParameters {
     }
 
     /**
-     * Setter mechanicrisk
+     * Setter mechanicrisk.
      * @param mechanicRisk new risk value
      */
     public void setMechanicRisk(int mechanicRisk) {
@@ -70,7 +71,7 @@ public class CarParameters {
     }
 
     /**
-     * Getter car design risk
+     * Getter car design risk.
      * @return retuns risk
      */
     public int getAerodynamicistRisk() {
@@ -78,7 +79,7 @@ public class CarParameters {
     }
 
     /**
-     * Setter car design risk
+     * Setter car design risk.
      * @param aerodynamicistRisk new risk value
      */
     public void setAerodynamicistRisk(int aerodynamicistRisk) {
@@ -86,7 +87,7 @@ public class CarParameters {
     }
 
     /**
-     * Getter strategy risk
+     * Getter strategy risk.
      * @return returns risk value
      */
     public int getStrategistRisk() {
@@ -94,7 +95,7 @@ public class CarParameters {
     }
 
     /**
-     * Setter strategy risk
+     * Setter strategy risk.
      * @param strategistRisk new risk value
      */
     public void setStrategistRisk(int strategistRisk) {
@@ -102,7 +103,7 @@ public class CarParameters {
     }
 
     /**
-     * Getter current tire setup
+     * Getter current tire setup.
      * @return returns tire
      */
     public Tire getTire() {
@@ -110,7 +111,7 @@ public class CarParameters {
     }
 
     /**
-     * Setter tire setup
+     * Setter tire setup.
      * @param tire new tire
      */
     public void setTire(Tire tire) {

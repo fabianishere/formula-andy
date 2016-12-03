@@ -25,11 +25,16 @@
 
 package nl.tudelft.fa.core.model.game;
 
-import nl.tudelft.fa.core.model.team.*;
+import nl.tudelft.fa.core.model.team.Aerodynamicist;
+import nl.tudelft.fa.core.model.team.Car;
+import nl.tudelft.fa.core.model.team.Driver;
+import nl.tudelft.fa.core.model.team.Engine;
+import nl.tudelft.fa.core.model.team.Mechanic;
+import nl.tudelft.fa.core.model.team.Strategist;
 
 /**
  * Class containing the static configuration of a car during a race
- * @version 01 12 2016
+ *
  * @author F.C. Slothouber
  */
 public class CarConfiguration {
@@ -42,7 +47,8 @@ public class CarConfiguration {
     private Strategist strategist;
 
     /**
-     * Constructore
+     * Construct a {@link CarConfiguration} instance.
+     *
      * @param car the car
      * @param driver the driver of this car
      * @param engine the engine the car is using
@@ -50,7 +56,8 @@ public class CarConfiguration {
      * @param aerodynamicist the aerodynamicist that designed the car
      * @param strategist the strategist that made the strategy
      */
-    public CarConfiguration(Car car, Driver driver, Engine engine, Mechanic mechanic, Aerodynamicist aerodynamicist, Strategist strategist) {
+    public CarConfiguration(Car car, Driver driver, Engine engine, Mechanic mechanic,
+                            Aerodynamicist aerodynamicist, Strategist strategist) {
         this.car = car;
         this.driver = driver;
         this.engine = engine;
@@ -60,7 +67,8 @@ public class CarConfiguration {
     }
 
     /**
-     * Getter of car
+     * Getter of car.
+     *
      * @return returns car
      */
     public Car getCar() {
@@ -68,7 +76,8 @@ public class CarConfiguration {
     }
 
     /**
-     * Stter of car
+     * Setter of car.
+     *
      * @param car new Car
      */
     public void setCar(Car car) {
@@ -76,7 +85,8 @@ public class CarConfiguration {
     }
 
     /**
-     * Getter of driver
+     * Getter of driver.
+     *
      * @return returns driver
      */
     public Driver getDriver() {
@@ -84,7 +94,8 @@ public class CarConfiguration {
     }
 
     /**
-     * Setter of driver
+     * Setter of driver.
+     *
      * @param driver new Driver
      */
     public void setDriver(Driver driver) {
@@ -92,7 +103,8 @@ public class CarConfiguration {
     }
 
     /**
-     * Getter of engine
+     * Getter of engine.
+     *
      * @return returns engine
      */
     public Engine getEngine() {
@@ -100,15 +112,17 @@ public class CarConfiguration {
     }
 
     /**
-     * Setter of engine
-     * @param engine
+     * Setter of engine.
+     *
+     * @param engine The new Engine
      */
     public void setEngine(Engine engine) {
         this.engine = engine;
     }
 
     /**
-     * Getter of mechanic
+     * Getter of mechanic.
+     *
      * @return returns mechanic
      */
     public Mechanic getMechanic() {
@@ -116,7 +130,8 @@ public class CarConfiguration {
     }
 
     /**
-     * Setter of mechanic
+     * Setter of mechanic.
+     *
      * @param mechanic new Mechanic
      */
     public void setMechanic(Mechanic mechanic) {
@@ -124,7 +139,8 @@ public class CarConfiguration {
     }
 
     /**
-     * Getter of aerodynamicist
+     * Getter of aerodynamicist.
+     *
      * @return returns aerodynamicist
      */
     public Aerodynamicist getAerodynamicist() {
@@ -132,7 +148,8 @@ public class CarConfiguration {
     }
 
     /**
-     * Setter of aerodynamicist
+     * Setter of aerodynamicist.
+     *
      * @param aerodynamicist new Aerodynamicist
      */
     public void setAerodynamicist(Aerodynamicist aerodynamicist) {
@@ -140,7 +157,8 @@ public class CarConfiguration {
     }
 
     /**
-     * Getter of strategist
+     * Getter of strategist.
+     *
      * @return returns strategist
      */
     public Strategist getStrategist() {
@@ -148,7 +166,8 @@ public class CarConfiguration {
     }
 
     /**
-     * Setter strategist
+     * Setter strategist.
+     *
      * @param strategist new Strategist
      */
     public void setStrategist(Strategist strategist) {
@@ -156,9 +175,10 @@ public class CarConfiguration {
     }
 
     /**
-     * equals method
-     * @param other Object to be tested for equality
-     * @return returns true if equal else false
+     * Test whether this {@link CarConfiguration} is equal to the given object.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
         if (other instanceof CarConfiguration) {
@@ -167,22 +187,23 @@ public class CarConfiguration {
             if (!this.car.equals(that.car)) {
                 return false;
             }
-            if (!this.driver.equals(that.driver)){
+            if (!this.driver.equals(that.driver)) {
                 return false;
             }
-            if (!this.engine.equals(that.engine)){
+            if (!this.engine.equals(that.engine)) {
                 return false;
             }
-            if (!this.mechanic.equals(that.mechanic)){
+            if (!this.mechanic.equals(that.mechanic)) {
                 return false;
             }
-            if (!this.aerodynamicist.equals(that.aerodynamicist)){
+            if (!this.aerodynamicist.equals(that.aerodynamicist)) {
                 return false;
             }
-            if (this.strategist.equals(that.strategist)){
+            if (this.strategist.equals(that.strategist)) {
                 return true;
             }
-        } return false;
+        }
+        return false;
     }
 }
 

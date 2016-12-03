@@ -25,7 +25,8 @@
 
 package nl.tudelft.fa.core.controller.team;
 
-import nl.tudelft.fa.core.model.team.*;
+import nl.tudelft.fa.core.model.team.Team;
+
 import java.util.List;
 
 /**
@@ -38,7 +39,8 @@ public abstract class Manager {
     private List<Team> teams;
 
     /**
-     * default Constructor
+     * Construct a {@link Manager} instance.
+     *
      * @param teams list of teams owned by manager
      */
     public Manager(List<Team> teams) {

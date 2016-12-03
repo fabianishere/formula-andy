@@ -27,15 +27,16 @@ package nl.tudelft.fa.core.model.team;
 
 /**
  * Class representing a Specialist
- * @version 30 11 2016
+ *
  * @author F.C. Slothouber
  */
-public class Specialist extends Member{
+public class Specialist extends Member {
 
     private double level;
 
     /**
-     * Constructor
+     * Construct a {@link Specialist} instance.
+     *
      * @param name name specialist
      * @param salary slaray specialist
      * @param level level of specialist
@@ -46,7 +47,7 @@ public class Specialist extends Member{
     }
 
     /**
-     * Getter of level
+     * Getter of level.
      * @return returns value of level
      */
     public double getLevel() {
@@ -54,7 +55,7 @@ public class Specialist extends Member{
     }
 
     /**
-     * Setter of level
+     * Setter of level.
      * @param level new level value
      */
     public void setLevel(double level) {

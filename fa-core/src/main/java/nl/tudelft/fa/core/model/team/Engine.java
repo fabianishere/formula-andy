@@ -38,7 +38,7 @@ public class Engine {
     private double fuelConsumption;
 
     /**
-     * Constructor
+     * Construct a {@link Engine} instance.
      * @param brand brand name
      * @param power numeric representation of power
      * @param driveAbility numeric representation of driveability
@@ -52,7 +52,7 @@ public class Engine {
     }
 
     /**
-     * Getter of brand
+     * Getter of brand.
      * @return returns String brand
      */
     public String getBrand() {
@@ -60,7 +60,7 @@ public class Engine {
     }
 
     /**
-     * Setter of brand
+     * Setter of brand.
      * @param brand new brand name
      */
     public void setBrand(String brand) {
@@ -68,7 +68,7 @@ public class Engine {
     }
 
     /**
-     * Getter of power
+     * Getter of power.
      * @return returns double power
      */
     public double getPower() {
@@ -76,7 +76,7 @@ public class Engine {
     }
 
     /**
-     * Setter of  power
+     * Setter of  power.
      * @param power new power setting
      */
     public void setPower(double power) {
@@ -84,7 +84,7 @@ public class Engine {
     }
 
     /**
-     * Getter of driveability
+     * Getter of driveability.
      * @return return double driveability
      */
     public double getDriveAbility() {
@@ -92,7 +92,7 @@ public class Engine {
     }
 
     /**
-     * Setter of driveabilty
+     * Setter of driveability.
      * @param driveAbility new driveability setting
      */
     public void setDriveAbility(double driveAbility) {
@@ -100,7 +100,7 @@ public class Engine {
     }
 
     /**
-     * Getter of fuel consumption
+     * Getter of fuel consumption.
      * @return return double fuelConsumption
      */
     public double getFuelConsumption() {
@@ -108,7 +108,7 @@ public class Engine {
     }
 
     /**
-     * Setter of fuelConsumption
+     * Setter of fuelConsumption.
      * @param fuelConsumption new fuel Consumption setting
      */
     public void setFuelConsumption(double fuelConsumption) {
@@ -116,12 +116,15 @@ public class Engine {
     }
 
     /**
-     * equals method
-     * @param other Object to be tested for equality
-     * @return returns true if Object other is equal to this else returns false
+     * Test whether this {@link Engine} is equal to the given object.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (!(other instanceof Engine)) return false;
+        if (!(other instanceof Engine)) {
+            return false;
+        }
 
         Engine that = (Engine) other;
 
