@@ -8,13 +8,13 @@ Secretary: Nikki Bouman
 2. Approval agenda
 3. Progress past sprint
 4. Evaluating technology
-	a. Gradle
-	b. Akka
-	c. Hibernate
-	d. Slf4j
-	e. JavaFX
-	f. Github (Scrum)
-	g. Checkstyle
+	- Gradle
+	- Akka
+	- Hibernate
+	- slf4j
+	- JavaFX
+	- Github (Scrum)
+	- Checkstyle
 5. Planning next sprint
 6. Show test coverage/checkstyle
 7. Round of issues
