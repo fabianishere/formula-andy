@@ -34,8 +34,8 @@ public class DriverTest {
     }
 
     @Test
-    public void getSalary() throws Exception {
-        assertEquals(salary, driver.getSalary(), 0.01);
+    public void getRacecraft() throws Exception {
+        assertEquals(racecraft, driver.getRacecraft(), 0.01);
     }
 
     @Test
