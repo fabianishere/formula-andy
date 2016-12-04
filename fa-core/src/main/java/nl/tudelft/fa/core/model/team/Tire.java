@@ -128,4 +128,14 @@ public class Tire {
     public int hashCode() {
         return Objects.hash(brand, name);
     }
+
+    /**
+     * Return a textual representation of this tire.
+     *
+     * @return A textual representation of this tire.
+     */
+    @Override
+    public String toString() {
+        return String.format("%s %s", brand, name);
+    }
 }
