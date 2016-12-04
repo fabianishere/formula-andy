@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.model.team;
 
+import java.util.UUID;
+
 /**
  * This class represents a Formula 1 car engine.
  *
@@ -32,9 +34,19 @@ package nl.tudelft.fa.core.model.team;
  */
 public class Engine {
     /**
+     * The unique id of this engine.
+     */
+    private final UUID id;
+
+    /**
      * The name of the brand of this engine.
      */
     private final String brand;
+
+    /**
+     * The name of the engine.
+     */
+    private final String name;
 
     /**
      * The power of this engine.
@@ -53,16 +65,31 @@ public class Engine {
 
     /**
      * Construct a {@link Engine} instance.
-     * @param brand brand name
-     * @param power numeric representation of power
-     * @param driveability numeric representation of driveability
-     * @param fuelConsumption numeric representation of fuel consumption
+     *
+     * @param id The unique id of this engine.
+     * @param brand The brand name of the engine.
+     * @param name The name of the engine.
+     * @param power A numeric representation of power
+     * @param driveability A numeric representation of driveability
+     * @param fuelConsumption A numeric representation of fuel consumption
      */
-    public Engine(String brand, double power, double driveability, double fuelConsumption) {
+    public Engine(UUID id, String brand, String name, double power, double driveability,
+                  double fuelConsumption) {
+        this.id = id;
         this.brand = brand;
+        this.name = name;
         this.power = power;
         this.driveability = driveability;
         this.fuelConsumption = fuelConsumption;
+    }
+
+    /**
+     * Return the unique id of this engine.
+     *
+     * @return The unique id of this engine.
+     */
+    public UUID getId() {
+        return id;
     }
 
     /**
@@ -72,6 +99,15 @@ public class Engine {
      */
     public String getBrand() {
         return brand;
+    }
+
+    /**
+     * Return the name of the engine.
+     *
+     * @return The name of the engine.
+     */
+    public String getName() {
+        return name;
     }
 
     /**
@@ -108,21 +144,30 @@ public class Engine {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (!(other instanceof Engine)) {
-            return false;
+        if (other instanceof Engine) {
+            Engine that = (Engine) other;
+            return this.id.equals(that.id);
         }
+        return false;
+    }
 
-        Engine that = (Engine) other;
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 
-        if (!(this.power == that.power)) {
-            return false;
-        }
-        if (!(this.driveability == that.driveability)) {
-            return false;
-        }
-        if (!(this.fuelConsumption == that.fuelConsumption)) {
-            return false;
-        }
-        return this.brand.equals(that.brand);
+    /**
+     * Return a string representation of this engine.
+     *
+     * @return A string representation of this engine.
+     */
+    @Override
+    public String toString() {
+        return String.format("Engine(id=%s, brand=%s, name=%s)", id, brand, name);
     }
 }
