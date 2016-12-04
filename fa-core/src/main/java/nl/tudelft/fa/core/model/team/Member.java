@@ -25,12 +25,19 @@
 
 package nl.tudelft.fa.core.model.team;
 
+import java.util.UUID;
+
 /**
  * This class represents a member of a Formula 1 {@link Team}.
  *
  * @author Christian Slothouber
  */
 public abstract class Member {
+    /**
+     * The unique id of this member.
+     */
+    private final UUID id;
+
     /**
      * The name of this member.
      */
@@ -42,19 +49,25 @@ public abstract class Member {
     private int salary;
 
     /**
-     * The id of this member.
-     */
-    private final String id;
-
-    /**
      * Construct a {@link Member} instance.
-     * @param name Name of crew member
+     *
+     * @param id     The unique id of the member.
+     * @param name   Name of crew member
      * @param salary salary of crew member
      */
-    public Member(String name, int salary, String id) {
+    public Member(UUID id, String name, int salary) {
+        this.id = id;
         this.name = name;
         this.salary = salary;
-        this.id = id;
+    }
+
+    /**
+     * Return the unique id of this member.
+     *
+     * @return The id of this member.
+     */
+    public UUID getId() {
+        return id;
     }
 
     /**
@@ -85,25 +98,27 @@ public abstract class Member {
     }
 
     /**
-     * Return the id of this member.
-     *
-     * @return The id of this member.
-     */
-    public String getId() {
-        return this.id;
-    }
-
-    /**
      * Test whether this {@link Member} is equal to the given object.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object other) {
-        if (other instanceof  Member) {
+        if (other instanceof Member) {
             Member that = (Member) other;
             return this.id.equals(that.id);
         }
         return false;
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

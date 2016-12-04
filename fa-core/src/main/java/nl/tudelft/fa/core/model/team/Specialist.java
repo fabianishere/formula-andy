@@ -25,12 +25,14 @@
 
 package nl.tudelft.fa.core.model.team;
 
+import java.util.UUID;
+
 /**
  * A {@link Member} of a {@link Team} that is specialized in a specific part of the race or car.
  *
  * @author Christian Slothouber
  */
-public class Specialist extends Member {
+public abstract class Specialist extends Member {
     /**
      * The level of this specialist.
      */
@@ -39,12 +41,13 @@ public class Specialist extends Member {
     /**
      * Construct a {@link Specialist} instance.
      *
+     * @param id The unique id of the specialist.
      * @param name The name of the specialist.
      * @param salary The salary of the specialist.
      * @param level The level of the specialist.
      */
-    public Specialist(String name, int salary, String id, double level) {
-        super(name, salary, id);
+    public Specialist(UUID id, String name, int salary, double level) {
+        super(id, name, salary);
         this.level = level;
     }
 

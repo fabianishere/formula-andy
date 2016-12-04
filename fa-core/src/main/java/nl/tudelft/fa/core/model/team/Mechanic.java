@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.model.team;
 
+import java.util.UUID;
+
 /**
  * A mechanical {@link Specialist}.
  *
@@ -34,11 +36,23 @@ public class Mechanic extends Specialist {
     /**
      * Construct a {@link Mechanic} instance.
      *
+     * @param id The unique id of this mechanic.
      * @param name name of mechanic
      * @param salary salary of mechanic
      * @param level level of mechanic
      */
-    public Mechanic(String name, int salary, String id, double level) {
-        super(name, salary, id, level);
+    public Mechanic(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
+    }
+
+    /**
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
+     */
+    @Override
+    public String toString() {
+        return String.format("Mechanic(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
     }
 }

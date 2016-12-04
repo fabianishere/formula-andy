@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.model.team;
 
+import java.util.UUID;
+
 /**
  * A {@link Member} of the {@link Team} that drives the Formula 1 {@link Car}s.
  *
@@ -49,16 +51,16 @@ public class Driver extends Member {
     /**
      * Construct a {@link Driver} instance.
      *
+     * @param id The unique id of the driver.
      * @param name The name of the driver
      * @param salary The salary of the driver
-     * @param id The id of the driver.
      * @param speed A numeric representation of the speed of the driver.
      * @param racecraft A numeric representation of the race craft of the driver.
      * @param strategy A numeric representation of the strategy of the driver.
      */
-    public Driver(String name, int salary, String id, double speed, double racecraft,
+    public Driver(UUID id, String name, int salary, double speed, double racecraft,
                   double strategy) {
-        super(name, salary, id);
+        super(id, name, salary);
         this.speed = speed;
         this.racecraft = racecraft;
         this.strategy = strategy;
@@ -88,5 +90,17 @@ public class Driver extends Member {
      */
     public double getStrategy() {
         return strategy;
+    }
+
+
+    /**
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
+     */
+    @Override
+    public String toString() {
+        return String.format("Driver(id=%s, name=%s, salary=%d, speed=%f, racecraft=%f,"
+            + " strategy=%f)", getId(), getName(), getSalary(), speed, racecraft, strategy);
     }
 }

@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.model.team;
 
+import java.util.UUID;
+
 /**
  * A aerodynamic {@link Specialist}.
  *
@@ -34,12 +36,23 @@ public class Aerodynamicist extends Specialist {
     /**
      * Construct a {@link Aerodynamicist} instance.
      *
+     * @param id The unique id of this specialist.
      * @param name name The name of this specialist.
      * @param salary salary The salary of this specialist.
-     * @param id The id of this specialist.
      * @param level level The level of this specialist.
      */
-    public Aerodynamicist(String name, int salary, String id, double level) {
-        super(name, salary, id, level);
+    public Aerodynamicist(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
+    }
+
+    /**
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
+     */
+    @Override
+    public String toString() {
+        return String.format("Aerodynamicist(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
     }
 }

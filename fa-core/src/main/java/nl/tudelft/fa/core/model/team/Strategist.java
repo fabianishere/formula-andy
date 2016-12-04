@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.model.team;
 
+import java.util.UUID;
+
 /**
  * A strategic {@link Specialist}.
  *
@@ -34,12 +36,24 @@ public class Strategist extends Specialist {
     /**
      * Construct a {@link Strategist} instance.
      *
+     * @param id The unique id of this strategist.
      * @param name name The name of the strategist.
      * @param salary salary The salary of the strategist.
      * @param level level The level of the strategist.
      *
      */
-    public Strategist(String name, int salary, String id, double level) {
-        super(name, salary, id, level);
+    public Strategist(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
+    }
+
+    /**
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
+     */
+    @Override
+    public String toString() {
+        return String.format("Strategist(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
     }
 }
