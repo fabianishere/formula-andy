@@ -154,10 +154,10 @@ public class CarConfiguration {
         if (other instanceof CarConfiguration) {
             CarConfiguration that = (CarConfiguration) other;
 
-            return this.car.equals(that.car) && this.driver.equals(that.driver) &&
-                this.engine.equals(that.engine) && this.mechanic.equals(that.mechanic) &&
-                this.aerodynamicist.equals(that.aerodynamicist) &&
-                this.strategist.equals(that.strategist);
+            return this.car.equals(that.car) && this.driver.equals(that.driver)
+                && this.engine.equals(that.engine) && this.mechanic.equals(that.mechanic)
+                && this.aerodynamicist.equals(that.aerodynamicist)
+                && this.strategist.equals(that.strategist);
         }
         return false;
     }
@@ -169,7 +169,7 @@ public class CarConfiguration {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(car, driver, engine, mechanic, aerodynamicist, strategist);
+        return Objects.hash(car, engine, driver, mechanic, aerodynamicist, strategist);
     }
 
     /**
@@ -179,8 +179,8 @@ public class CarConfiguration {
      */
     @Override
     public String toString() {
-        return String.format("CarConfiguration(car=%s, driver=%s, engine=%s, mechanic=%s, "
-            + "aerodynamicist=%s, strategist=%s)", car, driver, engine, mechanic,
+        return String.format("CarConfiguration(car=%s, engine=%s, driver=%s, mechanic=%s, "
+            + "aerodynamicist=%s, strategist=%s)", car, engine, driver, mechanic,
             aerodynamicist, strategist);
     }
 }
