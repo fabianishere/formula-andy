@@ -34,17 +34,17 @@ public class Circuit {
     /**
      * The name of the circuit.
      */
-    private String name;
+    private final String name;
 
     /**
      * The country the circuit is located in.
      */
-    private String country;
+    private final String country;
 
     /**
      * The amount of laps this circuit has each race.
      */
-    private int laps;
+    private final int laps;
 
     /**
      * Construct a [@link Circuit} instance.
@@ -69,14 +69,6 @@ public class Circuit {
     }
 
     /**
-     * Setter name.
-     * @param name new name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Return the name of the country the circuit is located in.
      *
      * @return The name of the country the circuit is located in.
@@ -86,27 +78,11 @@ public class Circuit {
     }
 
     /**
-     * Setter country.
-     * @param country new country
-     */
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    /**
      * Return the amount of laps each race.
      *
      * @return The amount of laps each race.
      */
     public int getLaps() {
         return laps;
-    }
-
-    /**
-     * Setter laps.
-     * @param laps new amount of laps
-     */
-    public void setLaps(int laps) {
-        this.laps = laps;
     }
 }

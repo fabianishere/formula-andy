@@ -63,27 +63,11 @@ public class GrandPrix {
     }
 
     /**
-     * Setter circuit.
-     * @param circuit new circuit
-     */
-    public void setCircuit(Circuit circuit) {
-        this.circuit = circuit;
-    }
-
-    /**
      * Return the date at which the grand prix takes place.
      *
      * @return The date at which the grand prix takes place.
      */
     public String getDate() {
         return date;
-    }
-
-    /**
-     * Setter date.
-     * @param date new date
-     */
-    public void setDate(String date) {
-        this.date = date;
     }
 }

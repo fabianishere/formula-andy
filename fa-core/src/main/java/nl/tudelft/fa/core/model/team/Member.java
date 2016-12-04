@@ -34,7 +34,7 @@ public abstract class Member {
     /**
      * The name of this member.
      */
-    private String name;
+    private final String name;
 
     /**
      * The salary of this member.
@@ -44,7 +44,7 @@ public abstract class Member {
     /**
      * The id of this member.
      */
-    private String id;
+    private final String id;
 
     /**
      * Construct a {@link Member} instance.
@@ -67,14 +67,6 @@ public abstract class Member {
     }
 
     /**
-     * Setter name.
-     * @param name new name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Return the salary of this member.
      *
      * @return The salary of this member.
@@ -84,8 +76,9 @@ public abstract class Member {
     }
 
     /**
-     * Setter salary.
-     * @param salary new int salary
+     * Set the salary of this member.
+     *
+     * @param salary The salary to set.
      */
     public void setSalary(int salary) {
         this.salary = salary;
@@ -98,14 +91,6 @@ public abstract class Member {
      */
     public String getId() {
         return this.id;
-    }
-
-    /**
-     * Setter of ID.
-     * @param id new ID value
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**

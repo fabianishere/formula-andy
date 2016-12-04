@@ -34,17 +34,17 @@ public class Driver extends Member {
     /**
      * A numeric representation of the speed of the driver.
      */
-    private double speed;
+    private final double speed;
 
     /**
      * A numeric representation of the race craft of the driver.
      */
-    private double racecraft;
+    private final double racecraft;
 
     /**
      * A numeric representation of the strategy of the driver.
      */
-    private double strategy;
+    private final double strategy;
 
     /**
      * Construct a {@link Driver} instance.
@@ -74,14 +74,6 @@ public class Driver extends Member {
     }
 
     /**
-     * Setter speed.
-     * @param speed new speed value
-     */
-    public void setSpeed(double speed) {
-        this.speed = speed;
-    }
-
-    /**
      * Return a numeric representation of the race craft of the driver.
      *
      * @return A numeric representation of the race craft of the driver.
@@ -91,26 +83,10 @@ public class Driver extends Member {
     }
 
     /**
-     * Setter race craft.
-     * @param racecraft new race craft value
-     */
-    public void setRacecraft(double racecraft) {
-        this.racecraft = racecraft;
-    }
-
-    /**
      * Return a numeric representation of the strategy of the driver.
      * @return A numeric representation of the strategy of the driver.
      */
     public double getStrategy() {
         return strategy;
-    }
-
-    /**
-     * Setter strategy.
-     * @param strategy new strategy value
-     */
-    public void setStrategy(double strategy) {
-        this.strategy = strategy;
     }
 }

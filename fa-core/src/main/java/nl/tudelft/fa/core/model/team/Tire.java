@@ -34,31 +34,33 @@ public class Tire {
     /**
      * The name of the brand of this tire.
      */
-    private String brand;
+    private final String brand;
 
     /**
      * The type of tire.
      */
-    private String type;
+    private final String type;
 
     /**
      * The durability of the tire.
      */
-    private double durability;
+    private final double durability;
 
     /**
      * The grip of the tire.
      */
-    private double grip;
+    private final double grip;
 
     /**
      * Construct a {@link Tire} instance.
      *
+     * @param brand The name of the brand of this tire.
      * @param type The type of tire e.g. "Ultra Soft" or "Intermediate"
      * @param durability A numeric representation of durability
      * @param grip A numeric representation of grip
      */
-    public Tire(String type, double durability, double grip) {
+    public Tire(String brand, String type, double durability, double grip) {
+        this.brand = brand;
         this.type = type;
         this.durability = durability;
         this.grip = grip;
@@ -74,28 +76,12 @@ public class Tire {
     }
 
     /**
-     * Setter of brand.
-     * @param brand new brandname
-     */
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    /**
      * Return the type of the tire.
      *
      * @return A textual representation of the tire type.
      */
     public String getType() {
         return type;
-    }
-
-    /**
-     * Setter of tire type.
-     * @param type new tire type
-     */
-    public void setType(String type) {
-        this.type = type;
     }
 
     /**
@@ -108,28 +94,12 @@ public class Tire {
     }
 
     /**
-     * Setter of durability.
-     * @param durability new durability value
-     */
-    public void setDurability(double durability) {
-        this.durability = durability;
-    }
-
-    /**
      * Return the grip of the tire.
      *
      * @return A numeric representation of the grip.
      */
     public double getGrip() {
         return grip;
-    }
-
-    /**
-     * Setter of grip.
-     * @param grip new grip value
-     */
-    public void setGrip(double grip) {
-        this.grip = grip;
     }
 
     /**

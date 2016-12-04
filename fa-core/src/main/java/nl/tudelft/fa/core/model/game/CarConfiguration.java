@@ -41,32 +41,32 @@ public class CarConfiguration {
     /**
      * The car used in this configuration.
      */
-    private Car car;
+    private final Car car;
 
     /**
      * The driver used in this configuration.
      */
-    private Driver driver;
+    private final Driver driver;
 
     /**
      * The engine used in this configuration.
      */
-    private Engine engine;
+    private final Engine engine;
 
     /**
      * The mechanic used in this configuration.
      */
-    private Mechanic mechanic;
+    private final Mechanic mechanic;
 
     /**
      * The aerodynamicist used in this configuration.
      */
-    private Aerodynamicist aerodynamicist;
+    private final Aerodynamicist aerodynamicist;
 
     /**
      * The strategist used in this configuration.
      */
-    private Strategist strategist;
+    private final Strategist strategist;
 
     /**
      * Construct a {@link CarConfiguration} instance.
@@ -98,30 +98,12 @@ public class CarConfiguration {
     }
 
     /**
-     * Setter of car.
-     *
-     * @param car new Car
-     */
-    public void setCar(Car car) {
-        this.car = car;
-    }
-
-    /**
      * Return the {@link Driver} used in this configuration.
      *
      * @return The driver used in this configuration.
      */
     public Driver getDriver() {
         return driver;
-    }
-
-    /**
-     * Setter of driver.
-     *
-     * @param driver new Driver
-     */
-    public void setDriver(Driver driver) {
-        this.driver = driver;
     }
 
     /**
@@ -134,30 +116,12 @@ public class CarConfiguration {
     }
 
     /**
-     * Setter of engine.
-     *
-     * @param engine The new Engine
-     */
-    public void setEngine(Engine engine) {
-        this.engine = engine;
-    }
-
-    /**
      * Return the {@link Mechanic} used in this configuration.
      *
      * @return The mechanic used in this configuration.
      */
     public Mechanic getMechanic() {
         return mechanic;
-    }
-
-    /**
-     * Setter of mechanic.
-     *
-     * @param mechanic new Mechanic
-     */
-    public void setMechanic(Mechanic mechanic) {
-        this.mechanic = mechanic;
     }
 
     /**
@@ -170,30 +134,12 @@ public class CarConfiguration {
     }
 
     /**
-     * Setter of aerodynamicist.
-     *
-     * @param aerodynamicist new Aerodynamicist
-     */
-    public void setAerodynamicist(Aerodynamicist aerodynamicist) {
-        this.aerodynamicist = aerodynamicist;
-    }
-
-    /**
      * Return the {@link Strategist} used in this configuration.
      *
      * @return The strategist used in this configuration.
      */
     public Strategist getStrategist() {
         return strategist;
-    }
-
-    /**
-     * Setter strategist.
-     *
-     * @param strategist new Strategist
-     */
-    public void setStrategist(Strategist strategist) {
-        this.strategist = strategist;
     }
 
     /**

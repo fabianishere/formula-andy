@@ -56,12 +56,4 @@ public class Specialist extends Member {
     public double getLevel() {
         return level;
     }
-
-    /**
-     * Setter of level.
-     * @param level new level value
-     */
-    public void setLevel(double level) {
-        this.level = level;
-    }
 }

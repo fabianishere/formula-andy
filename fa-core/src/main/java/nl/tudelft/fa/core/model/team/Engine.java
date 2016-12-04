@@ -34,22 +34,22 @@ public class Engine {
     /**
      * The name of the brand of this engine.
      */
-    private String brand;
+    private final String brand;
 
     /**
      * The power of this engine.
      */
-    private double power;
+    private final double power;
 
     /**
      * The driveability of this engine.
      */
-    private double driveability;
+    private final double driveability;
 
     /**
      * The fuel consumption of this engine.
      */
-    private double fuelConsumption;
+    private final double fuelConsumption;
 
     /**
      * Construct a {@link Engine} instance.
@@ -75,28 +75,12 @@ public class Engine {
     }
 
     /**
-     * Setter of brand.
-     * @param brand new brand name
-     */
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    /**
      * Return the power of this engine.
      *
      * @return The power of this engine.
      */
     public double getPower() {
         return power;
-    }
-
-    /**
-     * Setter of  power.
-     * @param power new power setting
-     */
-    public void setPower(double power) {
-        this.power = power;
     }
 
     /**
@@ -109,28 +93,12 @@ public class Engine {
     }
 
     /**
-     * Setter of driveability.
-     * @param driveability new driveability setting
-     */
-    public void setDriveability(double driveability) {
-        this.driveability = driveability;
-    }
-
-    /**
      * Return the fuel consumption of this engine.
      *
      * @return The fuel consumption of this engine.
      */
     public double getFuelConsumption() {
         return fuelConsumption;
-    }
-
-    /**
-     * Setter of fuelConsumption.
-     * @param fuelConsumption new fuel Consumption setting
-     */
-    public void setFuelConsumption(double fuelConsumption) {
-        this.fuelConsumption = fuelConsumption;
     }
 
     /**

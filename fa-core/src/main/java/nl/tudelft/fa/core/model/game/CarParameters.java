@@ -37,22 +37,22 @@ public class CarParameters {
     /**
      * The risk of the car setup.
      */
-    private int mechanicRisk;
+    private final int mechanicRisk;
 
     /**
      * The risk of the car design.
      */
-    private int aerodynamicistRisk;
+    private final int aerodynamicistRisk;
 
     /**
      * The risk of the strategy.
      */
-    private int strategistRisk;
+    private final int strategistRisk;
 
     /**
      * The tire that is being used.
      */
-    private Tire tire;
+    private final Tire tire;
 
     /**
      * Construct a {@link CarParameters} instance.
@@ -78,27 +78,11 @@ public class CarParameters {
     }
 
     /**
-     * Setter mechanicrisk.
-     * @param mechanicRisk new risk value
-     */
-    public void setMechanicRisk(int mechanicRisk) {
-        this.mechanicRisk = mechanicRisk;
-    }
-
-    /**
      * Getter car design risk.
      * @return retuns risk
      */
     public int getAerodynamicistRisk() {
         return aerodynamicistRisk;
-    }
-
-    /**
-     * Setter car design risk.
-     * @param aerodynamicistRisk new risk value
-     */
-    public void setAerodynamicistRisk(int aerodynamicistRisk) {
-        this.aerodynamicistRisk = aerodynamicistRisk;
     }
 
     /**
@@ -110,26 +94,10 @@ public class CarParameters {
     }
 
     /**
-     * Setter strategy risk.
-     * @param strategistRisk new risk value
-     */
-    public void setStrategistRisk(int strategistRisk) {
-        this.strategistRisk = strategistRisk;
-    }
-
-    /**
      * Getter current tire setup.
      * @return returns tire
      */
     public Tire getTire() {
         return tire;
-    }
-
-    /**
-     * Setter tire setup.
-     * @param tire new tire
-     */
-    public void setTire(Tire tire) {
-        this.tire = tire;
     }
 }
