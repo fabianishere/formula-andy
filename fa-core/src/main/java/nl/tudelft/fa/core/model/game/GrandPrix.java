@@ -25,6 +25,9 @@
 
 package nl.tudelft.fa.core.model.game;
 
+import java.time.Instant;
+import java.util.UUID;
+
 /**
  * This class represents a race weekend or grand prix at a specific {@link Circuit} which
  * has qualifications and a race.
@@ -33,14 +36,19 @@ package nl.tudelft.fa.core.model.game;
  */
 public class GrandPrix {
     /**
+     * The unique id of this grand prix.
+     */
+    private final UUID id;
+
+    /**
      * The circuit of this grand prix.
      */
-    private Circuit circuit;
+    private final Circuit circuit;
 
     /**
      * The date of this grand prix.
      */
-    private String date;
+    private final Instant date;
 
     /**
      * The amount of laps in a grand prix.
@@ -50,14 +58,25 @@ public class GrandPrix {
     /**
      * Construct a {@link GrandPrix} instance.
      *
+     * @param id The unique id of this grand prix.
      * @param circuit The race circuit at which this grand prix takes place.
      * @param date The date of the race.
      * @param laps The amount of laps in a grand prix.
      */
-    public GrandPrix(Circuit circuit, String date, int laps) {
+    public GrandPrix(UUID id, Circuit circuit, Instant date, int laps) {
+        this.id = id;
         this.circuit = circuit;
         this.date = date;
         this.laps = laps;
+    }
+
+    /**
+     * Return the unique id of this grand prix.
+     *
+     * @return The unique id of this grand prix.
+     */
+    public UUID getId() {
+        return id;
     }
 
     /**
@@ -74,7 +93,7 @@ public class GrandPrix {
      *
      * @return The date at which the grand prix takes place.
      */
-    public String getDate() {
+    public Instant getDate() {
         return date;
     }
 
@@ -85,5 +104,40 @@ public class GrandPrix {
      */
     public int getLaps() {
         return laps;
+    }
+
+    /**
+     * Test whether this {@link GrandPrix} is equal to the given object.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
+     */
+    public boolean equals(Object other) {
+        if (other instanceof GrandPrix) {
+            GrandPrix that = (GrandPrix) other;
+            return this.id.equals(that.id);
+        }
+        return false;
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    /**
+     * Return a string representation of this engine.
+     *
+     * @return A string representation of this engine.
+     */
+    @Override
+    public String toString() {
+        return String.format("GrandPrix(id=%s, circuit=%s, date=%s, laps=%d)", id, circuit, date,
+            laps);
     }
 }
