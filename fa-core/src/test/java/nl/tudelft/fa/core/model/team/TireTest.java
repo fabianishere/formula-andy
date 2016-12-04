@@ -86,6 +86,6 @@ public class TireTest {
 
     @Test
     public void testToString() {
-        assertEquals(String.format("%s %s", brand, name), tireA.toString());
+        assertEquals(String.format("Tire(brand=%s, name=%s)", brand, name), tireA.toString());
     }
 }

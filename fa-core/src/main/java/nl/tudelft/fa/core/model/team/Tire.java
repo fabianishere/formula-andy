@@ -136,6 +136,6 @@ public class Tire {
      */
     @Override
     public String toString() {
-        return String.format("%s %s", brand, name);
+        return String.format("Tire(brand=%s, name=%s)", brand, name);
     }
 }
