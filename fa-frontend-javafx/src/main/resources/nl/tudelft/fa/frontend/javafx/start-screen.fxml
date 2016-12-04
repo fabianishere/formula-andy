@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The MIT License (MIT)
+
+  Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+  Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+-->
 
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="pane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8"
+<VBox id="start-screen" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.StartScreenController">
     <stylesheets>
-        <URL value="@style.css"/>
+        <URL value="@css/style.css"/>
     </stylesheets>
 
     <GridPane prefHeight="1106.0" prefWidth="1920.0">
@@ -24,11 +48,11 @@
             <RowConstraints maxHeight="353.0" minHeight="10.0" prefHeight="341.0" vgrow="SOMETIMES"/>
             <RowConstraints maxHeight="243.0" minHeight="10.0" prefHeight="243.0" vgrow="SOMETIMES"/>
         </rowConstraints>
-        <Button mnemonicParsing="false" onAction="#NewGame" opacity="0.0" prefHeight="232.0" prefWidth="360.0"
+        <Button mnemonicParsing="false" onAction="#newGame" opacity="0.0" prefHeight="232.0" prefWidth="360.0"
                 rotate="-32.7" text="New Game" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Button mnemonicParsing="false" onAction="#LoadGame" opacity="0.0" prefHeight="230.0" prefWidth="369.0"
+        <Button mnemonicParsing="false" onAction="#loadGame" opacity="0.0" prefHeight="230.0" prefWidth="369.0"
                 rotate="33.7" text="Load Game" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-        <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#Settings" opacity="0.0"
+        <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#openSettings" opacity="0.0"
                 prefHeight="240.0" prefWidth="268.0" text="Settings" textAlignment="CENTER" GridPane.columnIndex="4"
                 GridPane.rowIndex="3"/>
     </GridPane>
