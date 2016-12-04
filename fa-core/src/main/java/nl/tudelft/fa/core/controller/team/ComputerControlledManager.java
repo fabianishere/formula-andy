@@ -23,23 +23,11 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx;
-
-import javafx.application.Application;
-import javafx.scene.control.Button;
+package nl.tudelft.fa.core.controller.team;
 
 /**
- * This class bootstraps the JavaFX graphical user-interface.
+ * A {@link Manager} that is controlled by a computer.
  *
- * @author Fabian Mastenbroek
+ * @author Christian Slothouber
  */
-public class Bootstrap {
-    /**
-     * The main entry point of the program.
-     *
-     * @param args The command line arguments passed to this program.
-     */
-    public static void main(String[] args) {
-        Application.launch(Main.class, args);
-    }
-}
+public class ComputerControlledManager {}

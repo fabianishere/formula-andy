@@ -23,23 +23,36 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx;
+package nl.tudelft.fa.core.model.team;
 
-import javafx.application.Application;
-import javafx.scene.control.Button;
+import java.util.UUID;
 
 /**
- * This class bootstraps the JavaFX graphical user-interface.
+ * A aerodynamic {@link Specialist}.
  *
- * @author Fabian Mastenbroek
+ * @author Christian Slothouber
  */
-public class Bootstrap {
+public class Aerodynamicist extends Specialist {
     /**
-     * The main entry point of the program.
+     * Construct a {@link Aerodynamicist} instance.
      *
-     * @param args The command line arguments passed to this program.
+     * @param id The unique id of this specialist.
+     * @param name name The name of this specialist.
+     * @param salary salary The salary of this specialist.
+     * @param level level The level of this specialist.
      */
-    public static void main(String[] args) {
-        Application.launch(Main.class, args);
+    public Aerodynamicist(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
+    }
+
+    /**
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
+     */
+    @Override
+    public String toString() {
+        return String.format("Aerodynamicist(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
     }
 }

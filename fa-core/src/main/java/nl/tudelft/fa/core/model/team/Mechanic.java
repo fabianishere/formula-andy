@@ -23,23 +23,36 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx;
+package nl.tudelft.fa.core.model.team;
 
-import javafx.application.Application;
-import javafx.scene.control.Button;
+import java.util.UUID;
 
 /**
- * This class bootstraps the JavaFX graphical user-interface.
+ * A mechanical {@link Specialist}.
  *
- * @author Fabian Mastenbroek
+ * @author Christian Slothouber
  */
-public class Bootstrap {
+public class Mechanic extends Specialist {
     /**
-     * The main entry point of the program.
+     * Construct a {@link Mechanic} instance.
      *
-     * @param args The command line arguments passed to this program.
+     * @param id The unique id of this mechanic.
+     * @param name name of mechanic
+     * @param salary salary of mechanic
+     * @param level level of mechanic
      */
-    public static void main(String[] args) {
-        Application.launch(Main.class, args);
+    public Mechanic(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
+    }
+
+    /**
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
+     */
+    @Override
+    public String toString() {
+        return String.format("Mechanic(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
     }
 }

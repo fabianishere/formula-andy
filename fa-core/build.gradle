@@ -22,7 +22,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-subprojects {
-    apply plugin: 'checkstyle'
-    apply plugin: 'jacoco'
+group 'nl.tudelft.fa'
+version '1.0-SNAPSHOT'
+
+apply from: "${project.rootDir}/gradle/java.gradle"
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
 }

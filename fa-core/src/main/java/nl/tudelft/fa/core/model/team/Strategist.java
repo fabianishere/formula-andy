@@ -23,23 +23,37 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx;
+package nl.tudelft.fa.core.model.team;
 
-import javafx.application.Application;
-import javafx.scene.control.Button;
+import java.util.UUID;
 
 /**
- * This class bootstraps the JavaFX graphical user-interface.
+ * A strategic {@link Specialist}.
  *
- * @author Fabian Mastenbroek
+ * @author Christian Slothouber
  */
-public class Bootstrap {
+public class Strategist extends Specialist {
     /**
-     * The main entry point of the program.
+     * Construct a {@link Strategist} instance.
      *
-     * @param args The command line arguments passed to this program.
+     * @param id The unique id of this strategist.
+     * @param name name The name of the strategist.
+     * @param salary salary The salary of the strategist.
+     * @param level level The level of the strategist.
+     *
      */
-    public static void main(String[] args) {
-        Application.launch(Main.class, args);
+    public Strategist(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
+    }
+
+    /**
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
+     */
+    @Override
+    public String toString() {
+        return String.format("Strategist(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
     }
 }
