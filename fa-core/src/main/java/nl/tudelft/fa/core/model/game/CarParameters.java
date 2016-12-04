@@ -27,6 +27,8 @@ package nl.tudelft.fa.core.model.game;
 
 import nl.tudelft.fa.core.model.team.Tire;
 
+import java.util.Objects;
+
 /**
  * This class represents the tunable parameters of a {@link nl.tudelft.fa.core.model.team.Car}
  * during a race.
@@ -37,17 +39,17 @@ public class CarParameters {
     /**
      * The risk of the car setup.
      */
-    private final int mechanicRisk;
+    private final int mechanicalRisk;
 
     /**
      * The risk of the car design.
      */
-    private final int aerodynamicistRisk;
+    private final int aerodynamicRisk;
 
     /**
      * The risk of the strategy.
      */
-    private final int strategistRisk;
+    private final int strategicRisk;
 
     /**
      * The tire that is being used.
@@ -57,47 +59,90 @@ public class CarParameters {
     /**
      * Construct a {@link CarParameters} instance.
      *
-     * @param mechanicRisk The risk of the car setup.
-     * @param aerodynamicistRisk The risk of the car design.
-     * @param strategistRisk The risk of the strategy.
+     * @param mechanicalRisk The risk of the car setup.
+     * @param aerodynamicRisk The risk of the car design.
+     * @param strategicRisk The risk of the strategy.
      * @param tire The tire that is being used.
      */
-    public CarParameters(int mechanicRisk, int aerodynamicistRisk, int strategistRisk, Tire tire) {
-        this.mechanicRisk = mechanicRisk;
-        this.aerodynamicistRisk = aerodynamicistRisk;
-        this.strategistRisk = strategistRisk;
+    public CarParameters(int mechanicalRisk, int aerodynamicRisk, int strategicRisk, Tire tire) {
+        this.mechanicalRisk = mechanicalRisk;
+        this.aerodynamicRisk = aerodynamicRisk;
+        this.strategicRisk = strategicRisk;
         this.tire = tire;
     }
 
     /**
-     * Getter of setup risk.
-     * @return return mechanic risk
+     * Return the mechanical risk of the car.
+     *
+     * @return A numerical representation of the mechanical risk.
      */
-    public int getMechanicRisk() {
-        return mechanicRisk;
+    public int getMechanicalRisk() {
+        return mechanicalRisk;
     }
 
     /**
-     * Getter car design risk.
-     * @return retuns risk
+     * Return the aerodynamic risk of the car.
+     *
+     * @return A numerical representation of the aerodynamic risk.
      */
-    public int getAerodynamicistRisk() {
-        return aerodynamicistRisk;
+    public int getAerodynamicRisk() {
+        return aerodynamicRisk;
     }
 
     /**
-     * Getter strategy risk.
-     * @return returns risk value
+     * Return the strategic risk of the car.
+     *
+     * @return A numerical representation of the strategic risk.
      */
     public int getStrategistRisk() {
-        return strategistRisk;
+        return strategicRisk;
     }
 
     /**
-     * Getter current tire setup.
-     * @return returns tire
+     * Return the strategic risk of the car.
+     *
+     * @return The strategic risk of the car.
      */
     public Tire getTire() {
         return tire;
+    }
+
+    /**
+     * Test whether this {@link CarParameters} instance is equal to the given object.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
+     */
+    public boolean equals(Object other) {
+        if (other instanceof CarParameters) {
+            CarParameters that = (CarParameters) other;
+
+            return this.mechanicalRisk == that.mechanicalRisk
+                && this.aerodynamicRisk == that.aerodynamicRisk
+                && this.strategicRisk == that.strategicRisk
+                && this.tire.equals(that.tire);
+        }
+        return false;
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
+    }
+
+    /**
+     * Return a string representation of this engine.
+     *
+     * @return A string representation of this engine.
+     */
+    @Override
+    public String toString() {
+        return String.format("CarParameters(mechanical=%d, aerodynamic=%d, strategic=%d, tire=%s)",
+            mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
     }
 }
