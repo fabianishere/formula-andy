@@ -31,29 +31,6 @@ package nl.tudelft.fa.core.model.team;
  * @author Christian Slothouber
  */
 public class Car {
-
-    private String skin;
-
-    /**
-     * Construct a {@link Car} instance.
-     *
-     * @param skin The skin of this car.
-     */
-    public Car(String skin) {
-        this.skin = skin;
-    }
-
-    public String getSkin() {
-        return skin;
-    }
-
-    public void setSkin(String skin) {
-        this.skin = skin;
-    }
-
-    // always returns true for testing purposes
-    public boolean equals(Object other) {
-        return true;
-    }
+    // TODO implement something meaningful here
 }
 
