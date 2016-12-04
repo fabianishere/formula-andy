@@ -25,7 +25,7 @@
 
 package nl.tudelft.fa.core.model.team;
 
-import java.util.Objects;
+import java.util.UUID;
 
 /**
  * This class represents a Formula 1 tire.
@@ -33,6 +33,11 @@ import java.util.Objects;
  * @author Christian Slothouber
  */
 public class Tire {
+    /**
+     * The unique identifier of this tire.
+     */
+    private final UUID id;
+
     /**
      * The name of the brand of this tire.
      */
@@ -56,16 +61,27 @@ public class Tire {
     /**
      * Construct a {@link Tire} instance.
      *
+     * @param id The unique identifier of this tire.
      * @param brand The name of the brand of this tire.
      * @param name The name of the tire e.g. "Ultra Soft" or "Intermediate"
      * @param durability A numeric representation of durability
      * @param grip A numeric representation of grip
      */
-    public Tire(String brand, String name, double durability, double grip) {
+    public Tire(UUID id, String brand, String name, double durability, double grip) {
+        this.id = id;
         this.brand = brand;
         this.name = name;
         this.durability = durability;
         this.grip = grip;
+    }
+
+    /**
+     * Return the unique id of this tire.
+     *
+     * @return The unique id of the tire.
+     */
+    public UUID getId() {
+        return id;
     }
 
     /**
@@ -114,7 +130,7 @@ public class Tire {
     public boolean equals(Object other) {
         if (other instanceof Tire) {
             Tire that = (Tire) other;
-            return this.brand.equals(that.brand) && this.name.equals(that.name);
+            return this.id.equals(that.id);
         }
         return false;
     }
@@ -126,7 +142,7 @@ public class Tire {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(brand, name);
+        return id.hashCode();
     }
 
     /**
@@ -136,6 +152,6 @@ public class Tire {
      */
     @Override
     public String toString() {
-        return String.format("Tire(brand=%s, name=%s)", brand, name);
+        return String.format("Tire(id=%s, brand=%s, name=%s)", id, brand, name);
     }
 }

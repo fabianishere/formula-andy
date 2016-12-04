@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -14,6 +15,7 @@ import static org.hamcrest.CoreMatchers.*;
  */
 public class TireTest {
 
+    UUID id;
     String brand;
     String name;
     double durability;
@@ -22,11 +24,17 @@ public class TireTest {
 
     @Before
     public void setUp() {
+        id = UUID.randomUUID();
         brand = "Pirelli";
         name = "Intermediate";
         durability = 1.0;
         grip = 2.0;
-        tireA = new Tire(brand, name, durability, grip);
+        tireA = new Tire(id, brand, name, durability, grip);
+    }
+
+    @Test
+    public void getId() {
+        assertEquals(id, tireA.getId());
     }
 
     @Test
@@ -61,31 +69,21 @@ public class TireTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new Tire(brand, name, durability, grip), tireA);
+        assertEquals(new Tire(id, brand, name, durability, grip), tireA);
     }
 
     @Test
-    public void equalsDifferentBrand() {
-        assertThat(tireA, not(equalTo(new Tire("Silverstone", name, durability, grip))));
-    }
-
-    @Test
-    public void equalsDifferentType() {
-        assertThat(tireA, not(equalTo(new Tire(brand, "Soft", durability, grip))));
-    }
-
-    @Test
-    public void equalsOtherPropertiesHaveNoEffect() {
-        assertEquals(new Tire(brand, name, durability, grip), tireA);
+    public void equalsDifferentId() {
+        assertThat(tireA, not(equalTo(new Tire(UUID.randomUUID(), brand, name, durability, grip))));
     }
 
     @Test
     public void testHashCode() {
-        assertEquals(Objects.hash(brand, name), tireA.hashCode());
+        assertEquals(id.hashCode(), tireA.hashCode());
     }
 
     @Test
     public void testToString() {
-        assertEquals(String.format("Tire(brand=%s, name=%s)", brand, name), tireA.toString());
+        assertEquals(String.format("Tire(id=%s, brand=%s, name=%s)", id, brand, name), tireA.toString());
     }
 }
