@@ -26,14 +26,24 @@
 package nl.tudelft.fa.core.model.team;
 
 /**
- * Class representing a crew member
+ * This class represents a member of a Formula 1 {@link Team}.
  *
- * @author F.C. Slothouber
+ * @author Christian Slothouber
  */
 public abstract class Member {
-
+    /**
+     * The name of this member.
+     */
     private String name;
+
+    /**
+     * The salary of this member.
+     */
     private int salary;
+
+    /**
+     * The id of this member.
+     */
     private String id;
 
     /**
@@ -48,8 +58,9 @@ public abstract class Member {
     }
 
     /**
-     * Getter of name.
-     * @return returns String name
+     * Return the name of this member.
+     *
+     * @return The name of this member.
      */
     public String getName() {
         return name;
@@ -64,8 +75,9 @@ public abstract class Member {
     }
 
     /**
-     * Getter of salary.
-     * @return returns int salary
+     * Return the salary of this member.
+     *
+     * @return The salary of this member.
      */
     public int getSalary() {
         return salary;
@@ -80,8 +92,9 @@ public abstract class Member {
     }
 
     /**
-     * Getter of String ID.
-     * @return returns String ID
+     * Return the id of this member.
+     *
+     * @return The id of this member.
      */
     public String getId() {
         return this.id;

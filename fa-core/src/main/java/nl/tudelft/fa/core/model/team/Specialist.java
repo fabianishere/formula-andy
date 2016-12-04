@@ -26,20 +26,22 @@
 package nl.tudelft.fa.core.model.team;
 
 /**
- * Class representing a Specialist
+ * A {@link Member} of a {@link Team} that is specialized in a specific part of the race or car.
  *
- * @author F.C. Slothouber
+ * @author Christian Slothouber
  */
 public class Specialist extends Member {
-
+    /**
+     * The level of this specialist.
+     */
     private double level;
 
     /**
      * Construct a {@link Specialist} instance.
      *
-     * @param name name specialist
-     * @param salary slaray specialist
-     * @param level level of specialist
+     * @param name The name of the specialist.
+     * @param salary The salary of the specialist.
+     * @param level The level of the specialist.
      */
     public Specialist(String name, int salary, String id, double level) {
         super(name, salary, id);
@@ -47,8 +49,9 @@ public class Specialist extends Member {
     }
 
     /**
-     * Getter of level.
-     * @return returns value of level
+     * Return the level of this specialist.
+     *
+     * @return The level of this specialist.
      */
     public double getLevel() {
         return level;

@@ -26,9 +26,9 @@
 package nl.tudelft.fa.core.model.team;
 
 /**
- * Class representing a mechanic specialist
+ * A mechanical {@link Specialist}.
  *
- * @author F.C. Slothouber
+ * @author Christian Slothouber
  */
 public class Mechanic extends Specialist {
     /**

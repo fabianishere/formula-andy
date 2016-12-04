@@ -28,24 +28,39 @@ package nl.tudelft.fa.core.model.game;
 import nl.tudelft.fa.core.model.team.Tire;
 
 /**
- * Class containing changable parameters during race
+ * This class represents the tunable parameters of a {@link nl.tudelft.fa.core.model.team.Car}
+ * during a race.
  *
- * @author F.C. Slothouber
+ * @author Christian Slothouber
  */
 public class CarParameters {
-
+    /**
+     * The risk of the car setup.
+     */
     private int mechanicRisk;
+
+    /**
+     * The risk of the car design.
+     */
     private int aerodynamicistRisk;
+
+    /**
+     * The risk of the strategy.
+     */
     private int strategistRisk;
+
+    /**
+     * The tire that is being used.
+     */
     private Tire tire;
 
     /**
      * Construct a {@link CarParameters} instance.
      *
-     * @param mechanicRisk the risk of the car setup
-     * @param aerodynamicistRisk the risk of the car design
-     * @param strategistRisk the risk of the strategy
-     * @param tire the tire being used
+     * @param mechanicRisk The risk of the car setup.
+     * @param aerodynamicistRisk The risk of the car design.
+     * @param strategistRisk The risk of the strategy.
+     * @param tire The tire that is being used.
      */
     public CarParameters(int mechanicRisk, int aerodynamicistRisk, int strategistRisk, Tire tire) {
         this.mechanicRisk = mechanicRisk;

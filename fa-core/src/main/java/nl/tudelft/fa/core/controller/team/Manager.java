@@ -30,9 +30,9 @@ import nl.tudelft.fa.core.model.team.Team;
 import java.util.List;
 
 /**
- * Class representing a manager
- * @version 01 12 2016
- * @author F.C. Slothouber
+ * This class represents a manager of Formula 1 teams.
+ *
+ * @author Christian Slothouber
  */
 public abstract class Manager {
 

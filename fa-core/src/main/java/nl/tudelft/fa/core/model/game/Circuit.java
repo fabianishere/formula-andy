@@ -26,22 +26,32 @@
 package nl.tudelft.fa.core.model.game;
 
 /**
- * Class representing a race circuit
- * @version 01 12 2016
- * @author F.C. Slothouber
+ * This class represents a race circuit on which races take place.
+ *
+ * @author Christian Slothouber
  */
 public class Circuit {
-
+    /**
+     * The name of the circuit.
+     */
     private String name;
+
+    /**
+     * The country the circuit is located in.
+     */
     private String country;
+
+    /**
+     * The amount of laps this circuit has each race.
+     */
     private int laps;
 
     /**
      * Construct a [@link Circuit} instance.
      *
-     * @param name name of circuit
-     * @param country location of circuit
-     * @param laps amount of laps each race
+     * @param name The name of the circuit
+     * @param country The country this circuit is located in.
+     * @param laps The amount of laps each race.
      */
     public Circuit(String name, String country, int laps) {
         this.name = name;
@@ -50,8 +60,9 @@ public class Circuit {
     }
 
     /**
-     * Getter name.
-     * @return return name
+     * Return the name of the circuit.
+     *
+     * @return The name of the circuit.
      */
     public String getName() {
         return name;
@@ -66,8 +77,9 @@ public class Circuit {
     }
 
     /**
-     * Getter country.
-     * @return retuns country
+     * Return the name of the country the circuit is located in.
+     *
+     * @return The name of the country the circuit is located in.
      */
     public String getCountry() {
         return country;
@@ -82,8 +94,9 @@ public class Circuit {
     }
 
     /**
-     * Getter laps.
-     * @return returns amount of laps
+     * Return the amount of laps each race.
+     *
+     * @return The amount of laps each race.
      */
     public int getLaps() {
         return laps;

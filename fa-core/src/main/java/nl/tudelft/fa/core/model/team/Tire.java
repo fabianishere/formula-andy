@@ -26,23 +26,37 @@
 package nl.tudelft.fa.core.model.team;
 
 /**
- * a Class representing a Forumla 1 tire
- * @version 30 11 2016
- * @author F.C. Slothouber
+ * This class represents a Formula 1 tire.
+ *
+ * @author Christian Slothouber
  */
 public class Tire {
-
+    /**
+     * The name of the brand of this tire.
+     */
     private String brand;
+
+    /**
+     * The type of tire.
+     */
     private String type;
+
+    /**
+     * The durability of the tire.
+     */
     private double durability;
+
+    /**
+     * The grip of the tire.
+     */
     private double grip;
 
     /**
      * Construct a {@link Tire} instance.
      *
-     * @param type Type of tire e.g. "Ultra Soft" or "Intermidiate"
-     * @param durability numeric representation of durability
-     * @param grip numeric representation of grip
+     * @param type The type of tire e.g. "Ultra Soft" or "Intermediate"
+     * @param durability A numeric representation of durability
+     * @param grip A numeric representation of grip
      */
     public Tire(String type, double durability, double grip) {
         this.type = type;
@@ -51,8 +65,9 @@ public class Tire {
     }
 
     /**
-     * Getter of brand.
-     * @return returns String brand
+     * Return the name of the brand of this tire.
+     *
+     * @return The name of the brand of this tire.
      */
     public String getBrand() {
         return brand;
@@ -67,8 +82,9 @@ public class Tire {
     }
 
     /**
-     * Getter of tire type.
-     * @return return textual representation of type
+     * Return the type of the tire.
+     *
+     * @return A textual representation of the tire type.
      */
     public String getType() {
         return type;
@@ -83,8 +99,9 @@ public class Tire {
     }
 
     /**
-     * Getter of durability.
-     * @return returns double durability
+     * Return the durability of the tire.
+     *
+     * @return A numeric representation of the durability.
      */
     public double getDurability() {
         return durability;
@@ -99,8 +116,9 @@ public class Tire {
     }
 
     /**
-     * Getter of grip.
-     * @return returns double grip
+     * Return the grip of the tire.
+     *
+     * @return A numeric representation of the grip.
      */
     public double getGrip() {
         return grip;

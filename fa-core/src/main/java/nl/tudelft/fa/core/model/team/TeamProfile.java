@@ -25,16 +25,38 @@
 
 package nl.tudelft.fa.core.model.team;
 
+/**
+ * This class represents the profile of a team.
+ *
+ * @author Christian Slothouber
+ */
 public class TeamProfile {
-
+    /**
+     * The name of this team.
+     */
     private String name;
+
+    /**
+     * The current budget of the team.
+     */
     private int budget;
 
+    /**
+     * Construct a {@link TeamProfile} instance.
+     *
+     * @param name The name of the team.
+     * @param budget The budget of the team.
+     */
     public TeamProfile(String name, int budget) {
         this.name = name;
         this.budget = budget;
     }
 
+    /**
+     * Return the name of the team.
+     *
+     * @return The name of the team.
+     */
     public String getName() {
         return name;
     }
@@ -43,6 +65,11 @@ public class TeamProfile {
         this.name = name;
     }
 
+    /**
+     * Return the budget of the team.
+     *
+     * @return The budget of the team.
+     */
     public int getBudget() {
         return budget;
     }

@@ -26,36 +26,48 @@
 package nl.tudelft.fa.core.model.team;
 
 /**
- * Class representing a driver
+ * A {@link Member} of the {@link Team} that drives the Formula 1 {@link Car}s.
  *
- * @author F.C. Slothouber
+ * @author Christian Slothouber
  */
 public class Driver extends Member {
-
+    /**
+     * A numeric representation of the speed of the driver.
+     */
     private double speed;
-    private double raceCraft;
+
+    /**
+     * A numeric representation of the race craft of the driver.
+     */
+    private double racecraft;
+
+    /**
+     * A numeric representation of the strategy of the driver.
+     */
     private double strategy;
 
     /**
      * Construct a {@link Driver} instance.
      *
-     * @param name name of driver
-     * @param salary salary of driver
-     * @param speed numeric representation of speed
-     * @param racecraft numeric representation of race craft
-     * @param strategy numeric representation of strategy
+     * @param name The name of the driver
+     * @param salary The salary of the driver
+     * @param id The id of the driver.
+     * @param speed A numeric representation of the speed of the driver.
+     * @param racecraft A numeric representation of the race craft of the driver.
+     * @param strategy A numeric representation of the strategy of the driver.
      */
     public Driver(String name, int salary, String id, double speed, double racecraft,
                   double strategy) {
         super(name, salary, id);
         this.speed = speed;
-        this.raceCraft = racecraft;
+        this.racecraft = racecraft;
         this.strategy = strategy;
     }
 
     /**
-     * Getter of speed.
-     * @return returns double speed
+     * Return a numeric representation of the speed of the driver.
+     *
+     * @return A numeric representation of the speed of the driver.
      */
     public double getSpeed() {
         return speed;
@@ -70,11 +82,12 @@ public class Driver extends Member {
     }
 
     /**
-     * Getter race craft.
-     * @return return double racecraft
+     * Return a numeric representation of the race craft of the driver.
+     *
+     * @return A numeric representation of the race craft of the driver.
      */
     public double getRacecraft() {
-        return raceCraft;
+        return racecraft;
     }
 
     /**
@@ -82,12 +95,12 @@ public class Driver extends Member {
      * @param racecraft new race craft value
      */
     public void setRacecraft(double racecraft) {
-        this.raceCraft = racecraft;
+        this.racecraft = racecraft;
     }
 
     /**
-     * Getter strategy.
-     * @return returns double strategy
+     * Return a numeric representation of the strategy of the driver.
+     * @return A numeric representation of the strategy of the driver.
      */
     public double getStrategy() {
         return strategy;

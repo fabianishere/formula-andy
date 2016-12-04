@@ -25,7 +25,11 @@
 
 package nl.tudelft.fa.core.controller.team;
 
+/**
+ * A {@link Manager} that is controlled by a {@link User}.
+ *
+ * @author Christian Slothouber
+ */
 public class UserManager {
-
-
+    // TODO implement user package.
 }

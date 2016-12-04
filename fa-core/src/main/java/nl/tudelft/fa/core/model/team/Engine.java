@@ -26,34 +26,49 @@
 package nl.tudelft.fa.core.model.team;
 
 /**
- * Class representing a car engine
- * @version 30 11 2016
- * @author F.C. Slothouber
+ * This class represents a Formula 1 car engine.
+ *
+ * @author Christian Slothouber
  */
 public class Engine {
-
+    /**
+     * The name of the brand of this engine.
+     */
     private String brand;
+
+    /**
+     * The power of this engine.
+     */
     private double power;
-    private double driveAbility;
+
+    /**
+     * The driveability of this engine.
+     */
+    private double driveability;
+
+    /**
+     * The fuel consumption of this engine.
+     */
     private double fuelConsumption;
 
     /**
      * Construct a {@link Engine} instance.
      * @param brand brand name
      * @param power numeric representation of power
-     * @param driveAbility numeric representation of driveability
+     * @param driveability numeric representation of driveability
      * @param fuelConsumption numeric representation of fuel consumption
      */
-    public Engine(String brand, double power, double driveAbility, double fuelConsumption) {
+    public Engine(String brand, double power, double driveability, double fuelConsumption) {
         this.brand = brand;
         this.power = power;
-        this.driveAbility = driveAbility;
+        this.driveability = driveability;
         this.fuelConsumption = fuelConsumption;
     }
 
     /**
-     * Getter of brand.
-     * @return returns String brand
+     * Return the name of the brand of this engine.
+     *
+     * @return The name of the brand of this engine.
      */
     public String getBrand() {
         return brand;
@@ -68,8 +83,9 @@ public class Engine {
     }
 
     /**
-     * Getter of power.
-     * @return returns double power
+     * Return the power of this engine.
+     *
+     * @return The power of this engine.
      */
     public double getPower() {
         return power;
@@ -84,24 +100,26 @@ public class Engine {
     }
 
     /**
-     * Getter of driveability.
-     * @return return double driveability
+     * Return the driveability of this engine.
+     *
+     * @return The driveability of this engine.
      */
-    public double getDriveAbility() {
-        return driveAbility;
+    public double getDriveability() {
+        return driveability;
     }
 
     /**
      * Setter of driveability.
-     * @param driveAbility new driveability setting
+     * @param driveability new driveability setting
      */
-    public void setDriveAbility(double driveAbility) {
-        this.driveAbility = driveAbility;
+    public void setDriveability(double driveability) {
+        this.driveability = driveability;
     }
 
     /**
-     * Getter of fuel consumption.
-     * @return return double fuelConsumption
+     * Return the fuel consumption of this engine.
+     *
+     * @return The fuel consumption of this engine.
      */
     public double getFuelConsumption() {
         return fuelConsumption;
@@ -131,7 +149,7 @@ public class Engine {
         if (!(this.power == that.power)) {
             return false;
         }
-        if (!(this.driveAbility == that.driveAbility)) {
+        if (!(this.driveability == that.driveability)) {
             return false;
         }
         if (!(this.fuelConsumption == that.fuelConsumption)) {

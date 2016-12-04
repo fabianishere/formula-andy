@@ -33,17 +33,39 @@ import nl.tudelft.fa.core.model.team.Mechanic;
 import nl.tudelft.fa.core.model.team.Strategist;
 
 /**
- * Class containing the static configuration of a car during a race
+ * This class represents the initial and static configuration of a car during the race.
  *
- * @author F.C. Slothouber
+ * @author Christian Slothouber
  */
 public class CarConfiguration {
-
+    /**
+     * The car used in this configuration.
+     */
     private Car car;
+
+    /**
+     * The driver used in this configuration.
+     */
     private Driver driver;
+
+    /**
+     * The engine used in this configuration.
+     */
     private Engine engine;
+
+    /**
+     * The mechanic used in this configuration.
+     */
     private Mechanic mechanic;
+
+    /**
+     * The aerodynamicist used in this configuration.
+     */
     private Aerodynamicist aerodynamicist;
+
+    /**
+     * The strategist used in this configuration.
+     */
     private Strategist strategist;
 
     /**
@@ -67,9 +89,9 @@ public class CarConfiguration {
     }
 
     /**
-     * Getter of car.
+     * Return the {@link Car} used in this configuration.
      *
-     * @return returns car
+     * @return The car used in this configuration.
      */
     public Car getCar() {
         return car;
@@ -85,9 +107,9 @@ public class CarConfiguration {
     }
 
     /**
-     * Getter of driver.
+     * Return the {@link Driver} used in this configuration.
      *
-     * @return returns driver
+     * @return The driver used in this configuration.
      */
     public Driver getDriver() {
         return driver;
@@ -103,9 +125,9 @@ public class CarConfiguration {
     }
 
     /**
-     * Getter of engine.
+     * Return the {@link Engine} used in this configuration.
      *
-     * @return returns engine
+     * @return The engine used in this configuration.
      */
     public Engine getEngine() {
         return engine;
@@ -121,9 +143,9 @@ public class CarConfiguration {
     }
 
     /**
-     * Getter of mechanic.
+     * Return the {@link Mechanic} used in this configuration.
      *
-     * @return returns mechanic
+     * @return The mechanic used in this configuration.
      */
     public Mechanic getMechanic() {
         return mechanic;
@@ -139,9 +161,9 @@ public class CarConfiguration {
     }
 
     /**
-     * Getter of aerodynamicist.
+     * Return the {@link Aerodynamicist} used in this configuration.
      *
-     * @return returns aerodynamicist
+     * @return The aerodynamicist used in this configuration.
      */
     public Aerodynamicist getAerodynamicist() {
         return aerodynamicist;
@@ -157,9 +179,9 @@ public class CarConfiguration {
     }
 
     /**
-     * Getter of strategist.
+     * Return the {@link Strategist} used in this configuration.
      *
-     * @return returns strategist
+     * @return The strategist used in this configuration.
      */
     public Strategist getStrategist() {
         return strategist;

@@ -30,16 +30,16 @@ import nl.tudelft.fa.core.model.team.Team;
 import java.util.List;
 
 /**
- * Class representing a computer controlled manager
- * @version 01 12 2016
- * @author F.C. Slothouber
+ * A {@link Manager} that is controlled by a computer.
+ *
+ * @author Christian Slothouber
  */
 public class ComputerControlledManager extends Manager {
 
     /**
      * Construct a {@link ComputerControlledManager}.
      *
-     * @param teams List of teams owned by bot (only 1 team)
+     * @param teams The {@link Team}s that this manager manages.
      */
     public ComputerControlledManager(List<Team> teams) {
         super(teams);

@@ -30,25 +30,36 @@ import nl.tudelft.fa.core.controller.team.Manager;
 import java.util.List;
 
 /**
- * Class representing a Formula 1 team/constructor
- * @version 01 12 2016
- * @author F.C. Slothouber
+ * This class represents a Formula 1 team participating in
+ * {@link nl.tudelft.fa.core.model.game.GrandPrix}s.
+ *
+ * @author Christian Slothouber
  */
 public class Team {
+    /**
+     * The team profile of this team.
+     */
+    private TeamProfile profile;
 
-    private TeamProfile teamProfile;
+    /**
+     * The staff members of this team.
+     */
     private List<Member> staff;
+
+    /**
+     * The manager that manages this team.
+     */
     private Manager manager;
 
     /**
      * Construct a {@link Team} instance.
      *
-     * @param teamProfile teamprofile
-     * @param staff List of staffmemebers
-     * @param manager the manager can be bot or human
+     * @param profile The profile of this team.
+     * @param staff The staff members of this team.
+     * @param manager The manager that manages this team.
      */
-    public Team(TeamProfile teamProfile, List<Member> staff, Manager manager) {
-        this.teamProfile = teamProfile;
+    public Team(TeamProfile profile, List<Member> staff, Manager manager) {
+        this.profile = profile;
         this.staff = staff;
         this.manager = manager;
     }

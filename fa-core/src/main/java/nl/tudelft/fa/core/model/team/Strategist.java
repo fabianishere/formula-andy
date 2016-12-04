@@ -26,17 +26,18 @@
 package nl.tudelft.fa.core.model.team;
 
 /**
- * Class representing a strategist
+ * A strategic {@link Specialist}.
  *
- * @author F.C. Slothouber
+ * @author Christian Slothouber
  */
 public class Strategist extends Specialist {
     /**
      * Construct a {@link Strategist} instance.
      *
-     * @param name name
-     * @param salary salary
-     * @param level level
+     * @param name name The name of the strategist.
+     * @param salary salary The salary of the strategist.
+     * @param level level The level of the strategist.
+     *
      */
     public Strategist(String name, int salary, String id, double level) {
         super(name, salary, id, level);

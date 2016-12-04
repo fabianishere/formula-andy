@@ -26,9 +26,9 @@
 package nl.tudelft.fa.core.model.team;
 
 /**
- * A class representing a car
- * @version 1 12 2016
- * @author F.C. Slothouber
+ * This class represents a Formula 1 car.
+ *
+ * @author Christian Slothouber
  */
 public class Car {
 
@@ -36,6 +36,7 @@ public class Car {
 
     /**
      * Construct a {@link Car} instance.
+     *
      * @param skin The skin of this car.
      */
     public Car(String skin) {

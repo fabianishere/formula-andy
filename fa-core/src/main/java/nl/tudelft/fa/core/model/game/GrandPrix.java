@@ -26,19 +26,27 @@
 package nl.tudelft.fa.core.model.game;
 
 /**
- * Class representing a Grand Prix.
- * @version 01 12 2016
- * @author F.C. Slothouber
+ * This class represents a race weekend or grand prix at a specific {@link Circuit} which
+ * has qualifications and a race.
+ *
+ * @author Christian Slothouber
  */
 public class GrandPrix {
-
+    /**
+     * The circuit of this grand prix.
+     */
     private Circuit circuit;
+
+    /**
+     * The date of this grand prix.
+     */
     private String date;
 
     /**
      * Construct a {@link GrandPrix} instance.
-     * @param circuit the race circuit
-     * @param date date of the race
+     *
+     * @param circuit The race circuit at which this grand prix takes place.
+     * @param date The date of the race.
      */
     public GrandPrix(Circuit circuit, String date) {
         this.circuit = circuit;
@@ -46,8 +54,9 @@ public class GrandPrix {
     }
 
     /**
-     * Getter circuit.
-     * @return returns circuit
+     * Return the {@link Circuit} at which the grand prix takes place.
+     *
+     * @return The {@link Circuit} of this grand prix.
      */
     public Circuit getCircuit() {
         return circuit;
@@ -62,8 +71,9 @@ public class GrandPrix {
     }
 
     /**
-     * Getter date.
-     * @return returns date
+     * Return the date at which the grand prix takes place.
+     *
+     * @return The date at which the grand prix takes place.
      */
     public String getDate() {
         return date;

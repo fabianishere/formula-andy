@@ -26,15 +26,18 @@
 package nl.tudelft.fa.core.model.team;
 
 /**
- * Class representing aerodynamicist specialist.
+ * A aerodynamic {@link Specialist}.
+ *
+ * @author Christian Slothouber
  */
 public class Aerodynamicist extends Specialist {
     /**
      * Construct a {@link Aerodynamicist} instance.
      *
-     * @param name name
-     * @param salary salary
-     * @param level level
+     * @param name name The name of this specialist.
+     * @param salary salary The salary of this specialist.
+     * @param id The id of this specialist.
+     * @param level level The level of this specialist.
      */
     public Aerodynamicist(String name, int salary, String id, double level) {
         super(name, salary, id, level);
