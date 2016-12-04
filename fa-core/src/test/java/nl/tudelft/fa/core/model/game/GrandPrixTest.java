@@ -24,7 +24,7 @@ public class GrandPrixTest {
     @Before
     public void setUp() throws Exception {
         id = UUID.randomUUID();
-        circuit = new Circuit("Monza", "Italy");
+        circuit = new Circuit(UUID.randomUUID(), "Monza", "Italy");
         date = Instant.now();
         laps = 30;
         grandPrix = new GrandPrix(id, circuit, date, laps);
@@ -77,7 +77,7 @@ public class GrandPrixTest {
 
     @Test
     public void equalsOtherPropertiesHaveNoEffect() {
-        assertEquals(new GrandPrix(id, new Circuit("Spa", "Belgium"), Instant.now(),
+        assertEquals(new GrandPrix(id, new Circuit(UUID.randomUUID(),"Spa", "Belgium"), Instant.now(),
             10), grandPrix);
     }
 

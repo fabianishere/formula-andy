@@ -25,12 +25,19 @@
 
 package nl.tudelft.fa.core.model.game;
 
+import java.util.UUID;
+
 /**
  * This class represents a race circuit on which races take place.
  *
  * @author Christian Slothouber
  */
 public class Circuit {
+    /**
+     * The unique id of this circuit.
+     */
+    private final UUID id;
+
     /**
      * The name of the circuit.
      */
@@ -44,12 +51,23 @@ public class Circuit {
     /**
      * Construct a [@link Circuit} instance.
      *
+     * @param id The unique id of the circuit.
      * @param name The name of the circuit
      * @param country The country this circuit is located in.
      */
-    public Circuit(String name, String country) {
+    public Circuit(UUID id, String name, String country) {
+        this.id = id;
         this.name = name;
         this.country = country;
+    }
+
+    /**
+     * Return the unique id of the circuit.
+     *
+     * @return The unique id of the circuit.
+     */
+    public UUID getId() {
+        return id;
     }
 
     /**
@@ -68,5 +86,39 @@ public class Circuit {
      */
     public String getCountry() {
         return country;
+    }
+
+    /**
+     * Test whether this {@link Circuit} is equal to the given object.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
+     */
+    public boolean equals(Object other) {
+        if (other instanceof Circuit) {
+            Circuit that = (Circuit) other;
+            return this.id.equals(that.id);
+        }
+        return false;
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    /**
+     * Return a string representation of this engine.
+     *
+     * @return A string representation of this engine.
+     */
+    @Override
+    public String toString() {
+        return String.format("Circuit(id=%s, name=%s, country=%s)", id, name, country);
     }
 }
