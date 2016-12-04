@@ -46,14 +46,14 @@ public class CarConfiguration {
     private final Car car;
 
     /**
-     * The driver used in this configuration.
-     */
-    private final Driver driver;
-
-    /**
      * The engine used in this configuration.
      */
     private final Engine engine;
+
+    /**
+     * The driver used in this configuration.
+     */
+    private final Driver driver;
 
     /**
      * The mechanic used in this configuration.
@@ -74,13 +74,13 @@ public class CarConfiguration {
      * Construct a {@link CarConfiguration} instance.
      *
      * @param car the car
-     * @param driver the driver of this car
      * @param engine the engine the car is using
+     * @param driver the driver of this car
      * @param mechanic the mechanic that set the car up
      * @param aerodynamicist the aerodynamicist that designed the car
      * @param strategist the strategist that made the strategy
      */
-    public CarConfiguration(Car car, Driver driver, Engine engine, Mechanic mechanic,
+    public CarConfiguration(Car car, Engine engine, Driver driver, Mechanic mechanic,
                             Aerodynamicist aerodynamicist, Strategist strategist) {
         this.car = car;
         this.driver = driver;
@@ -100,21 +100,21 @@ public class CarConfiguration {
     }
 
     /**
-     * Return the {@link Driver} used in this configuration.
-     *
-     * @return The driver used in this configuration.
-     */
-    public Driver getDriver() {
-        return driver;
-    }
-
-    /**
      * Return the {@link Engine} used in this configuration.
      *
      * @return The engine used in this configuration.
      */
     public Engine getEngine() {
         return engine;
+    }
+
+    /**
+     * Return the {@link Driver} used in this configuration.
+     *
+     * @return The driver used in this configuration.
+     */
+    public Driver getDriver() {
+        return driver;
     }
 
     /**
