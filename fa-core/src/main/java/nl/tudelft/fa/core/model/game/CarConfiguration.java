@@ -32,6 +32,8 @@ import nl.tudelft.fa.core.model.team.Engine;
 import nl.tudelft.fa.core.model.team.Mechanic;
 import nl.tudelft.fa.core.model.team.Strategist;
 
+import java.util.Objects;
+
 /**
  * This class represents the initial and static configuration of a car during the race.
  *
@@ -152,26 +154,34 @@ public class CarConfiguration {
         if (other instanceof CarConfiguration) {
             CarConfiguration that = (CarConfiguration) other;
 
-            if (!this.car.equals(that.car)) {
-                return false;
-            }
-            if (!this.driver.equals(that.driver)) {
-                return false;
-            }
-            if (!this.engine.equals(that.engine)) {
-                return false;
-            }
-            if (!this.mechanic.equals(that.mechanic)) {
-                return false;
-            }
-            if (!this.aerodynamicist.equals(that.aerodynamicist)) {
-                return false;
-            }
-            if (this.strategist.equals(that.strategist)) {
-                return true;
-            }
+            return this.car.equals(that.car) && this.driver.equals(that.driver) &&
+                this.engine.equals(that.engine) && this.mechanic.equals(that.mechanic) &&
+                this.aerodynamicist.equals(that.aerodynamicist) &&
+                this.strategist.equals(that.strategist);
         }
         return false;
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(car, driver, engine, mechanic, aerodynamicist, strategist);
+    }
+
+    /**
+     * Return a string representation of this engine.
+     *
+     * @return A string representation of this engine.
+     */
+    @Override
+    public String toString() {
+        return String.format("CarConfiguration(car=%s, driver=%s, engine=%s, mechanic=%s, "
+            + "aerodynamicist=%s, strategist=%s)", car, driver, engine, mechanic,
+            aerodynamicist, strategist);
     }
 }
 
