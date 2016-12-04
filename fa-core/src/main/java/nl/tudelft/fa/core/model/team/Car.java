@@ -22,15 +22,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
+package nl.tudelft.fa.core.model.team;
 
-repositories {
-    mavenCentral()
+/**
+ * This class represents a Formula 1 car.
+ *
+ * @author Christian Slothouber
+ */
+public class Car {
+    // TODO implement something meaningful here
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-}

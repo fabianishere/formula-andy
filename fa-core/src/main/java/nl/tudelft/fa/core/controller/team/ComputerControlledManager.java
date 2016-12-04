@@ -22,15 +22,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
+package nl.tudelft.fa.core.controller.team;
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-}
+/**
+ * A {@link Manager} that is controlled by a computer.
+ *
+ * @author Christian Slothouber
+ */
+public class ComputerControlledManager {}

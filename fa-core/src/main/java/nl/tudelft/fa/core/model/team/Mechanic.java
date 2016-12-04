@@ -22,15 +22,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
+package nl.tudelft.fa.core.model.team;
 
-repositories {
-    mavenCentral()
-}
+import java.util.UUID;
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+/**
+ * A mechanical {@link Specialist}.
+ *
+ * @author Christian Slothouber
+ */
+public class Mechanic extends Specialist {
+    /**
+     * Construct a {@link Mechanic} instance.
+     *
+     * @param id The unique id of this mechanic.
+     * @param name name of mechanic
+     * @param salary salary of mechanic
+     * @param level level of mechanic
+     */
+    public Mechanic(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
+    }
+
+    /**
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
+     */
+    @Override
+    public String toString() {
+        return String.format("Mechanic(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
+    }
 }

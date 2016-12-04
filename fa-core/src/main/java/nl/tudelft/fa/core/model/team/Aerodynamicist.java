@@ -22,15 +22,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
+package nl.tudelft.fa.core.model.team;
 
-repositories {
-    mavenCentral()
-}
+import java.util.UUID;
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+/**
+ * A aerodynamic {@link Specialist}.
+ *
+ * @author Christian Slothouber
+ */
+public class Aerodynamicist extends Specialist {
+    /**
+     * Construct a {@link Aerodynamicist} instance.
+     *
+     * @param id The unique id of this specialist.
+     * @param name name The name of this specialist.
+     * @param salary salary The salary of this specialist.
+     * @param level level The level of this specialist.
+     */
+    public Aerodynamicist(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
+    }
+
+    /**
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
+     */
+    @Override
+    public String toString() {
+        return String.format("Aerodynamicist(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
+    }
 }
