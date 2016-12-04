@@ -25,23 +25,9 @@
 
 package nl.tudelft.fa.core.controller.team;
 
-import nl.tudelft.fa.core.model.team.Team;
-
-import java.util.List;
-
 /**
  * A {@link Manager} that is controlled by a computer.
  *
  * @author Christian Slothouber
  */
-public class ComputerControlledManager extends Manager {
-
-    /**
-     * Construct a {@link ComputerControlledManager}.
-     *
-     * @param teams The {@link Team}s that this manager manages.
-     */
-    public ComputerControlledManager(List<Team> teams) {
-        super(teams);
-    }
-}
+public class ComputerControlledManager {}

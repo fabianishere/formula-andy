@@ -25,25 +25,9 @@
 
 package nl.tudelft.fa.core.controller.team;
 
-import nl.tudelft.fa.core.model.team.Team;
-
-import java.util.List;
-
 /**
  * This class represents a manager of Formula 1 teams.
  *
  * @author Christian Slothouber
  */
-public abstract class Manager {
-
-    private List<Team> teams;
-
-    /**
-     * Construct a {@link Manager} instance.
-     *
-     * @param teams list of teams owned by manager
-     */
-    public Manager(List<Team> teams) {
-        this.teams = teams;
-    }
-}
+public abstract class Manager {}

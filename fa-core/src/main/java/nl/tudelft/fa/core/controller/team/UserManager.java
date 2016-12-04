@@ -30,6 +30,6 @@ package nl.tudelft.fa.core.controller.team;
  *
  * @author Christian Slothouber
  */
-public class UserManager {
+public class UserManager extends Manager {
     // TODO implement user package.
 }
