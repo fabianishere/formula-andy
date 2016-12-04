@@ -26,7 +26,6 @@
 package nl.tudelft.fa.frontend.javafx;
 
 import javafx.application.Application;
-import javafx.scene.control.Button;
 
 /**
  * This class bootstraps the JavaFX graphical user-interface.
