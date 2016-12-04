@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.model.team;
 
+import java.util.Objects;
+
 /**
  * This class represents a Formula 1 tire.
  *
@@ -39,7 +41,7 @@ public class Tire {
     /**
      * The type of tire.
      */
-    private final String type;
+    private final String name;
 
     /**
      * The durability of the tire.
@@ -55,13 +57,13 @@ public class Tire {
      * Construct a {@link Tire} instance.
      *
      * @param brand The name of the brand of this tire.
-     * @param type The type of tire e.g. "Ultra Soft" or "Intermediate"
+     * @param name The name of the tire e.g. "Ultra Soft" or "Intermediate"
      * @param durability A numeric representation of durability
      * @param grip A numeric representation of grip
      */
-    public Tire(String brand, String type, double durability, double grip) {
+    public Tire(String brand, String name, double durability, double grip) {
         this.brand = brand;
-        this.type = type;
+        this.name = name;
         this.durability = durability;
         this.grip = grip;
     }
@@ -76,12 +78,12 @@ public class Tire {
     }
 
     /**
-     * Return the type of the tire.
+     * Return the name of the type of the tire.
      *
      * @return A textual representation of the tire type.
      */
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
     /**
@@ -108,11 +110,22 @@ public class Tire {
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object other) {
         if (other instanceof Tire) {
             Tire that = (Tire) other;
-            return this.type.equals(that.type);
+            return this.brand.equals(that.brand) && this.name.equals(that.name);
         }
         return false;
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(brand, name);
     }
 }
