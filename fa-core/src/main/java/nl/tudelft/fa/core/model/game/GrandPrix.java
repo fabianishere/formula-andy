@@ -43,14 +43,21 @@ public class GrandPrix {
     private String date;
 
     /**
+     * The amount of laps in a grand prix.
+     */
+    private final int laps;
+
+    /**
      * Construct a {@link GrandPrix} instance.
      *
      * @param circuit The race circuit at which this grand prix takes place.
      * @param date The date of the race.
+     * @param laps The amount of laps in a grand prix.
      */
-    public GrandPrix(Circuit circuit, String date) {
+    public GrandPrix(Circuit circuit, String date, int laps) {
         this.circuit = circuit;
         this.date = date;
+        this.laps = laps;
     }
 
     /**
@@ -69,5 +76,14 @@ public class GrandPrix {
      */
     public String getDate() {
         return date;
+    }
+
+    /**
+     * Return the amount of laps in this grand prix.
+     *
+     * @return The amount of laps in this grand prix..
+     */
+    public int getLaps() {
+        return laps;
     }
 }

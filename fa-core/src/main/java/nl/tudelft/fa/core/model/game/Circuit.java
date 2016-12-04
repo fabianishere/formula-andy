@@ -42,21 +42,14 @@ public class Circuit {
     private final String country;
 
     /**
-     * The amount of laps this circuit has each race.
-     */
-    private final int laps;
-
-    /**
      * Construct a [@link Circuit} instance.
      *
      * @param name The name of the circuit
      * @param country The country this circuit is located in.
-     * @param laps The amount of laps each race.
      */
-    public Circuit(String name, String country, int laps) {
+    public Circuit(String name, String country) {
         this.name = name;
         this.country = country;
-        this.laps = laps;
     }
 
     /**
@@ -75,14 +68,5 @@ public class Circuit {
      */
     public String getCountry() {
         return country;
-    }
-
-    /**
-     * Return the amount of laps each race.
-     *
-     * @return The amount of laps each race.
-     */
-    public int getLaps() {
-        return laps;
     }
 }
