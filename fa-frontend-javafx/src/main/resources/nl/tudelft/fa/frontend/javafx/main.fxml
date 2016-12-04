@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox fx:id="pane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.MainController">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.StartScreenController">
     <stylesheets>
         <URL value="@style.css"/>
     </stylesheets>
