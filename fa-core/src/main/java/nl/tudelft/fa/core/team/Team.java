@@ -83,7 +83,7 @@ public class Team {
     /**
      * Construct a {@link Team} instance.
      */
-    private Team() {}
+    protected Team() {}
 
     /**
      * Return the unique id of this team.
