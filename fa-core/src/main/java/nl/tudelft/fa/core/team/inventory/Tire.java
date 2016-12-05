@@ -23,129 +23,113 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.team;
+package nl.tudelft.fa.core.team.inventory;
 
 import java.util.UUID;
 
 /**
- * This class represents a Formula 1 car engine.
+ * This class represents a Formula 1 tire.
  *
  * @author Christian Slothouber
  */
-public class Engine {
+public class Tire {
     /**
-     * The unique id of this engine.
+     * The unique identifier of this tire.
      */
     private UUID id;
 
     /**
-     * The name of the brand of this engine.
+     * The name of the brand of this tire.
      */
     private String brand;
 
     /**
-     * The name of the engine.
+     * The type of tire.
      */
     private String name;
 
     /**
-     * The power of this engine.
+     * The durability of the tire.
      */
-    private double power;
+    private double durability;
 
     /**
-     * The driveability of this engine.
+     * The grip of the tire.
      */
-    private double driveability;
+    private double grip;
 
     /**
-     * The fuel consumption of this engine.
-     */
-    private double fuelConsumption;
-
-    /**
-     * Construct a {@link Engine} instance.
+     * Construct a {@link Tire} instance.
      *
-     * @param id The unique id of this engine.
-     * @param brand The brand name of the engine.
-     * @param name The name of the engine.
-     * @param power A numeric representation of power
-     * @param driveability A numeric representation of driveability
-     * @param fuelConsumption A numeric representation of fuel consumption
+     * @param id The unique identifier of this tire.
+     * @param brand The name of the brand of this tire.
+     * @param name The name of the tire e.g. "Ultra Soft" or "Intermediate"
+     * @param durability A numeric representation of durability
+     * @param grip A numeric representation of grip
      */
-    public Engine(UUID id, String brand, String name, double power, double driveability,
-                  double fuelConsumption) {
+    public Tire(UUID id, String brand, String name, double durability, double grip) {
         this.id = id;
         this.brand = brand;
         this.name = name;
-        this.power = power;
-        this.driveability = driveability;
-        this.fuelConsumption = fuelConsumption;
+        this.durability = durability;
+        this.grip = grip;
     }
 
     /**
-     * Return the unique id of this engine.
+     * Return the unique id of this tire.
      *
-     * @return The unique id of this engine.
+     * @return The unique id of the tire.
      */
     public UUID getId() {
         return id;
     }
 
     /**
-     * Return the name of the brand of this engine.
+     * Return the name of the brand of this tire.
      *
-     * @return The name of the brand of this engine.
+     * @return The name of the brand of this tire.
      */
     public String getBrand() {
         return brand;
     }
 
     /**
-     * Return the name of the engine.
+     * Return the name of the type of the tire.
      *
-     * @return The name of the engine.
+     * @return A textual representation of the tire type.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Return the power of this engine.
+     * Return the durability of the tire.
      *
-     * @return The power of this engine.
+     * @return A numeric representation of the durability.
      */
-    public double getPower() {
-        return power;
+    public double getDurability() {
+        return durability;
     }
 
     /**
-     * Return the driveability of this engine.
+     * Return the grip of the tire.
      *
-     * @return The driveability of this engine.
+     * @return A numeric representation of the grip.
      */
-    public double getDriveability() {
-        return driveability;
+    public double getGrip() {
+        return grip;
     }
 
     /**
-     * Return the fuel consumption of this engine.
-     *
-     * @return The fuel consumption of this engine.
-     */
-    public double getFuelConsumption() {
-        return fuelConsumption;
-    }
-
-    /**
-     * Test whether this {@link Engine} is equal to the given object.
+     * Test whether this {@link Tire} is equal to the given object.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object other) {
-        if (other instanceof Engine) {
-            Engine that = (Engine) other;
+        if (other instanceof Tire) {
+            Tire that = (Tire) other;
             return this.id.equals(that.id);
         }
         return false;
@@ -162,12 +146,12 @@ public class Engine {
     }
 
     /**
-     * Return a string representation of this engine.
+     * Return a textual representation of this tire.
      *
-     * @return A string representation of this engine.
+     * @return A textual representation of this tire.
      */
     @Override
     public String toString() {
-        return String.format("Engine(id=%s, brand=%s, name=%s)", id, brand, name);
+        return String.format("Tire(id=%s, brand=%s, name=%s)", id, brand, name);
     }
 }

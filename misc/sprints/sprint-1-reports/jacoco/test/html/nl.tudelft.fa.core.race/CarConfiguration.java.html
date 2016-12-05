@@ -26,9 +26,9 @@
 package nl.tudelft.fa.core.race;
 
 import nl.tudelft.fa.core.team.Aerodynamicist;
-import nl.tudelft.fa.core.team.Car;
+import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.Driver;
-import nl.tudelft.fa.core.team.Engine;
+import nl.tudelft.fa.core.team.inventory.Engine;
 import nl.tudelft.fa.core.team.Mechanic;
 import nl.tudelft.fa.core.team.Strategist;
 

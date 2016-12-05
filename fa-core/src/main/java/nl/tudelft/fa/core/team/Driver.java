@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.team;
 
+import nl.tudelft.fa.core.team.inventory.Car;
+
 import java.util.UUID;
 
 /**
