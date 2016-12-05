@@ -30,9 +30,13 @@
    http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
                  version="1.0">
 
-    <description>This entity represents a Formula 1 team that participates in Formula 1 grand prix.</description>
+    <description>The team data mapping of the Formula Andy project.</description>
+    <package>nl.tudelft.fa.core.team</package>
 
-    <entity class="nl.tudelft.fa.core.team.Team" access="FIELD" name="Teams">
+    <!-- Team class -->
+    <entity class="Team" access="FIELD" name="Teams">
+        <description>This entity represents a Formula 1 team that participates in Formula 1 grand prix.</description>
+
         <attributes>
             <id name="id" />
 
