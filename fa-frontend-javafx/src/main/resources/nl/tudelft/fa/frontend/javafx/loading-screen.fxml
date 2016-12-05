@@ -1,0 +1,11 @@
+<?import javafx.scene.control.Label?>
+<?import java.net.URL?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="loading-screen">
+    <stylesheets>
+        <URL value="@css/style.css" />
+    </stylesheets>
+
+    <Label text="Hello World!" />
+</VBox>

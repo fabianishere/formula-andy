@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/fabianishere/formula-andy/blob/master/misc/artwork/logo.png?raw=true" width="100" alt="Formula Andy">
+  <img src="misc/artwork/logo.png" width="100" alt="Formula Andy">
 </p>
 <h1 align="center">Formula Andy</h1>
 <p align="center">
@@ -15,14 +15,33 @@ written in Java.
 ## Chat
 Join the Slack channel at [https://formula-andy.slack.com](https://formula-andy.slack.com).
 
-## Members
+## Getting the source
+Download the source code by running the following code in your command prompt:
+```sh
+$ git clone https://github.com/fabianishere/formula-andy.git
+```
+or simply [grab](https://github.com/fabianishere/formula-andy/archive/master.zip)
+a copy of the source code as a zip file.
+
+## Building
+For building the source code, we use Gradle. To run gradle, enter the following
+in your command prompt:
+```sh
+$ ./gradlew build
+```
+To test the source code, run the following code in your command prompt
+```
+$ ./gradlew test
+```
+
+## Contributors
 | Image         | Name                                                    | ID      |
 | ------------- |:-------------------------------------------------------:| :------:|
-|               | [Fabian Mastenbroek](https://github.com/fabianishere)   | 4552199 |
-|               | [Christian Slothouber](https://github.com/ChristovS)    | 4485998 |
-|               | [Laetitia Molkenboer](https://github.com/Lmolkenboer)   | 4553934 |
-|               | [Nikki Bouman](https://github.com/NikkiBouman)          | 4597648 |
-|               | [Nils de Beukelaar](https://github.com/NilsBeuki)       | 4557234 |
+| ![Fabian Mastenbroek](misc/contributors/fabian.jpg)      | [Fabian Mastenbroek](https://github.com/fabianishere)   | 4552199 |
+| ![Christian Slothouber](misc/contributors/christian.jpg) | [Christian Slothouber](https://github.com/ChristovS)  | 4485998 |
+| ![Laetitia Molkenboer](misc/contributors/laetitia.jpg)   | [Laetitia Molkenboer](https://github.com/Lmolkenboer)   | 4553934 |
+| ![Nikki Bouman](misc/contributors/nikki.jpg) | [Nikki Bouman](https://github.com/NikkiBouman)          | 4597648 |
+| ![Nils de Beukelaar](misc/contributors/nils.jpg) | [Nils de Beukelaar](https://github.com/NilsBeuki)       | 4457234 |
 
 ## License
 The code is released under the MIT license. See the `LICENSE.txt` file.
