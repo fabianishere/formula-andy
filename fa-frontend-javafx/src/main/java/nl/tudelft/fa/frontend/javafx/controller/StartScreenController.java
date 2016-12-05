@@ -23,33 +23,47 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx;
+package nl.tudelft.fa.frontend.javafx.controller;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 
 /**
- * The main JavaFX {@link Application} class.
+ * The controller for the start screen.
  *
- * @author Fabian Mastenbroek
+ * @author Nikki Bouman
  */
-public class Main extends Application {
+public class StartScreenController {
     /**
-     * This method is called when the application is started.
+     * This method is invoked when the new game button is pressed and the user wants to start
+     * a new game.
      *
-     * {@inheritDoc}
+     * @param event The {@link ActionEvent} that occurred.
      */
-    @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("start-screen.fxml"));
+    @FXML
+    protected void newGame(ActionEvent event) {
+        System.out.println("NEW GAME!!");
+    }
 
-        Scene scene = new Scene(root, 300, 275);
+    /**
+     * This method is invoked when the load game button is pressed and the user wants to load
+     * an existing game.
+     *
+     * @param event The {@link ActionEvent} that occurred.
+     */
+    @FXML
+    protected void loadGame(ActionEvent event) {
+        System.out.println("Loading.....");
+    }
 
-        stage.setTitle("Formula Andy!");
-        stage.setScene(scene);
-        stage.show();
+    /**
+     * This method is invoked when the settings button is pressed and the user wants to open
+     * the game settings screen.
+     *
+     * @param event The {@link ActionEvent} that occurred.
+     */
+    @FXML
+    protected void openSettings(ActionEvent event) {
+        System.out.println("SETTINGS yeey");
     }
 }
