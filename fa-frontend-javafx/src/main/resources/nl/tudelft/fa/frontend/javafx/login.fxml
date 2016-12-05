@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import java.net.URL?>
+
+<VBox fx:id="bg" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1020.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <stylesheets>
+      <URL value="@login.css" />
+   </stylesheets>
+   <children>
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1020.0" prefWidth="1920.0">
+         <children>
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="5.0" prefWidth="84.0" text="Log in" textAlignment="CENTER" translateX="55.0" translateY="-20.0" GridPane.columnIndex="4" GridPane.rowIndex="7">
+               <font>
+                  <Font name="Marlett" size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Button>
+            <PasswordField GridPane.columnIndex="4" GridPane.rowIndex="6" />
+            <Label alignment="CENTER" prefHeight="42.0" prefWidth="157.0" text=" Password" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="6">
+               <font>
+                  <Font size="30.0" />
+               </font></Label>
+            <Label alignment="CENTER" prefHeight="53.0" prefWidth="179.0" text="Username" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="5">
+               <font>
+                  <Font size="30.0" />
+               </font></Label>
+            <TextField GridPane.columnIndex="4" GridPane.rowIndex="5" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="385.0" minWidth="10.0" prefWidth="198.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="10.0" prefWidth="518.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="593.0" minWidth="10.0" prefWidth="172.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1307.0" minWidth="10.0" prefWidth="191.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="962.0" minWidth="10.0" prefWidth="840.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="211.0" minHeight="10.0" prefHeight="211.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="179.0" minHeight="10.0" prefHeight="168.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="164.0" minHeight="0.0" prefHeight="43.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="110.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="173.0" minHeight="0.0" prefHeight="82.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="342.0" minHeight="10.0" prefHeight="302.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+   </children>
+</VBox>
