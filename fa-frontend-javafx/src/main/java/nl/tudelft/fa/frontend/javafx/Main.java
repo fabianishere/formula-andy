@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
 
 /**
  * The main JavaFX {@link Application} class.
@@ -15,10 +16,8 @@ public class Main extends Application {
 	/** {@inheritDoc} */
 	@Override
 	public void start(Stage stage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-
-		Scene scene = new Scene(root, 300, 275);
-
+		Parent root = FXMLLoader.load(getClass().getResource("loading-screen.fxml"));
+		Scene scene = new Scene(root, 1920, 1080);
 		stage.setTitle("Formula Andy!");
 		stage.setScene(scene);
 		stage.show();
