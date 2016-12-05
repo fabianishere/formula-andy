@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.team;
+package nl.tudelft.fa.core.team.inventory;
 
 import java.util.UUID;
 
@@ -36,27 +36,27 @@ public class Tire {
     /**
      * The unique identifier of this tire.
      */
-    private final UUID id;
+    private UUID id;
 
     /**
      * The name of the brand of this tire.
      */
-    private final String brand;
+    private String brand;
 
     /**
      * The type of tire.
      */
-    private final String name;
+    private String name;
 
     /**
      * The durability of the tire.
      */
-    private final double durability;
+    private double durability;
 
     /**
      * The grip of the tire.
      */
-    private final double grip;
+    private double grip;
 
     /**
      * Construct a {@link Tire} instance.

@@ -47,6 +47,11 @@ public class Strategist extends Specialist {
     }
 
     /**
+     * Construct a {@link Strategist}.
+     */
+    public Strategist() {}
+
+    /**
      * Return a string representation of this specialist.
      *
      * @return A string representation of this specialist.

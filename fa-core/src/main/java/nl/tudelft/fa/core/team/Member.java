@@ -36,12 +36,12 @@ public abstract class Member {
     /**
      * The unique id of this member.
      */
-    private final UUID id;
+    private UUID id;
 
     /**
      * The name of this member.
      */
-    private final String name;
+    private String name;
 
     /**
      * The salary of this member.
@@ -60,6 +60,11 @@ public abstract class Member {
         this.name = name;
         this.salary = salary;
     }
+
+    /**
+     * Construct a {@link Member} instance.
+     */
+    protected Member() {}
 
     /**
      * Return the unique id of this member.

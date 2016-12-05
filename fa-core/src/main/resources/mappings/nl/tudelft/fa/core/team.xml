@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The MIT License (MIT)
+
+  Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+  Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+-->
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm
+   http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+                 version="1.0">
+
+    <description>The team data mapping of the Formula Andy project.</description>
+    <package>nl.tudelft.fa.core.team</package>
+
+    <!-- Team class -->
+    <entity class="Team" access="FIELD" name="Teams">
+        <description>This entity represents a Formula 1 team that participates in Formula 1 grand prix.</description>
+
+        <attributes>
+            <id name="id" />
+
+            <basic name="name" />
+            <basic name="budget" />
+            <transient name="manager" />
+
+            <one-to-many name="staff" />
+        </attributes>
+    </entity>
+
+
+    <!-- Member class -->
+    <entity class="Member" access="FIELD" name="Members">
+        <description>This entity represents a member of a Formula 1 team.</description>
+
+        <inheritance strategy="JOINED" />
+        <discriminator-column name="MEMBER_TYPE" />
+        <attributes>
+            <id name="id" />
+
+            <basic name="name" />
+            <basic name="salary" />
+        </attributes>
+    </entity>
+
+    <!-- Driver class -->
+    <entity class="Driver" access="FIELD">
+        <description>A member of a team that drives the Formula 1 cars</description>
+        <discriminator-value>driver</discriminator-value>
+
+        <attributes>
+            <basic name="speed" />
+            <basic name="racecraft" />
+            <basic name="strategy" />
+        </attributes>
+    </entity>
+
+    <!-- Specialist class -->
+    <mapped-superclass class="Specialist" access="FIELD">
+        <description>A member of a team that is specialized in a specific part of the race or car.</description>
+
+        <attributes>
+            <basic name="level" />
+        </attributes>
+    </mapped-superclass>
+
+    <!-- Mechanic class -->
+    <entity class="Mechanic" access="FIELD">
+        <description>A mechanical specialist</description>
+        <discriminator-value>mechanic</discriminator-value>
+    </entity>
+
+    <!-- Aerodynamicist class -->
+    <entity class="Aerodynamicist" access="FIELD">
+        <description>A mechanical specialist</description>
+        <discriminator-value>aerodynamicist</discriminator-value>
+    </entity>
+
+    <!-- Mechanic class -->
+    <entity class="Strategist" access="FIELD">
+        <description>A strategic specialist</description>
+        <discriminator-value>strategist</discriminator-value>
+    </entity>
+</entity-mappings>
