@@ -25,8 +25,8 @@
 
 package nl.tudelft.fa.core.team;
 
-import nl.tudelft.fa.core.team.manager.Manager;
 import nl.tudelft.fa.core.race.GrandPrix;
+import nl.tudelft.fa.core.team.manager.Manager;
 
 import java.util.Collections;
 import java.util.List;
