@@ -36,32 +36,32 @@ public class Engine {
     /**
      * The unique id of this engine.
      */
-    private final UUID id;
+    private UUID id;
 
     /**
      * The name of the brand of this engine.
      */
-    private final String brand;
+    private String brand;
 
     /**
      * The name of the engine.
      */
-    private final String name;
+    private String name;
 
     /**
      * The power of this engine.
      */
-    private final double power;
+    private double power;
 
     /**
      * The driveability of this engine.
      */
-    private final double driveability;
+    private double driveability;
 
     /**
      * The fuel consumption of this engine.
      */
-    private final double fuelConsumption;
+    private double fuelConsumption;
 
     /**
      * Construct a {@link Engine} instance.
