@@ -22,7 +22,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-subprojects {
-    apply plugin: 'checkstyle'
-    apply plugin: 'jacoco'
+
+package nl.tudelft.fa.core.team;
+
+import java.util.UUID;
+
+/**
+ * A {@link Member} of a {@link Team} that is specialized in a specific part of the race or car.
+ *
+ * @author Christian Slothouber
+ */
+public abstract class Specialist extends Member {
+    /**
+     * The level of this specialist.
+     */
+    private double level;
+
+    /**
+     * Construct a {@link Specialist} instance.
+     *
+     * @param id The unique id of the specialist.
+     * @param name The name of the specialist.
+     * @param salary The salary of the specialist.
+     * @param level The level of the specialist.
+     */
+    public Specialist(UUID id, String name, int salary, double level) {
+        super(id, name, salary);
+        this.level = level;
+    }
+
+    /**
+     * Return the level of this specialist.
+     *
+     * @return The level of this specialist.
+     */
+    public double getLevel() {
+        return level;
+    }
 }

@@ -1,5 +1,9 @@
-#loading-screen{
-    -fx-background-image: url("../formula_andy_loadscreen4_1.jpg");
+#loading-screen {
+    -fx-background-image: url("../images/loading-screen/4_1.jpg");
+}
+
+#start-screen {
+    -fx-background-image: url("../images/start-screen-background.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 1920 1080;
     -fx-background-position: center center;
