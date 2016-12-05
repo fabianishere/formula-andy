@@ -42,12 +42,12 @@ public class Team {
     /**
      * The unique id of this team.
      */
-    private final UUID id;
+    private UUID id;
 
     /**
      * The name of this team.
      */
-    private final String name;
+    private String name;
 
     /**
      * The current budget of the team.
@@ -57,12 +57,12 @@ public class Team {
     /**
      * The staff members of this team.
      */
-    private final List<Member> staff;
+    private List<Member> staff;
 
     /**
      * The manager that manages this team.
      */
-    private final Manager manager;
+    private Manager manager;
 
     /**
      * Construct a {@link Team} instance.
@@ -79,6 +79,11 @@ public class Team {
         this.manager = manager;
         this.staff = staff;
     }
+
+    /**
+     * Construct a {@link Team} instance.
+     */
+    private Team() {}
 
     /**
      * Return the unique id of this team.
