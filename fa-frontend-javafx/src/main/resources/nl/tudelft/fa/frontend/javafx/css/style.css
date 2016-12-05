@@ -1,3 +1,7 @@
+#loading-screen {
+    -fx-background-image: url("../images/loading-screen/4_1.jpg");
+}
+
 #start-screen {
     -fx-background-image: url("../images/start-screen-background.png");
     -fx-background-repeat: stretch;
