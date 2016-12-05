@@ -36,17 +36,17 @@ public class Driver extends Member {
     /**
      * A numeric representation of the speed of the driver.
      */
-    private final double speed;
+    private double speed;
 
     /**
      * A numeric representation of the race craft of the driver.
      */
-    private final double racecraft;
+    private double racecraft;
 
     /**
      * A numeric representation of the strategy of the driver.
      */
-    private final double strategy;
+    private double strategy;
 
     /**
      * Construct a {@link Driver} instance.
@@ -65,6 +65,11 @@ public class Driver extends Member {
         this.racecraft = racecraft;
         this.strategy = strategy;
     }
+
+    /**
+     * Construct a {@link Driver} instance.
+     */
+    protected Driver() {}
 
     /**
      * Return a numeric representation of the speed of the driver.
@@ -91,7 +96,6 @@ public class Driver extends Member {
     public double getStrategy() {
         return strategy;
     }
-
 
     /**
      * Return a string representation of this specialist.

@@ -46,6 +46,11 @@ public class Aerodynamicist extends Specialist {
     }
 
     /**
+     * Construct a {@link Aerodynamicist}.
+     */
+    protected Aerodynamicist() {}
+
+    /**
      * Return a string representation of this specialist.
      *
      * @return A string representation of this specialist.

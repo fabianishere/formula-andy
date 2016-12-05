@@ -42,9 +42,63 @@
 
             <basic name="name" />
             <basic name="budget" />
-            <basic name="manager" />
+            <transient name="manager" />
 
             <one-to-many name="staff" />
         </attributes>
+    </entity>
+
+
+    <!-- Member class -->
+    <entity class="Member" access="FIELD" name="Members">
+        <description>This entity represents a member of a Formula 1 team.</description>
+
+        <inheritance strategy="JOINED" />
+        <discriminator-column name="MEMBER_TYPE" />
+        <attributes>
+            <id name="id" />
+
+            <basic name="name" />
+            <basic name="salary" />
+        </attributes>
+    </entity>
+
+    <!-- Driver class -->
+    <entity class="Driver" access="FIELD">
+        <description>A member of a team that drives the Formula 1 cars</description>
+        <discriminator-value>driver</discriminator-value>
+
+        <attributes>
+            <basic name="speed" />
+            <basic name="racecraft" />
+            <basic name="strategy" />
+        </attributes>
+    </entity>
+
+    <!-- Specialist class -->
+    <mapped-superclass class="Specialist" access="FIELD">
+        <description>A member of a team that is specialized in a specific part of the race or car.</description>
+
+        <attributes>
+            <basic name="level" />
+        </attributes>
+    </mapped-superclass>
+
+    <!-- Mechanic class -->
+    <entity class="Mechanic" access="FIELD">
+        <description>A mechanical specialist</description>
+        <discriminator-value>mechanic</discriminator-value>
+    </entity>
+
+    <!-- Aerodynamicist class -->
+    <entity class="Aerodynamicist" access="FIELD">
+        <description>A mechanical specialist</description>
+        <discriminator-value>aerodynamicist</discriminator-value>
+    </entity>
+
+    <!-- Mechanic class -->
+    <entity class="Strategist" access="FIELD">
+        <description>A strategic specialist</description>
+        <discriminator-value>strategist</discriminator-value>
     </entity>
 </entity-mappings>
