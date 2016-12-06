@@ -1,6 +1,7 @@
 # Week 4
 - Chairwoman: Laetitia Molkenboer
 - Secretary: Nikki Bouman
+- Absent: None
 
 ## 5 December 2016, 13:45-17:45
 ### Opening
