@@ -1,5 +1,6 @@
-package nl.tudelft.fa.core.team;
+package nl.tudelft.fa.core.team.inventory;
 
+import nl.tudelft.fa.core.team.inventory.Tire;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.team;
+package nl.tudelft.fa.core.team.inventory;
 
 /**
  * This class represents a Formula 1 car.

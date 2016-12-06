@@ -46,6 +46,11 @@ public class Mechanic extends Specialist {
     }
 
     /**
+     * Construct a {@link Mechanic}.
+     */
+    protected Mechanic() {}
+
+    /**
      * Return a string representation of this specialist.
      *
      * @return A string representation of this specialist.
