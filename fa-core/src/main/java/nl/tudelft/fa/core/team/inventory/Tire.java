@@ -46,7 +46,7 @@ public class Tire {
     /**
      * The type of tire.
      */
-    private String name;
+    private TireType type;
 
     /**
      * The durability of the tire.
@@ -63,14 +63,14 @@ public class Tire {
      *
      * @param id The unique identifier of this tire.
      * @param brand The name of the brand of this tire.
-     * @param name The name of the tire e.g. "Ultra Soft" or "Intermediate"
+     * @param type The type of the tire e.g. "Ultra Soft" or "Intermediate"
      * @param durability A numeric representation of durability
      * @param grip A numeric representation of grip
      */
-    public Tire(UUID id, String brand, String name, double durability, double grip) {
+    public Tire(UUID id, String brand, TireType type, double durability, double grip) {
         this.id = id;
         this.brand = brand;
-        this.name = name;
+        this.type = type;
         this.durability = durability;
         this.grip = grip;
     }
@@ -94,12 +94,12 @@ public class Tire {
     }
 
     /**
-     * Return the name of the type of the tire.
+     * Return the type of the tire.
      *
-     * @return A textual representation of the tire type.
+     * @return The tire type.
      */
-    public String getName() {
-        return name;
+    public TireType getType() {
+        return type;
     }
 
     /**
@@ -152,6 +152,6 @@ public class Tire {
      */
     @Override
     public String toString() {
-        return String.format("Tire(id=%s, brand=%s, name=%s)", id, brand, name);
+        return String.format("Tire(id=%s, brand=%s, type=%s)", id, brand, type);
     }
 }

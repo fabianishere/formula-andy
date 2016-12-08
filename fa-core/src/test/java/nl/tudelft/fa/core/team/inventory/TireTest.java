@@ -17,7 +17,7 @@ public class TireTest {
 
     UUID id;
     String brand;
-    String name;
+    TireType type;
     double durability;
     double grip;
     Tire tireA;
@@ -26,10 +26,10 @@ public class TireTest {
     public void setUp() {
         id = UUID.randomUUID();
         brand = "Pirelli";
-        name = "Intermediate";
+        type = TireType.INTERMEDIATE;
         durability = 1.0;
         grip = 2.0;
-        tireA = new Tire(id, brand, name, durability, grip);
+        tireA = new Tire(id, brand, type, durability, grip);
     }
 
     @Test
@@ -43,8 +43,8 @@ public class TireTest {
     }
 
     @Test
-    public  void getName() {
-        assertEquals(name, tireA.getName());
+    public  void getType() {
+        assertEquals(type, tireA.getType());
     }
 
     @Test
@@ -69,12 +69,12 @@ public class TireTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new Tire(id, brand, name, durability, grip), tireA);
+        assertEquals(new Tire(id, brand, type, durability, grip), tireA);
     }
 
     @Test
     public void equalsDifferentId() {
-        assertThat(tireA, not(equalTo(new Tire(UUID.randomUUID(), brand, name, durability, grip))));
+        assertThat(tireA, not(equalTo(new Tire(UUID.randomUUID(), brand, type, durability, grip))));
     }
 
     @Test
@@ -84,6 +84,6 @@ public class TireTest {
 
     @Test
     public void testToString() {
-        assertEquals(String.format("Tire(id=%s, brand=%s, name=%s)", id, brand, name), tireA.toString());
+        assertEquals(String.format("Tire(id=%s, brand=%s, type=%s)", id, brand, type), tireA.toString());
     }
 }
