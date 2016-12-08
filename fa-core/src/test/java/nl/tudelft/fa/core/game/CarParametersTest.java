@@ -2,6 +2,7 @@ package nl.tudelft.fa.core.game;
 
 import nl.tudelft.fa.core.race.CarParameters;
 import nl.tudelft.fa.core.team.inventory.Tire;
+import nl.tudelft.fa.core.team.inventory.TireType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ public class CarParametersTest {
         mechanicalRisk = 2;
         aerodynamicRisk = 3;
         strategicRisk = 4;
-        tire = new Tire(UUID.randomUUID(), "Pirelli", "Super Soft", 1, 2);
+        tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SOFT, 1, 2);
         parameters = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
     }
 
@@ -83,7 +84,7 @@ public class CarParametersTest {
 
     @Test
     public void equalsDifferentMechanic() {
-        Tire tire = new Tire(UUID.randomUUID(), "Pirelli", "Soft", 1, 2);
+        Tire tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SOFT, 1, 2);
         assertNotEquals(new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire), parameters);
     }
 
