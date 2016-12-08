@@ -52,6 +52,11 @@ public abstract class Specialist extends Member {
     }
 
     /**
+     * Construct a {@link Specialist}.
+     */
+    protected Specialist() {}
+
+    /**
      * Return the level of this specialist.
      *
      * @return The level of this specialist.

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The MIT License (MIT)
+
+  Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+  Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+-->
+
+<!-- This file defines the engines available in the game -->
+<engines>
+    <!-- Mercedes -->
+    <engine>
+        <id>e199dee6-4470-498c-827a-6065808a1581</id>
+        <brand>Mercedes</brand>
+        <name>F1 W05 Hybrid</name>
+        <price>45000000</price>
+
+        <!-- Parameters -->
+        <power>1</power>
+        <driveability>1</driveability>
+        <fuelConsumption>1</fuelConsumption>
+    </engine>
+
+    <!-- Ferrari -->
+    <engine>
+        <id>c2f8fd67-ed69-4bd3-b79c-c8ea5f802854</id>
+        <brand>Ferrari</brand>
+        <name>Type 059/4</name>
+        <price>32000000</price>
+
+        <!-- Parameters -->
+        <power>1</power>
+        <driveability>1</driveability>
+        <fuelConsumption>1</fuelConsumption>
+    </engine>
+
+    <!-- Renault -->
+    <engine>
+        <id>0cd57c07-b201-4ca5-b834-c78ae7084225</id>
+        <brand>Renault</brand>
+        <name>Energy F1-2016</name>
+        <price>27000000</price>
+
+        <!-- Parameters -->
+        <power>1</power>
+        <driveability>1</driveability>
+        <fuelConsumption>1</fuelConsumption>
+    </engine>
+
+    <!-- Honda -->
+    <engine>
+        <id>0d586c3f-e93c-41e0-a231-e875de5dea12</id>
+        <brand>Honda</brand>
+        <name>RA615H</name>
+        <price>25000000</price>
+
+        <!-- Parameters -->
+        <power>1</power>
+        <driveability>1</driveability>
+        <fuelConsumption>1</fuelConsumption>
+    </engine>
+</engines>

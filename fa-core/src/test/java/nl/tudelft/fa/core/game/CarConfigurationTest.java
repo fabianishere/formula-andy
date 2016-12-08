@@ -2,6 +2,8 @@ package nl.tudelft.fa.core.game;
 
 import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.team.*;
+import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.Engine;
 import org.junit.Before;
 import org.junit.Test;
 
