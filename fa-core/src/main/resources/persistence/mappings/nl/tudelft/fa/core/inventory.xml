@@ -41,4 +41,19 @@
             <id name="id" />
         </attributes>
     </entity>
+
+    <!-- Engine class -->
+    <entity class="Engine" access="FIELD" name="Engines">
+        <description>This entity represents a Formula 1 car engine.</description>
+
+        <attributes>
+            <id name="id" />
+
+            <basic name="brand" />
+            <basic name="name" />
+            <basic name="power" />
+            <basic name="driveability" />
+            <basic name="fuelConsumption" />
+        </attributes>
+    </entity>
 </entity-mappings>
