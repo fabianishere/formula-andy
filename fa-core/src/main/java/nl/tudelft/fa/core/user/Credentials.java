@@ -30,6 +30,24 @@ public class Credentials {
     }
 
     /**
+     * Return the username of the user.
+     *
+     * @return The username of the user.
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Return the password of the user.
+     *
+     * @return The password of the user.
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
      * Test whether this {@link Credentials} is equal to the given object.
      *
      * @param other The object to be tested for equality
