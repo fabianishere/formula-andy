@@ -1,7 +1,5 @@
-package nl.tudelft.fa.core.game;
+package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.race.Circuit;
-import nl.tudelft.fa.core.race.GrandPrix;
 import org.junit.Before;
 import org.junit.Test;
 

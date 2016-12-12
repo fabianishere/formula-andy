@@ -1,6 +1,5 @@
-package nl.tudelft.fa.core.game;
+package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.race.CarParameters;
 import nl.tudelft.fa.core.team.inventory.Tire;
 import nl.tudelft.fa.core.team.inventory.TireType;
 import org.junit.Before;
