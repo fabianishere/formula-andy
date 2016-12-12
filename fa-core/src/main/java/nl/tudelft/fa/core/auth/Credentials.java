@@ -32,7 +32,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public class Credentials {
+public final class Credentials {
     /**
      * The username of the user.
      */
