@@ -26,7 +26,12 @@ group 'nl.tudelft.fa'
 version '1.0-SNAPSHOT'
 
 apply from: "${project.rootDir}/gradle/java.gradle"
+apply plugin: 'scala'
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'org.scala-lang:scala-library:2.11.8'
+    compile 'com.typesafe.akka:akka-actor_2.11:2.4.14'
+
+    testCompile 'com.typesafe.akka:akka-testkit_2.11:2.4.14'
+    testCompile 'junit:junit:4.11'
 }
