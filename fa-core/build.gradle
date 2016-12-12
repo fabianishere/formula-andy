@@ -29,6 +29,7 @@ apply from: "${project.rootDir}/gradle/java.gradle"
 apply plugin: 'scala'
 
 dependencies {
+    compile 'javax.persistence:persistence-api:1.0'
     compile 'org.scala-lang:scala-library:2.11.8'
     compile 'com.typesafe.akka:akka-actor_2.11:2.4.14'
     compile 'com.typesafe.akka:akka-slf4j_2.11:2.4.14'
