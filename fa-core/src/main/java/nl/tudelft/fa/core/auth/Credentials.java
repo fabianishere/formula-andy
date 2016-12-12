@@ -1,4 +1,4 @@
-package nl.tudelft.fa.core.user;
+package nl.tudelft.fa.core.auth;
 
 import java.util.Objects;
 

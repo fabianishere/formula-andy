@@ -26,6 +26,8 @@
 package nl.tudelft.fa.core.user;
 
 
+import nl.tudelft.fa.core.auth.Credentials;
+
 import java.util.UUID;
 
 /**
