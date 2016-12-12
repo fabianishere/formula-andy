@@ -47,8 +47,13 @@ public class CredentialsTest {
     }
 
     @Test
-    public void equalsDifferentData() {
-        assertNotEquals(new Credentials(username + "s", password + "s"), credentials);
+    public void equalsDifferentUsername() {
+        assertNotEquals(new Credentials(username + "s", password), credentials);
+    }
+
+    @Test
+    public void equalsDifferentPassword() {
+        assertNotEquals(new Credentials(username, password + "s"), credentials);
     }
 
     @Test
