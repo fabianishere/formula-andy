@@ -240,12 +240,6 @@
             <skill>26</skill>
             <id>6fa4cada-c07a-11e6-a4a6-cec0c932ce01</id>
         </strategist>
-        <strategist>
-            <name>Drogo Aideen</name>
-            <salary>287000</salary>
-            <skill>20</skill>
-            <id>6fa4cba2-c07a-11e6-a4a6-cec0c932ce01</id>
-        </strategist>
         <mechanic>
             <name>Archimedes Andrstea</name>
             <salary>800000</salary>
@@ -271,7 +265,7 @@
             <id>6fa4d14c-c07a-11e6-a4a6-cec0c932ce01</id>
         </mechanic>
         <mechanic>
-            <name>Mathilde Kristoffer</name>
+            <name>Mathilde Kristoffer</name>//
             <salary>680000</salary>
             <skill>81</skill>
             <id>6fa4d232-c07a-11e6-a4a6-cec0c932ce01</id>

@@ -27,6 +27,11 @@
                     <reserve />
                 </driver>
             </drivers>
+            <specialists>
+                <aerodynamicist>6fa498a8-c07a-11e6-a4a6-cec0c932ce01</aerodynamicist>
+                <strategist>6fa4b75c-c07a-11e6-a4a6-cec0c932ce01</strategist>
+                <mechanic>6fa4ce5e-c07a-11e6-a4a6-cec0c932ce01</mechanic>
+            </specialists>
         </team>
 
         <!-- Red Bull -->
@@ -55,6 +60,11 @@
                     <reserve />
                 </driver>
             </drivers>
+            <specialists>
+                <aerodynamicist>6fa49dd0-c07a-11e6-a4a6-cec0c932ce01</aerodynamicist>
+                <strategist>6fa4b874-c07a-11e6-a4a6-cec0c932ce01</strategist>
+                <mechanic>6fa4d14c-c07a-11e6-a4a6-cec0c932ce01</mechanic>
+            </specialists>
         </team>
 
         <!-- Ferrari -->
@@ -83,6 +93,11 @@
                     <reserve />
                 </driver>
             </drivers>
+            <specialists>
+                <aerodynamicist>6fa4a0aa-c07a-11e6-a4a6-cec0c932ce01</aerodynamicist>
+                <strategist>6fa4bacc-c07a-11e6-a4a6-cec0c932ce01</strategist>
+                <mechanic>6fa4d3cc-c07a-11e6-a4a6-cec0c932ce01</mechanic>
+            </specialists>
         </team>
 
         <!-- Force India -->
@@ -111,6 +126,11 @@
                     <reserve />
                 </driver>
             </drivers>
+            <specialists>
+                <aerodynamicist>6fa4a2f8-c07a-11e6-a4a6-cec0c932ce01</aerodynamicist>
+                <strategist>6fa4bfe0-c07a-11e6-a4a6-cec0c932ce01</strategist>
+                <mechanic>6fa4d728-c07a-11e6-a4a6-cec0c932ce01</mechanic>
+            </specialists>
         </team>
 
         <!-- Williams -->
@@ -139,6 +159,11 @@
                     <reserve />
                 </driver>
             </drivers>
+            <specialists>
+                <aerodynamicist>6fa4a6e0-c07a-11e6-a4a6-cec0c932ce01</aerodynamicist>
+                <strategist>6fa4c0c6-c07a-11e6-a4a6-cec0c932ce01</strategist>
+                <mechanic>6fa4d8ea-c07a-11e6-a4a6-cec0c932ce01</mechanic>
+            </specialists>
         </team>
 
         <!-- McLaren -->
@@ -167,6 +192,11 @@
                     <reserve />
                 </driver>
             </drivers>
+            <specialists>
+                <aerodynamicist>6fa4a8ca-c07a-11e6-a4a6-cec0c932ce01</aerodynamicist>
+                <strategist>6fa4c328-c07a-11e6-a4a6-cec0c932ce01</strategist>
+                <mechanic>6fa4d9b2-c07a-11e6-a4a6-cec0c932ce01</mechanic>
+            </specialists>
         </team>
 
         <!-- Torro Rosso -->
@@ -195,6 +225,11 @@
                     <reserve />
                 </driver>
             </drivers>
+            <specialists>
+                <aerodynamicist>6fa4a9f6-c07a-11e6-a4a6-cec0c932ce01</aerodynamicist>
+                <strategist>6fa4c3f0-c07a-11e6-a4a6-cec0c932ce01</strategist>
+                <mechanic>6fa4dc0a-c07a-11e6-a4a6-cec0c932ce01</mechanic>
+            </specialists>
         </team>
 
         <!-- Haas -->
@@ -223,9 +258,14 @@
                     <reserve />
                 </driver>
             </drivers>
+            <specialists>
+                <aerodynamicist>6fa4ac62-c07a-11e6-a4a6-cec0c932ce01</aerodynamicist>
+                <strategist>6fa4c4b8-c07a-11e6-a4a6-cec0c932ce01</strategist>
+                <mechanic>6fa4df16-c07a-11e6-a4a6-cec0c932ce01</mechanic>
+            </specialists>
         </team>
 
-        <-- Renault -->
+        <!-- Renault -->
         <team>
             <drivers>
                 <driver>
@@ -251,6 +291,11 @@
                     <reserve />
                 </driver>
             </drivers>
+            <specialists>
+                <aerodynamicist>6fa4aff0-c07a-11e6-a4a6-cec0c932ce01</aerodynamicist>
+                <strategist>6fa4c94a-c07a-11e6-a4a6-cec0c932ce01</strategist>
+                <mechanic>6fa4e0d8-c07a-11e6-a4a6-cec0c932ce01</mechanic>
+            </specialists>
         </team>
 
         <!-- Sauber -->
@@ -279,6 +324,11 @@
                     <reserve />
                 </driver>
             </drivers>
+            <specialists>
+                <aerodynamicist>6fa4b252-c07a-11e6-a4a6-cec0c932ce01</aerodynamicist>
+                <strategist>6fa4ca12-c07a-11e6-a4a6-cec0c932ce01</strategist>
+                <mechanic>6fa4e1a0-c07a-11e6-a4a6-cec0c932ce01</mechanic>
+            </specialists>
         </team>
 
         <!-- Manor -->
@@ -306,6 +356,11 @@
                     <strategicinsight>34</strategicinsight>
                 </driver>
             </drivers>
+            <specialists>
+                <aerodynamicist>6fa4b31a-c07a-11e6-a4a6-cec0c932ce01</aerodynamicist>
+                <strategist>6fa4cada-c07a-11e6-a4a6-cec0c932ce01</strategist>
+                <mechanic>0ed17f52-dc50-4d86-93dd-058f9551ac44</mechanic>
+            </specialists>
         </team>
 
         <!-- extra -->
