@@ -1,0 +1,404 @@
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+    <teams>
+        <!-- Mercedes -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Nico Rosberg</name>
+                    <salary> 18000000 </salary>
+                    <speed>90</speed>
+                    <racecraft>95</racecraft>
+                    <strategicinsight>86</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Lewis Hamilton</name>
+                    <salary> 40000000 </salary>
+                    <speed>93</speed>
+                    <racecraft>93</racecraft>
+                    <strategicinsight>90</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Esteban Ocon</name>
+                    <salary>1500000</salary>
+                    <speed>76</speed>
+                    <racecraft>62</racecraft>
+                    <strategicinsight>74</strategicinsight>
+                    <reserve />
+                </driver>
+            </drivers>
+        </team>
+
+        <!-- Red Bull -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Daniel Riciardo</name>
+                    <salary>6000000</salary>
+                    <speed>86</speed>
+                    <racecraft>90</racecraft>
+                    <strategicinsight>79</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Max Verstappen</name>
+                    <salary>750000</salary>
+                    <speed>83</speed>
+                    <racecraft>85</racecraft>
+                    <strategicinsight>80</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Danill Kyvat</name>
+                    <salary>750000</salary>
+                    <speed>73</speed>
+                    <racecraft>70</racecraft>
+                    <strategicinsight>72</strategicinsight>
+                    <reserve />
+                </driver>
+            </drivers>
+        </team>
+
+        <!-- Ferrari -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Sebastian Vettel</name>
+                    <salary>30000000</salary>
+                    <speed>90</speed>
+                    <racecraft>89</racecraft>
+                    <strategicinsight>90</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Kimi Räikkönen</name>
+                    <salary>10000000</salary>
+                    <speed>84</speed>
+                    <racecraft>80</racecraft>
+                    <strategicinsight>88</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Antonio Fuocco</name>
+                    <salary>1500000</salary>
+                    <speed>70</speed>
+                    <racecraft>73</racecraft>
+                    <strategicinsight>73</strategicinsight>
+                    <reserve />
+                </driver>
+            </drivers>
+        </team>
+
+        <!-- Force India -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Sergio Pérez</name>
+                    <salary>3000000</salary>
+                    <speed>80</speed>
+                    <racecraft>77</racecraft>
+                    <strategicinsight>74</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Nico Hülkenberg</name>
+                    <salary>4000000</salary>
+                    <speed>78</speed>
+                    <racecraft>73</racecraft>
+                    <strategicinsight>72</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Alfonso Celis Jr.</name>
+                    <salary>500000</salary>
+                    <speed>67</speed>
+                    <racecraft>62</racecraft>
+                    <strategicinsight>61</strategicinsight>
+                    <reserve />
+                </driver>
+            </drivers>
+        </team>
+
+        <!-- Williams -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Felipe Massa</name>
+                    <salary>5000000</salary>
+                    <speed>80</speed>
+                    <racecraft>73</racecraft>
+                    <strategicinsight>79</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Valtteri Bottas</name>
+                    <salary>3000000</salary>
+                    <speed>74</speed>
+                    <racecraft>60</racecraft>
+                    <strategicinsight>69</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Paul di Resta</name>
+                    <salary>250000</salary>
+                    <speed>59</speed>
+                    <racecraft>57</racecraft>
+                    <strategicinsight>63</strategicinsight>
+                    <reserve />
+                </driver>
+            </drivers>
+        </team>
+
+        <!-- McLaren -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Fernando Alonso</name>
+                    <salary>30000000</salary>
+                    <speed>83</speed>
+                    <racecraft>80</racecraft>
+                    <strategicinsight>78</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Jenson Button</name>
+                    <salary>12000000</salary>
+                    <speed>70</speed>
+                    <racecraft>71</racecraft>
+                    <strategicinsight>74</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Stoffel Vandoorne</name>
+                    <salary>500000</salary>
+                    <speed>50</speed>
+                    <racecraft>56</racecraft>
+                    <strategicinsight>53</strategicinsight>
+                    <reserve />
+                </driver>
+            </drivers>
+        </team>
+
+        <!-- Torro Rosso -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Carlos Sainz Jr.</name>
+                    <salary>370000</salary>
+                    <speed>60</speed>
+                    <racecraft>62</racecraft>
+                    <strategicinsight>52</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Pierre Gasly</name>
+                    <salary>370000</salary>
+                    <speed>54</speed>
+                    <racecraft>52</racecraft>
+                    <strategicinsight>50</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Niko Kari</name>
+                    <salary>100000</salary>
+                    <speed>45</speed>
+                    <racecraft>50</racecraft>
+                    <strategicinsight>49</strategicinsight>
+                    <reserve />
+                </driver>
+            </drivers>
+        </team>
+
+        <!-- Haas -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Romain Grosjean</name>
+                    <salary>3000000</salary>
+                    <speed>70</speed>
+                    <racecraft>63</racecraft>
+                    <strategicinsight>64</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Esteban Gutierrez</name>
+                    <salary>1300000</salary>
+                    <speed>69</speed>
+                    <racecraft>63</racecraft>
+                    <strategicinsight>62</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Charles Leclerc</name>
+                    <salary>300000</salary>
+                    <speed>53</speed>
+                    <racecraft>49</racecraft>
+                    <strategicinsight>51</strategicinsight>
+                    <reserve />
+                </driver>
+            </drivers>
+        </team>
+
+        <-- Renault -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Kevin Magnussen</name>
+                    <salary>500000</salary>
+                    <speed>65</speed>
+                    <racecraft>68</racecraft>
+                    <strategicinsight>60</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Jolyon Palmer</name>
+                    <salary>500000</salary>
+                    <speed>63</speed>
+                    <racecraft>67</racecraft>
+                    <strategicinsight>56</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Carmen Jordá</name>
+                    <salary>80000</salary>
+                    <speed>45</speed>
+                    <racecraft>40</racecraft>
+                    <strategicinsight>47</strategicinsight>
+                    <reserve />
+                </driver>
+            </drivers>
+        </team>
+
+        <!-- Sauber -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Marcus Ericsson</name>
+                    <salary>185000</salary>
+                    <speed>40</speed>
+                    <racecraft>38</racecraft>
+                    <strategicinsight>45</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Felipe Nasr</name>
+                    <salary>185000</salary>
+                    <speed>41</speed>
+                    <racecraft>37</racecraft>
+                    <strategicinsight>40</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Jean-Éric Vergne</name>
+                    <salary>50000</salary>
+                    <speed>30</speed>
+                    <racecraft>32</racecraft>
+                    <strategicinsight>38</strategicinsight>
+                    <reserve />
+                </driver>
+            </drivers>
+        </team>
+
+        <!-- Manor -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Jordan King</name>
+                    <salary>200000</salary>
+                    <speed>57</speed>
+                    <racecraft>61</racecraft>
+                    <strategicinsight>55</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Rio Haryanto</name>
+                    <salary>200000</salary>
+                    <speed>53</speed>
+                    <racecraft>60</racecraft>
+                    <strategicinsight>59</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Pascal Wehrlein</name>
+                    <salary>50000</salary>
+                    <speed>29</speed>
+                    <racecraft>20</racecraft>
+                    <strategicinsight>34</strategicinsight>
+                </driver>
+            </drivers>
+        </team>
+
+        <!-- extra -->
+        <team>
+            <drivers>
+                <driver>
+                    <name>Michael Schumacher</name>
+                    <salary>50000000</salary>
+                    <speed>97</speed>
+                    <racecraft>95</racecraft>
+                    <strategicinsight>95</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Ayrton Senna</name>
+                    <salary>30000000</salary>
+                    <speed>93</speed>
+                    <racecraft>90</racecraft>
+                    <strategicinsight>96</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Mika Häkkinen</name>
+                    <salary>25000000</salary>
+                    <speed>90</speed>
+                    <racecraft>87</racecraft>
+                    <strategicinsight>95</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Mark Webber</name>
+                    <salary>20000000</salary>
+                    <speed>88</speed>
+                    <racecraft>90</racecraft>
+                    <strategicinsight>83</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Pastor Maldonado</name>
+                    <salary>3000000</salary>
+                    <speed>80</speed>
+                    <racecraft>71</racecraft>
+                    <strategicinsight>79</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Andy Zaidman</name>
+                    <salary>100000000</salary>
+                    <speed>98</speed>
+                    <racecraft>96</racecraft>
+                    <strategicinsight>99</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Ege de Bruin</name>
+                    <salary>1000000</salary>
+                    <speed>63</speed>
+                    <racecraft>68</racecraft>
+                    <strategicinsight>66</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Nils de Beukelaar</name>
+                    <salary>2000000</salary>
+                    <speed>74</speed>
+                    <racecraft>64</racecraft>
+                    <strategicinsight>64</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Nikki Bouman</name>
+                    <salary>0</salary>
+                    <speed>50</speed>
+                    <racecraft>50</racecraft>
+                    <strategicinsight>50</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Fabian Masterhoek</name>
+                    <salary>2000000000</salary>
+                    <speed>99</speed>
+                    <racecraft>98</racecraft>
+                    <strategicinsight>99</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Christian Slothouber</name>
+                    <salary>42000</salary>
+                    <speed>40</speed>
+                    <racecraft>32</racecraft>
+                    <strategicinsight>50</strategicinsight>
+                </driver>
+                <driver>
+                    <name>Laetitia Molkenboer</name>
+                    <salary>10000</salary>
+                    <speed>15</speed>
+                    <racecraft>20</racecraft>
+                    <strategicinsight>25</strategicinsight>
+                </driver>
+            </drivers>
+        </team>
+    </teams>
+
+
+
+</xsl:stylesheet>
