@@ -25,8 +25,8 @@
 
 package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.team.inventory.Tire;
 import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.Tire;
 
 import java.util.Objects;
 

@@ -25,75 +25,50 @@
 
 package nl.tudelft.fa.core.team.inventory;
 
-import java.util.UUID;
-
 /**
- * This class represents a Formula 1 car of a team.
+ * An enumeration of all types of tires used in a Formula 1 race.
  *
- * @author Christian Slothouber
+ * @author Fabian Mastenbroek
  */
-public class Car {
-    /**
-     * The unique identifier of the car.
-     */
-    private UUID id;
+public enum TireType {
+    ULTRA_SOFT("Ultra Soft"),
+    SUPER_SOFT("Super Soft"),
+    SOFT("Soft"),
+    MEDIUM("Medium"),
+    HARD("Hard"),
+    INTERMEDIATE("Intermediate"),
+    WET("Wet");
 
     /**
-     * Construct a {@link Car} instance.
-     *
-     * @param id The unique id of the car.
+     * The name of this type of tire.
      */
-    public Car(UUID id) {
-        this.id = id;
+    private String name;
+
+    /**
+     * Construct a {@link TireType}.
+     *
+     * @param name The name of this type of tire.
+     */
+    TireType(String name) {
+        this.name = name;
     }
 
     /**
-     * Construct a {@link Car} instance.
-     */
-    protected Car() {}
-
-    /**
-     * Return the unique identifier of the car.
+     * Return the name of this type of tire.
      *
-     * @return The unique identifier of the car.
+     * @return The name of this type of tire.
      */
-    public UUID getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Test whether this {@link Car} is equal to the given object.
+     * Return a string representation of this tire type.
      *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    @Override
-    public boolean equals(Object other) {
-        if (other instanceof Car) {
-            Car that = (Car) other;
-            return this.id.equals(that.id);
-        }
-        return false;
-    }
-
-    /**
-     * Return the hash code of this object.
-     *
-     * @return The hash code of this object as integer.
-     */
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
-
-    /**
-     * Return a string representation of this car.
-     *
-     * @return A string representation of this car.
+     * @return A string representation of this tire type.
      */
     @Override
     public String toString() {
-        return String.format("Car(id=%s)", id);
+        return name;
     }
 }
-

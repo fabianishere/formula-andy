@@ -23,55 +23,66 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.team.inventory;
+package nl.tudelft.fa.core.auth;
 
-import java.util.UUID;
+import java.util.Objects;
 
 /**
- * This class represents a Formula 1 car of a team.
+ * This class represents the credentials of a user.
  *
- * @author Christian Slothouber
+ * @author Fabian Mastenbroek
  */
-public class Car {
+public class Credentials {
     /**
-     * The unique identifier of the car.
+     * The username of the user.
      */
-    private UUID id;
+    private String username;
 
     /**
-     * Construct a {@link Car} instance.
-     *
-     * @param id The unique id of the car.
+     * The password of the user.
      */
-    public Car(UUID id) {
-        this.id = id;
+    private String password;
+
+    /**
+     * Construct a {@link Credentials} instance.
+     *
+     * @param username The username of the user.
+     * @param password The password of the user.
+     */
+    public Credentials(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     /**
-     * Construct a {@link Car} instance.
-     */
-    protected Car() {}
-
-    /**
-     * Return the unique identifier of the car.
+     * Return the username of the user.
      *
-     * @return The unique identifier of the car.
+     * @return The username of the user.
      */
-    public UUID getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
     /**
-     * Test whether this {@link Car} is equal to the given object.
+     * Return the password of the user.
+     *
+     * @return The password of the user.
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Test whether this {@link Credentials} is equal to the given object.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Car) {
-            Car that = (Car) other;
-            return this.id.equals(that.id);
+        if (other instanceof Credentials) {
+            Credentials that = (Credentials) other;
+            return this.username.equals(that.username) && this.password.equals(that.password);
         }
         return false;
     }
@@ -83,17 +94,16 @@ public class Car {
      */
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return Objects.hash(username, password);
     }
 
     /**
-     * Return a string representation of this car.
+     * Return a string representation of this team.
      *
-     * @return A string representation of this car.
+     * @return A string representation of this team.
      */
     @Override
     public String toString() {
-        return String.format("Car(id=%s)", id);
+        return String.format("Credentials(username=%s, password=%s)", username, password);
     }
 }
-

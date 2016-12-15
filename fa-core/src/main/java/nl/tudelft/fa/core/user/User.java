@@ -23,54 +23,73 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.team.inventory;
+package nl.tudelft.fa.core.user;
+
+
+import nl.tudelft.fa.core.auth.Credentials;
 
 import java.util.UUID;
 
 /**
- * This class represents a Formula 1 car of a team.
+ * This class represents a user account.
  *
- * @author Christian Slothouber
+ * @author Fabian Mastenbroek
  */
-public class Car {
+public class User {
     /**
-     * The unique identifier of the car.
+     * The unique id of the user.
      */
     private UUID id;
 
     /**
-     * Construct a {@link Car} instance.
-     *
-     * @param id The unique id of the car.
+     * The credentials of the user.
      */
-    public Car(UUID id) {
+    private Credentials credentials;
+
+    /**
+     * Construct a {@link User} instance.
+     *
+     * @param id The unique identifier of the user.
+     * @param credentials The credentials of the user.
+     */
+    public User(UUID id, Credentials credentials) {
         this.id = id;
+        this.credentials = credentials;
     }
 
     /**
-     * Construct a {@link Car} instance.
+     * Construct a {@link User} instance.
      */
-    protected Car() {}
+    protected User() {}
 
     /**
-     * Return the unique identifier of the car.
+     * Return the unique identifier of the user.
      *
-     * @return The unique identifier of the car.
+     * @return The unique identifier of the user.
      */
     public UUID getId() {
         return id;
     }
 
     /**
-     * Test whether this {@link Car} is equal to the given object.
+     * Return the credentials of the user.
+     *
+     * @return The credentials of the user.
+     */
+    public Credentials getCredentials() {
+        return credentials;
+    }
+
+    /**
+     * Test whether this {@link User} is equal to the given object.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Car) {
-            Car that = (Car) other;
+        if (other instanceof User) {
+            User that = (User) other;
             return this.id.equals(that.id);
         }
         return false;
@@ -87,13 +106,12 @@ public class Car {
     }
 
     /**
-     * Return a string representation of this car.
+     * Return a string representation of this team.
      *
-     * @return A string representation of this car.
+     * @return A string representation of this team.
      */
     @Override
     public String toString() {
-        return String.format("Car(id=%s)", id);
+        return String.format("User(id=%s, credentials=%s)", id, credentials);
     }
 }
-
