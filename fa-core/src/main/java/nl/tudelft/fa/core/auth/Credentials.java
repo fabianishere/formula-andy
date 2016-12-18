@@ -98,9 +98,9 @@ public final class Credentials {
     }
 
     /**
-     * Return a string representation of this team.
+     * Return a string representation of the credentials.
      *
-     * @return A string representation of this team.
+     * @return A string representation of this credentials.
      */
     @Override
     public String toString() {
