@@ -43,3 +43,20 @@
 }
 
 #game-screen {}
+
+#setup-screen {
+}
+/*.radio-button > .radio {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0px;
+    -fx-padding: 0.0em;
+}
+.radio-button:selected > .radio > .dot {
+    -fx-background-color: transparent;
+} */
+
+.RadioButton {
+    -fx-mark-highlight-color: red ;
+    -fx-mark-color: red ;
+}
