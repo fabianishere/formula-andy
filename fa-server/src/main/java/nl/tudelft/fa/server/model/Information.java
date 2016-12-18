@@ -22,9 +22,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
 
+package nl.tudelft.fa.server.model;
+
+/**
+ * This class represents the information about the current running server.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class Information {
+    /**
+     * The engine name of this server.
+     */
+    public final String engine;
+
+    /**
+     * The version of the engine
+     */
+    public final String version;
+
+    /**
+     * The uptime of the server in milliseconds.
+     */
+    public final double uptime;
+
+    /**
+     * Construct a {@link Information} instance.
+     *
+     * @param engine The name of the engine.
+     * @param version The version of the engine.
+     * @param uptime The uptime of the server in milliseconds.
+     */
+    public Information(String engine, String version, double uptime) {
+        this.engine = engine;
+        this.version = version;
+        this.uptime = uptime;
+    }
+}
