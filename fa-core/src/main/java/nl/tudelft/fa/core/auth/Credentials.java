@@ -55,6 +55,11 @@ public final class Credentials {
     }
 
     /**
+     * Construct a {@link Credentials} instance.
+     */
+    protected Credentials() {}
+
+    /**
      * Return the username of the user.
      *
      * @return The username of the user.
