@@ -50,7 +50,7 @@ public class LobbyTest {
 
                 // await the correct response
                 expectMsgEquals(duration("1 second"), new LobbyInformation(id,
-                    LobbyStatus.PREPARATION, configuration, Collections.emptyList()));
+                    LobbyStatus.PREPARATION, configuration, Collections.emptySet()));
             }
         };
     }

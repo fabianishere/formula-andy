@@ -28,9 +28,11 @@ package nl.tudelft.fa.core.lobby;
 
 import nl.tudelft.fa.core.user.User;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
+
 
 /**
  * This class provides information about a {@link Lobby} actor.
@@ -56,7 +58,7 @@ public class LobbyInformation {
     /**
      * The {@link User}s in this lobby.
      */
-    private List<User> users;
+    private Set<User> users;
 
     /**
      * Construct a {@link LobbyInformation} instance.
@@ -67,7 +69,7 @@ public class LobbyInformation {
      * @param users The users in the lobby.
      */
     public LobbyInformation(UUID id, LobbyStatus status, LobbyConfiguration configuration,
-                            List<User> users) {
+                            Set<User> users) {
         this.id = id;
         this.status = status;
         this.configuration = configuration;
@@ -106,7 +108,7 @@ public class LobbyInformation {
      *
      * @return The users of the lobby.
      */
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 

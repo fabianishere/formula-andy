@@ -16,7 +16,7 @@ public class LobbyInformationTest {
     private UUID id;
     private LobbyStatus status;
     private LobbyConfiguration configuration;
-    private List<User> users;
+    private Set<User> users;
     private LobbyInformation information;
 
     @Before
@@ -24,7 +24,7 @@ public class LobbyInformationTest {
         id = UUID.randomUUID();
         status = LobbyStatus.PREPARATION;
         configuration = new LobbyConfiguration(11, Duration.ofMinutes(5));
-        users = new ArrayList<>();
+        users = new HashSet<>();
         users.add(new User(UUID.randomUUID(), new Credentials("fabianishere", "test")));
         information = new LobbyInformation(id, status, configuration, users);
     }
@@ -81,7 +81,7 @@ public class LobbyInformationTest {
 
     @Test
     public void equalsDifferentUsers() {
-        assertNotEquals(new LobbyInformation(id, status, configuration, Collections.emptyList()), information);
+        assertNotEquals(new LobbyInformation(id, status, configuration, Collections.emptySet()), information);
     }
 
     @Test

@@ -26,16 +26,17 @@
 package nl.tudelft.fa.core.lobby;
 
 import akka.actor.AbstractActor;
+import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
 
+import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * This actor represents a game lobby with multiple players.
@@ -54,6 +55,11 @@ public class Lobby extends AbstractActor {
     private LobbyConfiguration configuration;
 
     /**
+     * The players that have joined this lobby.
+     */
+    private Map<ActorRef, User> players;
+
+    /**
      * The {@link LoggingAdapter} of this class.
      */
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
@@ -65,6 +71,7 @@ public class Lobby extends AbstractActor {
      */
     private Lobby(LobbyConfiguration configuration) {
         this.configuration = configuration;
+        this.players = new HashMap<>();
     }
 
     /**
@@ -101,8 +108,8 @@ public class Lobby extends AbstractActor {
      * Inform an actor about the current state of this {@link Lobby}.
      */
     private void inform(LobbyStatus status) {
-        sender().tell(new LobbyInformation(id, status, configuration, Collections.emptyList()),
-            self());
+        sender().tell(new LobbyInformation(id, status, configuration,
+                new HashSet<>(players.values())), self());
     }
 
     /**
