@@ -42,4 +42,11 @@
     -fx-background-position: center center;
 }
 
+#signup-screen {
+    -fx-background-image: url("../images/login-screen-background.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1920 1080;
+    -fx-background-position: center center;
+}
+
 #game-screen {}
