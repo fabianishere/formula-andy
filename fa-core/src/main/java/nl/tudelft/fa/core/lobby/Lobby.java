@@ -34,6 +34,9 @@ import akka.japi.pf.ReceiveBuilder;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
+import java.util.Collections;
+import java.util.UUID;
+
 /**
  * This actor represents a game lobby with multiple players.
  *
@@ -41,9 +44,36 @@ import scala.runtime.BoxedUnit;
  */
 public class Lobby extends AbstractActor {
     /**
+     * The unique identifier of this lobby.
+     */
+    private UUID id;
+
+    /**
+     * The configuration of the lobby.
+     */
+    private LobbyConfiguration configuration;
+
+    /**
      * The {@link LoggingAdapter} of this class.
      */
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
+
+    /**
+     * Construct a {@link Lobby} instance.
+     *
+     * @param configuration The configuration of the lobby.
+     */
+    private Lobby(LobbyConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    /**
+     * This method is invoked before the start of this actor.
+     */
+    @Override
+    public void preStart() {
+        this.id = UUID.fromString(self().path().name());
+    }
 
     /**
      * This method defines the initial actor behavior, it must return a partial function with the
@@ -53,18 +83,36 @@ public class Lobby extends AbstractActor {
      */
     @Override
     public PartialFunction<Object, BoxedUnit> receive() {
+        return preparation();
+    }
+
+    /**
+     * This method defines the behavior of the actor when the lobby is in preparation.
+     *
+     * @return The preparation actor behavior as a partial function.
+     */
+    private PartialFunction<Object, BoxedUnit> preparation() {
         return ReceiveBuilder
-            .create()
+            .match(Inform.class, (req) -> inform(LobbyStatus.PREPARATION))
             .build();
+    }
+
+    /**
+     * Inform an actor about the current state of this {@link Lobby}.
+     */
+    private void inform(LobbyStatus status) {
+        sender().tell(new LobbyInformation(id, status, configuration, Collections.emptyList()),
+            self());
     }
 
     /**
      * Create {@link Props} instance for an actor of this type.
      *
+     * @param configuration The configuration of the lobby.
      * @return A Props for creating this actor, which can then be further configured
      *         (e.g. calling `.withDispatcher()` on it)
      */
-    public static Props props() {
-        return Props.create(Lobby.class, Lobby::new);
+    public static Props props(LobbyConfiguration configuration) {
+        return Props.create(Lobby.class, () -> new Lobby(configuration));
     }
 }
