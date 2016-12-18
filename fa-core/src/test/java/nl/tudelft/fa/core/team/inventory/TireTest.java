@@ -1,6 +1,5 @@
 package nl.tudelft.fa.core.team.inventory;
 
-import nl.tudelft.fa.core.team.inventory.Tire;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,12 +8,9 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
-
-/**
- * @author Fabian Mastenbroek <mail.fabianm@gmail.com>
- */
 public class TireTest {
 
+    double delta;
     UUID id;
     String brand;
     TireType type;
@@ -24,12 +20,18 @@ public class TireTest {
 
     @Before
     public void setUp() {
+        delta = 0.000001;
         id = UUID.randomUUID();
         brand = "Pirelli";
         type = TireType.INTERMEDIATE;
         durability = 1.0;
-        grip = 2.0;
+        grip = 7.0;
         tireA = new Tire(id, brand, type, durability, grip);
+    }
+
+    @Test
+    public void getResistanceFactor() {
+        assertEquals((double) 1 - tireA.getGrip() * tireA.getGrip() / 250, tireA.getResistanceFactor(), delta);
     }
 
     @Test

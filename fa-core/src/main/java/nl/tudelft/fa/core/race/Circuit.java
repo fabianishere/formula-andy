@@ -49,16 +49,30 @@ public class Circuit {
     private final String country;
 
     /**
+     * The length of the circuit in metres.
+     */
+    private final double length;
+
+    /**
      * Construct a [@link Circuit} instance.
      *
      * @param id The unique id of the circuit.
      * @param name The name of the circuit
      * @param country The country this circuit is located in.
      */
-    public Circuit(UUID id, String name, String country) {
+    public Circuit(UUID id, String name, String country, double length) {
         this.id = id;
         this.name = name;
         this.country = country;
+        this.length = length;
+    }
+
+    /**
+     * Return the length of the circuit.
+     * @return The length of the circuit.
+     */
+    public double getLength() {
+        return length;
     }
 
     /**

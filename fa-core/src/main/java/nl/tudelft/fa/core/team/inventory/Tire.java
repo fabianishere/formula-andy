@@ -76,6 +76,15 @@ public class Tire {
     }
 
     /**
+     * Return a factor based on the grip of the tire. The more grip the tire has the more friction
+     * they cause.
+     * @return The resistance factor.
+     */
+    public double getResistanceFactor() {
+        return 1 - this.grip * this.grip / 250;
+    }
+
+    /**
      * Return the unique id of this tire.
      *
      * @return The unique id of the tire.
