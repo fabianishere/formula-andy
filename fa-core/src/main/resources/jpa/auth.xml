@@ -34,7 +34,7 @@
     <package>nl.tudelft.fa.core.auth</package>
 
     <!-- Credentials class -->
-    <embeddable class="Credentials">
+    <embeddable class="Credentials" access="FIELD">
         <description>This entity represents the credentials of a user.</description>
         <attributes>
             <basic name="username" />

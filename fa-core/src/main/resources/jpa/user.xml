@@ -34,7 +34,7 @@
     <package>nl.tudelft.fa.core.user</package>
 
     <!-- User class -->
-    <entity class="User" name="Users">
+    <entity class="User" name="Users" access="FIELD">
         <description>This entity represents a user account.</description>
         <attributes>
             <id name="id" />
