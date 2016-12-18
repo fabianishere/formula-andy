@@ -30,15 +30,15 @@
    http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
                  version="1.0">
 
-    <description>The authorization classes data mapping of the Formula Andy project.</description>
-    <package>nl.tudelft.fa.core.auth</package>
+    <description>The user classes data mapping of the Formula Andy project.</description>
+    <package>nl.tudelft.fa.core.user</package>
 
-    <!-- Credentials class -->
-    <embeddable class="Credentials">
-        <description>This entity represents the credentials of a user.</description>
+    <!-- User class -->
+    <entity class="User" name="Users" access="FIELD">
+        <description>This entity represents a user account.</description>
         <attributes>
-            <basic name="username" />
-            <basic name="password" />
+            <id name="id" />
+            <embedded name="credentials" />
         </attributes>
-    </embeddable>
+    </entity>
 </entity-mappings>

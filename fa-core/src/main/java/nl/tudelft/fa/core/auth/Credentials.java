@@ -32,7 +32,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public class Credentials {
+public final class Credentials {
     /**
      * The username of the user.
      */
@@ -53,6 +53,11 @@ public class Credentials {
         this.username = username;
         this.password = password;
     }
+
+    /**
+     * Construct a {@link Credentials} instance.
+     */
+    protected Credentials() {}
 
     /**
      * Return the username of the user.
@@ -98,9 +103,9 @@ public class Credentials {
     }
 
     /**
-     * Return a string representation of this team.
+     * Return a string representation of the credentials.
      *
-     * @return A string representation of this team.
+     * @return A string representation of this credentials.
      */
     @Override
     public String toString() {
