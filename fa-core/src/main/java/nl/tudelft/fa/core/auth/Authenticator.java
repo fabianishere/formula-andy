@@ -37,7 +37,9 @@ import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
+import java.util.Optional;
 import javax.persistence.EntityManager;
+
 
 /**
  * The {@link Authenticator} actor authenticates users via its persistence unit and
@@ -85,6 +87,29 @@ public class Authenticator extends AbstractActor {
      */
     private void authenticate(Authenticate req) {
         log.info("Received authentication request {}", req);
+
+        Optional<User> user = entityManager
+            .createQuery("SELECT t FROM Users t where t.credentials.username = :username",
+                User.class)
+            .setParameter("username", req.getCredentials().getUsername())
+            .setMaxResults(1)
+            .getResultList()
+            .stream()
+            .findFirst();
+
+        // If the user cannot be found, or the password is incorrect, return a InvalidCredentials
+        // error message.
+        if (!user.isPresent() || !user.get()
+                .getCredentials().getPassword().equals(req.getCredentials().getPassword())) {
+            sender().tell(new InvalidCredentials(), self());
+            return;
+        }
+
+        User userUnwrapped = user.get();
+        log.info("User {} has been authenticated", userUnwrapped
+            .getCredentials().getUsername());
+
+        sender().tell(new Authenticated(userUnwrapped), self());
     }
 
     /**
