@@ -35,7 +35,7 @@ public class EngineTest {
         fuelConsumption = 1.0;
         engine = new Engine(id, brand, name, power, driveability, fuelConsumption);
 
-        tire = new Tire(UUID.randomUUID(), "", "", 1, 7);
+        tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 1, 7);
     }
 
     @Test

@@ -5,13 +5,17 @@ import nl.tudelft.fa.core.race.CarParameters;
 import nl.tudelft.fa.core.race.Circuit;
 import nl.tudelft.fa.core.race.GrandPrix;
 import nl.tudelft.fa.core.team.*;
+import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.Engine;
+import nl.tudelft.fa.core.team.inventory.Tire;
+import nl.tudelft.fa.core.team.inventory.TireType;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class raceDemo {
+public class RaceDemo {
 
     static Circuit circuit;
     static GrandPrix gp;
@@ -135,7 +139,7 @@ public class raceDemo {
         mechanicalRisk = 2;
         aerodynamicRisk = 3;
         strategicRisk = 3;
-        tire = new Tire(UUID.randomUUID(), "Pirelli", "Super Soft", 7, 1);
+        tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 7, 1);
 
         parameters1 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
         parameters2 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
@@ -147,7 +151,7 @@ public class raceDemo {
         parameters8 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
         parameters9 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
 
-        car = new Car();
+        car = new Car(UUID.randomUUID());
 
         driver1 = new Driver(UUID.randomUUID(), "Racer 1", 3, 80, 90, 70);
         driver2 = new Driver(UUID.randomUUID(), "Racer 2", 3, 80, 90, 70);

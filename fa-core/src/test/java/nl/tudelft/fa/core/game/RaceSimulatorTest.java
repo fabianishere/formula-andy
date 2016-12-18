@@ -5,6 +5,10 @@ import nl.tudelft.fa.core.race.CarParameters;
 import nl.tudelft.fa.core.race.Circuit;
 import nl.tudelft.fa.core.race.GrandPrix;
 import nl.tudelft.fa.core.team.*;
+import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.Engine;
+import nl.tudelft.fa.core.team.inventory.Tire;
+import nl.tudelft.fa.core.team.inventory.TireType;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -54,12 +58,12 @@ public class RaceSimulatorTest {
         mechanicalRisk = 2;
         aerodynamicRisk = 3;
         strategicRisk = 3;
-        tire = new Tire(UUID.randomUUID(), "Pirelli", "Super Soft", 7, 1);
+        tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 7, 1);
 
         parameters = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
         parameters2 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
 
-        car = new Car();
+        car = new Car(UUID.randomUUID());
 
         driver = new Driver(UUID.randomUUID(), "Henry", 3, 80, 90, 70);
         driver2 = new Driver(UUID.randomUUID(), "Max", 3, 70, 80, 30);
