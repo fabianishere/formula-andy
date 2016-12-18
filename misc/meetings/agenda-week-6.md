@@ -1,6 +1,6 @@
 # Agenda
 Date:  December, 2016
-Chairwoman: Christian Slothouber
+Chairman: Christian Slothouber
 Secretary: Fabian Mastenbroek
 
 ## Agenda points
