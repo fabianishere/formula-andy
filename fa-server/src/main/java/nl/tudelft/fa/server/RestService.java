@@ -40,25 +40,25 @@ import java.lang.management.ManagementFactory;
  *
  * @author Fabian Mastenbroek
  */
-public class MainRouter {
+public class RestService {
     /**
      * The name of the engine.
      */
-    private static final String ENGINE_NAME = "Formula Andy X";
+    public static final String ENGINE_NAME = "Formula Andy X";
 
     /**
      * The version of the engine.
      */
-    private static final String ENGINE_VERSION = "1.0-SNAPSHOT";
+    public static final String ENGINE_VERSION = "1.0-SNAPSHOT";
 
     /**
-     * Generate the {@link Route} for the REST API server.
+     * Create the main {@link Route} for the REST API server.
      *
      * @return The route of the REST API.
      */
-    public static Route generate() {
+    public Route create() {
         return route(
-            path("information", MainRouter::information)
+            path("information", this::information)
         );
     }
 
@@ -67,7 +67,7 @@ public class MainRouter {
      *
      * @return The route that shows the information.
      */
-    private static Route information() {
+    private Route information() {
         return complete(
             StatusCodes.OK,
             new Information(ENGINE_NAME, ENGINE_VERSION,
