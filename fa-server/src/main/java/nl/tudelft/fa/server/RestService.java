@@ -56,7 +56,7 @@ public class RestService {
      *
      * @return The route of the REST API.
      */
-    public Route create() {
+    public Route createRoute() {
         return route(
             path("information", this::information)
         );
