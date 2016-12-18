@@ -37,7 +37,9 @@
     <embeddable class="Credentials" access="FIELD">
         <description>This entity represents the credentials of a user.</description>
         <attributes>
-            <basic name="username" />
+            <basic name="username">
+                <column unique="true" name="username" />
+            </basic>
             <basic name="password" />
         </attributes>
     </embeddable>
