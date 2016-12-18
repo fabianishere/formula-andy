@@ -59,12 +59,14 @@ public class RaceSimulator {
      */
     public void getNextRaceCycle() {
         for (CarSimulator cs: carSimulators) {
-            if (!cs.getCarParameters().getCrashed()) {
-                if (!cs.crashedThisCycle(raining, cs.closeDriver(carSimulators, 100), new Random())) {
-                    cs.getCarParameters().increaseTraveledDistance(cs.getMovedDistance(new Random()));
-                } else {
-                    cs.getCarParameters().setCrashed(true);
-                }
+            if (cs.getCarParameters().getCrashed()) {
+                break;
+            }
+
+            if (!cs.crashedThisCycle(raining, cs.closeDriver(carSimulators, 100), new Random())) {
+                cs.getCarParameters().increaseTraveledDistance(cs.getMovedDistance(new Random()));
+            } else {
+                cs.getCarParameters().setCrashed(true);
             }
         }
     }
