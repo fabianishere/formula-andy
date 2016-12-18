@@ -60,7 +60,7 @@ public class RaceSimulator {
     public void getNextRaceCycle() {
         for (CarSimulator cs: carSimulators) {
             if (cs.getCarParameters().getCrashed()) {
-                break;
+                continue;
             }
 
             if (!cs.crashedThisCycle(raining, cs.closeDriver(carSimulators, 100), new Random())) {
