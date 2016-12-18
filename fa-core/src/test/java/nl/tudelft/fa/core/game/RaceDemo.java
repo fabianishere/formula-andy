@@ -86,17 +86,20 @@ public class RaceDemo {
         int cycles = 0;
         while(racing) {
             rs.getNextRaceCycle();
+            racing = false;
             for (CarSimulator cs : carSimulatorList) {
+                if (!cs.getCarParameters().getCrashed()) {
+                    racing = true;
+                }
                 if (cs.getCarParameters().getTraveledDistance() > gp.getLaps() * circuit.getLength()) {
                     racing = false;
                 }
 
             }
             cycles++;
-            System.out.println("Cycle: " + cycles);
 
         }
-
+        System.out.println("Cycle: " + cycles);
         carSimulatorList = sort();
         System.out.println();
         for (CarSimulator cs : carSimulatorList) {
@@ -131,7 +134,7 @@ public class RaceDemo {
     }
 
     public static void setUpGrandPrix() {
-        circuit = new Circuit(UUID.randomUUID(), "name", "country", 5000);
+        circuit = new Circuit(UUID.randomUUID(), "name", "country", 50000);
         gp = new GrandPrix(UUID.randomUUID(), circuit, Instant.now(), 100, 0);
     }
 
