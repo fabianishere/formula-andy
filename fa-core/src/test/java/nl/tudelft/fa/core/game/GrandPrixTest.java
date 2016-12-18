@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Instant;
+import java.util.Random;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -20,15 +21,37 @@ public class GrandPrixTest {
     Circuit circuit;
     Instant date;
     int laps;
+    int rainChance;
     GrandPrix grandPrix;
+
+    long seed;
+    long seed2;
 
     @Before
     public void setUp() throws Exception {
         id = UUID.randomUUID();
-        circuit = new Circuit(UUID.randomUUID(), "Monza", "Italy");
+        circuit = new Circuit(UUID.randomUUID(), "Monza", "Italy", 5000);
         date = Instant.now();
         laps = 30;
-        grandPrix = new GrandPrix(id, circuit, date, laps);
+        rainChance = 80;
+        grandPrix = new GrandPrix(id, circuit, date, laps, rainChance);
+
+        seed = 1; // nextInt(101) = 97
+        seed2 = 2; // nextInt(101) = 5
+    }
+    @Test
+    public void getRainChance() {
+        assertEquals(rainChance, grandPrix.getRainChance());
+    }
+
+    @Test
+    public void isItRaining() {
+        assertTrue(grandPrix.isItRaining(new Random(seed2)));
+    }
+
+    @Test
+    public void isItRaining2() {
+        assertFalse(grandPrix.isItRaining(new Random(seed)));
     }
 
     @Test
@@ -68,18 +91,18 @@ public class GrandPrixTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new GrandPrix(id, circuit, date, laps), grandPrix);
+        assertEquals(new GrandPrix(id, circuit, date, laps, rainChance), grandPrix);
     }
 
     @Test
     public void equalsDifferentId() {
-        assertThat(grandPrix, not(equalTo(new GrandPrix(UUID.randomUUID(), circuit, date, laps))));
+        assertThat(grandPrix, not(equalTo(new GrandPrix(UUID.randomUUID(), circuit, date, laps, rainChance))));
     }
 
     @Test
     public void equalsOtherPropertiesHaveNoEffect() {
-        assertEquals(new GrandPrix(id, new Circuit(UUID.randomUUID(),"Spa", "Belgium"), Instant.now(),
-            10), grandPrix);
+        assertEquals(new GrandPrix(id, new Circuit(UUID.randomUUID(),"Spa", "Belgium", 5000), Instant.now(),
+            10, rainChance), grandPrix);
     }
 
     @Test

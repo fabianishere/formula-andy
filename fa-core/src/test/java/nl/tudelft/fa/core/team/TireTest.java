@@ -14,6 +14,7 @@ import static org.hamcrest.CoreMatchers.*;
  */
 public class TireTest {
 
+    double delta;
     UUID id;
     String brand;
     String name;
@@ -23,12 +24,18 @@ public class TireTest {
 
     @Before
     public void setUp() {
+        delta = 0.000001;
         id = UUID.randomUUID();
         brand = "Pirelli";
         name = "Intermediate";
         durability = 1.0;
-        grip = 2.0;
+        grip = 7.0;
         tireA = new Tire(id, brand, name, durability, grip);
+    }
+
+    @Test
+    public void getResistanceFactor() {
+        assertEquals((double) 1 - tireA.getGrip() * tireA.getGrip() / 250, tireA.getResistanceFactor(), delta);
     }
 
     @Test

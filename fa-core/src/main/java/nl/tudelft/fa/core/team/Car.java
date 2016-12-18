@@ -31,6 +31,7 @@ package nl.tudelft.fa.core.team;
  * @author Christian Slothouber
  */
 public class Car {
+
     // TODO implement something meaningful here
 }
 

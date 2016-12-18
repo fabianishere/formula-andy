@@ -92,6 +92,13 @@ public class Driver extends Member {
         return strategy;
     }
 
+    /**
+     * Return a factor based on the skill levels of the driver. The better levels the higher the factor.
+     * @return A factor between 0 (inclusive) and 1 (inclusive).
+     */
+    public double getDriverFactor() {
+        return speed/100 * racecraft/100 * strategy/100;
+    }
 
     /**
      * Return a string representation of this specialist.
