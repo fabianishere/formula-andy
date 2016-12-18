@@ -25,12 +25,13 @@
 
 package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.team.Tire;
+import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.Tire;
 
 import java.util.Objects;
 
 /**
- * This class represents the tunable parameters of a {@link nl.tudelft.fa.core.team.Car}
+ * This class represents the tunable parameters of a {@link Car}
  * during a race.
  *
  * @author Christian Slothouber

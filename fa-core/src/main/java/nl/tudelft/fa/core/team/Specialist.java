@@ -34,21 +34,24 @@ import java.util.UUID;
  */
 public abstract class Specialist extends Member {
     /**
-     * The level of this specialist.
-     */
-    private double level;
-    /**
      * The factor penalty/boost for low risk.
      */
     private static double lowRisk = 0.7;
+
     /**
      * The factor penalty/boost for medium risk.
      */
     private static double mediumRisk = 0.8;
+
     /**
      * The factor penalty/boost for high risk.
      */
     private static double highRisk = 1.0;
+
+    /**
+     * The level of this specialist.
+     */
+    private double level;
 
     /**
      * Construct a {@link Specialist} instance.
@@ -64,6 +67,11 @@ public abstract class Specialist extends Member {
     }
 
     /**
+     * Construct a {@link Specialist}.
+     */
+    protected Specialist() {}
+
+    /**
      * Return the level of this specialist.
      *
      * @return The level of this specialist.
@@ -75,6 +83,7 @@ public abstract class Specialist extends Member {
     /**
      * Return the specialist factor of a specialist. This factor is solely dependant on the level
      * of the specialist and the risk
+     *
      * @param risk The the current risk:
      *             1 = low risk;
      *             2 = medium risk;
@@ -83,11 +92,11 @@ public abstract class Specialist extends Member {
      */
     public double getSpecialistFactor(int risk) {
         switch (risk) {
-            case (1):
+            case 1:
                 return lowRisk * level / 100;
-            case (2):
+            case 2:
                 return mediumRisk * level / 100;
-            case (3):
+            case 3:
                 return highRisk * level / 100;
             default:
                 return 5.0;

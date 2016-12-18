@@ -23,7 +23,8 @@ public class CarSimulator {
     private static double closeDriverFactor = 1.1;
 
     /**
-     * The factor which determines the chance of crashing. If this value is higher the chance will be less.
+     * The factor which determines the chance of crashing. If this value is higher the chance will
+     * be less.
      */
     private static int crashFactor = 8000; // higher = less chance of crashing
 
@@ -69,14 +70,18 @@ public class CarSimulator {
      * @return The moved distance.
      */
     public double getMovedDistance(Random random) {
-        double mechFactor = carConfiguration.getMechanic().getSpecialistFactor(carParameters.getMechanicalRisk());
-        double aeroFactor = carConfiguration.getAerodynamicist().getSpecialistFactor(carParameters.getAerodynamicRisk());
-        double stratFactor = carConfiguration.getStrategist().getSpecialistFactor(carParameters.getStrategistRisk())
+        double mechFactor = carConfiguration.getMechanic()
+            .getSpecialistFactor(carParameters.getMechanicalRisk());
+        double aeroFactor = carConfiguration.getAerodynamicist()
+            .getSpecialistFactor(carParameters.getAerodynamicRisk());
+        double stratFactor = carConfiguration.getStrategist()
+            .getSpecialistFactor(carParameters.getStrategistRisk())
                 * carConfiguration.getDriver().getStrategy();
         double driverFactor = carConfiguration.getDriver().getDriverFactor();
         double maxDistance = carConfiguration.getEngine().getMaxDistance(carParameters.getTire());
 
-        return random.nextDouble() * mechFactor * aeroFactor * stratFactor * driverFactor * maxDistance;
+        return random.nextDouble() * mechFactor * aeroFactor * stratFactor * driverFactor
+            * maxDistance;
     }
 
     /**
@@ -103,7 +108,9 @@ public class CarSimulator {
      */
     public boolean closeDriver(List<CarSimulator> carSimulators, double closeDistance) {
         for (CarSimulator cs : carSimulators) {
-            if (this != cs && Math.abs(this.carParameters.getTraveledDistance() - cs.getCarParameters().getTraveledDistance()) < closeDistance) {
+            boolean withinDistance = Math.abs(this.carParameters.getTraveledDistance()
+                - cs.getCarParameters().getTraveledDistance()) < closeDistance;
+            if (this != cs && withinDistance) {
                 return true;
             }
         }
