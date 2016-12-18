@@ -54,4 +54,14 @@ public final class Authenticate {
     public Credentials getCredentials() {
         return credentials;
     }
+
+    /**
+     * Return a string representation of this message.
+     *
+     * @return A string representation of this message.
+     */
+    @Override
+    public String toString() {
+        return String.format("Authenticate(credentials=%s)", credentials);
+    }
 }
