@@ -36,7 +36,11 @@ import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.UUID;
+
 
 /**
  * This actor represents a game lobby with multiple players.
@@ -71,7 +75,7 @@ public class Lobby extends AbstractActor {
      */
     private Lobby(LobbyConfiguration configuration) {
         this.configuration = configuration;
-        this.players = new HashMap<>();
+        this.players = new HashMap<>(configuration.getPlayerMaximum());
     }
 
     /**
@@ -100,16 +104,44 @@ public class Lobby extends AbstractActor {
      */
     private PartialFunction<Object, BoxedUnit> preparation() {
         return ReceiveBuilder
-            .match(Inform.class, (req) -> inform(LobbyStatus.PREPARATION))
+            .match(Inform.class, req -> inform(LobbyStatus.PREPARATION))
+            .match(Join.class, this::join)
             .build();
     }
 
     /**
      * Inform an actor about the current state of this {@link Lobby}.
+     *
+     * @param status The current status of the lobby.
      */
     private void inform(LobbyStatus status) {
-        sender().tell(new LobbyInformation(id, status, configuration,
-                new HashSet<>(players.values())), self());
+        sender().tell(getInformation(status), self());
+    }
+
+    /**
+     * Handle a {@link Join} request.
+     *
+     * @param req The join request to handle.
+     */
+    private void join(Join req) {
+        if (players.size() >= configuration.getPlayerMaximum()) {
+            sender().tell(new LobbyFull(players.size()), self());
+            return;
+        }
+
+        players.put(sender(), req.getUser());
+        sender().tell(new Joined(getInformation(LobbyStatus.PREPARATION)), self());
+    }
+
+    /**
+     * Return the {@link LobbyInformation} of this lobby.
+     *
+     * @param status The status of the lobby.
+     * @return The information of this lobby.
+     */
+    private LobbyInformation getInformation(LobbyStatus status) {
+        return new LobbyInformation(id, status, configuration,
+            new HashSet<>(players.values()));
     }
 
     /**

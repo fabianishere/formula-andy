@@ -5,6 +5,8 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.testkit.JavaTestKit;
 
+import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -20,6 +22,7 @@ public class LobbyTest {
     private static ActorSystem system;
     private UUID id;
     private LobbyConfiguration configuration;
+    private User user;
 
     @BeforeClass
     public static void setUpClass() {
@@ -29,7 +32,8 @@ public class LobbyTest {
     @Before
     public void setUp() {
         id = UUID.randomUUID();
-        configuration = new LobbyConfiguration(11, Duration.ofMinutes(2));
+        configuration = new LobbyConfiguration(1, Duration.ofMinutes(2));
+        user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
     }
 
 
@@ -51,6 +55,39 @@ public class LobbyTest {
                 // await the correct response
                 expectMsgEquals(duration("1 second"), new LobbyInformation(id,
                     LobbyStatus.PREPARATION, configuration, Collections.emptySet()));
+            }
+        };
+    }
+
+    @Test
+    public void testJoinSuccess() {
+        new JavaTestKit(system) {
+            {
+                final Props props = Lobby.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Join req = new Join(user);
+
+                subject.tell(req, getRef());
+
+                // await the correct response
+                expectMsgEquals(duration("1 second"), new Joined(new LobbyInformation(id,
+                    LobbyStatus.PREPARATION, configuration, Collections.singleton(user))));
+            }
+        };
+    }
+
+    @Test
+    public void testJoinFull() {
+        new JavaTestKit(system) {
+            {
+                final Props props = Lobby.props(new LobbyConfiguration(0, Duration.ZERO));
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Join req = new Join(user);
+
+                subject.tell(req, getRef());
+
+                // await the correct response
+                expectMsgEquals(duration("1 second"), new LobbyFull(0));
             }
         };
     }
