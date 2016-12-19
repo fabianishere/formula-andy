@@ -23,12 +23,10 @@
  * THE SOFTWARE.
  */
 
-
 package nl.tudelft.fa.core.lobby;
 
 import nl.tudelft.fa.core.user.User;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
