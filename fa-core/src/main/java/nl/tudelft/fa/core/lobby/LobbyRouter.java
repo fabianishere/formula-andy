@@ -120,6 +120,7 @@ public class LobbyRouter extends AbstractActor {
 
         lobbies.put(sender(), information.getConfiguration().getPlayerMaximum()
             - information.getUsers().size());
+        context().parent().tell(information, sender());
     }
 
 
