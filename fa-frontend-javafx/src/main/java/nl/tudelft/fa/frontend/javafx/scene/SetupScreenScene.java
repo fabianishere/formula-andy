@@ -1,16 +1,23 @@
 package nl.tudelft.fa.frontend.javafx.scene;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
+
+
 
 
 public class SetupScreenScene extends Scene {
 
-    /**Setup for all toggle buttons to act like radio buttons.
+    /**
+     * Setup for all toggle buttons to act like radio buttons.
+     *
      * @param root the parent root
      */
     public SetupScreenScene(Parent root) {
@@ -79,7 +86,6 @@ public class SetupScreenScene extends Scene {
                 toggle(mechanical23, mechanical21, mechanical22, event);
             }
         });
-
 
 
         //Aarodynamic one toggle group
@@ -172,13 +178,110 @@ public class SetupScreenScene extends Scene {
                 toggle(strategy23, strategy21, strategy22, event);
             }
         });
+
+        //Combobox dropdowns
+        //Slick tires for car one
+        ObservableList<String> slick1 = FXCollections.observableArrayList(
+                "Ultra Soft",
+                "Super soft",
+                "Soft",
+                "Medium",
+                "Hard");
+        dropdown(slick1, "#slick1");
+
+        //Slick tires for car two
+        ObservableList<String> slick2 = FXCollections.observableArrayList(
+                "Ultra Soft",
+                "Super soft",
+                "Soft",
+                "Medium",
+                "Hard");
+        dropdown(slick2, "#slick2");
+
+
+        //Threaded tires for car one
+        ObservableList<String> threaded1 = FXCollections.observableArrayList(
+                "Intermediate",
+                "Wet");
+        dropdown(threaded1, "#threaded1");
+
+        //Threaded tires for car two
+        ObservableList<String> threaded2 = FXCollections.observableArrayList(
+                "Intermediate",
+                "Wet");
+        dropdown(threaded2, "#threaded2");
+
+        //Engine for car two
+        ObservableList<String> engine1 = FXCollections.observableArrayList(
+                "Mercedes ($35M)",
+                "Ferrari ($32M)",
+                "Renault ($27M)",
+                "Honda ($25M)");
+        dropdown(engine1, "#engine1");
+
+        //Engine for car two
+        ObservableList<String> engine2 = FXCollections.observableArrayList(
+                "Mercedes ($35M)",
+                "Ferrari ($32M)",
+                "Renault ($27M)",
+                "Honda ($25M)");
+        dropdown(engine2, "#engine2");
+
+        //Drivers for car one
+        ObservableList<String> driver1 = FXCollections.observableArrayList(
+                "Max Verstappen",
+                "Pel de Pinda");
+        dropdown(driver1, "#driver1");
+
+        //Drivers for car two
+        ObservableList<String> driver2 = FXCollections.observableArrayList(
+                "Max Verstappen",
+                "Pel de Pinda");
+        dropdown(driver2, "#driver2");
+
+        //Mechanic for car one
+        ObservableList<String> mechanic1 = FXCollections.observableArrayList(
+                "Max Verstappen",
+                "Pel de Pinda");
+        dropdown(mechanic1, "#mechanic1");
+
+        //Mechanic for car two
+        ObservableList<String> mechanic2 = FXCollections.observableArrayList(
+                "Max Verstappen",
+                "Pel de Pinda");
+        dropdown(mechanic2, "#mechanic2");
+
+        //Aerodynamicist for car one
+        ObservableList<String> aerodynamicist1 = FXCollections.observableArrayList(
+                "Max Verstappen",
+                "Pel de Pinda");
+        dropdown(aerodynamicist1, "#aerodynamicist1");
+
+        //Aerodynamicist for car two
+        ObservableList<String> aerodynamicist2 = FXCollections.observableArrayList(
+                "Max Verstappen",
+                "Pel de Pinda");
+        dropdown(aerodynamicist2, "#aerodynamicist2");
+
+        //Strategist for car one
+        ObservableList<String> strategist1 = FXCollections.observableArrayList(
+                "Max Verstappen",
+                "Pel de Pinda");
+        dropdown(strategist1, "#strategist1");
+
+        //Strategist for car two
+        ObservableList<String> strategist2 = FXCollections.observableArrayList(
+                "Max Verstappen",
+                "Pel de Pinda");
+        dropdown(strategist2, "#strategist2");
     }
 
     /**
      * The actual toggle void: toggles the color between the buttons. Selected is red
-     * @param t1 the toggle id of the first button
-     * @param t2 the toggle id of the second button
-     * @param t3 the toggle id of the second button
+     *
+     * @param t1    the toggle id of the first button
+     * @param t2    the toggle id of the second button
+     * @param t3    the toggle id of the second button
      * @param event the action event for the toggling
      */
     private void toggle(ToggleButton t1, ToggleButton t2, ToggleButton t3, Event event) {
@@ -195,7 +298,15 @@ public class SetupScreenScene extends Scene {
         }
         event.consume();
     }
+
+    /**Sets the items for the dropdown button.
+     * @param options the arraylist containing the items
+     * @param id the id of the combobox
+     */
+    private void dropdown(ObservableList<String> options, String id) {
+        ComboBox comboBox = (ComboBox) this.lookup(id);
+        comboBox.setItems(options);
+    }
+
 }
-
-
 
