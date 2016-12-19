@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-
 package nl.tudelft.fa.server.model;
 
 /**
