@@ -16,8 +16,6 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
-
 public class LobbyTest {
     private static ActorSystem system;
     private UUID id;
@@ -71,7 +69,7 @@ public class LobbyTest {
 
                 // await the correct response
                 expectMsgEquals(duration("1 second"), new Joined(new LobbyInformation(id,
-                    LobbyStatus.PREPARATION, configuration, Collections.singleton(user))));
+                    LobbyStatus.IN_PREPARATION, configuration, Collections.singleton(user))));
             }
         };
     }
@@ -91,4 +89,22 @@ public class LobbyTest {
             }
         };
     }
+
+    @Test
+    public void testLeaveSuccess() {
+        new JavaTestKit(system) {
+            {
+                final Props props = Lobby.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Leave req = new Leave();
+
+                subject.tell(new Join(user), getRef());
+                expectMsgClass(duration("1 second"), Joined.class);
+
+                subject.tell(req, getRef());
+                expectMsgEquals(duration("1 second"), new Left(user, subject));
+            }
+        };
+    }
+
 }

@@ -106,6 +106,7 @@ public class Lobby extends AbstractActor {
         return ReceiveBuilder
             .match(Inform.class, req -> inform(LobbyStatus.PREPARATION))
             .match(Join.class, this::join)
+            .match(Leave.class, this::leave)
             .build();
     }
 
@@ -130,7 +131,37 @@ public class Lobby extends AbstractActor {
         }
 
         players.put(sender(), req.getUser());
-        sender().tell(new Joined(getInformation(LobbyStatus.PREPARATION)), self());
+        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
+        Joined event = new Joined(information);
+
+        for (ActorRef user : players.keySet()) {
+            user.tell(event, self());
+        }
+        context().parent().tell(information, self());
+    }
+
+    /**
+     * Handle a {@link Leave} request.
+     *
+     * @param req The leave request to handle.
+     */
+    private void leave(Leave req) {
+        User user = players.remove(sender());
+
+        if (user == null) {
+            // The user is not in the lobby
+            log.warning("The actor {} tried to leave the lobby, but is not in the lobby", sender());
+            return;
+        }
+
+        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
+        Left event = new Left(user, self());
+
+        for (ActorRef ref : players.keySet()) {
+            ref.tell(event, self());
+        }
+        sender().tell(event, self());
+        context().parent().tell(information, self());
     }
 
     /**
