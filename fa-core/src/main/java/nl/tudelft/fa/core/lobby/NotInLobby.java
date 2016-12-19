@@ -25,34 +25,17 @@
 
 package nl.tudelft.fa.core.lobby;
 
-import nl.tudelft.fa.core.user.User;
-
 /**
- * This message is sent by a {@link User} to a {@link Lobby} to ask to leave the lobby.
- *
- * @author Fabian Mastenbroek
+ * @author Fabian Mastenbroek <mail.fabianm@gmail.com>
  */
-public class Leave {
+public class NotInLobby extends LeaveFailure {
     /**
-     * The {@link User} that wants to leave the lobby.
-     */
-    private User user;
-
-    /**
-     * Construct a {@link Leave} message.
+     * Return a string representation of this message.
      *
-     * @param user The user that wants to leave the lobby.
+     * @return A string representation of this message.
      */
-    public Leave(User user) {
-        this.user = user;
-    }
-
-    /**
-     * Return the {@link User} that wants to leave the lobby.
-     *
-     * @return The user that wants to leave the lobby.
-     */
-    public User getUser() {
-        return user;
+    @Override
+    public String toString() {
+        return "You are not in the lobby you are trying to leave.";
     }
 }

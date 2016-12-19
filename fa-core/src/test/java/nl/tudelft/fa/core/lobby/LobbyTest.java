@@ -30,7 +30,7 @@ public class LobbyTest {
     @Before
     public void setUp() {
         id = UUID.randomUUID();
-        configuration = new LobbyConfiguration(1, Duration.ofMinutes(2));
+        configuration = new LobbyConfiguration(2, Duration.ofMinutes(2));
         user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
     }
 
@@ -96,13 +96,29 @@ public class LobbyTest {
             {
                 final Props props = Lobby.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave();
+                final Leave req = new Leave(user);
+
+                subject.tell(new Join(new User(UUID.randomUUID(), new Credentials("test", "Test"))), ActorRef.noSender());
 
                 subject.tell(new Join(user), getRef());
                 expectMsgClass(duration("1 second"), Joined.class);
 
                 subject.tell(req, getRef());
                 expectMsgEquals(duration("1 second"), new Left(user, subject));
+            }
+        };
+    }
+
+    @Test
+    public void testLeaveNotInLobby() {
+        new JavaTestKit(system) {
+            {
+                final Props props = Lobby.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Leave req = new Leave(user);
+
+                subject.tell(req, getRef());
+                expectMsgClass(duration("1 second"), NotInLobby.class);
             }
         };
     }

@@ -43,7 +43,7 @@ import java.util.UUID;
 
 
 /**
- * This actor represents a game lobby with multiple players.
+ * This actor represents a game lobby with multiple users.
  *
  * @author Fabian Mastenbroek
  */
@@ -59,9 +59,9 @@ public class Lobby extends AbstractActor {
     private LobbyConfiguration configuration;
 
     /**
-     * The players that have joined this lobby.
+     * The users that have joined this lobby.
      */
-    private Map<ActorRef, User> players;
+    private Map<User, ActorRef> users;
 
     /**
      * The {@link LoggingAdapter} of this class.
@@ -75,7 +75,7 @@ public class Lobby extends AbstractActor {
      */
     private Lobby(LobbyConfiguration configuration) {
         this.configuration = configuration;
-        this.players = new HashMap<>(configuration.getPlayerMaximum());
+        this.users = new HashMap<>(configuration.getPlayerMaximum());
     }
 
     /**
@@ -125,17 +125,17 @@ public class Lobby extends AbstractActor {
      * @param req The join request to handle.
      */
     private void join(Join req) {
-        if (players.size() >= configuration.getPlayerMaximum()) {
-            sender().tell(new LobbyFull(players.size()), self());
+        if (users.size() >= configuration.getPlayerMaximum()) {
+            sender().tell(new LobbyFull(users.size()), self());
             return;
         }
 
-        players.put(sender(), req.getUser());
+        users.put(req.getUser(), sender());
         LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
         Joined event = new Joined(information);
 
-        for (ActorRef user : players.keySet()) {
-            user.tell(event, self());
+        for (User user : users.keySet()) {
+            users.get(user).tell(event, self());
         }
         context().parent().tell(information, self());
     }
@@ -146,19 +146,21 @@ public class Lobby extends AbstractActor {
      * @param req The leave request to handle.
      */
     private void leave(Leave req) {
-        User user = players.remove(sender());
+        ActorRef ref = users.remove(req.getUser());
 
-        if (user == null) {
+        if (ref == null) {
             // The user is not in the lobby
-            log.warning("The actor {} tried to leave the lobby, but is not in the lobby", sender());
+            log.warning("The user {} tried to leave the lobby, but is not in the lobby",
+                req.getUser().getCredentials().getUsername());
+            sender().tell(new NotInLobby(), self());
             return;
         }
 
         LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        Left event = new Left(user, self());
+        Left event = new Left(req.getUser(), self());
 
-        for (ActorRef ref : players.keySet()) {
-            ref.tell(event, self());
+        for (User user : users.keySet()) {
+            users.get(user).tell(event, self());
         }
         sender().tell(event, self());
         context().parent().tell(information, self());
@@ -171,8 +173,7 @@ public class Lobby extends AbstractActor {
      * @return The information of this lobby.
      */
     private LobbyInformation getInformation(LobbyStatus status) {
-        return new LobbyInformation(id, status, configuration,
-            new HashSet<>(players.values()));
+        return new LobbyInformation(id, status, configuration, users.keySet());
     }
 
     /**
