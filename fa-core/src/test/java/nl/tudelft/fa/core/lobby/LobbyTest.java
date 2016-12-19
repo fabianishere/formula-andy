@@ -69,7 +69,7 @@ public class LobbyTest {
 
                 // await the correct response
                 expectMsgEquals(duration("1 second"), new Joined(new LobbyInformation(id,
-                    LobbyStatus.IN_PREPARATION, configuration, Collections.singleton(user))));
+                    LobbyStatus.PREPARATION, configuration, Collections.singleton(user))));
             }
         };
     }

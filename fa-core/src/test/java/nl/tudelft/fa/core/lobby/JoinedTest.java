@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.time.Duration;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
