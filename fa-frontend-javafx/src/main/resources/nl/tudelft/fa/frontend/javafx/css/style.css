@@ -56,7 +56,8 @@
     -fx-background-color: transparent;
 } */
 
-.RadioButton {
+.toggle-button {
     -fx-mark-highlight-color: red ;
     -fx-mark-color: red ;
+    -fx-background-color: blue;
 }

@@ -26,13 +26,11 @@
 package nl.tudelft.fa.frontend.javafx;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
+import nl.tudelft.fa.frontend.javafx.scene.SetupScreenScene;
 
 /**
  * The main JavaFX {@link Application} class.
@@ -49,45 +47,11 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("setup-screen.fxml"));
 
-        Scene scene = new Scene(root);
+        Scene scene = new SetupScreenScene(root);
 
         stage.setTitle("Formula Andy!");
         stage.setScene(scene);
         stage.sizeToScene();
         stage.show();
-
-        //Set all togglebuttons for setup
-        ToggleButton togglebutton1 = (ToggleButton) scene.lookup("#togglebutton1");
-        ToggleButton togglebutton2 = (ToggleButton) scene.lookup("#togglebutton2");
-        ToggleButton togglebutton3 = (ToggleButton) scene.lookup("#togglebutton3");
-        togglebutton1.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                if(!togglebutton1.isSelected())
-                    togglebutton1.setSelected(true);
-                event.consume();
-            }
-        });
-
-        togglebutton2.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                if(!togglebutton2.isSelected())
-                    togglebutton2.setSelected(true);
-                event.consume();
-            }
-        });
-
-        togglebutton3.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                if(!togglebutton3.isSelected())
-                    togglebutton3.setSelected(true);
-                event.consume();
-            }
-        });
     }
 }
