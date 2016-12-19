@@ -37,7 +37,6 @@ import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.UUID;
 
@@ -137,7 +136,8 @@ public class Lobby extends AbstractActor {
         for (User user : users.keySet()) {
             users.get(user).tell(event, self());
         }
-        context().parent().tell(information, self());
+
+        context().system().eventStream().publish(information);
     }
 
     /**
@@ -163,7 +163,7 @@ public class Lobby extends AbstractActor {
             users.get(user).tell(event, self());
         }
         sender().tell(event, self());
-        context().parent().tell(information, self());
+        context().system().eventStream().publish(information);
     }
 
     /**
