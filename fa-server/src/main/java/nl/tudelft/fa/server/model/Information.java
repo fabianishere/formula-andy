@@ -38,7 +38,7 @@ public class Information {
     public final String engine;
 
     /**
-     * The version of the engine
+     * The version of the engine.
      */
     public final String version;
 
