@@ -55,4 +55,8 @@ All:
   Look on Blackboard. 200 words per person.
 
 ### Issues
-Nils has booked no progress so far.
+- Nils has booked no progress so far.
+  Write e-mail to teacher (Andy).
+
+### Points of improvement
+- Look at each others code.
