@@ -22,23 +22,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
-apply plugin: 'scala'
+package nl.tudelft.fa.server.controller;
 
-dependencies {
-    compile project(':fa-core')
-    compile 'org.scala-lang:scala-library:2.11.8'
-    compile 'com.typesafe.akka:akka-actor_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-slf4j_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-http_2.11:10.0.0'
-    compile 'com.typesafe.akka:akka-http-jackson_2.11:10.0.0'
+import static akka.http.javadsl.server.Directives.*;
 
-    testCompile 'com.typesafe.akka:akka-testkit_2.11:2.4.14'
-    testCompile 'com.typesafe.akka:akka-http-testkit_2.11:10.0.0'
-    testCompile 'org.scalatest:scalatest_2.11:3.0.1'
-    testCompile 'junit:junit:4.11'
-    testRuntime 'org.slf4j:slf4j-simple:1.7.22'
+import akka.actor.ActorRef;
+import akka.http.javadsl.marshallers.jackson.Jackson;
+import akka.http.javadsl.server.Route;
+import akka.pattern.PatternsCS;
+
+import nl.tudelft.fa.core.lobby.Inform;
+import nl.tudelft.fa.core.lobby.Lobby;
+import nl.tudelft.fa.core.lobby.LobbyInformation;
+
+/**
+ * The controller for a single {@link Lobby} actor.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class LobbyController {
+    /**
+     * The reference to the {@link Lobby} actor.
+     */
+    private ActorRef lobby;
+
+    /**
+     * Construct a {@link LobbyController} instance.
+     *
+     * @param lobby The reference to the {@link Lobby} actor.
+     */
+    public LobbyController(ActorRef lobby) {
+        this.lobby = lobby;
+    }
+
+    /**
+     * Create the {@link Route} instance for this controller.
+     *
+     * @return The routes for this controller.
+     */
+    public Route createRoute() {
+        // Show the information about the lobby.
+        return completeOKWithFuture(PatternsCS.ask(lobby, new Inform(), 1000)
+            .thenApplyAsync(LobbyInformation.class::cast), Jackson.marshaller());
+    }
 }

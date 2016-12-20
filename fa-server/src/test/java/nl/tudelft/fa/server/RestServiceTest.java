@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class RestServiceTest extends JUnitRouteTest {
-    final TestRoute appRoute = testRoute(new RestService().createRoute());
+    final TestRoute appRoute = testRoute(new RestService(system()).createRoute());
 
     @Test
     public void testInformation() {
