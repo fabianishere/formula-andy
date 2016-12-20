@@ -23,48 +23,40 @@
  * THE SOFTWARE.
  */
 
-#loading-screen {
-    -fx-background-image: url("../images/loading-screen/4_1.jpg");
-}
 
-#start-screen {
-    -fx-background-image: url("../images/start-screen-background.png");
-    -fx-background-repeat: stretch;
-    -fx-background-size: 1920 1080;
-    -fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
-}
+package nl.tudelft.fa.server.model;
 
-#login-screen {
-    -fx-background-image: url("../images/login-screen-background.jpg");
-    -fx-background-repeat: stretch;
-    -fx-background-size: 1920 1080;
-    -fx-background-position: center center;
-}
+/**
+ * This class represents the information about the current running server.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class Information {
+    /**
+     * The engine name of this server.
+     */
+    public final String engine;
 
-#signup-screen {
-    -fx-background-image: url("../images/login-screen-background.jpg");
-    -fx-background-repeat: stretch;
-    -fx-background-size: 1920 1080;
-    -fx-background-position: center center;
-}
+    /**
+     * The version of the engine
+     */
+    public final String version;
 
-#game-screen {}
+    /**
+     * The uptime of the server in milliseconds.
+     */
+    public final double uptime;
 
-#setup-screen {
-}
-/*.radio-button > .radio {
-    -fx-background-color: transparent;
-    -fx-background-insets: 0;
-    -fx-background-radius: 0px;
-    -fx-padding: 0.0em;
-}
-.radio-button:selected > .radio > .dot {
-    -fx-background-color: transparent;
-} */
-
-.toggle-button {
-    -fx-mark-highlight-color: red ;
-    -fx-mark-color: red ;
-    -fx-background-color: blue;
+    /**
+     * Construct a {@link Information} instance.
+     *
+     * @param engine The name of the engine.
+     * @param version The version of the engine.
+     * @param uptime The uptime of the server in milliseconds.
+     */
+    public Information(String engine, String version, double uptime) {
+        this.engine = engine;
+        this.version = version;
+        this.uptime = uptime;
+    }
 }

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  The MIT License (MIT)
+
+  Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+  Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+-->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
+
+<VBox id="signup-screen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="1020.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@css/style.css"/>
+    </stylesheets>
+    <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1020.0"
+              prefWidth="1920.0">
+        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="35.0" prefWidth="108.0"
+                text="Sign up" textAlignment="CENTER" translateX="55.0" translateY="-20.0" GridPane.columnIndex="4"
+                GridPane.rowIndex="8">
+            <font>
+                <Font name="Marlett" size="20.0"/>
+            </font>
+            <GridPane.margin>
+                <Insets/>
+            </GridPane.margin>
+        </Button>
+        <PasswordField GridPane.columnIndex="4" GridPane.rowIndex="6"/>
+        <Label alignment="CENTER" prefHeight="42.0" prefWidth="286.0" text="Enter a password" textAlignment="CENTER"
+               textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="6">
+            <font>
+                <Font size="26.0"/>
+            </font>
+        </Label>
+        <Label alignment="CENTER" prefHeight="47.0" prefWidth="303.0" text="Enter an username" textFill="WHITE"
+               GridPane.columnIndex="3" GridPane.rowIndex="5">
+            <font>
+                <Font size="26.0"/>
+            </font>
+        </Label>
+        <TextField GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+        <PasswordField GridPane.columnIndex="4" GridPane.rowIndex="7"/>
+        <Label alignment="CENTER" layoutX="727.0" layoutY="513.0" prefHeight="45.0" prefWidth="392.0"
+               text="Enter password again" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="3"
+               GridPane.rowIndex="7">
+            <font>
+                <Font size="26.0"/>
+            </font>
+        </Label>
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="385.0" minWidth="10.0" prefWidth="198.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="10.0" prefWidth="283.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="593.0" minWidth="10.0" prefWidth="337.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1307.0" minWidth="10.0" prefWidth="261.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="962.0" minWidth="10.0" prefWidth="840.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="211.0" minHeight="10.0" prefHeight="211.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="179.0" minHeight="10.0" prefHeight="168.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="164.0" minHeight="0.0" prefHeight="43.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="110.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="173.0" minHeight="0.0" prefHeight="48.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="342.0" minHeight="7.0" prefHeight="107.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="336.0" minHeight="10.0" prefHeight="278.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+    </GridPane>
+</VBox>
