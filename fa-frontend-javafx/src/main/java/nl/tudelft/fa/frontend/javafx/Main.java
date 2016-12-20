@@ -30,6 +30,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nl.tudelft.fa.frontend.javafx.scene.SetupScreenScene;
 
 /**
  * The main JavaFX {@link Application} class.
@@ -44,9 +45,9 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("signup-screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("setup-screen.fxml"));
 
-        Scene scene = new Scene(root);
+        Scene scene = new SetupScreenScene(root);
 
         stage.setTitle("Formula Andy!");
         stage.setScene(scene);
