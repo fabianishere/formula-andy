@@ -305,7 +305,7 @@ public class SetupScreenScene extends Scene {
      * @param id the id of the combobox button you want to assign the arraylist to
      */
     private void dropdown(ObservableList<String> options, String id) {
-        ComboBox comboBox = (ComboBox) this.lookup(id);
+        ComboBox<String> comboBox = (ComboBox<String>) this.lookup(id);
         comboBox.setItems(options);
     }
 
