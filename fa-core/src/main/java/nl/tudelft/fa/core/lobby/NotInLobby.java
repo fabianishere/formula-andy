@@ -26,7 +26,9 @@
 package nl.tudelft.fa.core.lobby;
 
 /**
- * @author Fabian Mastenbroek <mail.fabianm@gmail.com>
+ * This message represents a failure to join a lobby.
+ *
+ * @author Fabian Mastenbroek
  */
 public class NotInLobby extends LeaveFailure {
     /**
