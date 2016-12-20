@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Lobby.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">fa-core</a> &gt; <a href="index.source.html" class="el_package">nl.tudelft.fa.core.game</a> &gt; <span class="el_source">Lobby.java</span></div><h1>Lobby.java</h1><pre class="source lang-java linenums">package nl.tudelft.fa.core.game;
+
+import nl.tudelft.fa.core.race.GrandPrix;
+import nl.tudelft.fa.core.team.Team;
+
+import java.util.List;
+
+/**
+ * A class representing the lobby of players
+ * @author F.C. Slothouber
+ */
+public class Lobby {
+
+    /**
+     * List of teams.
+     */
+    private List&lt;Team&gt; teams;
+
+    /**
+     * List of all the grand prix.
+     */
+    private List&lt;GrandPrix&gt; shedule;
+
+    /**
+     * integer representing the current grand prix.
+     */
+    private int currentGrandPrix;
+
+    /**
+     * Constrctor.
+     * @param teams The list of teams.
+     * @param shedule The list of grand prix.
+     */
+<span class="fc" id="L34">    public Lobby(List&lt;Team&gt; teams, List&lt;GrandPrix&gt; shedule) {</span>
+<span class="fc" id="L35">        this.teams = teams;</span>
+<span class="fc" id="L36">        this.shedule = shedule;</span>
+<span class="fc" id="L37">        this.currentGrandPrix = 0;</span>
+<span class="fc" id="L38">    }</span>
+
+    /**
+     * Returns the list of teams.
+     * @return The list of teams.
+     */
+    public List&lt;Team&gt; getTeams() {
+<span class="fc" id="L45">        return teams;</span>
+    }
+
+    /**
+     * Returns the list of grand prix.
+     * @return The list of grand prix.
+     */
+    public List&lt;GrandPrix&gt; getShedule() {
+<span class="fc" id="L53">        return shedule;</span>
+    }
+
+    /**
+     * Returns the current grand prix.
+     * @return The integer representing the current grand prix.
+     */
+    public int getCurrentGrandPrix() {
+<span class="fc" id="L61">        return this.currentGrandPrix;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

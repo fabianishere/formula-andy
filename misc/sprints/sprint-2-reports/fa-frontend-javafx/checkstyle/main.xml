@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="7.2">
+<file name="/Users/fabian/Documents/University/TUD/TI1206-FA/fa-frontend-javafx/src/main/java/nl/tudelft/fa/frontend/javafx/Bootstrap.java">
+</file>
+<file name="/Users/fabian/Documents/University/TUD/TI1206-FA/fa-frontend-javafx/src/main/java/nl/tudelft/fa/frontend/javafx/Main.java">
+</file>
+<file name="/Users/fabian/Documents/University/TUD/TI1206-FA/fa-frontend-javafx/src/main/java/nl/tudelft/fa/frontend/javafx/controller/StartScreenController.java">
+</file>
+<file name="/Users/fabian/Documents/University/TUD/TI1206-FA/fa-frontend-javafx/src/main/java/nl/tudelft/fa/frontend/javafx/scene/SetupScreenScene.java">
+<error line="25" column="5" severity="warning" message="Method length is 256 lines (max allowed is 150)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
+</file>
+</checkstyle>

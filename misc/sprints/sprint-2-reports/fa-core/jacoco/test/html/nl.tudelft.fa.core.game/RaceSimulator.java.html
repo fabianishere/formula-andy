@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RaceSimulator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">fa-core</a> &gt; <a href="index.source.html" class="el_package">nl.tudelft.fa.core.game</a> &gt; <span class="el_source">RaceSimulator.java</span></div><h1>RaceSimulator.java</h1><pre class="source lang-java linenums">package nl.tudelft.fa.core.game;
+
+
+import nl.tudelft.fa.core.race.GrandPrix;
+
+import java.util.List;
+import java.util.Random;
+
+/**
+ * A class representing a race,
+ * @author F.C. Slothouber
+ */
+public class RaceSimulator {
+
+    /**
+     * The list of cars racing.
+     */
+    private List&lt;CarSimulator&gt; carSimulators;
+
+    /**
+     * The grand prix.
+     */
+    private GrandPrix grandPrix;
+
+    /**
+     * Boolean representing if it is raining or not.
+     */
+    private boolean raining;
+
+    /**
+     * Constructor.
+     * @param carSimulators List of the racing cars.
+     * @param grandPrix The grand prix.
+     */
+<span class="fc" id="L35">    public RaceSimulator(List&lt;CarSimulator&gt; carSimulators, GrandPrix grandPrix) {</span>
+<span class="fc" id="L36">        this.carSimulators = carSimulators;</span>
+<span class="fc" id="L37">        this.grandPrix = grandPrix;</span>
+<span class="fc" id="L38">        this.raining = this.grandPrix.isItRaining(new Random());</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * Returns the list of racing cars.
+     * @return The List of carSimulators.
+     */
+    public List&lt;CarSimulator&gt; getCarSimulators() {
+<span class="fc" id="L46">        return carSimulators;</span>
+    }
+
+    /**
+     * Returns the grand prix.
+     * @return The grand prix.
+     */
+    public GrandPrix getGrandPrix() {
+<span class="fc" id="L54">        return grandPrix;</span>
+    }
+
+    /**
+     * Generates the next race cycle. The moved distance and the crashes.
+     */
+    public void getNextRaceCycle() {
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        for (CarSimulator cs: carSimulators) {</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if (cs.getCarParameters().getCrashed()) {</span>
+<span class="nc" id="L63">                continue;</span>
+            }
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            if (!cs.crashedThisCycle(raining, cs.closeDriver(carSimulators, 100), new Random())) {</span>
+<span class="nc" id="L67">                cs.getCarParameters().increaseTraveledDistance(cs.getMovedDistance(new Random()));</span>
+            } else {
+<span class="nc" id="L69">                cs.getCarParameters().setCrashed(true);</span>
+            }
+<span class="nc" id="L71">        }</span>
+<span class="nc" id="L72">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

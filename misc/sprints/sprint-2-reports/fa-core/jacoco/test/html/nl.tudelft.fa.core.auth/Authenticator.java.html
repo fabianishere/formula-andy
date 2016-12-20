@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Authenticator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">fa-core</a> &gt; <a href="index.source.html" class="el_package">nl.tudelft.fa.core.auth</a> &gt; <span class="el_source">Authenticator.java</span></div><h1>Authenticator.java</h1><pre class="source lang-java linenums">/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the &quot;Software&quot;), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+package nl.tudelft.fa.core.auth;
+
+import akka.actor.AbstractActor;
+import akka.actor.Props;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
+
+import akka.japi.pf.ReceiveBuilder;
+
+import nl.tudelft.fa.core.user.User;
+
+import scala.PartialFunction;
+import scala.runtime.BoxedUnit;
+
+import java.util.Optional;
+import javax.persistence.EntityManager;
+
+
+/**
+ * The {@link Authenticator} actor authenticates users via its persistence unit and
+ * creates a session for each user.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class Authenticator extends AbstractActor {
+    /**
+     * The {@link EntityManager} this actor uses to manage entities.
+     */
+    private EntityManager entityManager;
+
+    /**
+     * The {@link LoggingAdapter} of this class.
+     */
+<span class="fc" id="L59">    private final LoggingAdapter log = Logging.getLogger(context().system(), this);</span>
+
+    /**
+     * Construct a {@link Authenticator} instance.
+     *
+     * @param entityManager The JPA entity manager to manage the {@link User} entities.
+     */
+<span class="fc" id="L66">    private Authenticator(EntityManager entityManager) {</span>
+<span class="fc" id="L67">        this.entityManager = entityManager;</span>
+<span class="fc" id="L68">    }</span>
+
+    /**
+     * This method defines the initial actor behavior, it must return a partial function with the
+     * actor logic.
+     *
+     * @return The initial actor behavior as a partial function.
+     */
+    @Override
+    public PartialFunction&lt;Object, BoxedUnit&gt; receive() {
+<span class="fc" id="L78">        return ReceiveBuilder</span>
+<span class="fc" id="L79">            .match(Authenticate.class, this::authenticate)</span>
+<span class="fc" id="L80">            .build();</span>
+    }
+
+    /**
+     * Handle the given {@link Authenticate} request.
+     *
+     * @param req The {@link Authenticate} request to handle.
+     */
+    private void authenticate(Authenticate req) {
+<span class="fc" id="L89">        log.info(&quot;Received authentication request {}&quot;, req);</span>
+
+<span class="fc" id="L91">        Optional&lt;User&gt; user = entityManager</span>
+<span class="fc" id="L92">            .createQuery(&quot;SELECT t FROM Users t where t.credentials.username = :username&quot;,</span>
+                User.class)
+<span class="fc" id="L94">            .setParameter(&quot;username&quot;, req.getCredentials().getUsername())</span>
+<span class="fc" id="L95">            .setMaxResults(1)</span>
+<span class="fc" id="L96">            .getResultList()</span>
+<span class="fc" id="L97">            .stream()</span>
+<span class="fc" id="L98">            .findFirst();</span>
+
+        // If the user cannot be found, or the password is incorrect, return a InvalidCredentials
+        // error message.
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (!user.isPresent() || !user.get()</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">                .getCredentials().getPassword().equals(req.getCredentials().getPassword())) {</span>
+<span class="fc" id="L104">            sender().tell(new InvalidCredentials(), self());</span>
+<span class="fc" id="L105">            return;</span>
+        }
+
+<span class="fc" id="L108">        User userUnwrapped = user.get();</span>
+<span class="fc" id="L109">        log.info(&quot;User {} has been authenticated&quot;, userUnwrapped</span>
+<span class="fc" id="L110">            .getCredentials().getUsername());</span>
+
+<span class="fc" id="L112">        sender().tell(new Authenticated(userUnwrapped), self());</span>
+<span class="fc" id="L113">    }</span>
+
+    /**
+     * Create {@link Props} instance for an actor of this type.
+     *
+     * @param entityManager The magic number to be passed to this actor’s constructor.
+     * @return A Props for creating this actor, which can then be further configured
+     *         (e.g. calling `.withDispatcher()` on it)
+     */
+    public static Props props(EntityManager entityManager) {
+<span class="fc" id="L123">        return Props.create(Authenticator.class, () -&gt; new Authenticator(entityManager));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
