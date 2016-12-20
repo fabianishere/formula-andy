@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="7.2">
+<file name="/Users/fabian/Documents/University/TUD/TI1206-FA/fa-server/src/main/java/nl/tudelft/fa/server/RestService.java">
+</file>
+<file name="/Users/fabian/Documents/University/TUD/TI1206-FA/fa-server/src/main/java/nl/tudelft/fa/server/controller/LobbyController.java">
+</file>
+<file name="/Users/fabian/Documents/University/TUD/TI1206-FA/fa-server/src/main/java/nl/tudelft/fa/server/model/Information.java">
+</file>
+</checkstyle>
