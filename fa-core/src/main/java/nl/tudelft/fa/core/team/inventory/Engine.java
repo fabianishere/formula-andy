@@ -152,6 +152,15 @@ public class Engine {
     }
 
     /**
+     * Determines the maximum distance the car can potentially travel.
+     * @param tire The tire type currently used by the car.
+     * @return The maximum distance.
+     */
+    public double getMaxDistance(Tire tire) {
+        return power * tire.getResistanceFactor() ;
+    }
+
+    /**
      * Return the hash code of this object.
      *
      * @return The hash code of this object as integer.

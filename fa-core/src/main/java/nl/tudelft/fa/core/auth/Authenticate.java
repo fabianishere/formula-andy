@@ -22,22 +22,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
-apply plugin: 'scala'
+package nl.tudelft.fa.core.auth;
 
-dependencies {
-    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
+/**
+ * This message is send to a {@link Authenticator} actor to authenticate a user with the
+ * given {@link Credentials}.
+ *
+ * @author Fabian Mastenbroek
+ */
+public final class Authenticate {
+    /**
+     * The credentials to authenticate with.
+     */
+    private final Credentials credentials;
 
-    compile 'org.scala-lang:scala-library:2.11.8'
-    compile 'com.typesafe.akka:akka-actor_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-slf4j_2.11:2.4.14'
+    /**
+     * Construct a {@link Authenticate} message.
+     *
+     * @param credentials The credentials to authenticate with.
+     */
+    public Authenticate(Credentials credentials) {
+        this.credentials = credentials;
+    }
 
-    testCompile 'com.typesafe.akka:akka-testkit_2.11:2.4.14'
-    testCompile 'junit:junit:4.11'
-    testRuntime 'org.slf4j:slf4j-simple:1.7.22'
-    testRuntime 'org.hibernate:hibernate-core:5.2.5.Final'
-    testRuntime 'com.h2database:h2:1.4.193'
+    /**
+     * Return the {@link Credentials} to authenticate with.
+     *
+     * @return The credentials to authenticate with.
+     */
+    public Credentials getCredentials() {
+        return credentials;
+    }
+
+    /**
+     * Return a string representation of this message.
+     *
+     * @return A string representation of this message.
+     */
+    @Override
+    public String toString() {
+        return String.format("Authenticate(credentials=%s)", credentials);
+    }
 }

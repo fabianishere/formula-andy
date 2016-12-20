@@ -23,94 +23,73 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.race;
+package nl.tudelft.fa.core.user;
+
+
+import nl.tudelft.fa.core.auth.Credentials;
 
 import java.util.UUID;
 
 /**
- * This class represents a race circuit on which races take place.
+ * This class represents a user account.
  *
- * @author Christian Slothouber
+ * @author Fabian Mastenbroek
  */
-public class Circuit {
+public class User {
     /**
-     * The unique id of this circuit.
+     * The unique id of the user.
      */
-    private final UUID id;
+    private UUID id;
 
     /**
-     * The name of the circuit.
+     * The credentials of the user.
      */
-    private final String name;
+    private Credentials credentials;
 
     /**
-     * The country the circuit is located in.
-     */
-    private final String country;
-
-    /**
-     * The length of the circuit in metres.
-     */
-    private final double length;
-
-    /**
-     * Construct a [@link Circuit} instance.
+     * Construct a {@link User} instance.
      *
-     * @param id The unique id of the circuit.
-     * @param name The name of the circuit
-     * @param country The country this circuit is located in.
+     * @param id The unique identifier of the user.
+     * @param credentials The credentials of the user.
      */
-    public Circuit(UUID id, String name, String country, double length) {
+    public User(UUID id, Credentials credentials) {
         this.id = id;
-        this.name = name;
-        this.country = country;
-        this.length = length;
+        this.credentials = credentials;
     }
 
     /**
-     * Return the length of the circuit.
-     * @return The length of the circuit.
+     * Construct a {@link User} instance.
      */
-    public double getLength() {
-        return length;
-    }
+    protected User() {}
 
     /**
-     * Return the unique id of the circuit.
+     * Return the unique identifier of the user.
      *
-     * @return The unique id of the circuit.
+     * @return The unique identifier of the user.
      */
     public UUID getId() {
         return id;
     }
 
     /**
-     * Return the name of the circuit.
+     * Return the credentials of the user.
      *
-     * @return The name of the circuit.
+     * @return The credentials of the user.
      */
-    public String getName() {
-        return name;
+    public Credentials getCredentials() {
+        return credentials;
     }
 
     /**
-     * Return the name of the country the circuit is located in.
-     *
-     * @return The name of the country the circuit is located in.
-     */
-    public String getCountry() {
-        return country;
-    }
-
-    /**
-     * Test whether this {@link Circuit} is equal to the given object.
+     * Test whether this {@link User} is equal to the given object.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object other) {
-        if (other instanceof Circuit) {
-            Circuit that = (Circuit) other;
+        if (other instanceof User) {
+            User that = (User) other;
             return this.id.equals(that.id);
         }
         return false;
@@ -127,12 +106,12 @@ public class Circuit {
     }
 
     /**
-     * Return a string representation of this engine.
+     * Return a string representation of this team.
      *
-     * @return A string representation of this engine.
+     * @return A string representation of this team.
      */
     @Override
     public String toString() {
-        return String.format("Circuit(id=%s, name=%s, country=%s)", id, name, country);
+        return String.format("User(id=%s, credentials=%s)", id, credentials);
     }
 }

@@ -22,22 +22,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
-apply plugin: 'scala'
+package nl.tudelft.fa.core.team.inventory;
 
-dependencies {
-    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
+/**
+ * An enumeration of all types of tires used in a Formula 1 race.
+ *
+ * @author Fabian Mastenbroek
+ */
+public enum TireType {
+    ULTRA_SOFT("Ultra Soft"),
+    SUPER_SOFT("Super Soft"),
+    SOFT("Soft"),
+    MEDIUM("Medium"),
+    HARD("Hard"),
+    INTERMEDIATE("Intermediate"),
+    WET("Wet");
 
-    compile 'org.scala-lang:scala-library:2.11.8'
-    compile 'com.typesafe.akka:akka-actor_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-slf4j_2.11:2.4.14'
+    /**
+     * The name of this type of tire.
+     */
+    private String name;
 
-    testCompile 'com.typesafe.akka:akka-testkit_2.11:2.4.14'
-    testCompile 'junit:junit:4.11'
-    testRuntime 'org.slf4j:slf4j-simple:1.7.22'
-    testRuntime 'org.hibernate:hibernate-core:5.2.5.Final'
-    testRuntime 'com.h2database:h2:1.4.193'
+    /**
+     * Construct a {@link TireType}.
+     *
+     * @param name The name of this type of tire.
+     */
+    TireType(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Return the name of this type of tire.
+     *
+     * @return The name of this type of tire.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Return a string representation of this tire type.
+     *
+     * @return A string representation of this tire type.
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
 }

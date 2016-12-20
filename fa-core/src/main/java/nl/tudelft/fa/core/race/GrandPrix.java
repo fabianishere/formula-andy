@@ -26,6 +26,7 @@
 package nl.tudelft.fa.core.race;
 
 import java.time.Instant;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -56,6 +57,11 @@ public class GrandPrix {
     private final int laps;
 
     /**
+     * The chance in percentage that it will be raining the day of the race.
+     */
+    private final int rainChance;
+
+    /**
      * Construct a {@link GrandPrix} instance.
      *
      * @param id The unique id of this grand prix.
@@ -63,11 +69,29 @@ public class GrandPrix {
      * @param date The date of the race.
      * @param laps The amount of laps in a grand prix.
      */
-    public GrandPrix(UUID id, Circuit circuit, Instant date, int laps) {
+    public GrandPrix(UUID id, Circuit circuit, Instant date, int laps, int rainChance) {
         this.id = id;
         this.circuit = circuit;
         this.date = date;
         this.laps = laps;
+        this.rainChance = rainChance;
+    }
+
+    /**
+     * Return the chance of rain of this grand prix.
+     * @return The rain chance.
+     */
+    public int getRainChance() {
+        return rainChance;
+    }
+
+    /**
+     * Determines if it is raining on the day of the race.
+     * @param random The Random the method will be using to determine the weather.
+     * @return True if it will be raining otherwise false.
+     */
+    public boolean isItRaining(Random random) {
+        return random.nextInt(101) <= rainChance;
     }
 
     /**

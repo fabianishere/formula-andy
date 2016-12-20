@@ -1,6 +1,5 @@
-package nl.tudelft.fa.core.game;
+package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.race.Circuit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,15 +14,25 @@ public class CircuitTest {
     String name;
     String country;
     Circuit circuit;
+    double lengthCircuit;
+
+    double delta;
 
     @Before
     public void setUp() throws Exception {
+        delta = 0.000001;
+
         id = UUID.randomUUID();
         name = "Spa";
         country = "Belgium";
-        circuit = new Circuit(id, name, country);
+        lengthCircuit = 5000;
+        circuit = new Circuit(id, name, country, lengthCircuit);
     }
 
+    @Test
+    public void getLength() {
+        assertEquals(lengthCircuit, circuit.getLength(), delta);
+    }
     @Test
     public void getId() throws Exception {
         assertEquals(id, circuit.getId());
@@ -51,17 +60,17 @@ public class CircuitTest {
 
     @Test
     public void equalsData() {
-        assertEquals(circuit = new Circuit(id, name, country), circuit);
+        assertEquals(circuit = new Circuit(id, name, country, lengthCircuit), circuit);
     }
 
     @Test
     public void equalsDifferentId() {
-        assertThat(circuit, not(equalTo(new Circuit(UUID.randomUUID(), name, country))));
+        assertThat(circuit, not(equalTo(new Circuit(UUID.randomUUID(), name, country, lengthCircuit))));
     }
 
     @Test
     public void equalsOtherPropertiesHaveNoEffect() {
-        assertEquals(new Circuit(id, "Monza", "Italy"), circuit);
+        assertEquals(new Circuit(id, "Monza", "Italy", lengthCircuit), circuit);
     }
 
     @Test

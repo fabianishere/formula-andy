@@ -1,7 +1,7 @@
-package nl.tudelft.fa.core.game;
+package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.race.CarParameters;
 import nl.tudelft.fa.core.team.inventory.Tire;
+import nl.tudelft.fa.core.team.inventory.TireType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +16,9 @@ import static org.junit.Assert.*;
  * @author Fabian Mastenbroek <mail.fabianm@gmail.com>
  */
 public class CarParametersTest {
+
+    double delta;
+
     int mechanicalRisk;
     int aerodynamicRisk;
     int strategicRisk;
@@ -24,11 +27,38 @@ public class CarParametersTest {
 
     @Before
     public void setUp() throws Exception {
+        delta = 0.00001;
+
         mechanicalRisk = 2;
         aerodynamicRisk = 3;
         strategicRisk = 4;
-        tire = new Tire(UUID.randomUUID(), "Pirelli", "Super Soft", 1, 2);
+        tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SOFT, 1, 2);
         parameters = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
+    }
+
+    @Test
+    public void increaseDistance() {
+        double testDistance = 200.456;
+        double tempDistance = parameters.getTraveledDistance();
+        parameters.increaseTraveledDistance(testDistance);
+        assertEquals(parameters.getTraveledDistance() - tempDistance, testDistance, delta);
+    }
+
+    @Test
+    public void getTraveledDistance() {
+        CarParameters tempParameters = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
+        assertEquals(0, tempParameters.getTraveledDistance(), delta);
+    }
+
+    @Test
+    public void getCrashed() {
+        assertFalse(parameters.getCrashed());
+    }
+
+    @Test
+    public void setCrashed() {
+        parameters.setCrashed(true);
+        assertTrue(parameters.getCrashed());
     }
 
     @Test
@@ -83,7 +113,7 @@ public class CarParametersTest {
 
     @Test
     public void equalsDifferentMechanic() {
-        Tire tire = new Tire(UUID.randomUUID(), "Pirelli", "Soft", 1, 2);
+        Tire tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SOFT, 1, 2);
         assertNotEquals(new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire), parameters);
     }
 

@@ -19,8 +19,14 @@ public class EngineTest {
     double fuelConsumption;
     Engine engine;
 
+    Tire tire;
+
+    double delta;
+
     @Before
     public void setUp() {
+        delta = 0.000001;
+
         id = UUID.randomUUID();
         brand = "Mercedes";
         name = "F1 W05 Hybrid";
@@ -28,6 +34,13 @@ public class EngineTest {
         driveability = 4.0;
         fuelConsumption = 1.0;
         engine = new Engine(id, brand, name, power, driveability, fuelConsumption);
+
+        tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 1, 7);
+    }
+
+    @Test
+    public void getMaxDistance() {
+        assertEquals(engine.getPower() * tire.getResistanceFactor(), engine.getMaxDistance(tire), delta);
     }
 
     @Test

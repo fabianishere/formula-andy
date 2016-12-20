@@ -17,8 +17,12 @@ public class DriverTest {
     double strategy;
     Driver driver;
 
+    double delta;
+
     @Before
     public void setUp() throws Exception {
+        delta = 0.00000001;
+
         id = UUID.randomUUID();
         name = "Tom";
         salary = 10000;
@@ -26,6 +30,10 @@ public class DriverTest {
         racecraft = 1.2;
         strategy = 56;
         driver = new Driver(id, name, salary, speed, racecraft, strategy);
+    }
+    @Test
+    public void getDriverFactor() {
+        assertEquals(strategy/100 * racecraft/100 * speed/100, driver.getDriverFactor(), delta);
     }
 
     @Test

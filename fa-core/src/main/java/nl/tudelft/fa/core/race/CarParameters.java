@@ -25,8 +25,8 @@
 
 package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.team.inventory.Tire;
 import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.Tire;
 
 import java.util.Objects;
 
@@ -58,6 +58,16 @@ public class CarParameters {
     private final Tire tire;
 
     /**
+     * The total distance this car has traveled during this race.
+     */
+    private double traveledDistance;
+
+    /**
+     * True if the car has crashed this race.
+     */
+    private boolean crashed;
+
+    /**
      * Construct a {@link CarParameters} instance.
      *
      * @param mechanicalRisk The risk of the car setup.
@@ -70,6 +80,40 @@ public class CarParameters {
         this.aerodynamicRisk = aerodynamicRisk;
         this.strategicRisk = strategicRisk;
         this.tire = tire;
+        this.traveledDistance = 0;
+        this.crashed = false;
+    }
+
+    /**
+     * Return the total traveled distance this race.
+     * @return The total traveled distance.
+     */
+    public double getTraveledDistance() {
+        return traveledDistance;
+    }
+
+    /**
+     * Increase the total traveled distance of this race.
+     * @param distance The distance to increase the total distance with.
+     */
+    public void increaseTraveledDistance(double distance) {
+        traveledDistance = traveledDistance + distance;
+    }
+
+    /**
+     * Set the crash state of the car.
+     * @param bool The new crash state of the car. True is crashed. False is not crashed.
+     */
+    public void setCrashed(boolean bool) {
+        crashed = bool;
+    }
+
+    /**
+     * Return the crash state of the car.
+     * @return The crash state of the car. True if crashed. False if not crashed.
+     */
+    public boolean getCrashed() {
+        return this.crashed;
     }
 
     /**

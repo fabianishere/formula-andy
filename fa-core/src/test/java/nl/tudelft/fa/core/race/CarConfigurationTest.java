@@ -1,6 +1,5 @@
-package nl.tudelft.fa.core.game;
+package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.team.*;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Engine;
@@ -28,7 +27,7 @@ public class CarConfigurationTest {
 
     @Before
     public void setUp() throws Exception {
-        car = new Car();
+        car = new Car(UUID.randomUUID());
         driver = new Driver(UUID.randomUUID(), "Henry",  3, 4, 5, 6);
         engine = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 1, 2, 3);
         mechanic = new Mechanic(UUID.randomUUID(), "Harry", 1, 2);
@@ -84,7 +83,7 @@ public class CarConfigurationTest {
 
     @Test
     public void equalsDifferentCar() {
-        assertNotEquals(new CarConfiguration(new Car(), engine, driver, mechanic, aerodynamicist, strategist), configuration);
+        assertNotEquals(new CarConfiguration(new Car(UUID.randomUUID()), engine, driver, mechanic, aerodynamicist, strategist), configuration);
     }
 
     @Test
