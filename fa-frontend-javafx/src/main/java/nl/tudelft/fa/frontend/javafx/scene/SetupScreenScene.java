@@ -15,14 +15,17 @@ import javafx.scene.control.ToggleButton;
 
 public class SetupScreenScene extends Scene {
 
-    /**
-     * Setup for all toggle buttons to act like radio buttons.
-     *
+    /** This file is to make the setup-screen buttons work. It contains:
+     * Setup for all toggle buttons to act like radio buttons:
+     *      using the toggle void
+     * Setup for all the dropdown buttons to display an arraylist to choose from:
+     *      using the dropdown void
      * @param root the parent root
      */
     public SetupScreenScene(Parent root) {
         super(root);
 
+        //Getting every togglebutton by their id
         ToggleButton mechanical11 = (ToggleButton) this.lookup("#mechanical11");
         ToggleButton mechanical12 = (ToggleButton) this.lookup("#mechanical12");
         ToggleButton mechanical13 = (ToggleButton) this.lookup("#mechanical13");
@@ -276,9 +279,7 @@ public class SetupScreenScene extends Scene {
         dropdown(strategist2, "#strategist2");
     }
 
-    /**
-     * The actual toggle void: toggles the color between the buttons. Selected is red
-     *
+    /** The actual toggle void: toggles the color between the buttons. Selected is red
      * @param t1    the toggle id of the first button
      * @param t2    the toggle id of the second button
      * @param t3    the toggle id of the second button
@@ -300,8 +301,8 @@ public class SetupScreenScene extends Scene {
     }
 
     /**Sets the items for the dropdown button.
-     * @param options the arraylist containing the items
-     * @param id the id of the combobox
+     * @param options the arraylist containing the items you can choose
+     * @param id the id of the combobox button you want to assign the arraylist to
      */
     private void dropdown(ObservableList<String> options, String id) {
         ComboBox comboBox = (ComboBox) this.lookup(id);
