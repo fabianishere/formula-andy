@@ -31,7 +31,7 @@ package nl.tudelft.fa.core.auth.message;
  *
  * @author Fabian Mastenbroek
  */
-public class InvalidCredentialsError extends AuthenticationError {
+public final class InvalidCredentialsError extends AuthenticationError {
     /**
      * Construct a {@link InvalidCredentialsError} instance.
      */

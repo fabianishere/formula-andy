@@ -25,8 +25,8 @@
 
 package nl.tudelft.fa.core.auth.message;
 
-import nl.tudelft.fa.core.auth.actor.Authenticator;
 import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.auth.actor.Authenticator;
 
 import java.util.Objects;
 

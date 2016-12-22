@@ -35,7 +35,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public class AuthenticationSuccess {
+public final class AuthenticationSuccess {
     /**
      * The user that has been authenticated.
      */
