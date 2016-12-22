@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.lobby;
 
+import nl.tudelft.fa.core.lobby.actor.Lobby;
+
 import java.time.Duration;
 import java.util.Objects;
 

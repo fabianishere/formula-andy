@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
@@ -32,6 +32,7 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
 
+import nl.tudelft.fa.core.lobby.*;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;

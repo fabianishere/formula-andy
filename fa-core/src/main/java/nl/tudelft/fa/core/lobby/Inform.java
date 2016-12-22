@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.lobby;
 
+import nl.tudelft.fa.core.lobby.actor.Lobby;
+
 /**
  * This message is send to a {@link Lobby} actor to request information about its current state.
  *

@@ -26,6 +26,7 @@
 package nl.tudelft.fa.core.lobby;
 
 import akka.actor.ActorRef;
+import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;

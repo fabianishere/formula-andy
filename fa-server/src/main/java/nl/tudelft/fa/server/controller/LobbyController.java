@@ -33,7 +33,7 @@ import akka.http.javadsl.server.Route;
 import akka.pattern.PatternsCS;
 
 import nl.tudelft.fa.core.lobby.Inform;
-import nl.tudelft.fa.core.lobby.Lobby;
+import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyInformation;
 
 /**
