@@ -6,7 +6,7 @@ import akka.actor.Props;
 import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
 import nl.tudelft.fa.core.auth.message.AuthenticationSuccess;
-import nl.tudelft.fa.core.auth.message.InvalidCredentials;
+import nl.tudelft.fa.core.auth.message.InvalidCredentialsError;
 import nl.tudelft.fa.core.user.User;
 import org.junit.*;
 
@@ -68,7 +68,7 @@ public class AuthenticatorTest {
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgClass(duration("1 second"), InvalidCredentials.class);
+                expectMsgClass(duration("1 second"), InvalidCredentialsError.class);
             }
         };
     }
@@ -84,7 +84,7 @@ public class AuthenticatorTest {
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgClass(duration("1 second"), InvalidCredentials.class);
+                expectMsgClass(duration("1 second"), InvalidCredentialsError.class);
             }
         };
     }

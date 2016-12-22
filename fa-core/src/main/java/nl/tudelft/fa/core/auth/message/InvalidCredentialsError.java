@@ -26,27 +26,35 @@
 package nl.tudelft.fa.core.auth.message;
 
 /**
- * This message indicates that the authentication request failed.
+ * This message indicates that the authentication request failed, because the
+ * credentials supplied with the request were invalid.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class AuthenticationFailure {
+public class InvalidCredentialsError extends AuthenticationError {
+    /**
+     * Construct a {@link InvalidCredentialsError} instance.
+     */
+    public InvalidCredentialsError() {
+        super("The user supplied credentials are invalid.");
+    }
+
+    /**
+     * Construct a {@link InvalidCredentialsError} instance.
+     *
+     * @param message The message of the exception.
+     */
+    public InvalidCredentialsError(String message) {
+        super(message);
+    }
+
     /**
      * Return a string representation of this message.
      *
      * @return A string representation of this message.
      */
     @Override
-    public abstract String toString();
-
-    /**
-     * Test whether this message is equal to the given object.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    @Override
-    public boolean equals(Object other) {
-        return getClass().isInstance(other);
+    public String toString() {
+        return String.format("InvalidCredentialsError(message=%s)", getMessage());
     }
 }

@@ -34,7 +34,7 @@ import akka.japi.pf.ReceiveBuilder;
 
 import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
 import nl.tudelft.fa.core.auth.message.AuthenticationSuccess;
-import nl.tudelft.fa.core.auth.message.InvalidCredentials;
+import nl.tudelft.fa.core.auth.message.InvalidCredentialsError;
 import nl.tudelft.fa.core.user.User;
 
 import scala.PartialFunction;
@@ -104,7 +104,7 @@ public class Authenticator extends AbstractActor {
         // error message.
         if (!user.isPresent() || !user.get()
                 .getCredentials().getPassword().equals(req.getCredentials().getPassword())) {
-            sender().tell(new InvalidCredentials(), self());
+            sender().tell(new InvalidCredentialsError(), self());
             return;
         }
 
