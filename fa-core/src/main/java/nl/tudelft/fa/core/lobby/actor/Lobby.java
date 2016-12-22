@@ -159,7 +159,7 @@ public class Lobby extends AbstractActor {
         }
 
         LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        Left event = new Left(req.getUser(), self());
+        LeaveSuccess event = new LeaveSuccess(req.getUser(), self());
 
         for (User user : users.keySet()) {
             users.get(user).tell(event, self());

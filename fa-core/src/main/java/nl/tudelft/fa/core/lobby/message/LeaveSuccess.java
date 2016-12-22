@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
 import akka.actor.ActorRef;
 import nl.tudelft.fa.core.lobby.actor.Lobby;
@@ -36,7 +36,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public class Left {
+public class LeaveSuccess {
     /**
      * The user that has left the lobby.
      */
@@ -48,12 +48,12 @@ public class Left {
     private ActorRef lobby;
 
     /**
-     * Construct a {@link Left} message instance.
+     * Construct a {@link LeaveSuccess} message instance.
      *
      * @param user The user that has left the lobby.
      * @param lobby The reference to the lobby the user has left.
      */
-    public Left(User user, ActorRef lobby) {
+    public LeaveSuccess(User user, ActorRef lobby) {
         this.user = user;
         this.lobby = lobby;
     }
@@ -83,12 +83,14 @@ public class Left {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (other instanceof Left) {
-            Left that = (Left) other;
-            return this.user.equals(that.user)
-                && this.lobby.equals(that.lobby);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        LeaveSuccess that = (LeaveSuccess) other;
+        return Objects.equals(user, that.user) && Objects.equals(lobby, that.lobby);
     }
 
     /**
@@ -108,6 +110,6 @@ public class Left {
      */
     @Override
     public String toString() {
-        return String.format("Left(user=%s, lobby=%s)", user, lobby);
+        return String.format("LeaveSuccess(user=%s, lobby=%s)", user, lobby);
     }
 }

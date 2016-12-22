@@ -106,7 +106,7 @@ public class LobbyTest {
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());
-                expectMsgEquals(duration("1 second"), new Left(user, subject));
+                expectMsgEquals(duration("1 second"), new LeaveSuccess(user, subject));
             }
         };
     }
