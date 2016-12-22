@@ -52,16 +52,17 @@ public class Circuit {
     /**
      * The length of the circuit in metres.
      */
-    private final double length;
+    private final int length;
 
     /**
-     * Construct a [@link Circuit} instance.
+     * Construct a {@link Circuit} instance.
      *
      * @param id The unique id of the circuit.
      * @param name The name of the circuit
      * @param country The country this circuit is located in.
+     * @param length The length of the circuit.
      */
-    public Circuit(UUID id, String name, String country, double length) {
+    public Circuit(UUID id, String name, String country, int length) {
         this.id = id;
         this.name = name;
         this.country = country;
@@ -70,9 +71,10 @@ public class Circuit {
 
     /**
      * Return the length of the circuit.
+     *
      * @return The length of the circuit.
      */
-    public double getLength() {
+    public int getLength() {
         return length;
     }
 
@@ -137,6 +139,7 @@ public class Circuit {
      */
     @Override
     public String toString() {
-        return String.format("Circuit(id=%s, name=%s, country=%s)", id, name, country);
+        return String.format("Circuit(id=%s, name=%s, country=%s, length=%d)", id, name, country,
+            length);
     }
 }

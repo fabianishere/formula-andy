@@ -15,24 +15,20 @@ public class CircuitTest {
     String name;
     String country;
     Circuit circuit;
-    double lengthCircuit;
-
-    double delta;
+    int length;
 
     @Before
     public void setUp() throws Exception {
-        delta = 0.000001;
-
         id = UUID.randomUUID();
         name = "Spa";
         country = "Belgium";
-        lengthCircuit = 5000;
-        circuit = new Circuit(id, name, country, lengthCircuit);
+        length = 5000;
+        circuit = new Circuit(id, name, country, length);
     }
 
     @Test
     public void getLength() {
-        assertEquals(lengthCircuit, circuit.getLength(), delta);
+        assertEquals(length, circuit.getLength());
     }
     @Test
     public void getId() throws Exception {
@@ -66,17 +62,17 @@ public class CircuitTest {
 
     @Test
     public void equalsData() {
-        assertEquals(circuit = new Circuit(id, name, country, lengthCircuit), circuit);
+        assertEquals(circuit = new Circuit(id, name, country, length), circuit);
     }
 
     @Test
     public void equalsDifferentId() {
-        assertThat(circuit, not(equalTo(new Circuit(UUID.randomUUID(), name, country, lengthCircuit))));
+        assertThat(circuit, not(equalTo(new Circuit(UUID.randomUUID(), name, country, length))));
     }
 
     @Test
     public void equalsOtherPropertiesHaveNoEffect() {
-        assertEquals(new Circuit(id, "Monza", "Italy", lengthCircuit), circuit);
+        assertEquals(new Circuit(id, "Monza", "Italy", length), circuit);
     }
 
     @Test
@@ -86,7 +82,7 @@ public class CircuitTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("Circuit(id=%s, name=%s, country=%s)", id, name, country), circuit.toString());
+        assertEquals(String.format("Circuit(id=%s, name=%s, country=%s, length=%d)", id, name, country, length), circuit.toString());
     }
 
 }
