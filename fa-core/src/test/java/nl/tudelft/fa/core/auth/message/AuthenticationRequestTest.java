@@ -31,6 +31,11 @@ public class AuthenticationRequestTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(request, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(request, request);
     }

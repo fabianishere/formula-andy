@@ -29,6 +29,12 @@ public class AuthenticationSuccessTest {
     public void getUser() throws Exception {
         assertEquals(user, res.getUser());
     }
+
+    @Test
+    public void equalsDifferentType() {
+        assertThat(res, not(equalTo("")));
+    }
+
     @Test
     public void equalsNull() {
         assertThat(res, not(equalTo(null)));
@@ -57,6 +63,6 @@ public class AuthenticationSuccessTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("AuthenticationSuccess(user=%s)", user), user.toString());
+        assertEquals(String.format("AuthenticationSuccess(user=%s)", user), res.toString());
     }
 }
