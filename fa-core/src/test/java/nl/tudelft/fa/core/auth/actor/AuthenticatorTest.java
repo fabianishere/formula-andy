@@ -1,9 +1,11 @@
-package nl.tudelft.fa.core.auth;
+package nl.tudelft.fa.core.auth.actor;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.testkit.JavaTestKit;
+import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.auth.actor.Authenticator;
 import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
 import nl.tudelft.fa.core.auth.message.AuthenticationSuccess;
 import nl.tudelft.fa.core.auth.message.InvalidCredentialsError;

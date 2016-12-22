@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.auth;
+package nl.tudelft.fa.core.auth.actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.Props;
