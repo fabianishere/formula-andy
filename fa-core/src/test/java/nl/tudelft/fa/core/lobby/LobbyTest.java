@@ -120,7 +120,7 @@ public class LobbyTest {
                 final LeaveRequest req = new LeaveRequest(user);
 
                 subject.tell(req, getRef());
-                expectMsgClass(duration("1 second"), NotInLobby.class);
+                expectMsgClass(duration("1 second"), NotInLobbyError.class);
             }
         };
     }

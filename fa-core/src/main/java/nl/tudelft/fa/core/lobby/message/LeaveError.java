@@ -23,14 +23,51 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
+
+import nl.tudelft.fa.core.user.User;
 
 /**
- * This message represents a failure to join a lobby.
+ * This message indicates that a {@link User} failed to leave a lobby.
  *
  * @author Fabian Mastenbroek
  */
-public class NotInLobby extends LeaveFailure {
+public abstract class LeaveError {
+    /**
+     * The message of this error.
+     */
+    private final String message;
+
+    /**
+     * Construct a {@link LeaveError} instance.
+     *
+     * @param message The message of the error.
+     */
+    public LeaveError(String message) {
+        this.message = message;
+    }
+
+    /**
+     * Return the message of this error.
+     *
+     * @return The message of this error.
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * Test whether this message is equal to the given object.
+     * This is always <code>true</code> if both classes are of the same type.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
+     */
+    @Override
+    public boolean equals(Object other) {
+        return getClass().isInstance(other);
+    }
+
     /**
      * Return a string representation of this message.
      *
@@ -38,6 +75,6 @@ public class NotInLobby extends LeaveFailure {
      */
     @Override
     public String toString() {
-        return "You are not in the lobby you are trying to leave.";
+        return String.format("LeaveError(message=%s)", message);
     }
 }

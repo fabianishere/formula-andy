@@ -154,7 +154,7 @@ public class Lobby extends AbstractActor {
             // The user is not in the lobby
             log.warning("The user {} tried to leave the lobby, but is not in the lobby",
                 req.getUser().getCredentials().getUsername());
-            sender().tell(new NotInLobby(), self());
+            sender().tell(new NotInLobbyError(), self());
             return;
         }
 

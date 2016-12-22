@@ -23,21 +23,37 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
-
-import nl.tudelft.fa.core.user.User;
+package nl.tudelft.fa.core.lobby.message;
 
 /**
- * This message indicates that a {@link User} failed to leave a lobby.
+ * This message represents a failure to join a lobby, because the lobby is full.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class LeaveFailure {
+public class NotInLobbyError extends LeaveError {
+    /**
+     * Construct a {@link NotInLobbyError} instance.
+     */
+    public NotInLobbyError() {
+        super("The lobby you are trying to join is full.");
+    }
+
+    /**
+     * Construct a {@link NotInLobbyError} instance.
+     *
+     * @param message The message of the error.
+     */
+    public NotInLobbyError(String message) {
+        super(message);
+    }
+
     /**
      * Return a string representation of this message.
      *
      * @return A string representation of this message.
      */
     @Override
-    public abstract String toString();
+    public String toString() {
+        return String.format("NotInLobbyError(message=%s)", getMessage());
+    }
 }
