@@ -82,6 +82,7 @@ public class LeaveSuccess {
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;
