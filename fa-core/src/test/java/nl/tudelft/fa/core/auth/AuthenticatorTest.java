@@ -4,7 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.testkit.JavaTestKit;
-import nl.tudelft.fa.core.auth.message.Authenticate;
+import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
 import nl.tudelft.fa.core.auth.message.Authenticated;
 import nl.tudelft.fa.core.auth.message.InvalidCredentials;
 import nl.tudelft.fa.core.user.User;
@@ -47,7 +47,7 @@ public class AuthenticatorTest {
             {
                 final Props props = Authenticator.props(manager);
                 final ActorRef subject = system.actorOf(props);
-                final Authenticate req = new Authenticate(new Credentials("fabianishere", "test"));
+                final AuthenticationRequest req = new AuthenticationRequest(new Credentials("fabianishere", "test"));
 
                 subject.tell(req, getRef());
 
@@ -63,7 +63,7 @@ public class AuthenticatorTest {
             {
                 final Props props = Authenticator.props(manager);
                 final ActorRef subject = system.actorOf(props);
-                final Authenticate req = new Authenticate(new Credentials("unknown", "test"));
+                final AuthenticationRequest req = new AuthenticationRequest(new Credentials("unknown", "test"));
 
                 subject.tell(req, getRef());
 
@@ -79,7 +79,7 @@ public class AuthenticatorTest {
             {
                 final Props props = Authenticator.props(manager);
                 final ActorRef subject = system.actorOf(props);
-                final Authenticate req = new Authenticate(new Credentials("fabianishere", "incorrect"));
+                final AuthenticationRequest req = new AuthenticationRequest(new Credentials("fabianishere", "incorrect"));
 
                 subject.tell(req, getRef());
 

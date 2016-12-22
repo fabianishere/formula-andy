@@ -28,7 +28,7 @@ package nl.tudelft.fa.core.auth.message;
 import nl.tudelft.fa.core.user.User;
 
 /**
- * This message indicates that the {@link Authenticate} request was successful.
+ * This message indicates that the {@link AuthenticationRequest} request was successful.
  *
  * @author Fabian Mastenbroek
  */

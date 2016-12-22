@@ -32,7 +32,7 @@ import akka.event.LoggingAdapter;
 
 import akka.japi.pf.ReceiveBuilder;
 
-import nl.tudelft.fa.core.auth.message.Authenticate;
+import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
 import nl.tudelft.fa.core.auth.message.Authenticated;
 import nl.tudelft.fa.core.auth.message.InvalidCredentials;
 import nl.tudelft.fa.core.user.User;
@@ -79,16 +79,16 @@ public class Authenticator extends AbstractActor {
     @Override
     public PartialFunction<Object, BoxedUnit> receive() {
         return ReceiveBuilder
-            .match(Authenticate.class, this::authenticate)
+            .match(AuthenticationRequest.class, this::authenticate)
             .build();
     }
 
     /**
-     * Handle the given {@link Authenticate} request.
+     * Handle the given {@link AuthenticationRequest} request.
      *
-     * @param req The {@link Authenticate} request to handle.
+     * @param req The {@link AuthenticationRequest} request to handle.
      */
-    private void authenticate(Authenticate req) {
+    private void authenticate(AuthenticationRequest req) {
         log.info("Received authentication request {}", req);
 
         Optional<User> user = entityManager

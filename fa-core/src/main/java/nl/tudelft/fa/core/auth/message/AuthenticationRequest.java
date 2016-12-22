@@ -29,23 +29,23 @@ import nl.tudelft.fa.core.auth.Authenticator;
 import nl.tudelft.fa.core.auth.Credentials;
 
 /**
- * This message is send to a {@link Authenticator} actor to authenticate a user with the
- * given {@link Credentials}.
+ * This message is sent to an {@link Authenticator} actor to request the user with the given
+ * {@link Credentials} to be authenticated.
  *
  * @author Fabian Mastenbroek
  */
-public final class Authenticate {
+public final class AuthenticationRequest {
     /**
      * The credentials to authenticate with.
      */
     private final Credentials credentials;
 
     /**
-     * Construct a {@link Authenticate} message.
+     * Construct a {@link AuthenticationRequest} message.
      *
      * @param credentials The credentials to authenticate with.
      */
-    public Authenticate(Credentials credentials) {
+    public AuthenticationRequest(Credentials credentials) {
         this.credentials = credentials;
     }
 
@@ -65,6 +65,6 @@ public final class Authenticate {
      */
     @Override
     public String toString() {
-        return String.format("Authenticate(credentials=%s)", credentials);
+        return String.format("AuthenticationRequest(credentials=%s)", credentials);
     }
 }
