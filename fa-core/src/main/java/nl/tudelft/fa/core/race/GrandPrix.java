@@ -26,6 +26,7 @@
 package nl.tudelft.fa.core.race;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -137,11 +138,14 @@ public class GrandPrix {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (other instanceof GrandPrix) {
-            GrandPrix that = (GrandPrix) other;
-            return this.id.equals(that.id);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        GrandPrix that = (GrandPrix) other;
+        return Objects.equals(id, that.id);
     }
 
     /**
@@ -151,7 +155,7 @@ public class GrandPrix {
      */
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return Objects.hash(id);
     }
 
     /**

@@ -25,6 +25,7 @@
 
 package nl.tudelft.fa.core.team;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -110,11 +111,14 @@ public abstract class Member {
      */
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Member) {
-            Member that = (Member) other;
-            return this.id.equals(that.id);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Member that = (Member) other;
+        return Objects.equals(id, that.id);
     }
 
     /**
@@ -124,6 +128,6 @@ public abstract class Member {
      */
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return Objects.hash(id);
     }
 }

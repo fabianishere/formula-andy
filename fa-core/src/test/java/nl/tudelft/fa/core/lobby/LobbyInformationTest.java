@@ -55,6 +55,11 @@ public class LobbyInformationTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(information, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(information, information);
     }

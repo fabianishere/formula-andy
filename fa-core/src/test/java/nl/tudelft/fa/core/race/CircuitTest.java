@@ -3,6 +3,7 @@ package nl.tudelft.fa.core.race;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -54,6 +55,11 @@ public class CircuitTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(circuit, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(circuit, circuit);
     }
@@ -75,7 +81,7 @@ public class CircuitTest {
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(id.hashCode(), circuit.hashCode());
+        assertEquals(Objects.hash(id), circuit.hashCode());
     }
 
     @Test

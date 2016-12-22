@@ -118,14 +118,17 @@ public class LobbyInformation {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (other instanceof LobbyInformation) {
-            LobbyInformation that = (LobbyInformation) other;
-            return this.id.equals(that.id)
-                && this.status.equals(that.status)
-                && this.configuration.equals(that.configuration)
-                && this.users.equals(that.users);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        LobbyInformation that = (LobbyInformation) other;
+        return Objects.equals(id, that.id)
+            && Objects.equals(status, that.status)
+            && Objects.equals(configuration, that.configuration)
+            && Objects.equals(users, that.users);
     }
 
     /**

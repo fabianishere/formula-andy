@@ -25,6 +25,7 @@
 
 package nl.tudelft.fa.core.race;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -109,11 +110,14 @@ public class Circuit {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (other instanceof Circuit) {
-            Circuit that = (Circuit) other;
-            return this.id.equals(that.id);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Circuit that = (Circuit) other;
+        return Objects.equals(id, that.id);
     }
 
     /**
@@ -123,7 +127,7 @@ public class Circuit {
      */
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return Objects.hash(id);
     }
 
     /**
