@@ -30,7 +30,7 @@ package nl.tudelft.fa.core.lobby.message;
  *
  * @author Fabian Mastenbroek
  */
-public class NotInLobbyError extends LeaveError {
+public final class NotInLobbyError extends LeaveError {
     /**
      * Construct a {@link NotInLobbyError} instance.
      */

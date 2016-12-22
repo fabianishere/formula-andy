@@ -35,7 +35,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public class JoinSuccess {
+public final class JoinSuccess {
     /**
      * The information of the lobby the user joined.
      */

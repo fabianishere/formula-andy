@@ -35,7 +35,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public class LeaveRequest {
+public final class LeaveRequest {
     /**
      * The {@link User} that wants to leave the lobby.
      */
