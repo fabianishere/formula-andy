@@ -33,7 +33,7 @@ import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
 
 import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
-import nl.tudelft.fa.core.auth.message.Authenticated;
+import nl.tudelft.fa.core.auth.message.AuthenticationSuccess;
 import nl.tudelft.fa.core.auth.message.InvalidCredentials;
 import nl.tudelft.fa.core.user.User;
 
@@ -112,7 +112,7 @@ public class Authenticator extends AbstractActor {
         log.info("User {} has been authenticated", userUnwrapped
             .getCredentials().getUsername());
 
-        sender().tell(new Authenticated(userUnwrapped), self());
+        sender().tell(new AuthenticationSuccess(userUnwrapped), self());
     }
 
     /**

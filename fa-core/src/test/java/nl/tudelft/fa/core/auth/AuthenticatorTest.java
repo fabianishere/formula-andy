@@ -5,7 +5,7 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
-import nl.tudelft.fa.core.auth.message.Authenticated;
+import nl.tudelft.fa.core.auth.message.AuthenticationSuccess;
 import nl.tudelft.fa.core.auth.message.InvalidCredentials;
 import nl.tudelft.fa.core.user.User;
 import org.junit.*;
@@ -52,7 +52,7 @@ public class AuthenticatorTest {
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgClass(duration("1 second"), Authenticated.class);
+                expectMsgClass(duration("1 second"), AuthenticationSuccess.class);
             }
         };
     }
