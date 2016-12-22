@@ -63,6 +63,6 @@ public class JoinSuccessTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("Joined(information=%s)", information), msg.toString());
+        assertEquals(String.format("JoinSuccess(information=%s)", information), msg.toString());
     }
 }
