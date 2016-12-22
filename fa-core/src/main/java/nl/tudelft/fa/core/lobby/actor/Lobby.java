@@ -33,6 +33,7 @@ import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
 
 import nl.tudelft.fa.core.lobby.*;
+import nl.tudelft.fa.core.lobby.message.InformationRequest;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
@@ -104,7 +105,7 @@ public class Lobby extends AbstractActor {
      */
     private PartialFunction<Object, BoxedUnit> preparation() {
         return ReceiveBuilder
-            .match(Inform.class, req -> inform(LobbyStatus.PREPARATION))
+            .match(InformationRequest.class, req -> inform(LobbyStatus.PREPARATION))
             .match(Join.class, this::join)
             .match(Leave.class, this::leave)
             .build();

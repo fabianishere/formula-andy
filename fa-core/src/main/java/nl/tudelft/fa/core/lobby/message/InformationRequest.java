@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
 import nl.tudelft.fa.core.lobby.actor.Lobby;
 
@@ -32,4 +32,9 @@ import nl.tudelft.fa.core.lobby.actor.Lobby;
  *
  * @author Fabian Mastenbroek
  */
-public class Inform {}
+public final class InformationRequest {
+    /**
+     * A static instance of this class.
+     */
+    public static final InformationRequest INSTANCE = new InformationRequest();
+}

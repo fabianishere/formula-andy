@@ -32,9 +32,9 @@ import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.server.Route;
 import akka.pattern.PatternsCS;
 
-import nl.tudelft.fa.core.lobby.Inform;
-import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyInformation;
+import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.message.InformationRequest;
 
 /**
  * The controller for a single {@link Lobby} actor.
@@ -63,7 +63,7 @@ public class LobbyController {
      */
     public Route createRoute() {
         // Show the information about the lobby.
-        return completeOKWithFuture(PatternsCS.ask(lobby, new Inform(), 1000)
+        return completeOKWithFuture(PatternsCS.ask(lobby, InformationRequest.INSTANCE, 1000)
             .thenApplyAsync(LobbyInformation.class::cast), Jackson.marshaller());
     }
 }

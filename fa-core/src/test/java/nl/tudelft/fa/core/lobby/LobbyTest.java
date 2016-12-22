@@ -7,6 +7,7 @@ import akka.testkit.JavaTestKit;
 
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.message.InformationRequest;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -47,7 +48,7 @@ public class LobbyTest {
             {
                 final Props props = Lobby.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
-                final Inform req = new Inform();
+                final InformationRequest req = InformationRequest.INSTANCE;
 
                 subject.tell(req, getRef());
 
