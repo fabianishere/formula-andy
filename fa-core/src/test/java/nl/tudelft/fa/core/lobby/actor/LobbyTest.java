@@ -1,4 +1,4 @@
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.actor;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -6,6 +6,9 @@ import akka.actor.Props;
 import akka.testkit.JavaTestKit;
 
 import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+import nl.tudelft.fa.core.lobby.LobbyInformation;
+import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
