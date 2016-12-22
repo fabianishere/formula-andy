@@ -8,6 +8,7 @@ import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.lobby.message.InformationRequest;
+import nl.tudelft.fa.core.lobby.message.JoinRequest;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -65,7 +66,7 @@ public class LobbyTest {
             {
                 final Props props = Lobby.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
-                final Join req = new Join(user);
+                final JoinRequest req = new JoinRequest(user);
 
                 subject.tell(req, getRef());
 
@@ -82,7 +83,7 @@ public class LobbyTest {
             {
                 final Props props = Lobby.props(new LobbyConfiguration(0, Duration.ZERO));
                 final ActorRef subject = system.actorOf(props, id.toString());
-                final Join req = new Join(user);
+                final JoinRequest req = new JoinRequest(user);
 
                 subject.tell(req, getRef());
 
@@ -100,9 +101,9 @@ public class LobbyTest {
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Leave req = new Leave(user);
 
-                subject.tell(new Join(new User(UUID.randomUUID(), new Credentials("test", "Test"))), ActorRef.noSender());
+                subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "Test"))), ActorRef.noSender());
 
-                subject.tell(new Join(user), getRef());
+                subject.tell(new JoinRequest(user), getRef());
                 expectMsgClass(duration("1 second"), Joined.class);
 
                 subject.tell(req, getRef());

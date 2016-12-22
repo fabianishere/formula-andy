@@ -34,6 +34,7 @@ import akka.japi.pf.ReceiveBuilder;
 
 import nl.tudelft.fa.core.lobby.*;
 import nl.tudelft.fa.core.lobby.message.InformationRequest;
+import nl.tudelft.fa.core.lobby.message.JoinRequest;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
@@ -106,7 +107,7 @@ public class Lobby extends AbstractActor {
     private PartialFunction<Object, BoxedUnit> preparation() {
         return ReceiveBuilder
             .match(InformationRequest.class, req -> inform(LobbyStatus.PREPARATION))
-            .match(Join.class, this::join)
+            .match(JoinRequest.class, this::join)
             .match(Leave.class, this::leave)
             .build();
     }
@@ -121,11 +122,11 @@ public class Lobby extends AbstractActor {
     }
 
     /**
-     * Handle a {@link Join} request.
+     * Handle a {@link JoinRequest} request.
      *
      * @param req The join request to handle.
      */
-    private void join(Join req) {
+    private void join(JoinRequest req) {
         if (users.size() >= configuration.getPlayerMaximum()) {
             sender().tell(new LobbyFull(users.size()), self());
             return;
