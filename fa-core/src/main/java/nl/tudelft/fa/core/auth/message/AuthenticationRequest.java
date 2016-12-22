@@ -23,71 +23,60 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.auth.message;
 
-import akka.actor.ActorRef;
-import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.auth.actor.Authenticator;
 
 import java.util.Objects;
 
 /**
- * This message indicates the {@link User} has left the {@link Lobby}.
+ * This message is sent to an {@link Authenticator} actor to request the user with the given
+ * {@link Credentials} to be authenticated.
  *
  * @author Fabian Mastenbroek
  */
-public class Left {
+public final class AuthenticationRequest {
     /**
-     * The user that has left the lobby.
+     * The credentials to authenticate with.
      */
-    private User user;
+    private final Credentials credentials;
 
     /**
-     * The reference to the {@link Lobby} the user has left.
-     */
-    private ActorRef lobby;
-
-    /**
-     * Construct a {@link Left} message instance.
+     * Construct a {@link AuthenticationRequest} message.
      *
-     * @param user The user that has left the lobby.
-     * @param lobby The reference to the lobby the user has left.
+     * @param credentials The credentials to authenticate with.
      */
-    public Left(User user, ActorRef lobby) {
-        this.user = user;
-        this.lobby = lobby;
+    public AuthenticationRequest(Credentials credentials) {
+        this.credentials = credentials;
     }
 
     /**
-     * Return the user that has left the lobby.
+     * Return the {@link Credentials} to authenticate with.
      *
-     * @return The user that has left the lobby.
+     * @return The credentials to authenticate with.
      */
-    public User getUser() {
-        return user;
+    public Credentials getCredentials() {
+        return credentials;
     }
 
     /**
-     * Return the reference to the lobby the user has left.
-     *
-     * @return The reference to the lobby the user has left.
-     */
-    public ActorRef getLobby() {
-        return lobby;
-    }
-
-    /**
-     * Test whether this message is equal to the given object.
+     * Test whether this message is equal to the given object, which means that all properties of
+     * this message are equal to the properties of the other class.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object other) {
-        if (other instanceof Left) {
-            Left that = (Left) other;
-            return this.user.equals(that.user)
-                && this.lobby.equals(that.lobby);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        AuthenticationRequest that = (AuthenticationRequest) other;
+        return Objects.equals(credentials, that.credentials);
     }
 
     /**
@@ -97,7 +86,7 @@ public class Left {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user, lobby);
+        return Objects.hash(credentials);
     }
 
     /**
@@ -107,6 +96,6 @@ public class Left {
      */
     @Override
     public String toString() {
-        return String.format("Left(user=%s, lobby=%s)", user, lobby);
+        return String.format("AuthenticationRequest(credentials=%s)", credentials);
     }
 }

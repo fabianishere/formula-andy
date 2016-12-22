@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
@@ -32,6 +32,8 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
 
+import nl.tudelft.fa.core.lobby.*;
+import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
@@ -103,9 +105,9 @@ public class Lobby extends AbstractActor {
      */
     private PartialFunction<Object, BoxedUnit> preparation() {
         return ReceiveBuilder
-            .match(Inform.class, req -> inform(LobbyStatus.PREPARATION))
-            .match(Join.class, this::join)
-            .match(Leave.class, this::leave)
+            .match(InformationRequest.class, req -> inform(LobbyStatus.PREPARATION))
+            .match(JoinRequest.class, this::join)
+            .match(LeaveRequest.class, this::leave)
             .build();
     }
 
@@ -119,19 +121,19 @@ public class Lobby extends AbstractActor {
     }
 
     /**
-     * Handle a {@link Join} request.
+     * Handle a {@link JoinRequest} request.
      *
      * @param req The join request to handle.
      */
-    private void join(Join req) {
+    private void join(JoinRequest req) {
         if (users.size() >= configuration.getPlayerMaximum()) {
-            sender().tell(new LobbyFull(users.size()), self());
+            sender().tell(new LobbyFullError(users.size()), self());
             return;
         }
 
         users.put(req.getUser(), sender());
         LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        Joined event = new Joined(information);
+        JoinSuccess event = new JoinSuccess(information);
 
         for (User user : users.keySet()) {
             users.get(user).tell(event, self());
@@ -141,23 +143,23 @@ public class Lobby extends AbstractActor {
     }
 
     /**
-     * Handle a {@link Leave} request.
+     * Handle a {@link LeaveRequest} request.
      *
      * @param req The leave request to handle.
      */
-    private void leave(Leave req) {
+    private void leave(LeaveRequest req) {
         ActorRef ref = users.remove(req.getUser());
 
         if (ref == null) {
             // The user is not in the lobby
             log.warning("The user {} tried to leave the lobby, but is not in the lobby",
                 req.getUser().getCredentials().getUsername());
-            sender().tell(new NotInLobby(), self());
+            sender().tell(new NotInLobbyError(), self());
             return;
         }
 
         LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        Left event = new Left(req.getUser(), self());
+        LeaveSuccess event = new LeaveSuccess(req.getUser(), self());
 
         for (User user : users.keySet()) {
             users.get(user).tell(event, self());

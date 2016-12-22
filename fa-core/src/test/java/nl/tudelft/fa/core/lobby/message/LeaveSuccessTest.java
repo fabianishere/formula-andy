@@ -1,10 +1,13 @@
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.message.LeaveSuccess;
 import nl.tudelft.fa.core.user.User;
 import org.junit.*;
 
@@ -16,13 +19,13 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-public class LeftTest {
+public class LeaveSuccessTest {
 
     private static ActorSystem system;
     private Props props;
     private User user;
     private ActorRef lobby;
-    private Left msg;
+    private LeaveSuccess msg;
 
 
     @BeforeClass
@@ -35,7 +38,7 @@ public class LeftTest {
         user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
         props = Lobby.props(new LobbyConfiguration(1,  Duration.ZERO));
         lobby = system.actorOf(props, UUID.randomUUID().toString());
-        msg = new Left(user, lobby);
+        msg = new LeaveSuccess(user, lobby);
 
     }
 
@@ -60,23 +63,28 @@ public class LeftTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(msg, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(msg, msg);
     }
 
     @Test
     public void equalsData() {
-        assertEquals(new Left(user, lobby), msg);
+        assertEquals(new LeaveSuccess(user, lobby), msg);
     }
 
     @Test
     public void equalsDifferentUser() {
-        assertNotEquals(new Left(new User(UUID.randomUUID(), new Credentials("test", "Test")), lobby), msg);
+        assertNotEquals(new LeaveSuccess(new User(UUID.randomUUID(), new Credentials("test", "Test")), lobby), msg);
     }
 
     @Test
     public void equalsDifferentLobby() {
-        assertNotEquals(new Left(user, system.actorOf(props, UUID.randomUUID().toString())), msg);
+        assertNotEquals(new LeaveSuccess(user, system.actorOf(props, UUID.randomUUID().toString())), msg);
     }
 
     @Test
@@ -86,6 +94,6 @@ public class LeftTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("Left(user=%s, lobby=%s)", user, lobby), msg.toString());
+        assertEquals(String.format("LeaveSuccess(user=%s, lobby=%s)", user, lobby), msg.toString());
     }
 }

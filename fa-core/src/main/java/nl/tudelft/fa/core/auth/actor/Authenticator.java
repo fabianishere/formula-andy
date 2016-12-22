@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.auth;
+package nl.tudelft.fa.core.auth.actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.Props;
@@ -32,6 +32,9 @@ import akka.event.LoggingAdapter;
 
 import akka.japi.pf.ReceiveBuilder;
 
+import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
+import nl.tudelft.fa.core.auth.message.AuthenticationSuccess;
+import nl.tudelft.fa.core.auth.message.InvalidCredentialsError;
 import nl.tudelft.fa.core.user.User;
 
 import scala.PartialFunction;
@@ -76,16 +79,16 @@ public class Authenticator extends AbstractActor {
     @Override
     public PartialFunction<Object, BoxedUnit> receive() {
         return ReceiveBuilder
-            .match(Authenticate.class, this::authenticate)
+            .match(AuthenticationRequest.class, this::authenticate)
             .build();
     }
 
     /**
-     * Handle the given {@link Authenticate} request.
+     * Handle the given {@link AuthenticationRequest} request.
      *
-     * @param req The {@link Authenticate} request to handle.
+     * @param req The {@link AuthenticationRequest} request to handle.
      */
-    private void authenticate(Authenticate req) {
+    private void authenticate(AuthenticationRequest req) {
         log.info("Received authentication request {}", req);
 
         Optional<User> user = entityManager
@@ -101,7 +104,7 @@ public class Authenticator extends AbstractActor {
         // error message.
         if (!user.isPresent() || !user.get()
                 .getCredentials().getPassword().equals(req.getCredentials().getPassword())) {
-            sender().tell(new InvalidCredentials(), self());
+            sender().tell(new InvalidCredentialsError(), self());
             return;
         }
 
@@ -109,7 +112,7 @@ public class Authenticator extends AbstractActor {
         log.info("User {} has been authenticated", userUnwrapped
             .getCredentials().getUsername());
 
-        sender().tell(new Authenticated(userUnwrapped), self());
+        sender().tell(new AuthenticationSuccess(userUnwrapped), self());
     }
 
     /**

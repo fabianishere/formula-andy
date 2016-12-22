@@ -23,21 +23,18 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.core.lobby.actor.Lobby;
 
 /**
- * This message indicates that a {@link User} failed to leave a lobby.
+ * This message is send to a {@link Lobby} actor to request information about its current state.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class LeaveFailure {
+public final class InformationRequest {
     /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
+     * A static instance of this class.
      */
-    @Override
-    public abstract String toString();
+    public static final InformationRequest INSTANCE = new InformationRequest();
 }

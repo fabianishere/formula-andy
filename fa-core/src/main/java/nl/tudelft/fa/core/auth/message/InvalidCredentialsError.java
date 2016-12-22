@@ -23,11 +23,38 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.auth.message;
 
 /**
- * This message is send to a {@link Lobby} actor to request information about its current state.
+ * This message indicates that the authentication request failed, because the
+ * credentials supplied with the request were invalid.
  *
  * @author Fabian Mastenbroek
  */
-public class Inform {}
+public final class InvalidCredentialsError extends AuthenticationError {
+    /**
+     * Construct a {@link InvalidCredentialsError} instance.
+     */
+    public InvalidCredentialsError() {
+        super("The user supplied credentials are invalid.");
+    }
+
+    /**
+     * Construct a {@link InvalidCredentialsError} instance.
+     *
+     * @param message The message of the exception.
+     */
+    public InvalidCredentialsError(String message) {
+        super(message);
+    }
+
+    /**
+     * Return a string representation of this message.
+     *
+     * @return A string representation of this message.
+     */
+    @Override
+    public String toString() {
+        return String.format("InvalidCredentialsError(message=%s)", getMessage());
+    }
+}

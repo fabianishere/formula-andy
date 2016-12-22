@@ -23,71 +23,59 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
 import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.user.User;
 
-import java.time.Duration;
 import java.util.Objects;
 
 /**
- * This class contains the configuration of a {@link Lobby} actor.
+ * This message is sent to a {@link Lobby} to request to join the lobby.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyConfiguration {
+public final class JoinRequest {
     /**
-     * The maximum amount of players in this lobby.
+     * The {@link User} that wants to join the lobby.
      */
-    private int maxPlayers;
+    private User user;
 
     /**
-     * The preparation time players have before the game.
-     */
-    private Duration preparationTime;
-
-    /**
-     * Construct a {@link LobbyConfiguration} instance.
+     * Construct a {@link JoinRequest} message.
      *
-     * @param maxPlayers The maximum amount of players in this lobby.
-     * @param preparationTime The preparation time players have before the game.
+     * @param user The user that wants to join the lobby.
      */
-    public LobbyConfiguration(int maxPlayers, Duration preparationTime) {
-        this.maxPlayers = maxPlayers;
-        this.preparationTime = preparationTime;
+    public JoinRequest(User user) {
+        this.user = user;
     }
 
     /**
-     * Return the maximum amount of players allowed in the lobby.
+     * Return the {@link User} that wants to join the lobby.
      *
-     * @return An integer representing the maximum amount of players allowed in the lobby.
+     * @return The user that wants to join the lobby.
      */
-    public int getPlayerMaximum() {
-        return maxPlayers;
+    public User getUser() {
+        return user;
     }
 
     /**
-     * Return the preparation time players have before the game.
-     *
-     * @return The preparation time players have before the game.
-     */
-    public Duration getPreparationTime() {
-        return preparationTime;
-    }
-
-    /**
-     * Test whether this {@link LobbyConfiguration} is equal to the given object.
+     * Test whether this message is equal to the given object, which means that all properties of
+     * this message are equal to the properties of the other class.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object other) {
-        if (other instanceof LobbyConfiguration) {
-            LobbyConfiguration that = (LobbyConfiguration) other;
-            return this.maxPlayers == that.maxPlayers
-                && this.preparationTime.equals(that.preparationTime);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        JoinRequest that = (JoinRequest) other;
+        return Objects.equals(user, that.user);
     }
 
     /**
@@ -97,17 +85,16 @@ public class LobbyConfiguration {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(maxPlayers, preparationTime);
+        return Objects.hash(user);
     }
 
     /**
-     * Return a string representation of this configuration.
+     * Return a string representation of this message.
      *
-     * @return A string representation of this configuration.
+     * @return A string representation of this message.
      */
     @Override
     public String toString() {
-        return String.format("LobbyConfiguration(maxPlayers=%d, preparationTime=%s)",
-            maxPlayers, preparationTime);
+        return String.format("JoinRequest(user=%s)", user);
     }
 }

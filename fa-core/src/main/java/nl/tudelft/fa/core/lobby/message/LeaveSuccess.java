@@ -23,37 +23,57 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
+import akka.actor.ActorRef;
+import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.user.User;
 
+import java.util.Objects;
+
 /**
- * This message indicates a {@link User} that he has successfully joined a lobby.
+ * This message indicates the {@link User} has left the {@link Lobby}.
  *
  * @author Fabian Mastenbroek
  */
-public class Joined {
+public class LeaveSuccess {
     /**
-     * The information of the lobby the user joined.
+     * The user that has left the lobby.
      */
-    private LobbyInformation information;
+    private User user;
 
     /**
-     * Construct a {@link Joined} message instance.
-     *
-     * @param information The information of the lobby the user joined.
+     * The reference to the {@link Lobby} the user has left.
      */
-    public Joined(LobbyInformation information) {
-        this.information = information;
+    private ActorRef lobby;
+
+    /**
+     * Construct a {@link LeaveSuccess} message instance.
+     *
+     * @param user The user that has left the lobby.
+     * @param lobby The reference to the lobby the user has left.
+     */
+    public LeaveSuccess(User user, ActorRef lobby) {
+        this.user = user;
+        this.lobby = lobby;
     }
 
     /**
-     * Return the information of the lobby the user has joined.
+     * Return the user that has left the lobby.
      *
-     * @return The information of the lobby the user has joined.
+     * @return The user that has left the lobby.
      */
-    public LobbyInformation getInformation() {
-        return information;
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Return the reference to the lobby the user has left.
+     *
+     * @return The reference to the lobby the user has left.
+     */
+    public ActorRef getLobby() {
+        return lobby;
     }
 
     /**
@@ -62,12 +82,16 @@ public class Joined {
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object other) {
-        if (other instanceof Joined) {
-            Joined that = (Joined) other;
-            return this.information.equals(that.information);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        LeaveSuccess that = (LeaveSuccess) other;
+        return Objects.equals(user, that.user) && Objects.equals(lobby, that.lobby);
     }
 
     /**
@@ -77,7 +101,7 @@ public class Joined {
      */
     @Override
     public int hashCode() {
-        return information.hashCode();
+        return Objects.hash(user, lobby);
     }
 
     /**
@@ -87,6 +111,6 @@ public class Joined {
      */
     @Override
     public String toString() {
-        return String.format("Joined(information=%s)", information);
+        return String.format("LeaveSuccess(user=%s, lobby=%s)", user, lobby);
     }
 }

@@ -23,36 +23,47 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.auth;
+package nl.tudelft.fa.core.lobby.message;
 
 import nl.tudelft.fa.core.user.User;
 
 /**
- * This message indicates that the {@link Authenticate} request was successful.
+ * This message indicates that the lobby a {@link User} is trying to join, is full.
  *
  * @author Fabian Mastenbroek
  */
-public class Authenticated {
+public final class LobbyFullError extends JoinError {
     /**
-     * The user that has been authenticated.
+     * The amount of users in the lobby currently.
      */
-    private User user;
+    private int users;
 
     /**
-     * Construct a {@link Authenticated} message.
+     * Construct a {@link LobbyFullError} message.
      *
-     * @param user The user that has been authenticated.
+     * @param users The amount of users in the lobby currently.
      */
-    public Authenticated(User user) {
-        this.user = user;
+    public LobbyFullError(int users) {
+        super("The lobby you are trying to join is full.");
+        this.users = users;
     }
 
     /**
-     * Return the {@link User} that has been authenticated.
+     * Return the amount of users currently in the lobby.
      *
-     * @return The user that has been authenticated.
+     * @return The amount of users currently in the lobby.
      */
-    public User getUser() {
-        return user;
+    public int getUsers() {
+        return users;
+    }
+
+    /**
+     * Return a string representation of this message.
+     *
+     * @return A string representation of this message.
+     */
+    @Override
+    public String toString() {
+        return String.format("LobbyFullError(message=%s, users=%d)", getMessage(), users);
     }
 }

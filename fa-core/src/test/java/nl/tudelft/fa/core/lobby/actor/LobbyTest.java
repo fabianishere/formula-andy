@@ -1,4 +1,4 @@
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.actor;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -6,6 +6,11 @@ import akka.actor.Props;
 import akka.testkit.JavaTestKit;
 
 import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+import nl.tudelft.fa.core.lobby.LobbyInformation;
+import nl.tudelft.fa.core.lobby.LobbyStatus;
+import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -46,7 +51,7 @@ public class LobbyTest {
             {
                 final Props props = Lobby.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
-                final Inform req = new Inform();
+                final InformationRequest req = InformationRequest.INSTANCE;
 
                 subject.tell(req, getRef());
 
@@ -63,12 +68,12 @@ public class LobbyTest {
             {
                 final Props props = Lobby.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
-                final Join req = new Join(user);
+                final JoinRequest req = new JoinRequest(user);
 
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgEquals(duration("1 second"), new Joined(new LobbyInformation(id,
+                expectMsgEquals(duration("1 second"), new JoinSuccess(new LobbyInformation(id,
                     LobbyStatus.PREPARATION, configuration, Collections.singleton(user))));
             }
         };
@@ -80,12 +85,12 @@ public class LobbyTest {
             {
                 final Props props = Lobby.props(new LobbyConfiguration(0, Duration.ZERO));
                 final ActorRef subject = system.actorOf(props, id.toString());
-                final Join req = new Join(user);
+                final JoinRequest req = new JoinRequest(user);
 
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgEquals(duration("1 second"), new LobbyFull(0));
+                expectMsgEquals(duration("1 second"), new LobbyFullError(0));
             }
         };
     }
@@ -96,15 +101,15 @@ public class LobbyTest {
             {
                 final Props props = Lobby.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave(user);
+                final LeaveRequest req = new LeaveRequest(user);
 
-                subject.tell(new Join(new User(UUID.randomUUID(), new Credentials("test", "Test"))), ActorRef.noSender());
+                subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "Test"))), ActorRef.noSender());
 
-                subject.tell(new Join(user), getRef());
-                expectMsgClass(duration("1 second"), Joined.class);
+                subject.tell(new JoinRequest(user), getRef());
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());
-                expectMsgEquals(duration("1 second"), new Left(user, subject));
+                expectMsgEquals(duration("1 second"), new LeaveSuccess(user, subject));
             }
         };
     }
@@ -115,10 +120,10 @@ public class LobbyTest {
             {
                 final Props props = Lobby.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave(user);
+                final LeaveRequest req = new LeaveRequest(user);
 
                 subject.tell(req, getRef());
-                expectMsgClass(duration("1 second"), NotInLobby.class);
+                expectMsgClass(duration("1 second"), NotInLobbyError.class);
             }
         };
     }

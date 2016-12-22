@@ -23,53 +23,59 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.auth.message;
 
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 
 /**
- * This message indicates that the lobby a {@link User} is trying to join, is full.
+ * This message indicates that the {@link AuthenticationRequest} request was successful and the
+ * user was successfully authenticated.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyFull extends JoinFailure {
+public final class AuthenticationSuccess {
     /**
-     * The amount of users in the lobby currently.
+     * The user that has been authenticated.
      */
-    private int users;
+    private User user;
 
     /**
-     * Construct a {@link LobbyFull} message.
+     * Construct a {@link AuthenticationSuccess} message.
      *
-     * @param users The amount of users in the lobby currently.
+     * @param user The user that has been authenticated.
      */
-    public LobbyFull(int users) {
-        this.users = users;
+    public AuthenticationSuccess(User user) {
+        this.user = user;
     }
 
     /**
-     * Return the amount of users currently in the lobby.
+     * Return the {@link User} that has been authenticated.
      *
-     * @return The amount of users currently in the lobby.
+     * @return The user that has been authenticated.
      */
-    public int getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
     /**
-     * Test whether this message is equal to the given object.
+     * Test whether this message is equal to the given object, which means that all properties of
+     * this message are equal to the properties of the other class.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object other) {
-        if (other instanceof LobbyFull) {
-            LobbyFull that = (LobbyFull) other;
-            return this.users == that.users;
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        AuthenticationSuccess that = (AuthenticationSuccess) other;
+        return Objects.equals(user, that.user);
     }
 
     /**
@@ -79,7 +85,7 @@ public class LobbyFull extends JoinFailure {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(users);
+        return Objects.hash(user);
     }
 
     /**
@@ -89,6 +95,6 @@ public class LobbyFull extends JoinFailure {
      */
     @Override
     public String toString() {
-        return "The lobby you are trying to join is full";
+        return String.format("AuthenticationSuccess(user=%s)", user);
     }
 }

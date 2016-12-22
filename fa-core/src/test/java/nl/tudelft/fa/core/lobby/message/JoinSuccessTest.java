@@ -1,5 +1,8 @@
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+import nl.tudelft.fa.core.lobby.LobbyInformation;
+import nl.tudelft.fa.core.lobby.LobbyStatus;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,15 +14,15 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-public class JoinedTest {
+public class JoinSuccessTest {
     private LobbyInformation information;
-    private Joined msg;
+    private JoinSuccess msg;
 
     @Before
     public void setUp() {
         information = new LobbyInformation(UUID.randomUUID(),
             LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO), Collections.emptySet());
-        msg = new Joined(information);
+        msg = new JoinSuccess(information);
     }
 
     @Test
@@ -33,18 +36,23 @@ public class JoinedTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(msg, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(msg, msg);
     }
 
     @Test
     public void equalsData() {
-        assertEquals(new Joined(information), msg);
+        assertEquals(new JoinSuccess(information), msg);
     }
 
     @Test
     public void equalsDifferentInformation() {
-        assertNotEquals(new Joined(new LobbyInformation(UUID.randomUUID(),
+        assertNotEquals(new JoinSuccess(new LobbyInformation(UUID.randomUUID(),
             LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO), Collections.emptySet())), msg);
     }
 
@@ -55,6 +63,6 @@ public class JoinedTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("Joined(information=%s)", information), msg.toString());
+        assertEquals(String.format("JoinSuccess(information=%s)", information), msg.toString());
     }
 }

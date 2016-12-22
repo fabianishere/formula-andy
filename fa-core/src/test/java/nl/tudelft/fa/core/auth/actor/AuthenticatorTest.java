@@ -1,10 +1,14 @@
-package nl.tudelft.fa.core.auth;
+package nl.tudelft.fa.core.auth.actor;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.testkit.JavaTestKit;
-import akka.testkit.TestActorRef;
+import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.auth.actor.Authenticator;
+import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
+import nl.tudelft.fa.core.auth.message.AuthenticationSuccess;
+import nl.tudelft.fa.core.auth.message.InvalidCredentialsError;
 import nl.tudelft.fa.core.user.User;
 import org.junit.*;
 
@@ -13,8 +17,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import java.util.UUID;
-
-import static org.junit.Assert.*;
 
 public class AuthenticatorTest {
 
@@ -47,12 +49,12 @@ public class AuthenticatorTest {
             {
                 final Props props = Authenticator.props(manager);
                 final ActorRef subject = system.actorOf(props);
-                final Authenticate req = new Authenticate(new Credentials("fabianishere", "test"));
+                final AuthenticationRequest req = new AuthenticationRequest(new Credentials("fabianishere", "test"));
 
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgClass(duration("1 second"), Authenticated.class);
+                expectMsgClass(duration("1 second"), AuthenticationSuccess.class);
             }
         };
     }
@@ -63,12 +65,12 @@ public class AuthenticatorTest {
             {
                 final Props props = Authenticator.props(manager);
                 final ActorRef subject = system.actorOf(props);
-                final Authenticate req = new Authenticate(new Credentials("unknown", "test"));
+                final AuthenticationRequest req = new AuthenticationRequest(new Credentials("unknown", "test"));
 
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgClass(duration("1 second"), InvalidCredentials.class);
+                expectMsgClass(duration("1 second"), InvalidCredentialsError.class);
             }
         };
     }
@@ -79,12 +81,12 @@ public class AuthenticatorTest {
             {
                 final Props props = Authenticator.props(manager);
                 final ActorRef subject = system.actorOf(props);
-                final Authenticate req = new Authenticate(new Credentials("fabianishere", "incorrect"));
+                final AuthenticationRequest req = new AuthenticationRequest(new Credentials("fabianishere", "incorrect"));
 
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgClass(duration("1 second"), InvalidCredentials.class);
+                expectMsgClass(duration("1 second"), InvalidCredentialsError.class);
             }
         };
     }

@@ -23,24 +23,42 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.auth;
+package nl.tudelft.fa.core.lobby.message;
+
+import nl.tudelft.fa.core.user.User;
 
 /**
- * This message indicates that the authentication request failed.
+ * This message indicates that a {@link User} failed to join a lobby.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class AuthenticationFailure {
+public abstract class JoinError {
     /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
+     * The message of this error.
      */
-    @Override
-    public abstract String toString();
+    private final String message;
+
+    /**
+     * Construct a {@link JoinError} instance.
+     *
+     * @param message The message of the error.
+     */
+    public JoinError(String message) {
+        this.message = message;
+    }
+
+    /**
+     * Return the message of this error.
+     *
+     * @return The message of this error.
+     */
+    public String getMessage() {
+        return message;
+    }
 
     /**
      * Test whether this message is equal to the given object.
+     * This is always <code>true</code> if both classes are of the same type.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
@@ -48,5 +66,15 @@ public abstract class AuthenticationFailure {
     @Override
     public boolean equals(Object other) {
         return getClass().isInstance(other);
+    }
+
+    /**
+     * Return a string representation of this message.
+     *
+     * @return A string representation of this message.
+     */
+    @Override
+    public String toString() {
+        return String.format("JoinError(message=%s)", message);
     }
 }

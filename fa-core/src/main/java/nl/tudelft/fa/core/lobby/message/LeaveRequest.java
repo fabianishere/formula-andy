@@ -23,27 +23,30 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
+import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.user.User;
+
+import java.util.Objects;
 
 /**
  * This message is sent by a {@link User} to a {@link Lobby} to ask to leave the lobby.
  *
  * @author Fabian Mastenbroek
  */
-public class Leave {
+public final class LeaveRequest {
     /**
      * The {@link User} that wants to leave the lobby.
      */
     private User user;
 
     /**
-     * Construct a {@link Leave} message.
+     * Construct a {@link LeaveRequest} message.
      *
      * @param user The user that wants to leave the lobby.
      */
-    public Leave(User user) {
+    public LeaveRequest(User user) {
         this.user = user;
     }
 
@@ -54,5 +57,44 @@ public class Leave {
      */
     public User getUser() {
         return user;
+    }
+
+    /**
+     * Test whether this message is equal to the given object, which means that all properties of
+     * this message are equal to the properties of the other class.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        LeaveRequest that = (LeaveRequest) other;
+        return Objects.equals(user, that.user);
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(user);
+    }
+
+    /**
+     * Return a string representation of this message.
+     *
+     * @return A string representation of this message.
+     */
+    @Override
+    public String toString() {
+        return String.format("LeaveRequest(user=%s)", user);
     }
 }

@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.lobby;
 
+import nl.tudelft.fa.core.lobby.actor.Lobby;
+
 /**
  * This enumeration defines the states a {@link Lobby} can be in.
  *
