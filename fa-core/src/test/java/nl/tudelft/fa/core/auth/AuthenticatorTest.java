@@ -4,7 +4,9 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.testkit.JavaTestKit;
-import akka.testkit.TestActorRef;
+import nl.tudelft.fa.core.auth.message.Authenticate;
+import nl.tudelft.fa.core.auth.message.Authenticated;
+import nl.tudelft.fa.core.auth.message.InvalidCredentials;
 import nl.tudelft.fa.core.user.User;
 import org.junit.*;
 
@@ -13,8 +15,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import java.util.UUID;
-
-import static org.junit.Assert.*;
 
 public class AuthenticatorTest {
 

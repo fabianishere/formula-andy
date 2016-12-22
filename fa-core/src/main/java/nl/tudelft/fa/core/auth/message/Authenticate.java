@@ -23,36 +23,48 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.auth;
+package nl.tudelft.fa.core.auth.message;
 
-import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.core.auth.Authenticator;
+import nl.tudelft.fa.core.auth.Credentials;
 
 /**
- * This message indicates that the {@link Authenticate} request was successful.
+ * This message is send to a {@link Authenticator} actor to authenticate a user with the
+ * given {@link Credentials}.
  *
  * @author Fabian Mastenbroek
  */
-public class Authenticated {
+public final class Authenticate {
     /**
-     * The user that has been authenticated.
+     * The credentials to authenticate with.
      */
-    private User user;
+    private final Credentials credentials;
 
     /**
-     * Construct a {@link Authenticated} message.
+     * Construct a {@link Authenticate} message.
      *
-     * @param user The user that has been authenticated.
+     * @param credentials The credentials to authenticate with.
      */
-    public Authenticated(User user) {
-        this.user = user;
+    public Authenticate(Credentials credentials) {
+        this.credentials = credentials;
     }
 
     /**
-     * Return the {@link User} that has been authenticated.
+     * Return the {@link Credentials} to authenticate with.
      *
-     * @return The user that has been authenticated.
+     * @return The credentials to authenticate with.
      */
-    public User getUser() {
-        return user;
+    public Credentials getCredentials() {
+        return credentials;
+    }
+
+    /**
+     * Return a string representation of this message.
+     *
+     * @return A string representation of this message.
+     */
+    @Override
+    public String toString() {
+        return String.format("Authenticate(credentials=%s)", credentials);
     }
 }

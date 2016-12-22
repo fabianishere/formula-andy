@@ -23,30 +23,21 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.auth;
+package nl.tudelft.fa.core.auth.message;
 
 /**
  * This message indicates that the authentication request failed.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class AuthenticationFailure {
+public class InvalidCredentials extends AuthenticationFailure {
     /**
      * Return a string representation of this message.
      *
      * @return A string representation of this message.
      */
     @Override
-    public abstract String toString();
-
-    /**
-     * Test whether this message is equal to the given object.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    @Override
-    public boolean equals(Object other) {
-        return getClass().isInstance(other);
+    public String toString() {
+        return "The submitted credentials are invalid.";
     }
 }

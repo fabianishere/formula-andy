@@ -32,6 +32,9 @@ import akka.event.LoggingAdapter;
 
 import akka.japi.pf.ReceiveBuilder;
 
+import nl.tudelft.fa.core.auth.message.Authenticate;
+import nl.tudelft.fa.core.auth.message.Authenticated;
+import nl.tudelft.fa.core.auth.message.InvalidCredentials;
 import nl.tudelft.fa.core.user.User;
 
 import scala.PartialFunction;
