@@ -35,6 +35,7 @@ import akka.japi.pf.ReceiveBuilder;
 import nl.tudelft.fa.core.lobby.*;
 import nl.tudelft.fa.core.lobby.message.InformationRequest;
 import nl.tudelft.fa.core.lobby.message.JoinRequest;
+import nl.tudelft.fa.core.lobby.message.JoinSuccess;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
@@ -134,7 +135,7 @@ public class Lobby extends AbstractActor {
 
         users.put(req.getUser(), sender());
         LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        Joined event = new Joined(information);
+        JoinSuccess event = new JoinSuccess(information);
 
         for (User user : users.keySet()) {
             users.get(user).tell(event, self());

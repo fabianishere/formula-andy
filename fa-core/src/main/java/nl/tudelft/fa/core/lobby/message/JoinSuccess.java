@@ -23,27 +23,30 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
+import nl.tudelft.fa.core.lobby.LobbyInformation;
 import nl.tudelft.fa.core.user.User;
+
+import java.util.Objects;
 
 /**
  * This message indicates a {@link User} that he has successfully joined a lobby.
  *
  * @author Fabian Mastenbroek
  */
-public class Joined {
+public class JoinSuccess {
     /**
      * The information of the lobby the user joined.
      */
     private LobbyInformation information;
 
     /**
-     * Construct a {@link Joined} message instance.
+     * Construct a {@link JoinSuccess} message instance.
      *
      * @param information The information of the lobby the user joined.
      */
-    public Joined(LobbyInformation information) {
+    public JoinSuccess(LobbyInformation information) {
         this.information = information;
     }
 
@@ -63,11 +66,14 @@ public class Joined {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (other instanceof Joined) {
-            Joined that = (Joined) other;
-            return this.information.equals(that.information);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        JoinSuccess that = (JoinSuccess) other;
+        return Objects.equals(information, that.information);
     }
 
     /**
@@ -87,6 +93,6 @@ public class Joined {
      */
     @Override
     public String toString() {
-        return String.format("Joined(information=%s)", information);
+        return String.format("JoinSuccess(information=%s)", information);
     }
 }

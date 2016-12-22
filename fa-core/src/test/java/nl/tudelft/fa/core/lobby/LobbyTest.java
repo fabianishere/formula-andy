@@ -9,6 +9,7 @@ import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.lobby.message.InformationRequest;
 import nl.tudelft.fa.core.lobby.message.JoinRequest;
+import nl.tudelft.fa.core.lobby.message.JoinSuccess;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -71,7 +72,7 @@ public class LobbyTest {
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgEquals(duration("1 second"), new Joined(new LobbyInformation(id,
+                expectMsgEquals(duration("1 second"), new JoinSuccess(new LobbyInformation(id,
                     LobbyStatus.PREPARATION, configuration, Collections.singleton(user))));
             }
         };
@@ -104,7 +105,7 @@ public class LobbyTest {
                 subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "Test"))), ActorRef.noSender());
 
                 subject.tell(new JoinRequest(user), getRef());
-                expectMsgClass(duration("1 second"), Joined.class);
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());
                 expectMsgEquals(duration("1 second"), new Left(user, subject));
