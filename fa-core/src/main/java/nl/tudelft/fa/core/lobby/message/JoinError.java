@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
 import nl.tudelft.fa.core.user.User;
 
@@ -32,12 +32,49 @@ import nl.tudelft.fa.core.user.User;
  *
  * @author Fabian Mastenbroek
  */
-public abstract class JoinFailure {
+public abstract class JoinError {
+    /**
+     * The message of this error.
+     */
+    private final String message;
+
+    /**
+     * Construct a {@link JoinError} instance.
+     *
+     * @param message The message of the error.
+     */
+    public JoinError(String message) {
+        this.message = message;
+    }
+
+    /**
+     * Return the message of this error.
+     *
+     * @return The message of this error.
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * Test whether this message is equal to the given object.
+     * This is always <code>true</code> if both classes are of the same type.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
+     */
+    @Override
+    public boolean equals(Object other) {
+        return getClass().isInstance(other);
+    }
+
     /**
      * Return a string representation of this message.
      *
      * @return A string representation of this message.
      */
     @Override
-    public abstract String toString();
+    public String toString() {
+        return String.format("JoinError(message=%s)", message);
+    }
 }

@@ -10,6 +10,7 @@ import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.lobby.message.InformationRequest;
 import nl.tudelft.fa.core.lobby.message.JoinRequest;
 import nl.tudelft.fa.core.lobby.message.JoinSuccess;
+import nl.tudelft.fa.core.lobby.message.LobbyFullError;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -89,7 +90,7 @@ public class LobbyTest {
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgEquals(duration("1 second"), new LobbyFull(0));
+                expectMsgEquals(duration("1 second"), new LobbyFullError(0));
             }
         };
     }

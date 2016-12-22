@@ -1,5 +1,7 @@
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
+import nl.tudelft.fa.core.auth.message.InvalidCredentialsError;
+import nl.tudelft.fa.core.lobby.message.LobbyFullError;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,14 +11,14 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-public class LobbyFullTest {
+public class LobbyFullErrorTest {
     private int users;
-    private LobbyFull msg;
+    private LobbyFullError msg;
 
     @Before
     public void setUp() {
         users = 1;
-        msg = new LobbyFull(users);
+        msg = new LobbyFullError(users);
     }
 
     @Test
@@ -36,21 +38,6 @@ public class LobbyFullTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new LobbyFull(users), msg);
-    }
-
-    @Test
-    public void equalsDifferentUsers() {
-        assertNotEquals(new LobbyFull(users + 1), msg);
-    }
-
-    @Test
-    public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(users), msg.hashCode());
-    }
-
-    @Test
-    public void testToString() throws Exception {
-        assertEquals("The lobby you are trying to join is full", msg.toString());
+        assertEquals(new LobbyFullError(1), msg);
     }
 }

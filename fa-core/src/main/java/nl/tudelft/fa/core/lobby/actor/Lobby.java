@@ -36,6 +36,7 @@ import nl.tudelft.fa.core.lobby.*;
 import nl.tudelft.fa.core.lobby.message.InformationRequest;
 import nl.tudelft.fa.core.lobby.message.JoinRequest;
 import nl.tudelft.fa.core.lobby.message.JoinSuccess;
+import nl.tudelft.fa.core.lobby.message.LobbyFullError;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
@@ -129,7 +130,7 @@ public class Lobby extends AbstractActor {
      */
     private void join(JoinRequest req) {
         if (users.size() >= configuration.getPlayerMaximum()) {
-            sender().tell(new LobbyFull(users.size()), self());
+            sender().tell(new LobbyFullError(users.size()), self());
             return;
         }
 

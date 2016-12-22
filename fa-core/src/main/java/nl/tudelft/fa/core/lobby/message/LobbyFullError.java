@@ -23,29 +23,28 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
 import nl.tudelft.fa.core.user.User;
-
-import java.util.Objects;
 
 /**
  * This message indicates that the lobby a {@link User} is trying to join, is full.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyFull extends JoinFailure {
+public final class LobbyFullError extends JoinError {
     /**
      * The amount of users in the lobby currently.
      */
     private int users;
 
     /**
-     * Construct a {@link LobbyFull} message.
+     * Construct a {@link LobbyFullError} message.
      *
      * @param users The amount of users in the lobby currently.
      */
-    public LobbyFull(int users) {
+    public LobbyFullError(int users) {
+        super("The lobby you are trying to join is full.");
         this.users = users;
     }
 
@@ -59,36 +58,12 @@ public class LobbyFull extends JoinFailure {
     }
 
     /**
-     * Test whether this message is equal to the given object.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    public boolean equals(Object other) {
-        if (other instanceof LobbyFull) {
-            LobbyFull that = (LobbyFull) other;
-            return this.users == that.users;
-        }
-        return false;
-    }
-
-    /**
-     * Return the hash code of this object.
-     *
-     * @return The hash code of this object as integer.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(users);
-    }
-
-    /**
      * Return a string representation of this message.
      *
      * @return A string representation of this message.
      */
     @Override
     public String toString() {
-        return "The lobby you are trying to join is full";
+        return String.format("LobbyFullError(message=%s, users=%d)", getMessage(), users);
     }
 }
