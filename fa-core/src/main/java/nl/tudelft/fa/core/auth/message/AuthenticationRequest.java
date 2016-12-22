@@ -28,6 +28,8 @@ package nl.tudelft.fa.core.auth.message;
 import nl.tudelft.fa.core.auth.Authenticator;
 import nl.tudelft.fa.core.auth.Credentials;
 
+import java.util.Objects;
+
 /**
  * This message is sent to an {@link Authenticator} actor to request the user with the given
  * {@link Credentials} to be authenticated.
@@ -56,6 +58,35 @@ public final class AuthenticationRequest {
      */
     public Credentials getCredentials() {
         return credentials;
+    }
+
+    /**
+     * Test whether this message is equal to the given object, which means that all properties of
+     * this message are equal to the properties of the other class.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        AuthenticationRequest that = (AuthenticationRequest) other;
+        return Objects.equals(credentials, that.credentials);
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(credentials);
     }
 
     /**
