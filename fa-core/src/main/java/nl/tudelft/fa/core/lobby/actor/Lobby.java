@@ -33,10 +33,7 @@ import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
 
 import nl.tudelft.fa.core.lobby.*;
-import nl.tudelft.fa.core.lobby.message.InformationRequest;
-import nl.tudelft.fa.core.lobby.message.JoinRequest;
-import nl.tudelft.fa.core.lobby.message.JoinSuccess;
-import nl.tudelft.fa.core.lobby.message.LobbyFullError;
+import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
@@ -110,7 +107,7 @@ public class Lobby extends AbstractActor {
         return ReceiveBuilder
             .match(InformationRequest.class, req -> inform(LobbyStatus.PREPARATION))
             .match(JoinRequest.class, this::join)
-            .match(Leave.class, this::leave)
+            .match(LeaveRequest.class, this::leave)
             .build();
     }
 
@@ -146,11 +143,11 @@ public class Lobby extends AbstractActor {
     }
 
     /**
-     * Handle a {@link Leave} request.
+     * Handle a {@link LeaveRequest} request.
      *
      * @param req The leave request to handle.
      */
-    private void leave(Leave req) {
+    private void leave(LeaveRequest req) {
         ActorRef ref = users.remove(req.getUser());
 
         if (ref == null) {
