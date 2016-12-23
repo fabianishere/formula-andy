@@ -30,6 +30,7 @@ import nl.tudelft.fa.core.team.manager.Manager;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -138,11 +139,14 @@ public class Team {
      */
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Team) {
-            Team that = (Team) other;
-            return this.id.equals(that.id);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Team that = (Team) other;
+        return Objects.equals(id, that.id);
     }
 
     /**
@@ -152,7 +156,7 @@ public class Team {
      */
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return Objects.hash(id);
     }
 
     /**

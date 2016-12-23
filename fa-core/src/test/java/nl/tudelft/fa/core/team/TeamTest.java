@@ -62,6 +62,11 @@ public class TeamTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(team, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(team, team);
     }
@@ -83,7 +88,7 @@ public class TeamTest {
 
     @Test
     public void testHashCode() {
-        assertEquals(id.hashCode(), team.hashCode());
+        assertEquals(Objects.hash(id), team.hashCode());
     }
 
     @Test

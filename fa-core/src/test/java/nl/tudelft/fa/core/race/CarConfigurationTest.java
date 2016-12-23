@@ -72,6 +72,11 @@ public class CarConfigurationTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(configuration, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(configuration, configuration);
     }
