@@ -25,6 +25,7 @@
 
 package nl.tudelft.fa.core.team.inventory;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -137,11 +138,14 @@ public class Tire {
      */
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Tire) {
-            Tire that = (Tire) other;
-            return this.id.equals(that.id);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Tire that = (Tire) other;
+        return Objects.equals(id, that.id);
     }
 
     /**
@@ -151,7 +155,7 @@ public class Tire {
      */
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return Objects.hash(id);
     }
 
     /**

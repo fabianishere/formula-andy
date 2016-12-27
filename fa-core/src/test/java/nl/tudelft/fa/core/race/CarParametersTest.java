@@ -87,6 +87,11 @@ public class CarParametersTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(parameters, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(parameters, parameters);
     }

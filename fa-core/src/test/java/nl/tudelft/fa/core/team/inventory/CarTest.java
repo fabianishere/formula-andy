@@ -3,6 +3,7 @@ package nl.tudelft.fa.core.team.inventory;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -31,6 +32,11 @@ public class CarTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(car, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(car, car);
     }
@@ -47,7 +53,7 @@ public class CarTest {
 
     @Test
     public void testHashCode() {
-        assertEquals(id.hashCode(), car.hashCode());
+        assertEquals(Objects.hash(id), car.hashCode());
     }
 
     @Test

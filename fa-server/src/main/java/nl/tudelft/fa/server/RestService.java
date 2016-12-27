@@ -27,6 +27,7 @@ package nl.tudelft.fa.server;
 
 import static akka.http.javadsl.server.Directives.*;
 
+import akka.actor.ActorSystem;
 import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.model.StatusCodes;
 import akka.http.javadsl.server.Route;
@@ -50,6 +51,20 @@ public class RestService {
      * The version of the engine.
      */
     public static final String ENGINE_VERSION = "1.0-SNAPSHOT";
+
+    /**
+     * The {@link ActorSystem} of this {@link RestService}.
+     */
+    private ActorSystem system;
+
+    /**
+     * Construct a {@link RestService} instance.
+     *
+     * @param system The {@link ActorSystem} instance to use.
+     */
+    public RestService(ActorSystem system) {
+        this.system = system;
+    }
 
     /**
      * Create the main {@link Route} for the REST API server.

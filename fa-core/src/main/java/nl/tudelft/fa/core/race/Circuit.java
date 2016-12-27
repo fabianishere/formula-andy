@@ -25,6 +25,7 @@
 
 package nl.tudelft.fa.core.race;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -51,16 +52,17 @@ public class Circuit {
     /**
      * The length of the circuit in metres.
      */
-    private final double length;
+    private final int length;
 
     /**
-     * Construct a [@link Circuit} instance.
+     * Construct a {@link Circuit} instance.
      *
      * @param id The unique id of the circuit.
      * @param name The name of the circuit
      * @param country The country this circuit is located in.
+     * @param length The length of the circuit.
      */
-    public Circuit(UUID id, String name, String country, double length) {
+    public Circuit(UUID id, String name, String country, int length) {
         this.id = id;
         this.name = name;
         this.country = country;
@@ -69,9 +71,10 @@ public class Circuit {
 
     /**
      * Return the length of the circuit.
+     *
      * @return The length of the circuit.
      */
-    public double getLength() {
+    public int getLength() {
         return length;
     }
 
@@ -109,11 +112,14 @@ public class Circuit {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (other instanceof Circuit) {
-            Circuit that = (Circuit) other;
-            return this.id.equals(that.id);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Circuit that = (Circuit) other;
+        return Objects.equals(id, that.id);
     }
 
     /**
@@ -123,7 +129,7 @@ public class Circuit {
      */
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return Objects.hash(id);
     }
 
     /**
@@ -133,6 +139,7 @@ public class Circuit {
      */
     @Override
     public String toString() {
-        return String.format("Circuit(id=%s, name=%s, country=%s)", id, name, country);
+        return String.format("Circuit(id=%s, name=%s, country=%s, length=%d)", id, name, country,
+            length);
     }
 }
