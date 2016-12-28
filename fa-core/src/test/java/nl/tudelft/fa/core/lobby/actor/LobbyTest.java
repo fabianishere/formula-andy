@@ -9,7 +9,6 @@ import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.LobbyInformation;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
-import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
@@ -63,7 +62,7 @@ public class LobbyTest {
     }
 
     @Test
-    public void testJoinSuccess() {
+    public void testJoinOffer() {
         new JavaTestKit(system) {
             {
                 final Props props = Lobby.props(configuration);
@@ -73,8 +72,7 @@ public class LobbyTest {
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgEquals(duration("1 second"), new JoinSuccess(new LobbyInformation(id,
-                    LobbyStatus.PREPARATION, configuration, Collections.singleton(user))));
+                expectMsgClass(duration("1 second"), Offer.class);
             }
         };
     }
@@ -96,6 +94,39 @@ public class LobbyTest {
     }
 
     @Test
+    public void testOfferAccept() throws Exception {
+        new JavaTestKit(system) {
+            {
+                final Props props = Lobby.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final JoinRequest req = new JoinRequest(user);
+
+                watch(subject);
+                subject.tell(req, getRef());
+                expectMsgClass(duration("1 second"), Offer.class);
+                reply(OfferResponse.ACCEPT);
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+            }
+        };
+    }
+
+    @Test
+    public void testOfferDecline() throws Exception {
+        new JavaTestKit(system) {
+            {
+                final Props props = Lobby.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final JoinRequest req = new JoinRequest(user);
+
+                subject.tell(req, getRef());
+                expectMsgClass(duration("1 second"), Offer.class);
+                reply(OfferResponse.DECLINE);
+                ignoreNoMsg();
+            }
+        };
+    }
+
+    @Test
     public void testLeaveSuccess() {
         new JavaTestKit(system) {
             {
@@ -103,9 +134,15 @@ public class LobbyTest {
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final LeaveRequest req = new LeaveRequest(user);
 
-                subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "Test"))), ActorRef.noSender());
+                subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "Test"))), getRef());
+                expectMsgClass(duration("1 second"), Offer.class);
+                reply(OfferResponse.ACCEPT);
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(new JoinRequest(user), getRef());
+                expectMsgClass(duration("1 second"), Offer.class);
+                reply(OfferResponse.ACCEPT);
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());

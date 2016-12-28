@@ -31,16 +31,17 @@ import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
-
-import nl.tudelft.fa.core.lobby.*;
+import akka.pattern.PatternsCS;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+import nl.tudelft.fa.core.lobby.LobbyInformation;
+import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.CompletionStage;
 
 
 /**
@@ -65,6 +66,11 @@ public class Lobby extends AbstractActor {
     private Map<User, ActorRef> users;
 
     /**
+     * The users that have been offered spots in this lobby.
+     */
+    private Set<User> reservations;
+
+    /**
      * The {@link LoggingAdapter} of this class.
      */
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
@@ -77,6 +83,7 @@ public class Lobby extends AbstractActor {
     private Lobby(LobbyConfiguration configuration) {
         this.configuration = configuration;
         this.users = new HashMap<>(configuration.getPlayerMaximum());
+        this.reservations = new HashSet<>();
     }
 
     /**
@@ -106,8 +113,9 @@ public class Lobby extends AbstractActor {
     private PartialFunction<Object, BoxedUnit> preparation() {
         return ReceiveBuilder
             .match(InformationRequest.class, req -> inform(LobbyStatus.PREPARATION))
-            .match(JoinRequest.class, this::join)
+            .match(JoinRequest.class, this::offer)
             .match(LeaveRequest.class, this::leave)
+            .match(OfferResponseEnvelope.class, this::join)
             .build();
     }
 
@@ -121,17 +129,49 @@ public class Lobby extends AbstractActor {
     }
 
     /**
-     * Handle a {@link JoinRequest} request.
+     * Handle a {@link JoinRequest} message and respond to it with either a {@link JoinError}
+     * or a {@link Offer}.
      *
      * @param req The join request to handle.
      */
-    private void join(JoinRequest req) {
-        if (users.size() >= configuration.getPlayerMaximum()) {
+    private void offer(JoinRequest req) {
+        if (users.size() + reservations.size() >= configuration.getPlayerMaximum()) {
             sender().tell(new LobbyFullError(users.size()), self());
             return;
         }
 
-        users.put(req.getUser(), sender());
+        // Ask the user for a response to the Offer
+        CompletionStage<OfferResponseEnvelope> cs = PatternsCS.ask(sender(), Offer.INSTANCE, 100000)
+            .thenApplyAsync(OfferResponse.class::cast)
+            .handleAsync((res, ex) -> res != null ? res : OfferResponse.DECLINE)
+            .thenApplyAsync(res -> new OfferResponseEnvelope(res, req.getUser()));
+
+        // Pipe result to self
+        PatternsCS.pipe(cs, context().dispatcher()).to(self(), sender());
+
+        // Reserve spot in the lobby for now
+        reservations.add(req.getUser());
+    }
+
+    /**
+     * Handle a {@link OfferResponseEnvelope} message and let the user join the lobby.
+     *
+     * @param res The response sent by the {@link User} wrapped in an envelope.
+     */
+    private void join(OfferResponseEnvelope res) {
+        log.info("Received response to offer {}", res);
+
+        // Clear the reserved spot
+        reservations.remove(res.getUser());
+
+        if (res.getMessage() == OfferResponse.DECLINE) {
+            // If the user declined, we don't do anything further
+            return;
+        }
+
+        // Put the user in the lobby
+        users.put(res.getUser(), sender());
+
         LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
         JoinSuccess event = new JoinSuccess(information);
 
@@ -164,6 +204,7 @@ public class Lobby extends AbstractActor {
         for (User user : users.keySet()) {
             users.get(user).tell(event, self());
         }
+
         sender().tell(event, self());
         context().system().eventStream().publish(information);
     }
