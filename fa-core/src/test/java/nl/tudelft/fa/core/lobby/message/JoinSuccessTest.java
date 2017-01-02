@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import java.time.Duration;
 import java.util.Collections;
-import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
@@ -20,7 +19,7 @@ public class JoinSuccessTest {
 
     @Before
     public void setUp() {
-        information = new LobbyInformation(UUID.randomUUID(),
+        information = new LobbyInformation(
             LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO), Collections.emptySet());
         msg = new JoinSuccess(information);
     }
@@ -52,7 +51,7 @@ public class JoinSuccessTest {
 
     @Test
     public void equalsDifferentInformation() {
-        assertNotEquals(new JoinSuccess(new LobbyInformation(UUID.randomUUID(),
+        assertNotEquals(new JoinSuccess(new LobbyInformation(
             LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO), Collections.emptySet())), msg);
     }
 

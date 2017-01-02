@@ -51,11 +51,6 @@ import java.util.concurrent.CompletionStage;
  */
 public class Lobby extends AbstractActor {
     /**
-     * The unique identifier of this lobby.
-     */
-    private UUID id;
-
-    /**
      * The configuration of the lobby.
      */
     private LobbyConfiguration configuration;
@@ -84,14 +79,6 @@ public class Lobby extends AbstractActor {
         this.configuration = configuration;
         this.users = new HashMap<>(configuration.getPlayerMaximum());
         this.reservations = new HashSet<>();
-    }
-
-    /**
-     * This method is invoked before the start of this actor.
-     */
-    @Override
-    public void preStart() {
-        this.id = UUID.fromString(self().path().name());
     }
 
     /**
@@ -216,7 +203,7 @@ public class Lobby extends AbstractActor {
      * @return The information of this lobby.
      */
     private LobbyInformation getInformation(LobbyStatus status) {
-        return new LobbyInformation(id, status, configuration, users.keySet());
+        return new LobbyInformation(status, configuration, users.keySet());
     }
 
     /**

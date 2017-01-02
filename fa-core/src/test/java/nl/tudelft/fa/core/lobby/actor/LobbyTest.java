@@ -55,7 +55,7 @@ public class LobbyTest {
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgEquals(duration("1 second"), new LobbyInformation(id,
+                expectMsgEquals(duration("1 second"), new LobbyInformation(
                     LobbyStatus.PREPARATION, configuration, Collections.emptySet()));
             }
         };

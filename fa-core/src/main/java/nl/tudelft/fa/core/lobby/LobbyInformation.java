@@ -30,7 +30,6 @@ import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 
 /**
@@ -39,11 +38,6 @@ import java.util.UUID;
  * @author Fabian Mastenbroek
  */
 public class LobbyInformation {
-    /**
-     * The unique identifier of the lobby.
-     */
-    private UUID id;
-
     /**
      * The status of the lobby.
      */
@@ -62,26 +56,14 @@ public class LobbyInformation {
     /**
      * Construct a {@link LobbyInformation} instance.
      *
-     * @param id The unique identifier of the lobby.
      * @param status The status of the lobby.
      * @param configuration The configuration of the lobby.
      * @param users The users in the lobby.
      */
-    public LobbyInformation(UUID id, LobbyStatus status, LobbyConfiguration configuration,
-                            Set<User> users) {
-        this.id = id;
+    public LobbyInformation(LobbyStatus status, LobbyConfiguration configuration, Set<User> users) {
         this.status = status;
         this.configuration = configuration;
         this.users = users;
-    }
-
-    /**
-     * Return the unique identifier of the lobby.
-     *
-     * @return The unique identifier of the lobby.
-     */
-    public UUID getId() {
-        return id;
     }
 
     /**
@@ -125,8 +107,7 @@ public class LobbyInformation {
             return false;
         }
         LobbyInformation that = (LobbyInformation) other;
-        return Objects.equals(id, that.id)
-            && Objects.equals(status, that.status)
+        return Objects.equals(status, that.status)
             && Objects.equals(configuration, that.configuration)
             && Objects.equals(users, that.users);
     }
@@ -138,7 +119,7 @@ public class LobbyInformation {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, configuration, users);
+        return Objects.hash(status, configuration, users);
     }
 
     /**
@@ -148,7 +129,7 @@ public class LobbyInformation {
      */
     @Override
     public String toString() {
-        return String.format("LobbyInformation(id=%s, status=%s, configuration=%s, users=%d)",
-            id, status, configuration, users.size());
+        return String.format("LobbyInformation(status=%s, configuration=%s, users=%d)",
+            status, configuration, users.size());
     }
 }
