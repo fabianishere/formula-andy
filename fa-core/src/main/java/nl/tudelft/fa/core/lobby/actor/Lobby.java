@@ -41,8 +41,6 @@ import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
 import java.util.*;
-import java.util.concurrent.CompletionStage;
-
 
 /**
  * This actor represents a game lobby with multiple users.
@@ -61,11 +59,6 @@ public class Lobby extends AbstractActor {
     private Map<User, ActorRef> users;
 
     /**
-     * The users that have been offered spots in this lobby.
-     */
-    private Set<User> reservations;
-
-    /**
      * The {@link LoggingAdapter} of this class.
      */
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
@@ -78,7 +71,6 @@ public class Lobby extends AbstractActor {
     private Lobby(LobbyConfiguration configuration) {
         this.configuration = configuration;
         this.users = new HashMap<>(configuration.getPlayerMaximum());
-        this.reservations = new HashSet<>();
     }
 
     /**
@@ -100,9 +92,8 @@ public class Lobby extends AbstractActor {
     private PartialFunction<Object, BoxedUnit> preparation() {
         return ReceiveBuilder
             .match(InformationRequest.class, req -> inform(LobbyStatus.PREPARATION))
-            .match(JoinRequest.class, this::offer)
+            .match(JoinRequest.class, this::join)
             .match(LeaveRequest.class, this::leave)
-            .match(OfferResponseEnvelope.class, this::join)
             .build();
     }
 
@@ -117,56 +108,30 @@ public class Lobby extends AbstractActor {
 
     /**
      * Handle a {@link JoinRequest} message and respond to it with either a {@link JoinError}
-     * or a {@link Offer}.
+     * or a {@link JoinSuccess} message.
      *
      * @param req The join request to handle.
      */
-    private void offer(JoinRequest req) {
-        if (users.size() + reservations.size() >= configuration.getPlayerMaximum()) {
+    private void join(JoinRequest req) {
+        log.info("Received request {} from {}", req, sender());
+
+        if (users.size() >= configuration.getPlayerMaximum()) {
             sender().tell(new LobbyFullError(users.size()), self());
             return;
         }
 
-        // Ask the user for a response to the Offer
-        CompletionStage<OfferResponseEnvelope> cs = PatternsCS.ask(sender(), Offer.INSTANCE, 100000)
-            .thenApplyAsync(OfferResponse.class::cast)
-            .handleAsync((res, ex) -> res != null ? res : OfferResponse.DECLINE)
-            .thenApplyAsync(res -> new OfferResponseEnvelope(res, req.getUser()));
-
-        // Pipe result to self
-        PatternsCS.pipe(cs, context().dispatcher()).to(self(), sender());
-
-        // Reserve spot in the lobby for now
-        reservations.add(req.getUser());
-    }
-
-    /**
-     * Handle a {@link OfferResponseEnvelope} message and let the user join the lobby.
-     *
-     * @param res The response sent by the {@link User} wrapped in an envelope.
-     */
-    private void join(OfferResponseEnvelope res) {
-        log.info("Received response to offer {}", res);
-
-        // Clear the reserved spot
-        reservations.remove(res.getUser());
-
-        if (res.getMessage() == OfferResponse.DECLINE) {
-            // If the user declined, we don't do anything further
-            return;
-        }
-
         // Put the user in the lobby
-        users.put(res.getUser(), sender());
+        users.put(req.getUser(), sender());
 
         LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        JoinSuccess event = new JoinSuccess(information);
+        JoinSuccess event = new JoinSuccess(req.getUser());
 
         for (User user : users.keySet()) {
             users.get(user).tell(event, self());
         }
 
-        context().system().eventStream().publish(information);
+        // Inform the parent
+        context().parent().tell(information, self());
     }
 
     /**
@@ -186,14 +151,12 @@ public class Lobby extends AbstractActor {
         }
 
         LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        LeaveSuccess event = new LeaveSuccess(req.getUser(), self());
-
-        for (User user : users.keySet()) {
-            users.get(user).tell(event, self());
-        }
+        LeaveSuccess event = new LeaveSuccess(req.getUser());
 
         sender().tell(event, self());
-        context().system().eventStream().publish(information);
+
+        // Inform the parent
+        context().parent().tell(information, self());
     }
 
     /**

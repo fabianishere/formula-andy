@@ -25,7 +25,6 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.lobby.LobbyInformation;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
@@ -37,26 +36,26 @@ import java.util.Objects;
  */
 public final class JoinSuccess {
     /**
-     * The information of the lobby the user joined.
+     * The user that has just joined the lobby.
      */
-    private LobbyInformation information;
+    private User user;
 
     /**
      * Construct a {@link JoinSuccess} message instance.
      *
-     * @param information The information of the lobby the user joined.
+     * @param user The user that has just joined the lobby.
      */
-    public JoinSuccess(LobbyInformation information) {
-        this.information = information;
+    public JoinSuccess(User user) {
+        this.user = user;
     }
 
     /**
-     * Return the information of the lobby the user has joined.
+     * Return the user that has just joined the lobby.
      *
-     * @return The information of the lobby the user has joined.
+     * @return The user that has just joined the lobby.
      */
-    public LobbyInformation getInformation() {
-        return information;
+    public User getUser() {
+        return user;
     }
 
     /**
@@ -73,7 +72,7 @@ public final class JoinSuccess {
             return false;
         }
         JoinSuccess that = (JoinSuccess) other;
-        return Objects.equals(information, that.information);
+        return Objects.equals(user, that.user);
     }
 
     /**
@@ -83,7 +82,7 @@ public final class JoinSuccess {
      */
     @Override
     public int hashCode() {
-        return information.hashCode();
+        return Objects.hash(user);
     }
 
     /**
@@ -93,6 +92,6 @@ public final class JoinSuccess {
      */
     @Override
     public String toString() {
-        return String.format("JoinSuccess(information=%s)", information);
+        return String.format("JoinSuccess(user=%s)", user);
     }
 }
