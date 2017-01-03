@@ -2,85 +2,148 @@
     <grandprix>
         <id>40240988-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca3297c-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>26-3-2016</date>
+        <weather>50</weather>
+        <laps>58</laps>
     </grandprix>
     <grandprix>
         <id>40240bd6-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca32bc0-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>9-4-2016</date>
+        <weather>14</weather>
+        <laps>56</laps>
     </grandprix>
     <grandprix>
         <id>40240fa0-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca32cba-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>16-4-2016</date>
+        <weather>3</weather>
+        <laps>57</laps>
     </grandprix>
     <grandprix>
         <id>402410ae-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca32d96-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>30-4-2016</date>
+        <weather>33</weather>
+        <laps>53</laps>
     </grandprix>
     <grandprix>
         <id>4024118a-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca32e72-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>14-5-2016</date>
+        <weather>10</weather>
+        <laps>66</laps>
     </grandprix>
     <grandprix>
         <id>4024125c-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca32f44-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>28-5-2016</date>
+        <weather>14</weather>
+        <laps>78</laps>
     </grandprix>
     <grandprix>
         <id>4024132e-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca330ca-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>11-6-2016</date>
+        <weather>23</weather>
+        <laps>70</laps>
     </grandprix>
     <grandprix>
         <id>402413f6-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca334d0-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>18-6-2016</date>
+        <weather>40</weather>
+        <laps>51</laps>
     </grandprix>
     <grandprix>
         <id>402414b4-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca335ac-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>2-7-2016</date>
+        <weather>47</weather>
+        <laps>71</laps>
     </grandprix>
     <grandprix>
         <id>40241856-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca33688-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>9-7-2016</date>
+        <weather>65</weather>
+        <laps>52</laps>
     </grandprix>
     <grandprix>
         <id>40241a68-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca33750-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>23-7-2016</date>
+        <weather>29</weather>
+        <laps>70</laps>
     </grandprix>
     <grandprix>
         <id>40241b44-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca33818-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <date>30-7-2016</date>
+        <weather>38</weather>
+        <laps>67</laps>
     </grandprix>
     <grandprix>
         <id>40241c16-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>2ca338e0-bd3a-11e6-a4a6-cec0c932ce01</circuit>
+        <weather>43</weather>
+        <length>7004</length>
+        <laps>44</laps>
     </grandprix>
     <grandprix>
         <id>40241ce8-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>58914f36-bd5e-11e6-a4a6-cec0c932ce01</circuit>
+        <date>3-9-2016</date>
+        <weather>34</weather>
+        <laps>53</laps>
     </grandprix>
     <grandprix>
         <id>40241dba-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>589151c0-bd5e-11e6-a4a6-cec0c932ce01</circuit>
+        <date>17-9-2016</date>
+        <weather>78</weather>
+        <laps>56</laps>
     </grandprix>
     <grandprix>
         <id>40241e8c-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>5891530a-bd5e-11e6-a4a6-cec0c932ce01</circuit>
+        <date>1-10-2016</date>
+        <weather>46</weather>
+        <laps>61</laps>
     </grandprix>
     <grandprix>
         <id>40242332-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>589153e6-bd5e-11e6-a4a6-cec0c932ce01</circuit>
+        <date>8-10-2016</date>
+        <weather>47</weather>
+        <laps>53</laps>
     </grandprix>
     <grandprix>
         <id>40242422-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>589154b8-bd5e-11e6-a4a6-cec0c932ce01</circuit>
+        <date>22-10-2016</date>
+        <weather>23</weather>
+        <laps>56</laps>
     </grandprix>
     <grandprix>
         <id>402424ea-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>58915580-bd5e-11e6-a4a6-cec0c932ce01</circuit>
+        <date>5-11-2016</date>
+        <weather>18</weather>
+        <laps>71</laps>
     </grandprix>
     <grandprix>
         <id>40242684-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>58915954-bd5e-11e6-a4a6-cec0c932ce01</circuit>
+        <date>12-11-2016</date>
+        <weather>16</weather>
+        <laps>71</laps>
     </grandprix>
     <grandprix>
         <id>40242788-bd37-11e6-a4a6-cec0c932ce01</id>
         <circuit>58915a30-bd5e-11e6-a4a6-cec0c932ce01</circuit>
+        <date>26-11-2016</date>
+        <weather>0</weather>
+        <laps>55</laps>
     </grandprix>
 </grandprixs>
