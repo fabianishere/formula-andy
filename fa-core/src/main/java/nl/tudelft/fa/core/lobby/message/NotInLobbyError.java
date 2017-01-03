@@ -26,7 +26,7 @@
 package nl.tudelft.fa.core.lobby.message;
 
 /**
- * This message represents a failure to join a lobby, because the lobby is full.
+ * This message represents a failure to leave a lobby, because the user was not in that lobby.
  *
  * @author Fabian Mastenbroek
  */
@@ -35,7 +35,7 @@ public final class NotInLobbyError extends LeaveError {
      * Construct a {@link NotInLobbyError} instance.
      */
     public NotInLobbyError() {
-        super("The lobby you are trying to join is full.");
+        super("You are not in the lobby you are trying to leave.");
     }
 
     /**
