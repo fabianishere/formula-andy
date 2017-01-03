@@ -113,9 +113,10 @@ public class Lobby extends AbstractActor {
      * @param req The join request to handle.
      */
     private void join(JoinRequest req) {
-        log.info("Received request {} from {}", req, sender());
-
         if (users.size() >= configuration.getPlayerMaximum()) {
+            log.warning("The user {} failed to join because the lobby is full");
+
+            // The lobby has reached its maximum capacity
             sender().tell(new LobbyFullError(users.size()), self());
             return;
         }
@@ -132,6 +133,8 @@ public class Lobby extends AbstractActor {
 
         // Inform the parent
         context().parent().tell(information, self());
+
+        log.debug("The user {} has joined the lobby", req.getUser());
     }
 
     /**
@@ -157,6 +160,8 @@ public class Lobby extends AbstractActor {
 
         // Inform the parent
         context().parent().tell(information, self());
+
+        log.debug("The user {} has left the lobby", req.getUser());
     }
 
     /**
