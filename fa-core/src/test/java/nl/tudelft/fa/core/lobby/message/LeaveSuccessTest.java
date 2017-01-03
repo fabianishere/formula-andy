@@ -20,41 +20,19 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 public class LeaveSuccessTest {
-
-    private static ActorSystem system;
-    private Props props;
     private User user;
-    private ActorRef lobby;
     private LeaveSuccess msg;
-
-
-    @BeforeClass
-    public static void setUpClass() {
-        system = ActorSystem.create();
-    }
 
     @Before
     public void setUp() {
         user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
-        props = Lobby.props(new LobbyConfiguration(1,  Duration.ZERO));
-        lobby = system.actorOf(props, UUID.randomUUID().toString());
-        msg = new LeaveSuccess(user, lobby);
+        msg = new LeaveSuccess(user);
 
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-        JavaTestKit.shutdownActorSystem(system);
     }
 
     @Test
     public void testUser() {
         assertEquals(user, msg.getUser());
-    }
-
-    @Test
-    public void testLobby() {
-        assertEquals(lobby, msg.getLobby());
     }
 
     @Test
@@ -74,26 +52,21 @@ public class LeaveSuccessTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new LeaveSuccess(user, lobby), msg);
+        assertEquals(new LeaveSuccess(user), msg);
     }
 
     @Test
     public void equalsDifferentUser() {
-        assertNotEquals(new LeaveSuccess(new User(UUID.randomUUID(), new Credentials("test", "Test")), lobby), msg);
-    }
-
-    @Test
-    public void equalsDifferentLobby() {
-        assertNotEquals(new LeaveSuccess(user, system.actorOf(props, UUID.randomUUID().toString())), msg);
+        assertNotEquals(new LeaveSuccess(new User(UUID.randomUUID(), new Credentials("test", "Test"))), msg);
     }
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(user, lobby), msg.hashCode());
+        assertEquals(Objects.hash(user), msg.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("LeaveSuccess(user=%s, lobby=%s)", user, lobby), msg.toString());
+        assertEquals(String.format("LeaveSuccess(user=%s)", user), msg.toString());
     }
 }

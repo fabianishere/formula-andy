@@ -25,35 +25,20 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
+import nl.tudelft.fa.core.user.User;
+
 /**
- * This message represents a failure to leave a lobby, because the user was not in that lobby.
+ * This error is sent to a {@link User} that wants to join a lobby by a
+ * {@link nl.tudelft.fa.core.lobby.actor.LobbyBalancer} if no lobbies are available and it cannot
+ * create new lobbies anymore.
  *
  * @author Fabian Mastenbroek
  */
-public final class NotInLobbyError extends LeaveError {
+public class LobbyBalancerExhaustedError extends JoinError {
     /**
-     * Construct a {@link NotInLobbyError} instance.
+     * Construct a {@link LobbyBalancerExhaustedError} instance.
      */
-    public NotInLobbyError() {
-        super("You are not in the lobby you are trying to leave.");
-    }
-
-    /**
-     * Construct a {@link NotInLobbyError} instance.
-     *
-     * @param message The message of the error.
-     */
-    public NotInLobbyError(String message) {
-        super(message);
-    }
-
-    /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
-     */
-    @Override
-    public String toString() {
-        return String.format("NotInLobbyError(message=%s)", getMessage());
+    public LobbyBalancerExhaustedError() {
+        super("The lobby balancer is exhausted and cannot provide a lobby.");
     }
 }

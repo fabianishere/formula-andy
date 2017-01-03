@@ -31,17 +31,16 @@ import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
-
-import nl.tudelft.fa.core.lobby.*;
+import akka.pattern.PatternsCS;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+import nl.tudelft.fa.core.lobby.LobbyInformation;
+import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
+import java.util.*;
 
 /**
  * This actor represents a game lobby with multiple users.
@@ -49,11 +48,6 @@ import java.util.UUID;
  * @author Fabian Mastenbroek
  */
 public class Lobby extends AbstractActor {
-    /**
-     * The unique identifier of this lobby.
-     */
-    private UUID id;
-
     /**
      * The configuration of the lobby.
      */
@@ -77,14 +71,6 @@ public class Lobby extends AbstractActor {
     private Lobby(LobbyConfiguration configuration) {
         this.configuration = configuration;
         this.users = new HashMap<>(configuration.getPlayerMaximum());
-    }
-
-    /**
-     * This method is invoked before the start of this actor.
-     */
-    @Override
-    public void preStart() {
-        this.id = UUID.fromString(self().path().name());
     }
 
     /**
@@ -121,25 +107,34 @@ public class Lobby extends AbstractActor {
     }
 
     /**
-     * Handle a {@link JoinRequest} request.
+     * Handle a {@link JoinRequest} message and respond to it with either a {@link JoinError}
+     * or a {@link JoinSuccess} message.
      *
      * @param req The join request to handle.
      */
     private void join(JoinRequest req) {
         if (users.size() >= configuration.getPlayerMaximum()) {
+            log.warning("The user {} failed to join because the lobby is full");
+
+            // The lobby has reached its maximum capacity
             sender().tell(new LobbyFullError(users.size()), self());
             return;
         }
 
+        // Put the user in the lobby
         users.put(req.getUser(), sender());
+
         LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        JoinSuccess event = new JoinSuccess(information);
+        JoinSuccess event = new JoinSuccess(req.getUser());
 
         for (User user : users.keySet()) {
             users.get(user).tell(event, self());
         }
 
-        context().system().eventStream().publish(information);
+        // Inform the parent
+        context().parent().tell(information, self());
+
+        log.debug("The user {} has joined the lobby", req.getUser());
     }
 
     /**
@@ -159,13 +154,14 @@ public class Lobby extends AbstractActor {
         }
 
         LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        LeaveSuccess event = new LeaveSuccess(req.getUser(), self());
+        LeaveSuccess event = new LeaveSuccess(req.getUser());
 
-        for (User user : users.keySet()) {
-            users.get(user).tell(event, self());
-        }
         sender().tell(event, self());
-        context().system().eventStream().publish(information);
+
+        // Inform the parent
+        context().parent().tell(information, self());
+
+        log.debug("The user {} has left the lobby", req.getUser());
     }
 
     /**
@@ -175,7 +171,7 @@ public class Lobby extends AbstractActor {
      * @return The information of this lobby.
      */
     private LobbyInformation getInformation(LobbyStatus status) {
-        return new LobbyInformation(id, status, configuration, users.keySet());
+        return new LobbyInformation(status, configuration, users.keySet());
     }
 
     /**

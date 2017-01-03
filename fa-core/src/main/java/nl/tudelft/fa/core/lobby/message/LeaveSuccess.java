@@ -25,7 +25,6 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import akka.actor.ActorRef;
 import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.user.User;
 
@@ -43,19 +42,12 @@ public class LeaveSuccess {
     private User user;
 
     /**
-     * The reference to the {@link Lobby} the user has left.
-     */
-    private ActorRef lobby;
-
-    /**
      * Construct a {@link LeaveSuccess} message instance.
      *
      * @param user The user that has left the lobby.
-     * @param lobby The reference to the lobby the user has left.
      */
-    public LeaveSuccess(User user, ActorRef lobby) {
+    public LeaveSuccess(User user) {
         this.user = user;
-        this.lobby = lobby;
     }
 
     /**
@@ -65,15 +57,6 @@ public class LeaveSuccess {
      */
     public User getUser() {
         return user;
-    }
-
-    /**
-     * Return the reference to the lobby the user has left.
-     *
-     * @return The reference to the lobby the user has left.
-     */
-    public ActorRef getLobby() {
-        return lobby;
     }
 
     /**
@@ -91,7 +74,7 @@ public class LeaveSuccess {
             return false;
         }
         LeaveSuccess that = (LeaveSuccess) other;
-        return Objects.equals(user, that.user) && Objects.equals(lobby, that.lobby);
+        return Objects.equals(user, that.user);
     }
 
     /**
@@ -101,7 +84,7 @@ public class LeaveSuccess {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user, lobby);
+        return Objects.hash(user);
     }
 
     /**
@@ -111,6 +94,6 @@ public class LeaveSuccess {
      */
     @Override
     public String toString() {
-        return String.format("LeaveSuccess(user=%s, lobby=%s)", user, lobby);
+        return String.format("LeaveSuccess(user=%s)", user);
     }
 }

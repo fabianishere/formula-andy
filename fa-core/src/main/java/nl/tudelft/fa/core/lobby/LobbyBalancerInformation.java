@@ -25,76 +25,43 @@
 
 package nl.tudelft.fa.core.lobby;
 
-import nl.tudelft.fa.core.lobby.actor.Lobby;
-import nl.tudelft.fa.core.user.User;
+import akka.actor.ActorRef;
 
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-
 
 /**
- * This class provides information about a {@link Lobby} actor.
+ * This class provides information about a {@link nl.tudelft.fa.core.lobby.actor.LobbyBalancer}
+ * actor.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyInformation {
+public class LobbyBalancerInformation {
     /**
-     * The status of the lobby.
+     * A {@link Map} containing the lobbies the balancer manages.
      */
-    private LobbyStatus status;
+    private Map<ActorRef, LobbyInformation> lobbies;
 
     /**
-     * The configuration of the lobby.
-     */
-    private LobbyConfiguration configuration;
-
-    /**
-     * The {@link User}s in this lobby.
-     */
-    private Set<User> users;
-
-    /**
-     * Construct a {@link LobbyInformation} instance.
+     * Construct a {@link LobbyBalancerInformation} instance.
      *
-     * @param status The status of the lobby.
-     * @param configuration The configuration of the lobby.
-     * @param users The users in the lobby.
+     * @param lobbies The lobbies the balancer manages.
      */
-    public LobbyInformation(LobbyStatus status, LobbyConfiguration configuration, Set<User> users) {
-        this.status = status;
-        this.configuration = configuration;
-        this.users = users;
+    public LobbyBalancerInformation(Map<ActorRef, LobbyInformation> lobbies) {
+        this.lobbies = lobbies;
     }
 
     /**
-     * Return the status of the lobby.
+     * Return the {@link Lobby} actors the balancer manages.
      *
-     * @return The status of the lobby.
+     * @return The lobbies the balancer manages.
      */
-    public LobbyStatus getStatus() {
-        return status;
+    public Map<ActorRef, LobbyInformation> getLobbies() {
+        return lobbies;
     }
 
     /**
-     * Return the configuration of the lobby.
-     *
-     * @return The configuration of the lobby.
-     */
-    public LobbyConfiguration getConfiguration() {
-        return configuration;
-    }
-
-    /**
-     * Return the users of the lobby.
-     *
-     * @return The users of the lobby.
-     */
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    /**
-     * Test whether this {@link LobbyInformation} is equal to the given object.
+     * Test whether this {@link LobbyBalancerInformation} is equal to the given object.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
@@ -106,10 +73,8 @@ public class LobbyInformation {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        LobbyInformation that = (LobbyInformation) other;
-        return Objects.equals(status, that.status)
-            && Objects.equals(configuration, that.configuration)
-            && Objects.equals(users, that.users);
+        LobbyBalancerInformation that = (LobbyBalancerInformation) other;
+        return Objects.equals(lobbies, that.lobbies);
     }
 
     /**
@@ -119,7 +84,7 @@ public class LobbyInformation {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(status, configuration, users);
+        return Objects.hash(lobbies);
     }
 
     /**
@@ -129,7 +94,6 @@ public class LobbyInformation {
      */
     @Override
     public String toString() {
-        return String.format("LobbyInformation(status=%s, configuration=%s, users=%d)",
-            status, configuration, users.size());
+        return String.format("LobbyBalancerInformation(lobbies=%s)", lobbies);
     }
 }

@@ -1,13 +1,11 @@
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.lobby.LobbyConfiguration;
-import nl.tudelft.fa.core.lobby.LobbyInformation;
-import nl.tudelft.fa.core.lobby.LobbyStatus;
-import org.junit.Before;
-import org.junit.Test;
 
-import java.time.Duration;
-import java.util.Collections;
+import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.user.User;
+import org.junit.*;
+
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -15,20 +13,20 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 public class JoinSuccessTest {
-    private LobbyInformation information;
+    private User user;
     private JoinSuccess msg;
 
     @Before
     public void setUp() {
-        information = new LobbyInformation(UUID.randomUUID(),
-            LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO), Collections.emptySet());
-        msg = new JoinSuccess(information);
+        user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
+        msg = new JoinSuccess(user);
+
     }
 
     @Test
-    public void testInformation() {
-        assertEquals(information, msg.getInformation());
-}
+    public void testUser() {
+        assertEquals(user, msg.getUser());
+    }
 
     @Test
     public void equalsNull() {
@@ -47,22 +45,21 @@ public class JoinSuccessTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new JoinSuccess(information), msg);
+        assertEquals(new JoinSuccess(user), msg);
     }
 
     @Test
-    public void equalsDifferentInformation() {
-        assertNotEquals(new JoinSuccess(new LobbyInformation(UUID.randomUUID(),
-            LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO), Collections.emptySet())), msg);
+    public void equalsDifferentUser() {
+        assertNotEquals(new JoinSuccess(new User(UUID.randomUUID(), new Credentials("test", "Test"))), msg);
     }
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(information.hashCode(), msg.hashCode());
+        assertEquals(Objects.hash(user), msg.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("JoinSuccess(information=%s)", information), msg.toString());
+        assertEquals(String.format("JoinSuccess(user=%s)", user), msg.toString());
     }
 }

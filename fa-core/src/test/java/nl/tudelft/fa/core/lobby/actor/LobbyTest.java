@@ -9,7 +9,6 @@ import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.LobbyInformation;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
-import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
@@ -56,7 +55,7 @@ public class LobbyTest {
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgEquals(duration("1 second"), new LobbyInformation(id,
+                expectMsgEquals(duration("1 second"), new LobbyInformation(
                     LobbyStatus.PREPARATION, configuration, Collections.emptySet()));
             }
         };
@@ -73,8 +72,7 @@ public class LobbyTest {
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgEquals(duration("1 second"), new JoinSuccess(new LobbyInformation(id,
-                    LobbyStatus.PREPARATION, configuration, Collections.singleton(user))));
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
             }
         };
     }
@@ -103,13 +101,15 @@ public class LobbyTest {
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final LeaveRequest req = new LeaveRequest(user);
 
-                subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "Test"))), ActorRef.noSender());
+                final JavaTestKit probe = new JavaTestKit(system);
+
+                subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "Test"))), probe.getRef());
 
                 subject.tell(new JoinRequest(user), getRef());
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());
-                expectMsgEquals(duration("1 second"), new LeaveSuccess(user, subject));
+                expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
             }
         };
     }

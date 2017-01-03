@@ -12,12 +12,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-/**
- * @author Fabian Mastenbroek <mail.fabianm@gmail.com>
- */
 public class JoinRequestTest {
-    User user;
-    JoinRequest req;
+    private User user;
+    private JoinRequest req;
 
     @Before
     public void setUp() throws Exception {
@@ -51,7 +48,7 @@ public class JoinRequestTest {
     }
 
     @Test
-    public void equalsDifferentCredentials() {
+    public void equalsDifferentUser() {
         assertNotEquals(new JoinRequest(new User(UUID.randomUUID(), new Credentials("b", "c"))),
             req);
     }
