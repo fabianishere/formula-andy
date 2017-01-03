@@ -77,7 +77,7 @@ public class LobbyBalancerTest {
     public void testJoinRunning() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyBalancer.props(configuration, 1, 5);
+                final Props props = LobbyBalancer.props(configuration);
                 final ActorRef subject = system.actorOf(props);
                 final JoinRequest req = new JoinRequest(user);
 
@@ -167,7 +167,7 @@ public class LobbyBalancerTest {
     public void testLeaveNoKill() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyBalancer.props(configuration);
+                final Props props = LobbyBalancer.props(configuration, 1, 2);
                 final ActorRef subject = system.actorOf(props);
                 final JoinRequest req = new JoinRequest(user);
 
