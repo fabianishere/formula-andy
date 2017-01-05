@@ -67,11 +67,28 @@ public class LobbyTest {
             {
                 final Props props = Lobby.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
-                final JoinRequest req = new JoinRequest(user);
+                final JoinRequest req = new JoinRequest(user, getRef());
 
                 subject.tell(req, getRef());
 
                 // await the correct response
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+            }
+        };
+    }
+
+    @Test
+    public void testJoinSuccessDifferentHandler() {
+        new JavaTestKit(system) {
+            {
+                final Props props = Lobby.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final JavaTestKit probe = new JavaTestKit(system);
+                final JoinRequest req = new JoinRequest(user, probe.getRef());
+
+                subject.tell(req, getRef());
+                // await the correct response
+                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
             }
         };
@@ -83,7 +100,7 @@ public class LobbyTest {
             {
                 final Props props = Lobby.props(new LobbyConfiguration(0, Duration.ZERO));
                 final ActorRef subject = system.actorOf(props, id.toString());
-                final JoinRequest req = new JoinRequest(user);
+                final JoinRequest req = new JoinRequest(user, getRef());
 
                 subject.tell(req, getRef());
 
@@ -103,13 +120,33 @@ public class LobbyTest {
 
                 final JavaTestKit probe = new JavaTestKit(system);
 
-                subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "Test"))), probe.getRef());
+                subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "Test")), probe.getRef()), probe.getRef());
 
-                subject.tell(new JoinRequest(user), getRef());
+                subject.tell(new JoinRequest(user, getRef()), getRef());
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());
                 expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
+            }
+        };
+    }
+
+    @Test
+    public void testLeaveSuccessDifferentHandler() {
+        new JavaTestKit(system) {
+            {
+                final Props props = Lobby.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final LeaveRequest req = new LeaveRequest(user);
+                final JavaTestKit probe = new JavaTestKit(system);
+
+                subject.tell(new JoinRequest(user, probe.getRef()), getRef());
+                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+
+                subject.tell(req, getRef());
+                expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
+                probe.expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
             }
         };
     }

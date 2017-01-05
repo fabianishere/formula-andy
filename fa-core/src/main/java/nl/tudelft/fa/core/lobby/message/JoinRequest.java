@@ -25,6 +25,7 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
+import akka.actor.ActorRef;
 import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.user.User;
 
@@ -42,12 +43,19 @@ public final class JoinRequest {
     private User user;
 
     /**
+     * The managing actor for this user.
+     */
+    private ActorRef handler;
+
+    /**
      * Construct a {@link JoinRequest} message.
      *
      * @param user The user that wants to join the lobby.
+     * @param handler The managing actor for this user.
      */
-    public JoinRequest(User user) {
+    public JoinRequest(User user, ActorRef handler) {
         this.user = user;
+        this.handler = handler;
     }
 
     /**
@@ -57,6 +65,16 @@ public final class JoinRequest {
      */
     public User getUser() {
         return user;
+    }
+
+    /**
+     * Return the {@link ActorRef} that references the actor that acts as the handler for the
+     * user.
+     *
+     * @return The managing actor for the user.
+     */
+    public ActorRef getHandler() {
+        return handler;
     }
 
     /**
@@ -75,7 +93,7 @@ public final class JoinRequest {
             return false;
         }
         JoinRequest that = (JoinRequest) other;
-        return Objects.equals(user, that.user);
+        return Objects.equals(user, that.user) && Objects.equals(handler, that.handler);
     }
 
     /**
@@ -85,7 +103,7 @@ public final class JoinRequest {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user);
+        return Objects.hash(user, handler);
     }
 
     /**
@@ -95,6 +113,6 @@ public final class JoinRequest {
      */
     @Override
     public String toString() {
-        return String.format("JoinRequest(user=%s)", user);
+        return String.format("JoinRequest(user=%s, handler=%s)", user, handler);
     }
 }

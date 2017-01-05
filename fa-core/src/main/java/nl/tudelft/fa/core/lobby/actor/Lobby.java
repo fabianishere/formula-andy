@@ -122,16 +122,22 @@ public class Lobby extends AbstractActor {
         }
 
         // Put the user in the lobby
-        users.put(req.getUser(), sender());
+        users.put(req.getUser(), req.getHandler());
 
-        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
         JoinSuccess event = new JoinSuccess(req.getUser());
 
+        // Tell all users about the change
         for (User user : users.keySet()) {
             users.get(user).tell(event, self());
         }
 
-        // Inform the parent
+        // Inform the requesting actor if it isn't the handler
+        if (!sender().equals(req.getHandler())) {
+            sender().tell(event, self());
+        }
+
+        // Inform the parent about the change
+        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
         context().parent().tell(information, self());
 
         log.debug("The user {} has joined the lobby", req.getUser());
@@ -145,20 +151,31 @@ public class Lobby extends AbstractActor {
     private void leave(LeaveRequest req) {
         ActorRef ref = users.remove(req.getUser());
 
+        // Determine whether the user was in the lobby
         if (ref == null) {
-            // The user is not in the lobby
             log.warning("The user {} tried to leave the lobby, but is not in the lobby",
                 req.getUser().getCredentials().getUsername());
             sender().tell(new NotInLobbyError(), self());
             return;
         }
 
-        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
         LeaveSuccess event = new LeaveSuccess(req.getUser());
 
-        sender().tell(event, self());
+        // Tell all users about the change
+        for (User user : users.keySet()) {
+            users.get(user).tell(event, self());
+        }
 
-        // Inform the parent
+        // Inform the user that left
+        ref.tell(event, self());
+
+        // Inform the requesting actor if it isn't the handler
+        if (!sender().equals(ref)) {
+            sender().tell(event, self());
+        }
+
+        // Inform the parent about the change
+        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
         context().parent().tell(information, self());
 
         log.debug("The user {} has left the lobby", req.getUser());
