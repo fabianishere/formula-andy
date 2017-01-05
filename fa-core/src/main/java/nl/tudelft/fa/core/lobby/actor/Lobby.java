@@ -58,6 +58,11 @@ public class Lobby extends AbstractActor {
     private Map<User, ActorRef> users;
 
     /**
+     * The subscriptions of this lobby.
+     */
+    private Set<ActorRef> subscriptions;
+
+    /**
      * The {@link LoggingAdapter} of this class.
      */
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
@@ -70,6 +75,7 @@ public class Lobby extends AbstractActor {
     private Lobby(LobbyConfiguration configuration) {
         this.configuration = configuration;
         this.users = new HashMap<>(configuration.getPlayerMaximum());
+        this.subscriptions = new HashSet<>();
     }
 
     /**
@@ -93,6 +99,8 @@ public class Lobby extends AbstractActor {
             .match(InformationRequest.class, req -> inform(LobbyStatus.PREPARATION))
             .match(JoinRequest.class, this::join)
             .match(LeaveRequest.class, this::leave)
+            .match(SubscribeRequest.class, req -> this.subscribe(req.getActor()))
+            .match(UnsubscribeRequest.class, req -> this.unsubscribe(req.getActor()))
             .build();
     }
 
@@ -178,6 +186,24 @@ public class Lobby extends AbstractActor {
         context().parent().tell(information, self());
 
         log.debug("The user {} has left the lobby", req.getUser());
+    }
+
+    /**
+     * Subscribe to this {@link Lobby}
+     *
+     * @param actor The actor that wants to subscribe to this lobby.
+     */
+    private void subscribe(ActorRef actor) {
+        this.subscriptions.add(actor);
+    }
+
+    /**
+     * Unsubscribe from this {@link Lobby}
+     *
+     * @param actor The actor that wants to unsubscribe from this lobby.
+     */
+    private void unsubscribe(ActorRef actor) {
+        this.subscriptions.remove(actor);
     }
 
     /**
