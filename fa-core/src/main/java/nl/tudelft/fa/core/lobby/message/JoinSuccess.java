@@ -25,6 +25,7 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
+import akka.actor.ActorRef;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
@@ -41,12 +42,19 @@ public final class JoinSuccess {
     private User user;
 
     /**
+     * The lobby the user has joined.
+     */
+    private ActorRef lobby;
+
+    /**
      * Construct a {@link JoinSuccess} message instance.
      *
      * @param user The user that has just joined the lobby.
+     * @param lobby The lobby the user has joined.
      */
-    public JoinSuccess(User user) {
+    public JoinSuccess(User user, ActorRef lobby) {
         this.user = user;
+        this.lobby = lobby;
     }
 
     /**
@@ -56,6 +64,15 @@ public final class JoinSuccess {
      */
     public User getUser() {
         return user;
+    }
+
+    /**
+     * Return the reference to the lobby the user has joined.
+     *
+     * @return The reference to the lobby the user has joined.
+     */
+    public ActorRef getLobby() {
+        return lobby;
     }
 
     /**
@@ -72,7 +89,7 @@ public final class JoinSuccess {
             return false;
         }
         JoinSuccess that = (JoinSuccess) other;
-        return Objects.equals(user, that.user);
+        return Objects.equals(user, that.user) && Objects.equals(lobby, that.lobby);
     }
 
     /**
@@ -82,7 +99,7 @@ public final class JoinSuccess {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user);
+        return Objects.hash(user, lobby);
     }
 
     /**
@@ -92,6 +109,6 @@ public final class JoinSuccess {
      */
     @Override
     public String toString() {
-        return String.format("JoinSuccess(user=%s)", user);
+        return String.format("JoinSuccess(user=%s, lobby=%s)", user, lobby);
     }
 }

@@ -118,10 +118,10 @@ public class LobbyBalancerTest {
                 final User snd = new User(UUID.randomUUID(), new Credentials("test", "test"));
 
                 subject.tell(new JoinRequest(snd, probe.getRef()), probe.getRef());
-                probe.expectMsgEquals(duration("1 second"), new JoinSuccess(snd));
+                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 subject.tell(req, getRef());
-                probe.expectMsgEquals(duration("1 second"), new JoinSuccess(user));
-                expectMsgEquals(duration("1 second"), new JoinSuccess(user));
+                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
             }
         };
     }

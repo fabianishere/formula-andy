@@ -31,7 +31,6 @@ import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
-import akka.pattern.PatternsCS;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.LobbyInformation;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
@@ -124,7 +123,7 @@ public class Lobby extends AbstractActor {
         // Put the user in the lobby
         users.put(req.getUser(), req.getHandler());
 
-        JoinSuccess event = new JoinSuccess(req.getUser());
+        JoinSuccess event = new JoinSuccess(req.getUser(), self());
 
         // Tell all users about the change
         for (User user : users.keySet()) {
