@@ -7,6 +7,7 @@ import akka.japi.pf.ReceiveBuilder;
 import nl.tudelft.fa.core.lobby.message.JoinException;
 import nl.tudelft.fa.core.lobby.message.Join;
 import nl.tudelft.fa.core.lobby.message.JoinSuccess;
+import nl.tudelft.fa.core.lobby.message.Refresh;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
@@ -67,7 +68,8 @@ public class LobbyBalancerMediator extends AbstractActor {
      * @param error The error that occurred.
      */
     private void failure(JoinException error) {
-        // Resend the request. TODO: ask the balancer to refresh via a RefreshRequest message
+        // Update the balancer's caches and retry
+        balancer.tell(Refresh.INSTANCE, self());
         balancer.tell(req, req.getHandler());
         context().stop(self());
     }

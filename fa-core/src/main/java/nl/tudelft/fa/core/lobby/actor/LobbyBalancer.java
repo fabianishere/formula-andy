@@ -119,6 +119,7 @@ public class LobbyBalancer extends AbstractActor {
             .match(JoinSuccess.class, req -> joined(req.getUser(), req.getLobby()))
             .match(LeaveSuccess.class, req -> left(req.getUser(), sender()))
             .match(LobbyInformation.class, this::update)
+            .match(Refresh.class, req -> refresh())
             .build();
     }
 
@@ -214,6 +215,13 @@ public class LobbyBalancer extends AbstractActor {
             available.put(sender(), information);
         }
         instances.put(sender(), information);
+    }
+
+    /**
+     * Refresh the caches of this {@link LobbyBalancer}.
+     */
+    private void refresh() {
+        instances.forEach((instance, info) -> instance.tell(RequestInformation.INSTANCE, self()));
     }
 
     /**
