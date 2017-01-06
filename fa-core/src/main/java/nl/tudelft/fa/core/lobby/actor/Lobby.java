@@ -96,11 +96,11 @@ public class Lobby extends AbstractActor {
      */
     private PartialFunction<Object, BoxedUnit> preparation() {
         return ReceiveBuilder
-            .match(InformationRequest.class, req -> inform(LobbyStatus.PREPARATION))
-            .match(JoinRequest.class, req -> join(req.getUser(), req.getHandler()))
-            .match(LeaveRequest.class, req -> leave(req.getUser()))
-            .match(SubscribeRequest.class, req -> bus.tell(req, sender()))
-            .match(UnsubscribeRequest.class, req -> bus.tell(req, sender()))
+            .match(RequestInformation.class, req -> inform(LobbyStatus.PREPARATION))
+            .match(Join.class, req -> join(req.getUser(), req.getHandler()))
+            .match(Leave.class, req -> leave(req.getUser()))
+            .match(Subscribe.class, req -> bus.tell(req, sender()))
+            .match(Unsubscribe.class, req -> bus.tell(req, sender()))
             .build();
     }
 
@@ -114,7 +114,7 @@ public class Lobby extends AbstractActor {
     }
 
     /**
-     * Let a {@link User} join this lobby by responding with either a {@link JoinError} message
+     * Let a {@link User} join this lobby by responding with either a {@link JoinException} message
      * or a {@link JoinSuccess} message.
      *
      * @param user The user that wants to join.
@@ -125,7 +125,7 @@ public class Lobby extends AbstractActor {
             log.warning("The user {} failed to join because the lobby is full");
 
             // The lobby has reached its maximum capacity
-            sender().tell(new LobbyFullError(users.size()), self());
+            sender().tell(new LobbyFullException(self(), users.size()), self());
             return;
         }
 
@@ -155,7 +155,7 @@ public class Lobby extends AbstractActor {
         if (ref == null) {
             log.warning("The user {} tried to leave the lobby, but is not in the lobby",
                 user);
-            sender().tell(new NotInLobbyError(), self());
+            sender().tell(new NotInLobbyException(self()), self());
             return;
         }
 

@@ -25,20 +25,47 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.user.User;
+import akka.actor.ActorRef;
+import nl.tudelft.fa.core.lobby.actor.Lobby;
 
 /**
- * This error is sent to a {@link User} that wants to join a lobby by a
- * {@link nl.tudelft.fa.core.lobby.actor.LobbyBalancer} if no lobbies are available and it cannot
- * create new lobbies anymore.
+ * This message represents an exception within the {@link Lobby} actor.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyBalancerExhaustedError extends JoinError {
+public class LobbyException extends Exception {
     /**
-     * Construct a {@link LobbyBalancerExhaustedError} instance.
+     * The {@link Lobby} where the exception occurred.
      */
-    public LobbyBalancerExhaustedError() {
-        super("The lobby balancer is exhausted and cannot provide a lobby.");
+    private ActorRef lobby;
+
+    /**
+     * Construct a {@link LobbyException} instance.
+     *
+     * @param lobby The lobby where the exception occurred.
+     * @param message The message of the exception.
+     */
+    public LobbyException(ActorRef lobby, String message) {
+        super(message);
+        this.lobby = lobby;
+    }
+
+    /**
+     * Construct a {@link JoinException} instance.
+     *
+     * @param lobby The lobby where the exception occurred.
+     */
+    public LobbyException(ActorRef lobby) {
+        super();
+        this.lobby = lobby;
+    }
+
+    /**
+     * Return the {@link Lobby} where the exception occurred.
+     *
+     * @return The reference to the lobby where the exception occurred.
+     */
+    public ActorRef getLobby() {
+        return lobby;
     }
 }

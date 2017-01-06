@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
+import akka.actor.ActorRef;
+import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.user.User;
 
 /**
@@ -32,49 +34,23 @@ import nl.tudelft.fa.core.user.User;
  *
  * @author Fabian Mastenbroek
  */
-public abstract class LeaveError {
+public abstract class LeaveException extends LobbyException {
     /**
-     * The message of this error.
-     */
-    private final String message;
-
-    /**
-     * Construct a {@link LeaveError} instance.
+     * Construct a {@link LeaveException} instance.
      *
+     * @param lobby The lobby where the error occurred.
      * @param message The message of the error.
      */
-    public LeaveError(String message) {
-        this.message = message;
+    public LeaveException(ActorRef lobby, String message) {
+        super(lobby, message);
     }
 
     /**
-     * Return the message of this error.
+     * Construct a {@link LeaveException} instance.
      *
-     * @return The message of this error.
+     * @param lobby The lobby where the error occurred.
      */
-    public String getMessage() {
-        return message;
-    }
-
-    /**
-     * Test whether this message is equal to the given object.
-     * This is always <code>true</code> if both classes are of the same type.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    @Override
-    public boolean equals(Object other) {
-        return getClass().isInstance(other);
-    }
-
-    /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
-     */
-    @Override
-    public String toString() {
-        return String.format("LeaveError(message=%s)", message);
+    public LeaveException(ActorRef lobby) {
+        super(lobby);
     }
 }

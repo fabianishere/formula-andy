@@ -2,23 +2,20 @@ package nl.tudelft.fa.core.lobby.message;
 
 import akka.actor.ActorSystem;
 import akka.testkit.JavaTestKit;
-import nl.tudelft.fa.core.auth.Credentials;
-import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-public class SubscribeRequestTest {
+public class UnsubscribeTest {
     private static ActorSystem system;
-    private SubscribeRequest req;
+    private Unsubscribe req;
     private JavaTestKit probe;
 
     @BeforeClass
@@ -34,7 +31,7 @@ public class SubscribeRequestTest {
     @Before
     public void setUp() throws Exception {
         probe = new JavaTestKit(system);
-        req = new SubscribeRequest(probe.getRef());
+        req = new Unsubscribe(probe.getRef());
     }
 
     @Test
@@ -59,12 +56,12 @@ public class SubscribeRequestTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new SubscribeRequest(probe.getRef()), req);
+        assertEquals(new Unsubscribe(probe.getRef()), req);
     }
 
     @Test
     public void equalsDifferentActor() {
-        assertNotEquals(new SubscribeRequest(new JavaTestKit(system).getRef()),
+        assertNotEquals(new Unsubscribe(new JavaTestKit(system).getRef()),
             req);
     }
 
@@ -75,6 +72,6 @@ public class SubscribeRequestTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("SubscribeRequest(actor=%s)", probe.getRef()), req.toString());
+        assertEquals(String.format("UnsubscribeRequest(actor=%s)", probe.getRef()), req.toString());
     }
 }

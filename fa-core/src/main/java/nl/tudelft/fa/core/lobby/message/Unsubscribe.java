@@ -31,29 +31,29 @@ import nl.tudelft.fa.core.lobby.actor.Lobby;
 import java.util.Objects;
 
 /**
- * This message is send to a {@link Lobby} actor to subscribe to the event stream of this actor.
+ * This message is send to a {@link Lobby} actor to unsubscribe from the event stream of this actor.
  *
  * @author Fabian Mastenbroek
  */
-public class SubscribeRequest {
+public class Unsubscribe {
     /**
      * The actor that wants to subscribe to the {@link Lobby}.
      */
     private ActorRef actor;
 
     /**
-     * Construct a {@link SubscribeRequest} instance.
+     * Construct a {@link Unsubscribe} instance.
      *
-     * @param actor The actor that wants to subscribe to the {@link Lobby}.
+     * @param actor The actor that wants to unsubscribe from the {@link Lobby}.
      */
-    public SubscribeRequest(ActorRef actor) {
+    public Unsubscribe(ActorRef actor) {
         this.actor = actor;
     }
 
     /**
-     * Return the actor that wants to subscribe to the {@link Lobby}.
+     * Return the actor that wants to unsubscribe from the {@link Lobby}.
      *
-     * @return The actor that wants to subscribe.
+     * @return The actor that wants to unsubscribe.
      */
     public ActorRef getActor() {
         return actor;
@@ -74,7 +74,7 @@ public class SubscribeRequest {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        SubscribeRequest that = (SubscribeRequest) other;
+        Unsubscribe that = (Unsubscribe) other;
         return Objects.equals(actor, that.actor);
     }
 
@@ -95,6 +95,6 @@ public class SubscribeRequest {
      */
     @Override
     public String toString() {
-        return String.format("SubscribeRequest(actor=%s)", actor);
+        return String.format("UnsubscribeRequest(actor=%s)", actor);
     }
 }

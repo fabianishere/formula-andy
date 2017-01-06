@@ -25,56 +25,37 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
+import akka.actor.ActorRef;
 import nl.tudelft.fa.core.user.User;
 
 /**
- * This message indicates that a {@link User} failed to join a lobby.
+ * This message indicates that the lobby a {@link User} is trying to join, is full.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class JoinError {
+public class LobbyFullException extends JoinException {
     /**
-     * The message of this error.
+     * The amount of users in the lobby currently.
      */
-    private final String message;
+    private int users;
 
     /**
-     * Construct a {@link JoinError} instance.
+     * Construct a {@link LobbyFullException} message.
      *
-     * @param message The message of the error.
+     * @param lobby The lobby where the error occurred.
+     * @param users The amount of users in the lobby currently.
      */
-    public JoinError(String message) {
-        this.message = message;
+    public LobbyFullException(ActorRef lobby, int users) {
+        super(lobby, "The lobby you are trying to join is full.");
+        this.users = users;
     }
 
     /**
-     * Return the message of this error.
+     * Return the amount of users currently in the lobby.
      *
-     * @return The message of this error.
+     * @return The amount of users currently in the lobby.
      */
-    public String getMessage() {
-        return message;
-    }
-
-    /**
-     * Test whether this message is equal to the given object.
-     * This is always <code>true</code> if both classes are of the same type.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    @Override
-    public boolean equals(Object other) {
-        return getClass().isInstance(other);
-    }
-
-    /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
-     */
-    @Override
-    public String toString() {
-        return String.format("JoinError(message=%s)", message);
+    public int getUsers() {
+        return users;
     }
 }

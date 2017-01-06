@@ -4,8 +4,8 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.japi.pf.ReceiveBuilder;
-import nl.tudelft.fa.core.lobby.message.JoinError;
-import nl.tudelft.fa.core.lobby.message.JoinRequest;
+import nl.tudelft.fa.core.lobby.message.JoinException;
+import nl.tudelft.fa.core.lobby.message.Join;
 import nl.tudelft.fa.core.lobby.message.JoinSuccess;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
@@ -22,9 +22,9 @@ public class LobbyBalancerMediator extends AbstractActor {
     private ActorRef balancer;
 
     /**
-     * The {@link JoinRequest} this mediator handles.
+     * The {@link Join} this mediator handles.
      */
-    private JoinRequest req;
+    private Join req;
 
     /**
      * Construct a {@link LobbyBalancerMediator} instance.
@@ -32,7 +32,7 @@ public class LobbyBalancerMediator extends AbstractActor {
      * @param balancer The {@link LobbyBalancer} that created this mediator.
      * @param req The join request this mediator handles.
      */
-    private LobbyBalancerMediator(ActorRef balancer, JoinRequest req) {
+    private LobbyBalancerMediator(ActorRef balancer, Join req) {
         this.balancer = balancer;
         this.req = req;
     }
@@ -47,7 +47,7 @@ public class LobbyBalancerMediator extends AbstractActor {
     public PartialFunction<Object, BoxedUnit> receive() {
         return ReceiveBuilder
             .match(JoinSuccess.class, this::success)
-            .match(JoinError.class, this::failure)
+            .match(JoinException.class, this::failure)
             .build();
     }
 
@@ -66,7 +66,7 @@ public class LobbyBalancerMediator extends AbstractActor {
      *
      * @param error The error that occurred.
      */
-    private void failure(JoinError error) {
+    private void failure(JoinException error) {
         // Resend the request. TODO: ask the balancer to refresh via a RefreshRequest message
         balancer.tell(req, req.getHandler());
         context().stop(self());
@@ -80,7 +80,7 @@ public class LobbyBalancerMediator extends AbstractActor {
      * @return A Props for creating this actor, which can then be further configured
      *         (e.g. calling `.withDispatcher()` on it)
      */
-    public static Props props(ActorRef balancer, JoinRequest req) {
+    public static Props props(ActorRef balancer, Join req) {
         return Props.create(LobbyBalancerMediator.class,
             () -> new LobbyBalancerMediator(balancer, req));
     }

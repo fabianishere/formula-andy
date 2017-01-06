@@ -114,8 +114,8 @@ public class LobbyBalancer extends AbstractActor {
     @Override
     public PartialFunction<Object, BoxedUnit> receive() {
         return ReceiveBuilder
-            .match(InformationRequest.class, req -> inform())
-            .match(JoinRequest.class, this::join)
+            .match(RequestInformation.class, req -> inform())
+            .match(Join.class, this::join)
             .match(JoinSuccess.class, req -> joined(req.getUser(), req.getLobby()))
             .match(LeaveSuccess.class, req -> left(req.getUser(), sender()))
             .match(LobbyInformation.class, this::update)
@@ -130,11 +130,11 @@ public class LobbyBalancer extends AbstractActor {
     }
 
     /**
-     * Route a {@link JoinRequest} to a fitting {@link Lobby} actor.
+     * Route a {@link Join} to a fitting {@link Lobby} actor.
      *
      * @param req The join request to handle.
      */
-    private void join(JoinRequest req) {
+    private void join(Join req) {
         final ActorRef ref;
 
         if (!available.isEmpty()) {
@@ -144,7 +144,7 @@ public class LobbyBalancer extends AbstractActor {
             ref = createLobby();
         } else {
             log.warning("Balancer exhausted. Cannot fulfil request {} ", req);
-            sender().tell(new LobbyBalancerExhaustedError(), self());
+            sender().tell(new LobbyBalancerExhaustedException(self()), self());
             return;
         }
 
@@ -225,7 +225,7 @@ public class LobbyBalancer extends AbstractActor {
         ActorRef ref = context().actorOf(Lobby.props(configuration), UUID.randomUUID().toString());
         LobbyInformation info = new LobbyInformation(LobbyStatus.PREPARATION, configuration,
             Collections.emptySet());
-        ref.tell(new SubscribeRequest(self()), self());
+        ref.tell(new Subscribe(self()), self());
         instances.put(ref, info);
         available.put(ref, info);
         return ref;

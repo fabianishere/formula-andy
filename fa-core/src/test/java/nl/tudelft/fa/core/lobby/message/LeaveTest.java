@@ -12,14 +12,14 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-public class LeaveRequestTest {
+public class LeaveTest {
     User user;
-    LeaveRequest req;
+    Leave req;
 
     @Before
     public void setUp() throws Exception {
         user = new User(UUID.randomUUID(), new Credentials("a", "b"));
-        req = new LeaveRequest(user);
+        req = new Leave(user);
     }
 
     @Test
@@ -44,12 +44,12 @@ public class LeaveRequestTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new LeaveRequest(user), req);
+        assertEquals(new Leave(user), req);
     }
 
     @Test
     public void equalsDifferentCredentials() {
-        assertNotEquals(new LeaveRequest(new User(UUID.randomUUID(), new Credentials("b", "c"))),
+        assertNotEquals(new Leave(new User(UUID.randomUUID(), new Credentials("b", "c"))),
             req);
     }
 

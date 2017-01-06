@@ -27,8 +27,8 @@ package nl.tudelft.fa.core.lobby.actor;
 
 import akka.actor.*;
 import akka.japi.pf.ReceiveBuilder;
-import nl.tudelft.fa.core.lobby.message.SubscribeRequest;
-import nl.tudelft.fa.core.lobby.message.UnsubscribeRequest;
+import nl.tudelft.fa.core.lobby.message.Subscribe;
+import nl.tudelft.fa.core.lobby.message.Unsubscribe;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
@@ -60,8 +60,8 @@ public class LobbyEventBus extends AbstractActor {
     @Override
     public PartialFunction<Object, BoxedUnit> receive() {
         return ReceiveBuilder
-            .match(SubscribeRequest.class, req -> subscribe(req.getActor()))
-            .match(UnsubscribeRequest.class, req -> unsubscribe(req.getActor()))
+            .match(Subscribe.class, req -> subscribe(req.getActor()))
+            .match(Unsubscribe.class, req -> unsubscribe(req.getActor()))
             .match(Terminated.class, msg -> unsubscribe(msg.actor()))
             .matchAny(this::publish)
             .build();

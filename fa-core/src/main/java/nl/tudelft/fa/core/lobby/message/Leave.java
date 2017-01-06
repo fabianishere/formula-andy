@@ -25,56 +25,38 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import akka.actor.ActorRef;
 import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 
 /**
- * This message is sent to a {@link Lobby} to request to join the lobby.
+ * This message is sent by a {@link User} to a {@link Lobby} to ask to leave the lobby.
  *
  * @author Fabian Mastenbroek
  */
-public final class JoinRequest {
+public final class Leave {
     /**
-     * The {@link User} that wants to join the lobby.
+     * The {@link User} that wants to leave the lobby.
      */
     private User user;
 
     /**
-     * The managing actor for this user.
-     */
-    private ActorRef handler;
-
-    /**
-     * Construct a {@link JoinRequest} message.
+     * Construct a {@link Leave} message.
      *
-     * @param user The user that wants to join the lobby.
-     * @param handler The managing actor for this user.
+     * @param user The user that wants to leave the lobby.
      */
-    public JoinRequest(User user, ActorRef handler) {
+    public Leave(User user) {
         this.user = user;
-        this.handler = handler;
     }
 
     /**
-     * Return the {@link User} that wants to join the lobby.
+     * Return the {@link User} that wants to leave the lobby.
      *
-     * @return The user that wants to join the lobby.
+     * @return The user that wants to leave the lobby.
      */
     public User getUser() {
         return user;
-    }
-
-    /**
-     * Return the {@link ActorRef} that references the actor that acts as the handler for the
-     * user.
-     *
-     * @return The managing actor for the user.
-     */
-    public ActorRef getHandler() {
-        return handler;
     }
 
     /**
@@ -92,8 +74,8 @@ public final class JoinRequest {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        JoinRequest that = (JoinRequest) other;
-        return Objects.equals(user, that.user) && Objects.equals(handler, that.handler);
+        Leave that = (Leave) other;
+        return Objects.equals(user, that.user);
     }
 
     /**
@@ -103,7 +85,7 @@ public final class JoinRequest {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user, handler);
+        return Objects.hash(user);
     }
 
     /**
@@ -113,6 +95,6 @@ public final class JoinRequest {
      */
     @Override
     public String toString() {
-        return String.format("JoinRequest(user=%s, handler=%s)", user, handler);
+        return String.format("LeaveRequest(user=%s)", user);
     }
 }

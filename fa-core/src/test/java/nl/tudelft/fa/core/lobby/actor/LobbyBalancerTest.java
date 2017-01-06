@@ -49,7 +49,7 @@ public class LobbyBalancerTest {
             {
                 final Props props = LobbyBalancer.props(configuration, 0, 5);
                 final ActorRef subject = system.actorOf(props);
-                final InformationRequest req = InformationRequest.INSTANCE;
+                final RequestInformation req = RequestInformation.INSTANCE;
 
                 watch(subject);
                 subject.tell(req, getRef());
@@ -64,7 +64,7 @@ public class LobbyBalancerTest {
             {
                 final Props props = LobbyBalancer.props(configuration, 0, 5);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user, getRef());
+                final Join req = new Join(user, getRef());
 
                 watch(subject);
                 subject.tell(req, getRef());
@@ -79,7 +79,7 @@ public class LobbyBalancerTest {
             {
                 final Props props = LobbyBalancer.props(configuration);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user, getRef());
+                final Join req = new Join(user, getRef());
 
                 watch(subject);
                 subject.tell(req, getRef());
@@ -94,10 +94,10 @@ public class LobbyBalancerTest {
             {
                 final Props props = LobbyBalancer.props(configuration, 0, 5);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user, getRef());
+                final Join req = new Join(user, getRef());
                 final JavaTestKit probe = new JavaTestKit(system);
 
-                subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "test")), probe.getRef()),
+                subject.tell(new Join(new User(UUID.randomUUID(), new Credentials("test", "test")), probe.getRef()),
                     probe.getRef());
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 subject.tell(req, getRef());
@@ -113,13 +113,13 @@ public class LobbyBalancerTest {
             {
                 final Props props = LobbyBalancer.props(new LobbyConfiguration(2, Duration.ZERO), 0, 1);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user, getRef());
+                final Join req = new Join(user, getRef());
                 final JavaTestKit probe = new JavaTestKit(system);
                 final User snd = new User(UUID.randomUUID(), new Credentials("test", "test"));
 
-                subject.tell(new JoinRequest(snd, probe.getRef()), probe.getRef());
+                subject.tell(new Join(snd, probe.getRef()), probe.getRef());
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
-                probe.reply(new SubscribeRequest(probe.getRef()));
+                probe.reply(new Subscribe(probe.getRef()));
                 subject.tell(req, getRef());
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
@@ -133,10 +133,10 @@ public class LobbyBalancerTest {
             {
                 final Props props = LobbyBalancer.props(configuration, 0, 0);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user, getRef());
+                final Join req = new Join(user, getRef());
 
                 subject.tell(req, getRef());
-                expectMsgClass(duration("1 second"), LobbyBalancerExhaustedError.class);
+                expectMsgClass(duration("1 second"), LobbyBalancerExhaustedException.class);
             }
         };
     }
@@ -147,17 +147,17 @@ public class LobbyBalancerTest {
             {
                 final Props props = LobbyBalancer.props(configuration, 0, 2);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user, getRef());
+                final Join req = new Join(user, getRef());
                 final JavaTestKit probe = new JavaTestKit(system);
                 final User snd = new User(UUID.randomUUID(), new Credentials("test", "test"));
-                subject.tell(new JoinRequest(snd, probe.getRef()), probe.getRef());
+                subject.tell(new Join(snd, probe.getRef()), probe.getRef());
                 probe.expectMsgClass(duration("1 second"),JoinSuccess.class);
                 subject.tell(req, getRef());
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
-                reply(new LeaveRequest(user));
+                reply(new Leave(user));
                 expectMsgClass(duration("1 second"), LeaveSuccess.class);
 
-                subject.tell(InformationRequest.INSTANCE, getRef());
+                subject.tell(RequestInformation.INSTANCE, getRef());
                 expectMsgEquals(duration("1 second"), new LobbyBalancerInformation(new HashMap<ActorRef, LobbyInformation>() {{
                     put(probe.getLastSender(), new LobbyInformation(LobbyStatus.PREPARATION, configuration, Collections.singleton(snd)));
                 }}));
@@ -171,14 +171,14 @@ public class LobbyBalancerTest {
             {
                 final Props props = LobbyBalancer.props(configuration, 1, 2);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user, getRef());
+                final Join req = new Join(user, getRef());
 
                 subject.tell(req, getRef());
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
-                reply(new LeaveRequest(user));
+                reply(new Leave(user));
                 expectMsgClass(duration("1 second"), LeaveSuccess.class);
 
-                subject.tell(InformationRequest.INSTANCE, getRef());
+                subject.tell(RequestInformation.INSTANCE, getRef());
                 expectMsgEquals(duration("1 second"), new LobbyBalancerInformation(new HashMap<ActorRef, LobbyInformation>() {{
                     put(getLastSender(), new LobbyInformation(LobbyStatus.PREPARATION, configuration, Collections.emptySet()));
                 }}));

@@ -4,16 +4,10 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.actor.Terminated;
-import akka.dispatch.sysmsg.Terminate;
 import akka.testkit.JavaTestKit;
-import nl.tudelft.fa.core.lobby.LobbyInformation;
-import nl.tudelft.fa.core.lobby.LobbyStatus;
-import nl.tudelft.fa.core.lobby.message.InformationRequest;
-import nl.tudelft.fa.core.lobby.message.SubscribeRequest;
-import nl.tudelft.fa.core.lobby.message.UnsubscribeRequest;
+import nl.tudelft.fa.core.lobby.message.Subscribe;
+import nl.tudelft.fa.core.lobby.message.Unsubscribe;
 import org.junit.*;
-
-import java.util.Collections;
 
 public class LobbyEventBusTest {
     private static ActorSystem system;
@@ -45,7 +39,7 @@ public class LobbyEventBusTest {
     public void testSubscribe() {
         new JavaTestKit(system) {
             {
-                bus.tell(new SubscribeRequest(getRef()), getRef());
+                bus.tell(new Subscribe(getRef()), getRef());
                 bus.tell("Hello World", getRef());
                 // await the correct response
                 expectMsgEquals(duration("1 second"), "Hello World");
@@ -57,8 +51,8 @@ public class LobbyEventBusTest {
     public void testUnsubscribe() {
         new JavaTestKit(system) {
             {
-                bus.tell(new SubscribeRequest(getRef()), getRef());
-                bus.tell(new UnsubscribeRequest(getRef()), getRef());
+                bus.tell(new Subscribe(getRef()), getRef());
+                bus.tell(new Unsubscribe(getRef()), getRef());
                 bus.tell("Hello World", getRef());
                 expectNoMsg();
             }
@@ -72,7 +66,7 @@ public class LobbyEventBusTest {
                 JavaTestKit probe = new JavaTestKit(system);
 
                 watch(probe.getRef());
-                bus.tell(new SubscribeRequest(probe.getRef()), probe.getRef());
+                bus.tell(new Subscribe(probe.getRef()), probe.getRef());
                 system.stop(probe.getRef());
                 expectMsgClass(duration("1 second"), Terminated.class);
                 bus.tell("Hello World", getRef());

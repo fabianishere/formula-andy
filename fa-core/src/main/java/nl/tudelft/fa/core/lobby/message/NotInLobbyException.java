@@ -25,16 +25,30 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import akka.actor.ActorRef;
 
 /**
- * This message is send to a {@link Lobby} actor to request information about its current state.
+ * This message represents a failure to leave a lobby, because the user was not in that lobby.
  *
  * @author Fabian Mastenbroek
  */
-public final class InformationRequest {
+public class NotInLobbyException extends LeaveException {
     /**
-     * A static instance of this class.
+     * Construct a {@link NotInLobbyException} instance.
+     *
+     * @param lobby The lobby the exception occurred in.
      */
-    public static final InformationRequest INSTANCE = new InformationRequest();
+    public NotInLobbyException(ActorRef lobby) {
+        super(lobby, "You are not in the lobby you are trying to leave.");
+    }
+
+    /**
+     * Construct a {@link NotInLobbyException} instance.
+     *
+     * @param lobby The lobby the exception occurred in.
+     * @param message The message of the error.
+     */
+    public NotInLobbyException(ActorRef lobby, String message) {
+        super(lobby, message);
+    }
 }

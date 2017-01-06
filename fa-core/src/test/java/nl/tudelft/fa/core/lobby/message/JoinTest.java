@@ -16,10 +16,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-public class JoinRequestTest {
+public class JoinTest {
     private static ActorSystem system;
     private User user;
-    private JoinRequest req;
+    private Join req;
     private JavaTestKit probe;
 
     @BeforeClass
@@ -36,7 +36,7 @@ public class JoinRequestTest {
     public void setUp() throws Exception {
         probe = new JavaTestKit(system);
         user = new User(UUID.randomUUID(), new Credentials("a", "b"));
-        req = new JoinRequest(user, probe.getRef());
+        req = new Join(user, probe.getRef());
     }
 
     @Test
@@ -61,18 +61,18 @@ public class JoinRequestTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new JoinRequest(user, probe.getRef()), req);
+        assertEquals(new Join(user, probe.getRef()), req);
     }
 
     @Test
     public void equalsDifferentUser() {
-        assertNotEquals(new JoinRequest(new User(UUID.randomUUID(), new Credentials("b", "c")), probe.getRef()),
+        assertNotEquals(new Join(new User(UUID.randomUUID(), new Credentials("b", "c")), probe.getRef()),
             req);
     }
 
     @Test
     public void equalsDifferentHandler() {
-        assertNotEquals(new JoinRequest(user, new JavaTestKit(system).getRef()),
+        assertNotEquals(new Join(user, new JavaTestKit(system).getRef()),
             req);
     }
 

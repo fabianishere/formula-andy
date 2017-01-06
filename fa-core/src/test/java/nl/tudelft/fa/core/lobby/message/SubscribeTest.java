@@ -13,9 +13,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-public class UnsubscribeRequestTest {
+public class SubscribeTest {
     private static ActorSystem system;
-    private UnsubscribeRequest req;
+    private Subscribe req;
     private JavaTestKit probe;
 
     @BeforeClass
@@ -31,7 +31,7 @@ public class UnsubscribeRequestTest {
     @Before
     public void setUp() throws Exception {
         probe = new JavaTestKit(system);
-        req = new UnsubscribeRequest(probe.getRef());
+        req = new Subscribe(probe.getRef());
     }
 
     @Test
@@ -56,12 +56,12 @@ public class UnsubscribeRequestTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new UnsubscribeRequest(probe.getRef()), req);
+        assertEquals(new Subscribe(probe.getRef()), req);
     }
 
     @Test
     public void equalsDifferentActor() {
-        assertNotEquals(new UnsubscribeRequest(new JavaTestKit(system).getRef()),
+        assertNotEquals(new Subscribe(new JavaTestKit(system).getRef()),
             req);
     }
 
@@ -72,6 +72,6 @@ public class UnsubscribeRequestTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("UnsubscribeRequest(actor=%s)", probe.getRef()), req.toString());
+        assertEquals(String.format("SubscribeRequest(actor=%s)", probe.getRef()), req.toString());
     }
 }

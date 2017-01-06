@@ -25,45 +25,46 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.user.User;
+import akka.actor.ActorRef;
+import nl.tudelft.fa.core.lobby.actor.LobbyBalancer;
 
 /**
- * This message indicates that the lobby a {@link User} is trying to join, is full.
+ * This message represents an exception within the {@link LobbyBalancer} actor.
  *
  * @author Fabian Mastenbroek
  */
-public final class LobbyFullError extends JoinError {
+public class LobbyBalancerException extends Exception {
     /**
-     * The amount of users in the lobby currently.
+     * The {@link LobbyBalancer} of this exception.
      */
-    private int users;
+    private ActorRef balancer;
 
     /**
-     * Construct a {@link LobbyFullError} message.
+     * Construct a {@link LobbyBalancerException} instance.
      *
-     * @param users The amount of users in the lobby currently.
+     * @param balancer The lobby balancer where the exception occurred.
+     * @param message The message of this exception.
      */
-    public LobbyFullError(int users) {
-        super("The lobby you are trying to join is full.");
-        this.users = users;
+    public LobbyBalancerException(ActorRef balancer, String message) {
+        super(message);
+        this.balancer = balancer;
     }
 
     /**
-     * Return the amount of users currently in the lobby.
+     * Construct a {@link LobbyBalancerException} instance.
      *
-     * @return The amount of users currently in the lobby.
+     * @param balancer The lobby balancer where the exception occurred.
      */
-    public int getUsers() {
-        return users;
+    public LobbyBalancerException(ActorRef balancer) {
+        this.balancer = balancer;
     }
 
     /**
-     * Return a string representation of this message.
+     * Return the {@link LobbyBalancer} where the exception occurred.
      *
-     * @return A string representation of this message.
+     * @return The reference to the lobby balancer where the exception occurred.
      */
-    @Override
-    public String toString() {
-        return String.format("LobbyFullError(message=%s, users=%d)", getMessage(), users);
+    public ActorRef getBalancer() {
+        return balancer;
     }
 }
