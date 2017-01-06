@@ -132,13 +132,11 @@ public class Lobby extends AbstractActor {
         // Put the user in the lobby
         users.put(user, handler);
 
-        JoinSuccess event = new JoinSuccess(user, self());
+        // Inform the requesting actor
+        sender().tell(new JoinSuccess(user, self()), self());
 
         // Tell all subscribers about the change
-        bus.tell(event, self());
-
-        // Inform the requesting actor
-        sender().tell(event, self());
+        bus.tell(new UserJoined(user), self());
 
         log.debug("The user {} has joined the lobby", user);
     }
@@ -159,13 +157,11 @@ public class Lobby extends AbstractActor {
             return;
         }
 
-        LeaveSuccess event = new LeaveSuccess(user);
+        // Inform the requesting actor
+        sender().tell(new LeaveSuccess(user), self());
 
         // Tell all subscribers about the change
-        bus.tell(event, self());
-
-        // Inform the requesting actor
-        sender().tell(event, self());
+        bus.tell(new UserLeft(user), self());
 
         log.debug("The user {} has left the lobby", user);
     }

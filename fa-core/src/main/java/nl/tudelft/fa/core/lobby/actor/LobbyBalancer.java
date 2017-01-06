@@ -116,8 +116,8 @@ public class LobbyBalancer extends AbstractActor {
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform())
             .match(Join.class, this::join)
-            .match(JoinSuccess.class, req -> joined(req.getUser(), req.getLobby()))
-            .match(LeaveSuccess.class, req -> left(req.getUser(), sender()))
+            .match(UserJoined.class, req -> joined(req.getUser(), sender()))
+            .match(UserLeft.class, req -> left(req.getUser(), sender()))
             .match(LobbyInformation.class, this::update)
             .match(Refresh.class, req -> refresh())
             .build();

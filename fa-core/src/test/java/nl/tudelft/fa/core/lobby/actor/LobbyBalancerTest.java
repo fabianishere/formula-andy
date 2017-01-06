@@ -121,7 +121,7 @@ public class LobbyBalancerTest {
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 probe.reply(new Subscribe(probe.getRef()));
                 subject.tell(req, getRef());
-                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
+                probe.expectMsgClass(duration("1 second"), UserJoined.class);
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
             }
         };

@@ -104,7 +104,7 @@ public class LobbyTest {
 
                 subject.tell(new Subscribe(probe.getRef()), probe.getRef());
                 subject.tell(req, getRef());
-                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
+                probe.expectMsgEquals(duration("1 second"), new UserJoined(user));
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
             }
         };
@@ -178,12 +178,12 @@ public class LobbyTest {
 
                 subject.tell(new Subscribe(probe.getRef()), probe.getRef());
                 subject.tell(new Join(user, probe.getRef()), getRef());
-                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
+                probe.expectMsgClass(duration("1 second"),  UserJoined.class);
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());
                 expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
-                probe.expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
+                probe.expectMsgEquals(duration("1 second"), new UserLeft(user));
             }
         };
     }
