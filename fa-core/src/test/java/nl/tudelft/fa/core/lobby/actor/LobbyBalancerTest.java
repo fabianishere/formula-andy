@@ -99,7 +99,7 @@ public class LobbyBalancerTest {
 
                 subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "test")), probe.getRef()),
                     probe.getRef());
-                probe.expectMsgClass(duration("1 second"),JoinSuccess.class);
+                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 subject.tell(req, getRef());
                 probe.expectNoMsg();
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
@@ -119,6 +119,7 @@ public class LobbyBalancerTest {
 
                 subject.tell(new JoinRequest(snd, probe.getRef()), probe.getRef());
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
+                probe.reply(new SubscribeRequest(probe.getRef()));
                 subject.tell(req, getRef());
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 expectMsgClass(duration("1 second"), JoinSuccess.class);

@@ -58,9 +58,9 @@ public class Lobby extends AbstractActor {
     private Map<User, ActorRef> users;
 
     /**
-     * The subscriptions of this lobby.
+     * The event bus this {@link Lobby} uses to publish updates.
      */
-    private Set<ActorRef> subscriptions;
+    private ActorRef bus;
 
     /**
      * The {@link LoggingAdapter} of this class.
@@ -75,7 +75,7 @@ public class Lobby extends AbstractActor {
     private Lobby(LobbyConfiguration configuration) {
         this.configuration = configuration;
         this.users = new HashMap<>(configuration.getPlayerMaximum());
-        this.subscriptions = new HashSet<>();
+        this.bus = context().actorOf(LobbyEventBus.props(), "event-bus");
     }
 
     /**
@@ -97,10 +97,10 @@ public class Lobby extends AbstractActor {
     private PartialFunction<Object, BoxedUnit> preparation() {
         return ReceiveBuilder
             .match(InformationRequest.class, req -> inform(LobbyStatus.PREPARATION))
-            .match(JoinRequest.class, this::join)
-            .match(LeaveRequest.class, this::leave)
-            .match(SubscribeRequest.class, req -> this.subscribe(req.getActor()))
-            .match(UnsubscribeRequest.class, req -> this.unsubscribe(req.getActor()))
+            .match(JoinRequest.class, req -> join(req.getUser(), req.getHandler()))
+            .match(LeaveRequest.class, req -> leave(req.getUser()))
+            .match(SubscribeRequest.class, req -> bus.tell(req, sender()))
+            .match(UnsubscribeRequest.class, req -> bus.tell(req, sender()))
             .build();
     }
 
@@ -114,12 +114,13 @@ public class Lobby extends AbstractActor {
     }
 
     /**
-     * Handle a {@link JoinRequest} message and respond to it with either a {@link JoinError}
+     * Let a {@link User} join this lobby by responding with either a {@link JoinError} message
      * or a {@link JoinSuccess} message.
      *
-     * @param req The join request to handle.
+     * @param user The user that wants to join.
+     * @param handler The handler of the user.
      */
-    private void join(JoinRequest req) {
+    private void join(User user, ActorRef handler) {
         if (users.size() >= configuration.getPlayerMaximum()) {
             log.warning("The user {} failed to join because the lobby is full");
 
@@ -129,81 +130,44 @@ public class Lobby extends AbstractActor {
         }
 
         // Put the user in the lobby
-        users.put(req.getUser(), req.getHandler());
+        users.put(user, handler);
 
-        JoinSuccess event = new JoinSuccess(req.getUser(), self());
+        JoinSuccess event = new JoinSuccess(user, self());
 
-        // Tell all users about the change
-        for (User user : users.keySet()) {
-            users.get(user).tell(event, self());
-        }
+        // Tell all subscribers about the change
+        bus.tell(event, self());
 
-        // Inform the requesting actor if it isn't the handler
-        if (!sender().equals(req.getHandler())) {
-            sender().tell(event, self());
-        }
+        // Inform the requesting actor
+        sender().tell(event, self());
 
-        // Inform the parent about the change
-        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        context().parent().tell(information, self());
-
-        log.debug("The user {} has joined the lobby", req.getUser());
+        log.debug("The user {} has joined the lobby", user);
     }
 
     /**
-     * Handle a {@link LeaveRequest} request.
+     * Leave the lobby.
      *
-     * @param req The leave request to handle.
+     * @param user The user that wants to leave the lobby.
      */
-    private void leave(LeaveRequest req) {
-        ActorRef ref = users.remove(req.getUser());
+    private void leave(User user) {
+        ActorRef ref = users.remove(user);
 
         // Determine whether the user was in the lobby
         if (ref == null) {
             log.warning("The user {} tried to leave the lobby, but is not in the lobby",
-                req.getUser().getCredentials().getUsername());
+                user);
             sender().tell(new NotInLobbyError(), self());
             return;
         }
 
-        LeaveSuccess event = new LeaveSuccess(req.getUser());
+        LeaveSuccess event = new LeaveSuccess(user);
 
-        // Tell all users about the change
-        for (User user : users.keySet()) {
-            users.get(user).tell(event, self());
-        }
+        // Tell all subscribers about the change
+        bus.tell(event, self());
 
-        // Inform the user that left
-        ref.tell(event, self());
+        // Inform the requesting actor
+        sender().tell(event, self());
 
-        // Inform the requesting actor if it isn't the handler
-        if (!sender().equals(ref)) {
-            sender().tell(event, self());
-        }
-
-        // Inform the parent about the change
-        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        context().parent().tell(information, self());
-
-        log.debug("The user {} has left the lobby", req.getUser());
-    }
-
-    /**
-     * Subscribe to this {@link Lobby}
-     *
-     * @param actor The actor that wants to subscribe to this lobby.
-     */
-    private void subscribe(ActorRef actor) {
-        this.subscriptions.add(actor);
-    }
-
-    /**
-     * Unsubscribe from this {@link Lobby}
-     *
-     * @param actor The actor that wants to unsubscribe from this lobby.
-     */
-    private void unsubscribe(ActorRef actor) {
-        this.subscriptions.remove(actor);
+        log.debug("The user {} has left the lobby", user);
     }
 
     /**

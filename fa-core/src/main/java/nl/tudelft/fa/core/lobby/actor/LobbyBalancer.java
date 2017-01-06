@@ -114,18 +114,18 @@ public class LobbyBalancer extends AbstractActor {
     @Override
     public PartialFunction<Object, BoxedUnit> receive() {
         return ReceiveBuilder
-            .match(InformationRequest.class, this::inform)
+            .match(InformationRequest.class, req -> inform())
             .match(JoinRequest.class, this::join)
+            .match(JoinSuccess.class, req -> joined(req.getUser(), req.getLobby()))
+            .match(LeaveSuccess.class, req -> left(req.getUser(), sender()))
             .match(LobbyInformation.class, this::update)
             .build();
     }
 
     /**
      * Inform an actor about the current state of this {@link Lobby}.
-     *
-     * @param req The request to handle.
      */
-    private void inform(InformationRequest req) {
+    private void inform() {
         sender().tell(new LobbyBalancerInformation(Collections.unmodifiableMap(instances)), self());
     }
 
@@ -150,7 +150,9 @@ public class LobbyBalancer extends AbstractActor {
 
         log.debug("Routing request {} from {} to {}", req, sender(), ref);
 
-        ref.tell(req, sender());
+        // Create a mediator to handle the request
+        ActorRef mediator = context().actorOf(LobbyBalancerMediator.props(self(), req));
+        ref.tell(req, mediator);
 
         // Update our cache until we get confirmation
         LobbyInformation info = instances.get(ref);
@@ -159,6 +161,32 @@ public class LobbyBalancer extends AbstractActor {
         info = new LobbyInformation(info.getStatus(), info.getConfiguration(), users);
         instances.put(ref, info);
         available.put(ref, info);
+    }
+
+    /**
+     * This method is invoked whenever a user has joined a lobby.
+     *
+     * @param user The user that has joined a lobby.
+     * @param lobby The lobby the user has joined.
+     */
+    private void joined(User user, ActorRef lobby) {
+        LobbyInformation info = instances.get(lobby);
+        Set<User> users = new HashSet<>(info.getUsers());
+        users.add(user);
+        update(new LobbyInformation(info.getStatus(), info.getConfiguration(), users));
+    }
+
+    /**
+     * This method is invoked whenever a user has left a lobby.
+     *
+     * @param user The user that has left a lobby.
+     * @param lobby The lobby the user has left.
+     */
+    private void left(User user, ActorRef lobby) {
+        LobbyInformation info = instances.get(lobby);
+        Set<User> users = new HashSet<>(info.getUsers());
+        users.remove(user);
+        update(new LobbyInformation(info.getStatus(), info.getConfiguration(), users));
     }
 
     /**
@@ -197,6 +225,7 @@ public class LobbyBalancer extends AbstractActor {
         ActorRef ref = context().actorOf(Lobby.props(configuration), UUID.randomUUID().toString());
         LobbyInformation info = new LobbyInformation(LobbyStatus.PREPARATION, configuration,
             Collections.emptySet());
+        ref.tell(new SubscribeRequest(self()), self());
         instances.put(ref, info);
         available.put(ref, info);
         return ref;

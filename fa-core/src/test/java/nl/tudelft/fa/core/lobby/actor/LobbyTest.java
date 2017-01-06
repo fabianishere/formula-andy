@@ -87,7 +87,23 @@ public class LobbyTest {
                 final JoinRequest req = new JoinRequest(user, probe.getRef());
 
                 subject.tell(req, getRef());
-                // await the correct response
+                probe.expectNoMsg();
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+            }
+        };
+    }
+
+    @Test
+    public void testJoinSuccessDifferentHandlerSubscribed() {
+        new JavaTestKit(system) {
+            {
+                final Props props = Lobby.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final JavaTestKit probe = new JavaTestKit(system);
+                final JoinRequest req = new JoinRequest(user, probe.getRef());
+
+                subject.tell(new SubscribeRequest(probe.getRef()), probe.getRef());
+                subject.tell(req, getRef());
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
             }
@@ -140,6 +156,27 @@ public class LobbyTest {
                 final LeaveRequest req = new LeaveRequest(user);
                 final JavaTestKit probe = new JavaTestKit(system);
 
+                subject.tell(new JoinRequest(user, probe.getRef()), getRef());
+                probe.expectNoMsg();
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+
+                subject.tell(req, getRef());
+                expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
+                probe.expectNoMsg();
+            }
+        };
+    }
+
+    @Test
+    public void testLeaveSuccessDifferentHandlerSubscribed() {
+        new JavaTestKit(system) {
+            {
+                final Props props = Lobby.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final LeaveRequest req = new LeaveRequest(user);
+                final JavaTestKit probe = new JavaTestKit(system);
+
+                subject.tell(new SubscribeRequest(probe.getRef()), probe.getRef());
                 subject.tell(new JoinRequest(user, probe.getRef()), getRef());
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
