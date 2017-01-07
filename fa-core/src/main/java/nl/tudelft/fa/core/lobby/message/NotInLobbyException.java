@@ -32,7 +32,7 @@ import akka.actor.ActorRef;
  *
  * @author Fabian Mastenbroek
  */
-public class NotInLobbyException extends LeaveException {
+public final class NotInLobbyException extends LeaveException {
     /**
      * Construct a {@link NotInLobbyException} instance.
      *

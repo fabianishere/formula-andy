@@ -33,7 +33,7 @@ import nl.tudelft.fa.core.user.User;
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyFullException extends JoinException {
+public final class LobbyFullException extends JoinException {
     /**
      * The amount of users in the lobby currently.
      */

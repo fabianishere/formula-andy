@@ -35,7 +35,7 @@ import nl.tudelft.fa.core.user.User;
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyBalancerExhaustedException extends LobbyBalancerException {
+public final class LobbyBalancerExhaustedException extends LobbyBalancerException {
     /**
      * Construct a {@link LobbyBalancerExhaustedException} instance.
      *

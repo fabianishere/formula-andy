@@ -35,7 +35,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public class Subscribe {
+public final class Subscribe {
     /**
      * The actor that wants to subscribe to the {@link Lobby}.
      */

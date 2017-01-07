@@ -35,7 +35,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public class Unsubscribe {
+public final class Unsubscribe {
     /**
      * The actor that wants to subscribe to the {@link Lobby}.
      */
