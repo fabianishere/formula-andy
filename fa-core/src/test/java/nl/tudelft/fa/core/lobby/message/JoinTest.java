@@ -83,6 +83,6 @@ public class JoinTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("JoinRequest(user=%s, handler=%s)", user, probe.getRef()), req.toString());
+        assertEquals(String.format("Join(user=%s, handler=%s)", user, probe.getRef()), req.toString());
     }
 }

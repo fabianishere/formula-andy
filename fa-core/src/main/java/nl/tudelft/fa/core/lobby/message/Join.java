@@ -113,6 +113,6 @@ public final class Join {
      */
     @Override
     public String toString() {
-        return String.format("JoinRequest(user=%s, handler=%s)", user, handler);
+        return String.format("Join(user=%s, handler=%s)", user, handler);
     }
 }

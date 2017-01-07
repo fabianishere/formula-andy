@@ -72,6 +72,6 @@ public class UnsubscribeTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("UnsubscribeRequest(actor=%s)", probe.getRef()), req.toString());
+        assertEquals(String.format("Unsubscribe(actor=%s)", probe.getRef()), req.toString());
     }
 }

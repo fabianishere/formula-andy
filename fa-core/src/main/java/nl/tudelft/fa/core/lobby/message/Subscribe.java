@@ -95,6 +95,6 @@ public class Subscribe {
      */
     @Override
     public String toString() {
-        return String.format("SubscribeRequest(actor=%s)", actor);
+        return String.format("Subscribe(actor=%s)", actor);
     }
 }

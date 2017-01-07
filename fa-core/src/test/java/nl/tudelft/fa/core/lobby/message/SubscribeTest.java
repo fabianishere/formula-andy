@@ -72,6 +72,6 @@ public class SubscribeTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("SubscribeRequest(actor=%s)", probe.getRef()), req.toString());
+        assertEquals(String.format("Subscribe(actor=%s)", probe.getRef()), req.toString());
     }
 }

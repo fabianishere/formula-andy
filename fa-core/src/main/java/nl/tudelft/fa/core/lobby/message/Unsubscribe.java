@@ -95,6 +95,6 @@ public class Unsubscribe {
      */
     @Override
     public String toString() {
-        return String.format("UnsubscribeRequest(actor=%s)", actor);
+        return String.format("Unsubscribe(actor=%s)", actor);
     }
 }

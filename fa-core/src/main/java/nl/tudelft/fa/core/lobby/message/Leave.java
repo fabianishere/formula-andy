@@ -95,6 +95,6 @@ public final class Leave {
      */
     @Override
     public String toString() {
-        return String.format("LeaveRequest(user=%s)", user);
+        return String.format("Leave(user=%s)", user);
     }
 }

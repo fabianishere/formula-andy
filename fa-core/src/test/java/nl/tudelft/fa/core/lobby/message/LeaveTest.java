@@ -60,6 +60,6 @@ public class LeaveTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("LeaveRequest(user=%s)", user), req.toString());
+        assertEquals(String.format("Leave(user=%s)", user), req.toString());
     }
 }
