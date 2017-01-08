@@ -36,7 +36,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * An event bus actor to which a {@link Lobby} publishes its events.
+ * An event bus actor to which a {@link LobbyActor} publishes its events.
  *
  * @author Fabian Mastenbroek
  */
@@ -68,7 +68,7 @@ public class LobbyEventBus extends AbstractActor {
     }
 
     /**
-     * Subscribe to this {@link Lobby}
+     * Subscribe to this {@link LobbyActor}
      *
      * @param actor The actor that wants to subscribe to this lobby.
      */
@@ -78,7 +78,7 @@ public class LobbyEventBus extends AbstractActor {
     }
 
     /**
-     * Unsubscribe from this {@link Lobby}
+     * Unsubscribe from this {@link LobbyActor}
      *
      * @param actor The actor that wants to unsubscribe from this lobby.
      */

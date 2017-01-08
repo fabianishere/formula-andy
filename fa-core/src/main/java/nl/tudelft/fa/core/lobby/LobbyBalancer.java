@@ -26,28 +26,28 @@
 package nl.tudelft.fa.core.lobby;
 
 import akka.actor.ActorRef;
+import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * This class provides information about a {@link nl.tudelft.fa.core.lobby.actor.LobbyBalancer}
- * actor.
+ * This class represents the state of a {@link LobbyBalancerActor} instance.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyBalancerInformation {
+public final class LobbyBalancer {
     /**
      * A {@link Map} containing the lobbies the balancer manages.
      */
-    private Map<ActorRef, LobbyInformation> lobbies;
+    private final Map<ActorRef, Lobby> lobbies;
 
     /**
-     * Construct a {@link LobbyBalancerInformation} instance.
+     * Construct a {@link LobbyBalancer} instance.
      *
      * @param lobbies The lobbies the balancer manages.
      */
-    public LobbyBalancerInformation(Map<ActorRef, LobbyInformation> lobbies) {
+    public LobbyBalancer(Map<ActorRef, Lobby> lobbies) {
         this.lobbies = lobbies;
     }
 
@@ -56,12 +56,12 @@ public class LobbyBalancerInformation {
      *
      * @return The lobbies the balancer manages.
      */
-    public Map<ActorRef, LobbyInformation> getLobbies() {
+    public Map<ActorRef, Lobby> getLobbies() {
         return lobbies;
     }
 
     /**
-     * Test whether this {@link LobbyBalancerInformation} is equal to the given object.
+     * Test whether this {@link LobbyBalancer} is equal to the given object.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
@@ -73,7 +73,7 @@ public class LobbyBalancerInformation {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        LobbyBalancerInformation that = (LobbyBalancerInformation) other;
+        LobbyBalancer that = (LobbyBalancer) other;
         return Objects.equals(lobbies, that.lobbies);
     }
 
@@ -94,6 +94,6 @@ public class LobbyBalancerInformation {
      */
     @Override
     public String toString() {
-        return String.format("LobbyBalancerInformation(lobbies=%s)", lobbies);
+        return String.format("LobbyBalancer(lobbies=%s)", lobbies);
     }
 }

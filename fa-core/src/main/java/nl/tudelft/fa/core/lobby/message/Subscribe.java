@@ -26,32 +26,33 @@
 package nl.tudelft.fa.core.lobby.message;
 
 import akka.actor.ActorRef;
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 
 import java.util.Objects;
 
 /**
- * This message is send to a {@link Lobby} actor to subscribe to the event stream of this actor.
+ * This message is send to a {@link LobbyActor} instance to subscribe to the event stream of this
+ * actor.
  *
  * @author Fabian Mastenbroek
  */
 public final class Subscribe {
     /**
-     * The actor that wants to subscribe to the {@link Lobby}.
+     * The actor that wants to subscribe to the {@link LobbyActor}.
      */
     private ActorRef actor;
 
     /**
      * Construct a {@link Subscribe} instance.
      *
-     * @param actor The actor that wants to subscribe to the {@link Lobby}.
+     * @param actor The actor that wants to subscribe to the {@link LobbyActor}.
      */
     public Subscribe(ActorRef actor) {
         this.actor = actor;
     }
 
     /**
-     * Return the actor that wants to subscribe to the {@link Lobby}.
+     * Return the actor that wants to subscribe to the {@link LobbyActor}.
      *
      * @return The actor that wants to subscribe.
      */

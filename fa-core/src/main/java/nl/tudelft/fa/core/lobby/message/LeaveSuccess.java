@@ -25,13 +25,13 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 
 /**
- * This message indicates the {@link User} has left the {@link Lobby}.
+ * This message indicates the {@link User} has left the {@link LobbyActor}.
  *
  * @author Fabian Mastenbroek
  */

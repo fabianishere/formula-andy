@@ -1,9 +1,9 @@
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.lobby.actor.LobbyBalancer;
+import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 
 /**
- * This message is used internally used by the {@link LobbyBalancer} to refresh its caches.
+ * This message is used internally used by the {@link LobbyBalancerActor} to refresh its caches.
  *
  * @author Fabian Mastenbroek
  */

@@ -25,13 +25,13 @@
 
 package nl.tudelft.fa.core.lobby;
 
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 
 import java.time.Duration;
 import java.util.Objects;
 
 /**
- * This class contains the configuration of a {@link Lobby} actor.
+ * This class contains the configuration of a {@link LobbyActor} actor.
  *
  * @author Fabian Mastenbroek
  */

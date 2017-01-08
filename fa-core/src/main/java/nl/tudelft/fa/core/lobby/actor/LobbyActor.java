@@ -31,8 +31,8 @@ import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
+import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
-import nl.tudelft.fa.core.lobby.LobbyInformation;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
@@ -46,21 +46,26 @@ import java.util.*;
  *
  * @author Fabian Mastenbroek
  */
-public class Lobby extends AbstractActor {
+public class LobbyActor extends AbstractActor {
     /**
      * The configuration of the lobby.
      */
-    private LobbyConfiguration configuration;
+    private final LobbyConfiguration configuration;
 
     /**
      * The users that have joined this lobby.
      */
-    private Map<User, ActorRef> users;
+    private final Map<User, ActorRef> users;
 
     /**
-     * The event bus this {@link Lobby} uses to publish updates.
+     * The event bus this {@link LobbyActor} uses to publish updates.
      */
-    private ActorRef bus;
+    private final ActorRef bus;
+
+    /**
+     * The unique identifier of this lobby.
+     */
+    private final String id;
 
     /**
      * The {@link LoggingAdapter} of this class.
@@ -68,14 +73,15 @@ public class Lobby extends AbstractActor {
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
 
     /**
-     * Construct a {@link Lobby} instance.
+     * Construct a {@link LobbyActor} instance.
      *
      * @param configuration The configuration of the lobby.
      */
-    private Lobby(LobbyConfiguration configuration) {
+    private LobbyActor(LobbyConfiguration configuration) {
         this.configuration = configuration;
         this.users = new HashMap<>(configuration.getPlayerMaximum());
         this.bus = context().actorOf(LobbyEventBus.props(), "event-bus");
+        this.id = self().path().name();
     }
 
     /**
@@ -105,7 +111,7 @@ public class Lobby extends AbstractActor {
     }
 
     /**
-     * Inform an actor about the current state of this {@link Lobby}.
+     * Inform an actor about the current state of this {@link LobbyActor}.
      *
      * @param status The current status of the lobby.
      */
@@ -167,13 +173,13 @@ public class Lobby extends AbstractActor {
     }
 
     /**
-     * Return the {@link LobbyInformation} of this lobby.
+     * Return the {@link Lobby} of this lobby.
      *
      * @param status The status of the lobby.
      * @return The information of this lobby.
      */
-    private LobbyInformation getInformation(LobbyStatus status) {
-        return new LobbyInformation(status, configuration, users.keySet());
+    private Lobby getInformation(LobbyStatus status) {
+        return new Lobby(id, status, configuration, users.keySet());
     }
 
     /**
@@ -184,6 +190,6 @@ public class Lobby extends AbstractActor {
      *         (e.g. calling `.withDispatcher()` on it)
      */
     public static Props props(LobbyConfiguration configuration) {
-        return Props.create(Lobby.class, () -> new Lobby(configuration));
+        return Props.create(LobbyActor.class, () -> new LobbyActor(configuration));
     }
 }

@@ -4,8 +4,8 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.japi.pf.ReceiveBuilder;
-import nl.tudelft.fa.core.lobby.message.JoinException;
 import nl.tudelft.fa.core.lobby.message.Join;
+import nl.tudelft.fa.core.lobby.message.JoinException;
 import nl.tudelft.fa.core.lobby.message.JoinSuccess;
 import nl.tudelft.fa.core.lobby.message.Refresh;
 import scala.PartialFunction;
@@ -18,7 +18,7 @@ import scala.runtime.BoxedUnit;
  */
 public class LobbyBalancerMediator extends AbstractActor {
     /**
-     * The {@link LobbyBalancer} that created this mediator.
+     * The {@link LobbyBalancerActor} that created this mediator.
      */
     private ActorRef balancer;
 
@@ -30,7 +30,7 @@ public class LobbyBalancerMediator extends AbstractActor {
     /**
      * Construct a {@link LobbyBalancerMediator} instance.
      *
-     * @param balancer The {@link LobbyBalancer} that created this mediator.
+     * @param balancer The {@link LobbyBalancerActor} that created this mediator.
      * @param req The join request this mediator handles.
      */
     private LobbyBalancerMediator(ActorRef balancer, Join req) {

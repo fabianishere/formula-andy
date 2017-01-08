@@ -12,19 +12,26 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-public class LobbyInformationTest {
+public class LobbyTest {
+    private String id;
     private LobbyStatus status;
     private LobbyConfiguration configuration;
     private Set<User> users;
-    private LobbyInformation information;
+    private Lobby information;
 
     @Before
     public void setUp() {
+        id = UUID.randomUUID().toString();
         status = LobbyStatus.PREPARATION;
         configuration = new LobbyConfiguration(11, Duration.ofMinutes(5));
         users = new HashSet<>();
         users.add(new User(UUID.randomUUID(), new Credentials("fabianishere", "test")));
-        information = new LobbyInformation(status, configuration, users);
+        information = new Lobby(id, status, configuration, users);
+    }
+
+    @Test
+    public void testId() {
+        assertEquals(id, information.getId());
     }
 
     @Test
@@ -59,32 +66,38 @@ public class LobbyInformationTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new LobbyInformation(status, configuration, users), information);
+        assertEquals(new Lobby(id, status, configuration, users), information);
     }
 
     @Test
+    public void equalsDifferentId() {
+        assertNotEquals(new Lobby(UUID.randomUUID().toString(), status, configuration, users), information);
+    }
+
+
+    @Test
     public void equalsDifferentStatus() {
-        assertNotEquals(new LobbyInformation(LobbyStatus.IN_PROGRESS, configuration, users), information);
+        assertNotEquals(new Lobby(id, LobbyStatus.IN_PROGRESS, configuration, users), information);
     }
 
     @Test
     public void equalsDifferentConfiguration() {
-        assertNotEquals(new LobbyInformation(status, new LobbyConfiguration(0, Duration.ZERO), users), information);
+        assertNotEquals(new Lobby(id, status, new LobbyConfiguration(0, Duration.ZERO), users), information);
     }
 
     @Test
     public void equalsDifferentUsers() {
-        assertNotEquals(new LobbyInformation(status, configuration, Collections.emptySet()), information);
+        assertNotEquals(new Lobby(id, status, configuration, Collections.emptySet()), information);
     }
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(status, configuration, users), information.hashCode());
+        assertEquals(Objects.hash(id, status, configuration, users), information.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("LobbyInformation(status=%s, configuration=%s, users=%d)",
-            status, configuration, users.size()), information.toString());
+        assertEquals(String.format("Lobby(id=%s, status=%s, configuration=%s, users=%d)",
+            id, status, configuration, users.size()), information.toString());
     }
 }

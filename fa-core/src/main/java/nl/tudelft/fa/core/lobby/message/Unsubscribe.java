@@ -26,32 +26,33 @@
 package nl.tudelft.fa.core.lobby.message;
 
 import akka.actor.ActorRef;
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 
 import java.util.Objects;
 
 /**
- * This message is send to a {@link Lobby} actor to unsubscribe from the event stream of this actor.
+ * This message is send to a {@link LobbyActor} instance to unsubscribe from the event stream of
+ * this actor.
  *
  * @author Fabian Mastenbroek
  */
 public final class Unsubscribe {
     /**
-     * The actor that wants to subscribe to the {@link Lobby}.
+     * The actor that wants to subscribe to the {@link LobbyActor}.
      */
     private ActorRef actor;
 
     /**
      * Construct a {@link Unsubscribe} instance.
      *
-     * @param actor The actor that wants to unsubscribe from the {@link Lobby}.
+     * @param actor The actor that wants to unsubscribe from the {@link LobbyActor}.
      */
     public Unsubscribe(ActorRef actor) {
         this.actor = actor;
     }
 
     /**
-     * Return the actor that wants to unsubscribe from the {@link Lobby}.
+     * Return the actor that wants to unsubscribe from the {@link LobbyActor}.
      *
      * @return The actor that wants to unsubscribe.
      */

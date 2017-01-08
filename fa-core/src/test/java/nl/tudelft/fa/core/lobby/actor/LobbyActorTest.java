@@ -7,7 +7,7 @@ import akka.testkit.JavaTestKit;
 
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
-import nl.tudelft.fa.core.lobby.LobbyInformation;
+import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
@@ -20,7 +20,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.UUID;
 
-public class LobbyTest {
+public class LobbyActorTest {
     private static ActorSystem system;
     private UUID id;
     private LobbyConfiguration configuration;
@@ -48,15 +48,15 @@ public class LobbyTest {
     public void testInform() {
         new JavaTestKit(system) {
             {
-                final Props props = Lobby.props(configuration);
+                final Props props = LobbyActor.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final RequestInformation req = RequestInformation.INSTANCE;
 
                 subject.tell(req, getRef());
 
                 // await the correct response
-                expectMsgEquals(duration("1 second"), new LobbyInformation(
-                    LobbyStatus.PREPARATION, configuration, Collections.emptySet()));
+                expectMsgEquals(duration("1 second"), new Lobby(
+                    subject.path().name(), LobbyStatus.PREPARATION, configuration, Collections.emptySet()));
             }
         };
     }
@@ -65,7 +65,7 @@ public class LobbyTest {
     public void testJoinSuccess() {
         new JavaTestKit(system) {
             {
-                final Props props = Lobby.props(configuration);
+                final Props props = LobbyActor.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Join req = new Join(user, getRef());
 
@@ -81,7 +81,7 @@ public class LobbyTest {
     public void testJoinSuccessDifferentHandler() {
         new JavaTestKit(system) {
             {
-                final Props props = Lobby.props(configuration);
+                final Props props = LobbyActor.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final JavaTestKit probe = new JavaTestKit(system);
                 final Join req = new Join(user, probe.getRef());
@@ -97,7 +97,7 @@ public class LobbyTest {
     public void testJoinSuccessDifferentHandlerSubscribed() {
         new JavaTestKit(system) {
             {
-                final Props props = Lobby.props(configuration);
+                final Props props = LobbyActor.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final JavaTestKit probe = new JavaTestKit(system);
                 final Join req = new Join(user, probe.getRef());
@@ -114,7 +114,7 @@ public class LobbyTest {
     public void testJoinFull() {
         new JavaTestKit(system) {
             {
-                final Props props = Lobby.props(new LobbyConfiguration(0, Duration.ZERO));
+                final Props props = LobbyActor.props(new LobbyConfiguration(0, Duration.ZERO));
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Join req = new Join(user, getRef());
 
@@ -130,7 +130,7 @@ public class LobbyTest {
     public void testLeaveSuccess() {
         new JavaTestKit(system) {
             {
-                final Props props = Lobby.props(configuration);
+                final Props props = LobbyActor.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Leave req = new Leave(user);
 
@@ -151,7 +151,7 @@ public class LobbyTest {
     public void testLeaveSuccessDifferentHandler() {
         new JavaTestKit(system) {
             {
-                final Props props = Lobby.props(configuration);
+                final Props props = LobbyActor.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Leave req = new Leave(user);
                 final JavaTestKit probe = new JavaTestKit(system);
@@ -171,7 +171,7 @@ public class LobbyTest {
     public void testLeaveSuccessDifferentHandlerSubscribed() {
         new JavaTestKit(system) {
             {
-                final Props props = Lobby.props(configuration);
+                final Props props = LobbyActor.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Leave req = new Leave(user);
                 final JavaTestKit probe = new JavaTestKit(system);
@@ -192,7 +192,7 @@ public class LobbyTest {
     public void testLeaveNotInLobby() {
         new JavaTestKit(system) {
             {
-                final Props props = Lobby.props(configuration);
+                final Props props = LobbyActor.props(configuration);
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Leave req = new Leave(user);
 

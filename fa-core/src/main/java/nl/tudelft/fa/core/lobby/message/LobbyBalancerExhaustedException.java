@@ -26,11 +26,12 @@
 package nl.tudelft.fa.core.lobby.message;
 
 import akka.actor.ActorRef;
+import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.core.user.User;
 
 /**
  * This error is sent to a {@link User} that wants to join a lobby by a
- * {@link nl.tudelft.fa.core.lobby.actor.LobbyBalancer} if no lobbies are available and it cannot
+ * {@link LobbyBalancerActor} if no lobbies are available and it cannot
  * create new lobbies anymore.
  *
  * @author Fabian Mastenbroek

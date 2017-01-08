@@ -26,16 +26,16 @@
 package nl.tudelft.fa.core.lobby.message;
 
 import akka.actor.ActorRef;
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 
 /**
- * This message represents an exception within the {@link Lobby} actor.
+ * This message represents an exception within the {@link LobbyActor} actor.
  *
  * @author Fabian Mastenbroek
  */
 public class LobbyException extends Exception {
     /**
-     * The {@link Lobby} where the exception occurred.
+     * The {@link LobbyActor} where the exception occurred.
      */
     private ActorRef lobby;
 
@@ -61,7 +61,7 @@ public class LobbyException extends Exception {
     }
 
     /**
-     * Return the {@link Lobby} where the exception occurred.
+     * Return the {@link LobbyActor} where the exception occurred.
      *
      * @return The reference to the lobby where the exception occurred.
      */

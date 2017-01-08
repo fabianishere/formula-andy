@@ -31,9 +31,9 @@ import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
-import nl.tudelft.fa.core.lobby.LobbyBalancerInformation;
+import nl.tudelft.fa.core.lobby.Lobby;
+import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
-import nl.tudelft.fa.core.lobby.LobbyInformation;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
@@ -43,14 +43,14 @@ import scala.runtime.BoxedUnit;
 import java.util.*;
 
 /**
- * A {@link LobbyBalancer} actor balances users between {@link Lobby} actors to create balanced
- * games. It will spin up new instances if needed.
+ * A {@link LobbyBalancerActor} actor balances users between {@link LobbyActor} actors to create
+ * balanced games. It will spin up new instances if needed.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyBalancer extends AbstractActor {
+public class LobbyBalancerActor extends AbstractActor {
     /**
-     * The configuration to use when spinning up new {@link Lobby} actors.
+     * The configuration to use when spinning up new {@link LobbyActor} actors.
      */
     private final LobbyConfiguration configuration;
 
@@ -67,12 +67,12 @@ public class LobbyBalancer extends AbstractActor {
     /**
      * The instances this balancer manages.
      */
-    private final Map<ActorRef, LobbyInformation> instances;
+    private final Map<ActorRef, Lobby> instances;
 
     /**
      * The available instances.
      */
-    private final Map<ActorRef, LobbyInformation> available;
+    private final Map<ActorRef, Lobby> available;
 
     /**
      * The {@link LoggingAdapter} of this class.
@@ -80,13 +80,13 @@ public class LobbyBalancer extends AbstractActor {
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
 
     /**
-     * Construct a {@link LobbyBalancer} instance.
+     * Construct a {@link LobbyBalancerActor} instance.
      *
      * @param configuration The configuration of the instances.
      * @param min The minimum amount of instances that should be running at all times.
      * @param max The maximum amount of instances that are allowed to be running.
      */
-    private LobbyBalancer(LobbyConfiguration configuration, int min, int max) {
+    private LobbyBalancerActor(LobbyConfiguration configuration, int min, int max) {
         this.configuration = configuration;
         this.min = min;
         this.max = max;
@@ -118,20 +118,20 @@ public class LobbyBalancer extends AbstractActor {
             .match(Join.class, this::join)
             .match(UserJoined.class, req -> joined(req.getUser(), sender()))
             .match(UserLeft.class, req -> left(req.getUser(), sender()))
-            .match(LobbyInformation.class, this::update)
+            .match(Lobby.class, this::update)
             .match(Refresh.class, req -> refresh())
             .build();
     }
 
     /**
-     * Inform an actor about the current state of this {@link Lobby}.
+     * Inform an actor about the current state of this {@link LobbyActor}.
      */
     private void inform() {
-        sender().tell(new LobbyBalancerInformation(Collections.unmodifiableMap(instances)), self());
+        sender().tell(new LobbyBalancer(Collections.unmodifiableMap(instances)), self());
     }
 
     /**
-     * Route a {@link Join} to a fitting {@link Lobby} actor.
+     * Route a {@link Join} to a fitting {@link LobbyActor} actor.
      *
      * @param req The join request to handle.
      */
@@ -156,10 +156,10 @@ public class LobbyBalancer extends AbstractActor {
         ref.tell(req, mediator);
 
         // Update our cache until we get confirmation
-        LobbyInformation info = instances.get(ref);
+        Lobby info = instances.get(ref);
         Set<User> users = new HashSet<>(info.getUsers());
         users.add(req.getUser());
-        info = new LobbyInformation(info.getStatus(), info.getConfiguration(), users);
+        info = new Lobby(ref.path().name(), info.getStatus(), info.getConfiguration(), users);
         instances.put(ref, info);
         available.put(ref, info);
     }
@@ -171,10 +171,10 @@ public class LobbyBalancer extends AbstractActor {
      * @param lobby The lobby the user has joined.
      */
     private void joined(User user, ActorRef lobby) {
-        LobbyInformation info = instances.get(lobby);
+        Lobby info = instances.get(lobby);
         Set<User> users = new HashSet<>(info.getUsers());
         users.add(user);
-        update(new LobbyInformation(info.getStatus(), info.getConfiguration(), users));
+        update(new Lobby(lobby.path().name(), info.getStatus(), info.getConfiguration(), users));
     }
 
     /**
@@ -184,18 +184,18 @@ public class LobbyBalancer extends AbstractActor {
      * @param lobby The lobby the user has left.
      */
     private void left(User user, ActorRef lobby) {
-        LobbyInformation info = instances.get(lobby);
+        Lobby info = instances.get(lobby);
         Set<User> users = new HashSet<>(info.getUsers());
         users.remove(user);
-        update(new LobbyInformation(info.getStatus(), info.getConfiguration(), users));
+        update(new Lobby(lobby.path().name(), info.getStatus(), info.getConfiguration(), users));
     }
 
     /**
-     * Update the information of each {@link Lobby} this balancer manages.
+     * Update the information of each {@link LobbyActor} this balancer manages.
      *
      * @param information The information that has been received.
      */
-    private void update(LobbyInformation information) {
+    private void update(Lobby information) {
         if (information.getUsers().size() == 0 && instances.size() > min) {
             log.debug("Lobby {} is empty and will be killed", sender());
 
@@ -218,20 +218,20 @@ public class LobbyBalancer extends AbstractActor {
     }
 
     /**
-     * Refresh the caches of this {@link LobbyBalancer}.
+     * Refresh the caches of this {@link LobbyBalancerActor}.
      */
     private void refresh() {
         instances.forEach((instance, info) -> instance.tell(RequestInformation.INSTANCE, self()));
     }
 
     /**
-     * Spin up a new {@link Lobby} instance.
+     * Spin up a new {@link LobbyActor} instance.
      *
-     * @return The reference to the {@link Lobby} actor that has been created.
+     * @return The reference to the {@link LobbyActor} actor that has been created.
      */
     private ActorRef createLobby() {
-        ActorRef ref = context().actorOf(Lobby.props(configuration), UUID.randomUUID().toString());
-        LobbyInformation info = new LobbyInformation(LobbyStatus.PREPARATION, configuration,
+        ActorRef ref = context().actorOf(LobbyActor.props(configuration));
+        Lobby info = new Lobby(ref.path().name(), LobbyStatus.PREPARATION, configuration,
             Collections.emptySet());
         ref.tell(new Subscribe(self()), self());
         instances.put(ref, info);
@@ -249,7 +249,8 @@ public class LobbyBalancer extends AbstractActor {
      *         (e.g. calling `.withDispatcher()` on it)
      */
     public static Props props(LobbyConfiguration configuration, int min, int max) {
-        return Props.create(LobbyBalancer.class, () -> new LobbyBalancer(configuration, min, max));
+        return Props.create(LobbyBalancerActor.class,
+            () -> new LobbyBalancerActor(configuration, min, max));
     }
 
     /**

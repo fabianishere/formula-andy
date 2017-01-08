@@ -25,10 +25,11 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 
 /**
- * This message is send to a {@link Lobby} actor to request information about its current state.
+ * This message is send to a {@link LobbyActor} actor to request information about its current
+ * state.
  *
  * @author Fabian Mastenbroek
  */

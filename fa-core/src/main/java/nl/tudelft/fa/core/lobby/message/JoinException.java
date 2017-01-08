@@ -1,10 +1,11 @@
 package nl.tudelft.fa.core.lobby.message;
 
 import akka.actor.ActorRef;
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 
 /**
- * This class represents a {@link JoinException} that occurred specifically in the {@link Lobby}.
+ * This class represents a {@link JoinException} that occurred specifically in the
+ * {@link LobbyActor}.
  *
  * @author Fabian Mastenbroek
  */

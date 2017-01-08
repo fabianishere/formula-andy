@@ -26,16 +26,16 @@
 package nl.tudelft.fa.core.lobby.message;
 
 import akka.actor.ActorRef;
-import nl.tudelft.fa.core.lobby.actor.LobbyBalancer;
+import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 
 /**
- * This message represents an exception within the {@link LobbyBalancer} actor.
+ * This message represents an exception within the {@link LobbyBalancerActor} actor.
  *
  * @author Fabian Mastenbroek
  */
 public class LobbyBalancerException extends Exception {
     /**
-     * The {@link LobbyBalancer} of this exception.
+     * The {@link LobbyBalancerActor} of this exception.
      */
     private ActorRef balancer;
 
@@ -60,7 +60,7 @@ public class LobbyBalancerException extends Exception {
     }
 
     /**
-     * Return the {@link LobbyBalancer} where the exception occurred.
+     * Return the {@link LobbyBalancerActor} where the exception occurred.
      *
      * @return The reference to the lobby balancer where the exception occurred.
      */

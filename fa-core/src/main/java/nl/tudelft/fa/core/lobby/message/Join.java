@@ -26,13 +26,13 @@
 package nl.tudelft.fa.core.lobby.message;
 
 import akka.actor.ActorRef;
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 
 /**
- * This message is sent to a {@link Lobby} to request to join the lobby.
+ * This message is sent to a {@link LobbyActor} to request to join the lobby.
  *
  * @author Fabian Mastenbroek
  */
