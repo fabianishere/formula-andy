@@ -230,8 +230,9 @@ public class LobbyBalancerActor extends AbstractActor {
      * @return The reference to the {@link LobbyActor} actor that has been created.
      */
     private ActorRef createLobby() {
-        ActorRef ref = context().actorOf(LobbyActor.props(configuration));
-        Lobby info = new Lobby(ref.path().name(), LobbyStatus.PREPARATION, configuration,
+        String id = UUID.randomUUID().toString();
+        ActorRef ref = context().actorOf(LobbyActor.props(configuration), id);
+        Lobby info = new Lobby(id, LobbyStatus.PREPARATION, configuration,
             Collections.emptySet());
         ref.tell(new Subscribe(self()), self());
         instances.put(ref, info);
