@@ -1,14 +1,15 @@
 package nl.tudelft.fa.core.lobby.actor;
 
+import static org.junit.Assert.*;
+
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import akka.pattern.Patterns;
 import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.auth.Credentials;
-import nl.tudelft.fa.core.lobby.LobbyBalancerInformation;
+import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
-import nl.tudelft.fa.core.lobby.LobbyInformation;
-import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
 
 import nl.tudelft.fa.core.user.User;
@@ -16,13 +17,13 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import scala.concurrent.Await;
 
 import java.time.Duration;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.UUID;
 
-public class LobbyBalancerTest {
+public class LobbyBalancerActorTest {
     private static ActorSystem system;
     private LobbyConfiguration configuration;
     private User user;
@@ -47,13 +48,28 @@ public class LobbyBalancerTest {
     public void testInform() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyBalancer.props(configuration, 0, 5);
+                final Props props = LobbyBalancerActor.props(configuration, 0, 5);
                 final ActorRef subject = system.actorOf(props);
-                final InformationRequest req = InformationRequest.INSTANCE;
+                final RequestInformation req = RequestInformation.INSTANCE;
 
                 watch(subject);
                 subject.tell(req, getRef());
-                expectMsgEquals(duration("1 second"), new LobbyBalancerInformation(Collections.emptyMap()));
+                expectMsgEquals(duration("1 second"), new LobbyBalancer(Collections.emptyMap()));
+            }
+        };
+    }
+
+    @Test
+    public void testRefresh() throws Exception {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyBalancerActor.props(configuration, 0, 5);
+                final ActorRef subject = system.actorOf(props);
+                final RequestInformation req = RequestInformation.INSTANCE;
+
+                watch(subject);
+                subject.tell(Refresh.INSTANCE, getRef());
+                expectNoMsg(duration("1 second"));
             }
         };
     }
@@ -62,9 +78,9 @@ public class LobbyBalancerTest {
     public void testJoinNew() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyBalancer.props(configuration, 0, 5);
+                final Props props = LobbyBalancerActor.props(configuration, 0, 5);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user);
+                final Join req = new Join(user, getRef());
 
                 watch(subject);
                 subject.tell(req, getRef());
@@ -77,9 +93,9 @@ public class LobbyBalancerTest {
     public void testJoinRunning() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyBalancer.props(configuration);
+                final Props props = LobbyBalancerActor.props(configuration);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user);
+                final Join req = new Join(user, getRef());
 
                 watch(subject);
                 subject.tell(req, getRef());
@@ -92,13 +108,14 @@ public class LobbyBalancerTest {
     public void testJoinDifferent() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyBalancer.props(configuration, 0, 5);
+                final Props props = LobbyBalancerActor.props(configuration, 0, 5);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user);
+                final Join req = new Join(user, getRef());
                 final JavaTestKit probe = new JavaTestKit(system);
 
-                subject.tell(new JoinRequest(new User(UUID.randomUUID(), new Credentials("test", "test"))), probe.getRef());
-                probe.expectMsgClass(duration("1 second"),JoinSuccess.class);
+                subject.tell(new Join(new User(UUID.randomUUID(), new Credentials("test", "test")), probe.getRef()),
+                    probe.getRef());
+                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 subject.tell(req, getRef());
                 probe.expectNoMsg();
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
@@ -110,17 +127,18 @@ public class LobbyBalancerTest {
     public void testJoinSame() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyBalancer.props(new LobbyConfiguration(2, Duration.ZERO), 0, 1);
+                final Props props = LobbyBalancerActor.props(new LobbyConfiguration(2, Duration.ZERO), 0, 1);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user);
+                final Join req = new Join(user, getRef());
                 final JavaTestKit probe = new JavaTestKit(system);
                 final User snd = new User(UUID.randomUUID(), new Credentials("test", "test"));
 
-                subject.tell(new JoinRequest(snd), probe.getRef());
-                probe.expectMsgEquals(duration("1 second"), new JoinSuccess(snd));
+                subject.tell(new Join(snd, probe.getRef()), probe.getRef());
+                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
+                probe.reply(new Subscribe(probe.getRef()));
                 subject.tell(req, getRef());
-                probe.expectMsgEquals(duration("1 second"), new JoinSuccess(user));
-                expectMsgEquals(duration("1 second"), new JoinSuccess(user));
+                probe.expectMsgClass(duration("1 second"), UserJoined.class);
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
             }
         };
     }
@@ -129,12 +147,12 @@ public class LobbyBalancerTest {
     public void testJoinExhausted() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyBalancer.props(configuration, 0, 0);
+                final Props props = LobbyBalancerActor.props(configuration, 0, 0);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user);
+                final Join req = new Join(user, getRef());
 
                 subject.tell(req, getRef());
-                expectMsgClass(duration("1 second"), LobbyBalancerExhaustedError.class);
+                expectMsgClass(duration("1 second"), LobbyBalancerExhaustedException.class);
             }
         };
     }
@@ -143,22 +161,20 @@ public class LobbyBalancerTest {
     public void testLeaveKill() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyBalancer.props(configuration, 0, 2);
+                final Props props = LobbyBalancerActor.props(configuration, 0, 2);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user);
+                final Join req = new Join(user, getRef());
                 final JavaTestKit probe = new JavaTestKit(system);
                 final User snd = new User(UUID.randomUUID(), new Credentials("test", "test"));
-                subject.tell(new JoinRequest(snd), probe.getRef());
+                subject.tell(new Join(snd, probe.getRef()), probe.getRef());
                 probe.expectMsgClass(duration("1 second"),JoinSuccess.class);
                 subject.tell(req, getRef());
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
-                reply(new LeaveRequest(user));
+                reply(new Leave(user));
                 expectMsgClass(duration("1 second"), LeaveSuccess.class);
 
-                subject.tell(InformationRequest.INSTANCE, getRef());
-                expectMsgEquals(duration("1 second"), new LobbyBalancerInformation(new HashMap<ActorRef, LobbyInformation>() {{
-                    put(probe.getLastSender(), new LobbyInformation(LobbyStatus.PREPARATION, configuration, Collections.singleton(snd)));
-                }}));
+                LobbyBalancer info = (LobbyBalancer) Await.result(Patterns.ask(subject, RequestInformation.INSTANCE, 1000), duration("1 second"));
+                assertEquals(1, info.getLobbies().size());
             }
         };
     }
@@ -167,19 +183,17 @@ public class LobbyBalancerTest {
     public void testLeaveNoKill() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyBalancer.props(configuration, 1, 2);
+                final Props props = LobbyBalancerActor.props(configuration, 1, 2);
                 final ActorRef subject = system.actorOf(props);
-                final JoinRequest req = new JoinRequest(user);
+                final Join req = new Join(user, getRef());
 
                 subject.tell(req, getRef());
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
-                reply(new LeaveRequest(user));
+                reply(new Leave(user));
                 expectMsgClass(duration("1 second"), LeaveSuccess.class);
 
-                subject.tell(InformationRequest.INSTANCE, getRef());
-                expectMsgEquals(duration("1 second"), new LobbyBalancerInformation(new HashMap<ActorRef, LobbyInformation>() {{
-                    put(getLastSender(), new LobbyInformation(LobbyStatus.PREPARATION, configuration, Collections.emptySet()));
-                }}));
+                LobbyBalancer info = (LobbyBalancer) Await.result(Patterns.ask(subject, RequestInformation.INSTANCE, 1000), duration("1 second"));
+                assertEquals(1, info.getLobbies().size());
             }
         };
     }

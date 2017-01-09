@@ -31,9 +31,8 @@ import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
-import akka.pattern.PatternsCS;
+import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
-import nl.tudelft.fa.core.lobby.LobbyInformation;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
@@ -47,16 +46,26 @@ import java.util.*;
  *
  * @author Fabian Mastenbroek
  */
-public class Lobby extends AbstractActor {
+public class LobbyActor extends AbstractActor {
     /**
      * The configuration of the lobby.
      */
-    private LobbyConfiguration configuration;
+    private final LobbyConfiguration configuration;
 
     /**
      * The users that have joined this lobby.
      */
-    private Map<User, ActorRef> users;
+    private final Map<User, ActorRef> users;
+
+    /**
+     * The event bus this {@link LobbyActor} uses to publish updates.
+     */
+    private final ActorRef bus;
+
+    /**
+     * The unique identifier of this lobby.
+     */
+    private final String id;
 
     /**
      * The {@link LoggingAdapter} of this class.
@@ -64,13 +73,15 @@ public class Lobby extends AbstractActor {
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
 
     /**
-     * Construct a {@link Lobby} instance.
+     * Construct a {@link LobbyActor} instance.
      *
      * @param configuration The configuration of the lobby.
      */
-    private Lobby(LobbyConfiguration configuration) {
+    private LobbyActor(LobbyConfiguration configuration) {
         this.configuration = configuration;
         this.users = new HashMap<>(configuration.getPlayerMaximum());
+        this.bus = context().actorOf(LobbyEventBus.props(), "event-bus");
+        this.id = self().path().name();
     }
 
     /**
@@ -91,14 +102,16 @@ public class Lobby extends AbstractActor {
      */
     private PartialFunction<Object, BoxedUnit> preparation() {
         return ReceiveBuilder
-            .match(InformationRequest.class, req -> inform(LobbyStatus.PREPARATION))
-            .match(JoinRequest.class, this::join)
-            .match(LeaveRequest.class, this::leave)
+            .match(RequestInformation.class, req -> inform(LobbyStatus.PREPARATION))
+            .match(Join.class, req -> join(req.getUser(), req.getHandler()))
+            .match(Leave.class, req -> leave(req.getUser()))
+            .match(Subscribe.class, req -> bus.tell(req, sender()))
+            .match(Unsubscribe.class, req -> bus.tell(req, sender()))
             .build();
     }
 
     /**
-     * Inform an actor about the current state of this {@link Lobby}.
+     * Inform an actor about the current state of this {@link LobbyActor}.
      *
      * @param status The current status of the lobby.
      */
@@ -107,71 +120,66 @@ public class Lobby extends AbstractActor {
     }
 
     /**
-     * Handle a {@link JoinRequest} message and respond to it with either a {@link JoinError}
+     * Let a {@link User} join this lobby by responding with either a {@link JoinException} message
      * or a {@link JoinSuccess} message.
      *
-     * @param req The join request to handle.
+     * @param user The user that wants to join.
+     * @param handler The handler of the user.
      */
-    private void join(JoinRequest req) {
+    private void join(User user, ActorRef handler) {
         if (users.size() >= configuration.getPlayerMaximum()) {
             log.warning("The user {} failed to join because the lobby is full");
 
             // The lobby has reached its maximum capacity
-            sender().tell(new LobbyFullError(users.size()), self());
+            sender().tell(new LobbyFullException(self(), users.size()), self());
             return;
         }
 
         // Put the user in the lobby
-        users.put(req.getUser(), sender());
+        users.put(user, handler);
 
-        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        JoinSuccess event = new JoinSuccess(req.getUser());
+        // Inform the requesting actor
+        sender().tell(new JoinSuccess(user, self()), self());
 
-        for (User user : users.keySet()) {
-            users.get(user).tell(event, self());
-        }
+        // Tell all subscribers about the change
+        bus.tell(new UserJoined(user), self());
 
-        // Inform the parent
-        context().parent().tell(information, self());
-
-        log.debug("The user {} has joined the lobby", req.getUser());
+        log.debug("The user {} has joined the lobby", user);
     }
 
     /**
-     * Handle a {@link LeaveRequest} request.
+     * Leave the lobby.
      *
-     * @param req The leave request to handle.
+     * @param user The user that wants to leave the lobby.
      */
-    private void leave(LeaveRequest req) {
-        ActorRef ref = users.remove(req.getUser());
+    private void leave(User user) {
+        ActorRef ref = users.remove(user);
 
+        // Determine whether the user was in the lobby
         if (ref == null) {
-            // The user is not in the lobby
             log.warning("The user {} tried to leave the lobby, but is not in the lobby",
-                req.getUser().getCredentials().getUsername());
-            sender().tell(new NotInLobbyError(), self());
+                user);
+            sender().tell(new NotInLobbyException(self()), self());
             return;
         }
 
-        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        LeaveSuccess event = new LeaveSuccess(req.getUser());
+        // Inform the requesting actor
+        sender().tell(new LeaveSuccess(user), self());
 
-        sender().tell(event, self());
+        // Tell all subscribers about the change
+        bus.tell(new UserLeft(user), self());
 
-        // Inform the parent
-        context().parent().tell(information, self());
-
-        log.debug("The user {} has left the lobby", req.getUser());
+        log.debug("The user {} has left the lobby", user);
     }
 
     /**
-     * Return the {@link LobbyInformation} of this lobby.
+     * Return the {@link Lobby} of this lobby.
      *
      * @param status The status of the lobby.
      * @return The information of this lobby.
      */
-    private LobbyInformation getInformation(LobbyStatus status) {
-        return new LobbyInformation(status, configuration, users.keySet());
+    private Lobby getInformation(LobbyStatus status) {
+        return new Lobby(id, status, configuration, users.keySet());
     }
 
     /**
@@ -182,6 +190,6 @@ public class Lobby extends AbstractActor {
      *         (e.g. calling `.withDispatcher()` on it)
      */
     public static Props props(LobbyConfiguration configuration) {
-        return Props.create(Lobby.class, () -> new Lobby(configuration));
+        return Props.create(LobbyActor.class, () -> new LobbyActor(configuration));
     }
 }

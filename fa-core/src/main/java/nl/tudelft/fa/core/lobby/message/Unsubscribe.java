@@ -25,38 +25,39 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.lobby.actor.Lobby;
-import nl.tudelft.fa.core.user.User;
+import akka.actor.ActorRef;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 
 import java.util.Objects;
 
 /**
- * This message is sent to a {@link Lobby} to request to join the lobby.
+ * This message is send to a {@link LobbyActor} instance to unsubscribe from the event stream of
+ * this actor.
  *
  * @author Fabian Mastenbroek
  */
-public final class JoinRequest {
+public final class Unsubscribe {
     /**
-     * The {@link User} that wants to join the lobby.
+     * The actor that wants to subscribe to the {@link LobbyActor}.
      */
-    private User user;
+    private ActorRef actor;
 
     /**
-     * Construct a {@link JoinRequest} message.
+     * Construct a {@link Unsubscribe} instance.
      *
-     * @param user The user that wants to join the lobby.
+     * @param actor The actor that wants to unsubscribe from the {@link LobbyActor}.
      */
-    public JoinRequest(User user) {
-        this.user = user;
+    public Unsubscribe(ActorRef actor) {
+        this.actor = actor;
     }
 
     /**
-     * Return the {@link User} that wants to join the lobby.
+     * Return the actor that wants to unsubscribe from the {@link LobbyActor}.
      *
-     * @return The user that wants to join the lobby.
+     * @return The actor that wants to unsubscribe.
      */
-    public User getUser() {
-        return user;
+    public ActorRef getActor() {
+        return actor;
     }
 
     /**
@@ -74,8 +75,8 @@ public final class JoinRequest {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        JoinRequest that = (JoinRequest) other;
-        return Objects.equals(user, that.user);
+        Unsubscribe that = (Unsubscribe) other;
+        return Objects.equals(actor, that.actor);
     }
 
     /**
@@ -85,7 +86,7 @@ public final class JoinRequest {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user);
+        return Objects.hash(actor);
     }
 
     /**
@@ -95,6 +96,6 @@ public final class JoinRequest {
      */
     @Override
     public String toString() {
-        return String.format("JoinRequest(user=%s)", user);
+        return String.format("Unsubscribe(actor=%s)", actor);
     }
 }

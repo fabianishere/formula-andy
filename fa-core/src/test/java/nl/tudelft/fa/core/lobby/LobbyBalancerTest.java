@@ -5,23 +5,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Duration;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-public class LobbyBalancerInformationTest {
-    private Map<ActorRef, LobbyInformation> lobbies;
-    private LobbyBalancerInformation information;
+public class LobbyBalancerTest {
+    private Map<ActorRef, Lobby> lobbies;
+    private LobbyBalancer information;
 
     @Before
     public void setUp() {
         lobbies = new HashMap<>();
-        information = new LobbyBalancerInformation(lobbies);
+        information = new LobbyBalancer(lobbies);
     }
 
     @Test
@@ -46,13 +43,13 @@ public class LobbyBalancerInformationTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new LobbyBalancerInformation(lobbies), information);
+        assertEquals(new LobbyBalancer(lobbies), information);
     }
 
     @Test
     public void equalsDifferentLobbies() {
-        assertNotEquals(new LobbyBalancerInformation(new HashMap<ActorRef, LobbyInformation>() {{
-            put(null, new LobbyInformation(LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO), Collections.emptySet()));
+        assertNotEquals(new LobbyBalancer(new HashMap<ActorRef, Lobby>() {{
+            put(null, new Lobby(UUID.randomUUID().toString(), LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO), Collections.emptySet()));
         }}), information);
     }
 
@@ -63,6 +60,6 @@ public class LobbyBalancerInformationTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("LobbyBalancerInformation(lobbies=%s)", lobbies), information.toString());
+        assertEquals(String.format("LobbyBalancer(lobbies=%s)", lobbies), information.toString());
     }
 }

@@ -25,42 +25,44 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
+import akka.actor.ActorRef;
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
-import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 
 /**
- * This message indicates the {@link User} has left the {@link LobbyActor}.
+ * This message is send to a {@link LobbyActor} instance to subscribe to the event stream of this
+ * actor.
  *
  * @author Fabian Mastenbroek
  */
-public class LeaveSuccess {
+public final class Subscribe {
     /**
-     * The user that has left the lobby.
+     * The actor that wants to subscribe to the {@link LobbyActor}.
      */
-    private User user;
+    private ActorRef actor;
 
     /**
-     * Construct a {@link LeaveSuccess} message instance.
+     * Construct a {@link Subscribe} instance.
      *
-     * @param user The user that has left the lobby.
+     * @param actor The actor that wants to subscribe to the {@link LobbyActor}.
      */
-    public LeaveSuccess(User user) {
-        this.user = user;
+    public Subscribe(ActorRef actor) {
+        this.actor = actor;
     }
 
     /**
-     * Return the user that has left the lobby.
+     * Return the actor that wants to subscribe to the {@link LobbyActor}.
      *
-     * @return The user that has left the lobby.
+     * @return The actor that wants to subscribe.
      */
-    public User getUser() {
-        return user;
+    public ActorRef getActor() {
+        return actor;
     }
 
     /**
-     * Test whether this message is equal to the given object.
+     * Test whether this message is equal to the given object, which means that all properties of
+     * this message are equal to the properties of the other class.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
@@ -73,8 +75,8 @@ public class LeaveSuccess {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        LeaveSuccess that = (LeaveSuccess) other;
-        return Objects.equals(user, that.user);
+        Subscribe that = (Subscribe) other;
+        return Objects.equals(actor, that.actor);
     }
 
     /**
@@ -84,7 +86,7 @@ public class LeaveSuccess {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user);
+        return Objects.hash(actor);
     }
 
     /**
@@ -94,6 +96,6 @@ public class LeaveSuccess {
      */
     @Override
     public String toString() {
-        return String.format("LeaveSuccess(user=%s)", user);
+        return String.format("Subscribe(actor=%s)", actor);
     }
 }

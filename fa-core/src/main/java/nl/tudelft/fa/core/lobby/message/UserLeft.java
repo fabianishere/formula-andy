@@ -25,35 +25,34 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.lobby.actor.Lobby;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 
 /**
- * This message is sent by a {@link User} to a {@link Lobby} to ask to leave the lobby.
+ * This event indicates that a {@link User} has left the lobby.
  *
  * @author Fabian Mastenbroek
  */
-public final class LeaveRequest {
+public final class UserLeft {
     /**
-     * The {@link User} that wants to leave the lobby.
+     * The {@link User} that has left the lobby.
      */
     private User user;
 
     /**
-     * Construct a {@link LeaveRequest} message.
+     * Construct a {@link UserLeft} instance.
      *
-     * @param user The user that wants to leave the lobby.
+     * @param user The user that has left the lobby.
      */
-    public LeaveRequest(User user) {
+    public UserLeft(User user) {
         this.user = user;
     }
 
     /**
-     * Return the {@link User} that wants to leave the lobby.
+     * Return the user that has left the lobby.
      *
-     * @return The user that wants to leave the lobby.
+     * @return The user that has left the lobby.
      */
     public User getUser() {
         return user;
@@ -74,7 +73,7 @@ public final class LeaveRequest {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        LeaveRequest that = (LeaveRequest) other;
+        UserLeft that = (UserLeft) other;
         return Objects.equals(user, that.user);
     }
 
@@ -95,6 +94,6 @@ public final class LeaveRequest {
      */
     @Override
     public String toString() {
-        return String.format("LeaveRequest(user=%s)", user);
+        return String.format("UserLeft(user=%s)", user);
     }
 }

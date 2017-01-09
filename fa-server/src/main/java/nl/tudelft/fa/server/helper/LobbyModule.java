@@ -23,47 +23,40 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.server.helper;
 
-import nl.tudelft.fa.core.user.User;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.module.SimpleSerializers;
+import nl.tudelft.fa.core.lobby.Lobby;
+import nl.tudelft.fa.core.lobby.LobbyBalancer;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 
 /**
- * This message indicates that the lobby a {@link User} is trying to join, is full.
+ * This class is a module for the Jackson library to provide serializers for the lobby package
+ * of the <i>fa-core</i> module.
  *
  * @author Fabian Mastenbroek
  */
-public final class LobbyFullError extends JoinError {
+public class LobbyModule extends SimpleModule {
     /**
-     * The amount of users in the lobby currently.
+     * Construct a {@link LobbyModule} instance.
      */
-    private int users;
-
-    /**
-     * Construct a {@link LobbyFullError} message.
-     *
-     * @param users The amount of users in the lobby currently.
-     */
-    public LobbyFullError(int users) {
-        super("The lobby you are trying to join is full.");
-        this.users = users;
+    public LobbyModule() {
+        super(LobbyModule.class.getName());
     }
 
     /**
-     * Return the amount of users currently in the lobby.
+     * Setup this module.
      *
-     * @return The amount of users currently in the lobby.
-     */
-    public int getUsers() {
-        return users;
-    }
-
-    /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
+     * {@inheritDoc}
+     * @param context The setup context.
      */
     @Override
-    public String toString() {
-        return String.format("LobbyFullError(message=%s, users=%d)", getMessage(), users);
+    public void setupModule(SetupContext context) {
+        SimpleSerializers serializers = new SimpleSerializers();
+        serializers.addSerializer(LobbyBalancer.class, new LobbyBalancerInformationSerializer());
+        context.addSerializers(serializers);
+        context.setMixInAnnotations(Lobby.class, LobbyMixin.class);
+        context.setMixInAnnotations(LobbyConfiguration.class, LobbyConfigurationMixin.class);
     }
 }

@@ -23,15 +23,48 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby;
+package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.lobby.actor.LobbyActor;
+import akka.actor.ActorRef;
+import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 
 /**
- * This enumeration defines the states a {@link LobbyActor} can be in.
+ * This message represents an exception within the {@link LobbyBalancerActor} actor.
  *
  * @author Fabian Mastenbroek
  */
-public enum LobbyStatus {
-    PREPARATION, IN_PROGRESS
+public class LobbyBalancerException extends Exception {
+    /**
+     * The {@link LobbyBalancerActor} of this exception.
+     */
+    private ActorRef balancer;
+
+    /**
+     * Construct a {@link LobbyBalancerException} instance.
+     *
+     * @param balancer The lobby balancer where the exception occurred.
+     * @param message The message of this exception.
+     */
+    public LobbyBalancerException(ActorRef balancer, String message) {
+        super(message);
+        this.balancer = balancer;
+    }
+
+    /**
+     * Construct a {@link LobbyBalancerException} instance.
+     *
+     * @param balancer The lobby balancer where the exception occurred.
+     */
+    public LobbyBalancerException(ActorRef balancer) {
+        this.balancer = balancer;
+    }
+
+    /**
+     * Return the {@link LobbyBalancerActor} where the exception occurred.
+     *
+     * @return The reference to the lobby balancer where the exception occurred.
+     */
+    public ActorRef getBalancer() {
+        return balancer;
+    }
 }

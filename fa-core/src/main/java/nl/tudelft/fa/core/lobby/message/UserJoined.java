@@ -25,42 +25,42 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 
 /**
- * This message indicates the {@link User} has left the {@link LobbyActor}.
+ * This event indicates that a {@link User} has joined the lobby.
  *
  * @author Fabian Mastenbroek
  */
-public class LeaveSuccess {
+public final class UserJoined {
     /**
-     * The user that has left the lobby.
+     * The {@link User} that has joined the lobby.
      */
     private User user;
 
     /**
-     * Construct a {@link LeaveSuccess} message instance.
+     * Construct a {@link UserJoined} instance.
      *
-     * @param user The user that has left the lobby.
+     * @param user The user that has joined the lobby.
      */
-    public LeaveSuccess(User user) {
+    public UserJoined(User user) {
         this.user = user;
     }
 
     /**
-     * Return the user that has left the lobby.
+     * Return the user that has joined the lobby.
      *
-     * @return The user that has left the lobby.
+     * @return The user that has joined the lobby.
      */
     public User getUser() {
         return user;
     }
 
     /**
-     * Test whether this message is equal to the given object.
+     * Test whether this message is equal to the given object, which means that all properties of
+     * this message are equal to the properties of the other class.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
@@ -73,7 +73,7 @@ public class LeaveSuccess {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        LeaveSuccess that = (LeaveSuccess) other;
+        UserJoined that = (UserJoined) other;
         return Objects.equals(user, that.user);
     }
 
@@ -94,6 +94,6 @@ public class LeaveSuccess {
      */
     @Override
     public String toString() {
-        return String.format("LeaveSuccess(user=%s)", user);
+        return String.format("UserJoined(user=%s)", user);
     }
 }

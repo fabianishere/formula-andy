@@ -23,58 +23,50 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.server.helper;
 
-import nl.tudelft.fa.core.user.User;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import nl.tudelft.fa.core.lobby.Lobby;
+import nl.tudelft.fa.core.lobby.LobbyBalancer;
+
+import java.io.IOException;
+
 
 /**
- * This message indicates that a {@link User} failed to leave a lobby.
+ * This class serializes the {@link LobbyBalancer} class for the REST API.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class LeaveError {
-    /**
-     * The message of this error.
-     */
-    private final String message;
+public class LobbyBalancerInformationSerializer extends StdSerializer<LobbyBalancer> {
 
     /**
-     * Construct a {@link LeaveError} instance.
-     *
-     * @param message The message of the error.
+     * Construct a {@link LobbyBalancerInformationSerializer} instance.
      */
-    public LeaveError(String message) {
-        this.message = message;
+    public LobbyBalancerInformationSerializer() {
+        this(null);
     }
 
     /**
-     * Return the message of this error.
+     * Construct a {@link LobbyBalancerInformationSerializer} instance.
      *
-     * @return The message of this error.
+     * @param cls The class to serialize.
      */
-    public String getMessage() {
-        return message;
+    public LobbyBalancerInformationSerializer(Class<LobbyBalancer> cls) {
+        super(cls);
     }
 
-    /**
-     * Test whether this message is equal to the given object.
-     * This is always <code>true</code> if both classes are of the same type.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
     @Override
-    public boolean equals(Object other) {
-        return getClass().isInstance(other);
-    }
-
-    /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
-     */
-    @Override
-    public String toString() {
-        return String.format("LeaveError(message=%s)", message);
+    public void serialize(LobbyBalancer value, JsonGenerator gen,
+                          SerializerProvider provider) throws IOException, JsonProcessingException {
+        gen.writeStartObject();
+        gen.writeArrayFieldStart("lobbies");
+        for (Lobby lobby : value.getLobbies().values()) {
+            gen.writeObject(lobby);
+        }
+        gen.writeEndArray();
+        gen.writeEndObject();
     }
 }

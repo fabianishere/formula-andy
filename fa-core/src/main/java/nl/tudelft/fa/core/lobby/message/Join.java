@@ -25,42 +25,61 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
+import akka.actor.ActorRef;
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 
 /**
- * This message indicates the {@link User} has left the {@link LobbyActor}.
+ * This message is sent to a {@link LobbyActor} to request to join the lobby.
  *
  * @author Fabian Mastenbroek
  */
-public class LeaveSuccess {
+public final class Join {
     /**
-     * The user that has left the lobby.
+     * The {@link User} that wants to join the lobby.
      */
     private User user;
 
     /**
-     * Construct a {@link LeaveSuccess} message instance.
-     *
-     * @param user The user that has left the lobby.
+     * The managing actor for this user.
      */
-    public LeaveSuccess(User user) {
+    private ActorRef handler;
+
+    /**
+     * Construct a {@link Join} message.
+     *
+     * @param user The user that wants to join the lobby.
+     * @param handler The managing actor for this user.
+     */
+    public Join(User user, ActorRef handler) {
         this.user = user;
+        this.handler = handler;
     }
 
     /**
-     * Return the user that has left the lobby.
+     * Return the {@link User} that wants to join the lobby.
      *
-     * @return The user that has left the lobby.
+     * @return The user that wants to join the lobby.
      */
     public User getUser() {
         return user;
     }
 
     /**
-     * Test whether this message is equal to the given object.
+     * Return the {@link ActorRef} that references the actor that acts as the handler for the
+     * user.
+     *
+     * @return The managing actor for the user.
+     */
+    public ActorRef getHandler() {
+        return handler;
+    }
+
+    /**
+     * Test whether this message is equal to the given object, which means that all properties of
+     * this message are equal to the properties of the other class.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
@@ -73,8 +92,8 @@ public class LeaveSuccess {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        LeaveSuccess that = (LeaveSuccess) other;
-        return Objects.equals(user, that.user);
+        Join that = (Join) other;
+        return Objects.equals(user, that.user) && Objects.equals(handler, that.handler);
     }
 
     /**
@@ -84,7 +103,7 @@ public class LeaveSuccess {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user);
+        return Objects.hash(user, handler);
     }
 
     /**
@@ -94,6 +113,6 @@ public class LeaveSuccess {
      */
     @Override
     public String toString() {
-        return String.format("LeaveSuccess(user=%s)", user);
+        return String.format("Join(user=%s, handler=%s)", user, handler);
     }
 }

@@ -25,45 +25,60 @@
 
 package nl.tudelft.fa.core.lobby;
 
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 import java.util.Set;
 
-
 /**
- * This class provides information about a {@link Lobby} actor.
+ * This class represents the state of a {@link LobbyActor} instance.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyInformation {
+public final class Lobby {
+    /**
+     * The unique identifier of the lobby.
+     */
+    private final String id;
+
     /**
      * The status of the lobby.
      */
-    private LobbyStatus status;
+    private final LobbyStatus status;
 
     /**
      * The configuration of the lobby.
      */
-    private LobbyConfiguration configuration;
+    private final LobbyConfiguration configuration;
 
     /**
      * The {@link User}s in this lobby.
      */
-    private Set<User> users;
+    private final Set<User> users;
 
     /**
-     * Construct a {@link LobbyInformation} instance.
+     * Construct a {@link Lobby} instance.
      *
+     * @param id The unique identifier of the lobby.
      * @param status The status of the lobby.
      * @param configuration The configuration of the lobby.
      * @param users The users in the lobby.
      */
-    public LobbyInformation(LobbyStatus status, LobbyConfiguration configuration, Set<User> users) {
+    public Lobby(String id, LobbyStatus status, LobbyConfiguration configuration, Set<User> users) {
+        this.id = id;
         this.status = status;
         this.configuration = configuration;
         this.users = users;
+    }
+
+    /**
+     * Return the unique identifier of the lobby.
+     *
+     * @return The unique identifier of the lobby.
+     */
+    public String getId() {
+        return id;
     }
 
     /**
@@ -94,7 +109,7 @@ public class LobbyInformation {
     }
 
     /**
-     * Test whether this {@link LobbyInformation} is equal to the given object.
+     * Test whether this {@link Lobby} is equal to the given object.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
@@ -106,8 +121,9 @@ public class LobbyInformation {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        LobbyInformation that = (LobbyInformation) other;
-        return Objects.equals(status, that.status)
+        Lobby that = (Lobby) other;
+        return Objects.equals(id, that.id)
+            && Objects.equals(status, that.status)
             && Objects.equals(configuration, that.configuration)
             && Objects.equals(users, that.users);
     }
@@ -119,7 +135,7 @@ public class LobbyInformation {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(status, configuration, users);
+        return Objects.hash(id, status, configuration, users);
     }
 
     /**
@@ -129,7 +145,7 @@ public class LobbyInformation {
      */
     @Override
     public String toString() {
-        return String.format("LobbyInformation(status=%s, configuration=%s, users=%d)",
-            status, configuration, users.size());
+        return String.format("Lobby(id=%s, status=%s, configuration=%s, users=%d)",
+            id, status, configuration, users.size());
     }
 }

@@ -1,17 +1,9 @@
 package nl.tudelft.fa.core.lobby.message;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
-import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.auth.Credentials;
-import nl.tudelft.fa.core.lobby.LobbyConfiguration;
-import nl.tudelft.fa.core.lobby.actor.Lobby;
-import nl.tudelft.fa.core.lobby.message.LeaveSuccess;
 import nl.tudelft.fa.core.user.User;
 import org.junit.*;
 
-import java.time.Duration;
 import java.util.Objects;
 import java.util.UUID;
 

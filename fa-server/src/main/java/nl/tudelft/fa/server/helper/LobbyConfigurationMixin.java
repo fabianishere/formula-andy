@@ -23,58 +23,29 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.server.helper;
 
-import nl.tudelft.fa.core.user.User;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+
+import java.time.Duration;
 
 /**
- * This message indicates that a {@link User} failed to join a lobby.
+ * Mixin for the {@link LobbyConfiguration} class.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class JoinError {
+public abstract class LobbyConfigurationMixin {
     /**
-     * The message of this error.
-     */
-    private final String message;
-
-    /**
-     * Construct a {@link JoinError} instance.
+     * Construct a {@link LobbyConfigurationMixin} instance.
      *
-     * @param message The message of the error.
+     * @param maxPlayers The maximum amount of players in the lobby.
+     * @param preparationTime The preparation time in the lobby.
      */
-    public JoinError(String message) {
-        this.message = message;
-    }
-
-    /**
-     * Return the message of this error.
-     *
-     * @return The message of this error.
-     */
-    public String getMessage() {
-        return message;
-    }
-
-    /**
-     * Test whether this message is equal to the given object.
-     * This is always <code>true</code> if both classes are of the same type.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    @Override
-    public boolean equals(Object other) {
-        return getClass().isInstance(other);
-    }
-
-    /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
-     */
-    @Override
-    public String toString() {
-        return String.format("JoinError(message=%s)", message);
+    @JsonCreator
+    public LobbyConfigurationMixin(@JsonProperty("playerMaximum") int maxPlayers,
+                                   @JsonProperty("preparationTime") Duration preparationTime) {
+        // no implementation. Jackson does the work
     }
 }
