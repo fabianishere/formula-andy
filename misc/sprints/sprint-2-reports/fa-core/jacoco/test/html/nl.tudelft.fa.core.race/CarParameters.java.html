@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CarParameters.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">fa-core</a> &gt; <a href="index.source.html" class="el_package">nl.tudelft.fa.core.race</a> &gt; <span class="el_source">CarParameters.java</span></div><h1>CarParameters.java</h1><pre class="source lang-java linenums">/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the &quot;Software&quot;), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+package nl.tudelft.fa.core.race;
+
+import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.Tire;
+
+import java.util.Objects;
+
+/**
+ * This class represents the tunable parameters of a {@link Car}
+ * during a race.
+ *
+ * @author Christian Slothouber
+ */
+public class CarParameters {
+    /**
+     * The risk of the car setup.
+     */
+    private final int mechanicalRisk;
+
+    /**
+     * The risk of the car design.
+     */
+    private final int aerodynamicRisk;
+
+    /**
+     * The risk of the strategy.
+     */
+    private final int strategicRisk;
+
+    /**
+     * The tire that is being used.
+     */
+    private final Tire tire;
+
+    /**
+     * The total distance this car has traveled during this race.
+     */
+    private double traveledDistance;
+
+    /**
+     * True if the car has crashed this race.
+     */
+    private boolean crashed;
+
+    /**
+     * Construct a {@link CarParameters} instance.
+     *
+     * @param mechanicalRisk The risk of the car setup.
+     * @param aerodynamicRisk The risk of the car design.
+     * @param strategicRisk The risk of the strategy.
+     * @param tire The tire that is being used.
+     */
+<span class="fc" id="L78">    public CarParameters(int mechanicalRisk, int aerodynamicRisk, int strategicRisk, Tire tire) {</span>
+<span class="fc" id="L79">        this.mechanicalRisk = mechanicalRisk;</span>
+<span class="fc" id="L80">        this.aerodynamicRisk = aerodynamicRisk;</span>
+<span class="fc" id="L81">        this.strategicRisk = strategicRisk;</span>
+<span class="fc" id="L82">        this.tire = tire;</span>
+<span class="fc" id="L83">        this.traveledDistance = 0;</span>
+<span class="fc" id="L84">        this.crashed = false;</span>
+<span class="fc" id="L85">    }</span>
+
+    /**
+     * Return the total traveled distance this race.
+     * @return The total traveled distance.
+     */
+    public double getTraveledDistance() {
+<span class="fc" id="L92">        return traveledDistance;</span>
+    }
+
+    /**
+     * Increase the total traveled distance of this race.
+     * @param distance The distance to increase the total distance with.
+     */
+    public void increaseTraveledDistance(double distance) {
+<span class="fc" id="L100">        traveledDistance = traveledDistance + distance;</span>
+<span class="fc" id="L101">    }</span>
+
+    /**
+     * Set the crash state of the car.
+     * @param bool The new crash state of the car. True is crashed. False is not crashed.
+     */
+    public void setCrashed(boolean bool) {
+<span class="fc" id="L108">        crashed = bool;</span>
+<span class="fc" id="L109">    }</span>
+
+    /**
+     * Return the crash state of the car.
+     * @return The crash state of the car. True if crashed. False if not crashed.
+     */
+    public boolean getCrashed() {
+<span class="fc" id="L116">        return this.crashed;</span>
+    }
+
+    /**
+     * Return the mechanical risk of the car.
+     *
+     * @return A numerical representation of the mechanical risk.
+     */
+    public int getMechanicalRisk() {
+<span class="fc" id="L125">        return mechanicalRisk;</span>
+    }
+
+    /**
+     * Return the aerodynamic risk of the car.
+     *
+     * @return A numerical representation of the aerodynamic risk.
+     */
+    public int getAerodynamicRisk() {
+<span class="fc" id="L134">        return aerodynamicRisk;</span>
+    }
+
+    /**
+     * Return the strategic risk of the car.
+     *
+     * @return A numerical representation of the strategic risk.
+     */
+    public int getStrategistRisk() {
+<span class="fc" id="L143">        return strategicRisk;</span>
+    }
+
+    /**
+     * Return the strategic risk of the car.
+     *
+     * @return The strategic risk of the car.
+     */
+    public Tire getTire() {
+<span class="fc" id="L152">        return tire;</span>
+    }
+
+    /**
+     * Test whether this {@link CarParameters} instance is equal to the given object.
+     *
+     * @param other The object to be tested for equality
+     * @return &lt;code&gt;true&lt;/code&gt; if both objects are equal, &lt;code&gt;false&lt;/code&gt; otherwise.
+     */
+    public boolean equals(Object other) {
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (other instanceof CarParameters) {</span>
+<span class="fc" id="L163">            CarParameters that = (CarParameters) other;</span>
+
+<span class="fc bfc" id="L165" title="All 6 branches covered.">            return this.mechanicalRisk == that.mechanicalRisk</span>
+                &amp;&amp; this.aerodynamicRisk == that.aerodynamicRisk
+                &amp;&amp; this.strategicRisk == that.strategicRisk
+<span class="fc bfc" id="L168" title="All 2 branches covered.">                &amp;&amp; this.tire.equals(that.tire);</span>
+        }
+<span class="fc" id="L170">        return false;</span>
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L180">        return Objects.hash(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);</span>
+    }
+
+    /**
+     * Return a string representation of this engine.
+     *
+     * @return A string representation of this engine.
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L190">        return String.format(&quot;CarParameters(mechanical=%d, aerodynamic=%d, strategic=%d, tire=%s)&quot;,</span>
+<span class="fc" id="L191">            mechanicalRisk, aerodynamicRisk, strategicRisk, tire);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
