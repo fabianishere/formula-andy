@@ -22,24 +22,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
-apply plugin: 'scala'
+package nl.tudelft.fa.server.helper;
 
-dependencies {
-    compile project(':fa-core')
-    compile 'org.scala-lang:scala-library:2.11.8'
-    compile 'com.typesafe.akka:akka-actor_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-slf4j_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-http_2.11:10.0.0'
-    compile 'com.typesafe.akka:akka-http-jackson_2.11:10.0.0'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.6'
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.module.SimpleSerializers;
+import nl.tudelft.fa.core.lobby.Lobby;
+import nl.tudelft.fa.core.lobby.LobbyBalancer;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 
-    testCompile 'com.typesafe.akka:akka-testkit_2.11:2.4.14'
-    testCompile 'com.typesafe.akka:akka-http-testkit_2.11:10.0.0'
-    testCompile 'org.scalatest:scalatest_2.11:3.0.1'
-    testCompile 'junit:junit:4.11'
-    testRuntime 'org.slf4j:slf4j-simple:1.7.22'
+/**
+ * This class is a module for the Jackson library to provide serializers for the lobby package
+ * of the <i>fa-core</i> module.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class LobbyModule extends SimpleModule {
+    /**
+     * Construct a {@link LobbyModule} instance.
+     */
+    public LobbyModule() {
+        super(LobbyModule.class.getName());
+    }
+
+    /**
+     * Setup this module.
+     *
+     * {@inheritDoc}
+     * @param context The setup context.
+     */
+    @Override
+    public void setupModule(SetupContext context) {
+        SimpleSerializers serializers = new SimpleSerializers();
+        serializers.addSerializer(LobbyBalancer.class, new LobbyBalancerInformationSerializer());
+        context.addSerializers(serializers);
+        context.setMixInAnnotations(Lobby.class, LobbyMixin.class);
+        context.setMixInAnnotations(LobbyConfiguration.class, LobbyConfigurationMixin.class);
+    }
 }

@@ -22,24 +22,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
-apply plugin: 'scala'
+package nl.tudelft.fa.server.helper;
 
-dependencies {
-    compile project(':fa-core')
-    compile 'org.scala-lang:scala-library:2.11.8'
-    compile 'com.typesafe.akka:akka-actor_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-slf4j_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-http_2.11:10.0.0'
-    compile 'com.typesafe.akka:akka-http-jackson_2.11:10.0.0'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.6'
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.core.lobby.Lobby;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+import nl.tudelft.fa.core.lobby.LobbyStatus;
+import nl.tudelft.fa.core.user.User;
 
-    testCompile 'com.typesafe.akka:akka-testkit_2.11:2.4.14'
-    testCompile 'com.typesafe.akka:akka-http-testkit_2.11:10.0.0'
-    testCompile 'org.scalatest:scalatest_2.11:3.0.1'
-    testCompile 'junit:junit:4.11'
-    testRuntime 'org.slf4j:slf4j-simple:1.7.22'
+import java.util.Set;
+
+/**
+ * Mixin for the {@link Lobby} class.
+ *
+ * @author Fabian Mastenbroek
+ */
+public abstract class LobbyMixin {
+    /**
+     * Construct a {@link LobbyMixin} instance.
+     *
+     * @param id The unique identifier of the lobby.
+     * @param status The status of the lobby.
+     * @param configuration The configuration of the lobby.
+     * @param users The users in the lobby.
+     */
+    @JsonCreator
+    public LobbyMixin(@JsonProperty("id") String id, @JsonProperty("status") LobbyStatus status,
+                      @JsonProperty("configuration") LobbyConfiguration configuration,
+                      @JsonProperty("users") Set<User> users) {
+        // no implementation. Jackson does the work
+    }
 }
