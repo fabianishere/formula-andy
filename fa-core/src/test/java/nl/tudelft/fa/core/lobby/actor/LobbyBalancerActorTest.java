@@ -60,6 +60,21 @@ public class LobbyBalancerActorTest {
     }
 
     @Test
+    public void testRefresh() throws Exception {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyBalancerActor.props(configuration, 0, 5);
+                final ActorRef subject = system.actorOf(props);
+                final RequestInformation req = RequestInformation.INSTANCE;
+
+                watch(subject);
+                subject.tell(Refresh.INSTANCE, getRef());
+                expectNoMsg(duration("1 second"));
+            }
+        };
+    }
+
+    @Test
     public void testJoinNew() throws Exception {
         new JavaTestKit(system) {
             {

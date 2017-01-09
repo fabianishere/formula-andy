@@ -189,6 +189,28 @@ public class LobbyActorTest {
     }
 
     @Test
+    public void testLeaveSuccessDifferentHandlerUnsubscribed() {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyActor.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Leave req = new Leave(user);
+                final JavaTestKit probe = new JavaTestKit(system);
+
+                subject.tell(new Subscribe(probe.getRef()), probe.getRef());
+                subject.tell(new Join(user, probe.getRef()), getRef());
+                probe.expectMsgClass(duration("1 second"),  UserJoined.class);
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+
+                subject.tell(new Unsubscribe(probe.getRef()), probe.getRef());
+                subject.tell(req, getRef());
+                expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
+                probe.expectNoMsg();
+            }
+        };
+    }
+
+    @Test
     public void testLeaveNotInLobby() {
         new JavaTestKit(system) {
             {
