@@ -29,14 +29,18 @@ import static akka.http.javadsl.server.Directives.*;
 import static akka.http.javadsl.server.PathMatchers.uuidSegment;
 import static scala.compat.java8.JFunction.func;
 
+import akka.NotUsed;
 import akka.actor.ActorNotFound;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.http.javadsl.marshallers.jackson.Jackson;
-import akka.http.javadsl.model.StatusCodes;
+import akka.http.javadsl.model.ws.Message;
 import akka.http.javadsl.server.Route;
 import akka.japi.pf.PFBuilder;
 import akka.pattern.PatternsCS;
+import akka.stream.javadsl.Flow;
+import akka.stream.javadsl.Sink;
+import akka.stream.javadsl.Source;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import nl.tudelft.fa.core.lobby.Lobby;
@@ -110,8 +114,8 @@ public class LobbyController {
         return route(
             get(() ->
                 completeOKWithFuture(PatternsCS.ask(balancer, RequestInformation.INSTANCE, 1000)
-                    .thenApplyAsync(LobbyBalancer.class::cast),
-                        Jackson.marshaller(mapper))
+                        .thenApplyAsync(LobbyBalancer.class::cast),
+                    Jackson.marshaller(mapper))
             )
         );
     }
@@ -156,7 +160,17 @@ public class LobbyController {
      * @param lobby The lobby to get the feed of.
      */
     public Route feed(ActorRef lobby) {
-        return get(() -> complete(StatusCodes.NOT_IMPLEMENTED));
+        return get(() -> handleWebSocketMessages(feedHandler(lobby)));
+    }
+
+    /**
+     * Return the {@link Flow} that handles the messages in the lobby's feed.
+     *
+     * @param lobby The lobby to get the feed of.
+     * @return The {@link Flow} that handles the messages in the lobby's feed.
+     */
+    public static Flow<Message, Message, NotUsed> feedHandler(ActorRef lobby) {
+        return Flow.fromSinkAndSource(Sink.ignore(), Source.empty());
     }
 
     /**
@@ -167,7 +181,7 @@ public class LobbyController {
      */
     public Route information(ActorRef lobby) {
         final CompletionStage<Lobby> cs = PatternsCS.ask(lobby, RequestInformation.INSTANCE, 1000)
-                .thenApply(Lobby.class::cast);
+            .thenApply(Lobby.class::cast);
         return completeOKWithFuture(cs, Jackson.marshaller(mapper));
     }
 }
