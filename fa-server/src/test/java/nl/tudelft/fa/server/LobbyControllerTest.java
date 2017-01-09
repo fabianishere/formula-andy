@@ -19,7 +19,7 @@ import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.core.lobby.message.RequestInformation;
 import nl.tudelft.fa.server.controller.LobbyController;
-import nl.tudelft.fa.server.helper.LobbyModule;
+import nl.tudelft.fa.server.helper.jackson.LobbyModule;
 import org.junit.Before;
 import org.junit.Test;
 import scala.concurrent.Await;

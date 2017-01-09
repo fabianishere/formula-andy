@@ -23,50 +23,35 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.server.helper;
+package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.tudelft.fa.core.lobby.Lobby;
-import nl.tudelft.fa.core.lobby.LobbyBalancer;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+import nl.tudelft.fa.core.lobby.LobbyStatus;
+import nl.tudelft.fa.core.user.User;
 
-import java.io.IOException;
-
+import java.util.Set;
 
 /**
- * This class serializes the {@link LobbyBalancer} class for the REST API.
+ * Mixin for the {@link Lobby} class.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyBalancerInformationSerializer extends StdSerializer<LobbyBalancer> {
-
+public abstract class LobbyMixin {
     /**
-     * Construct a {@link LobbyBalancerInformationSerializer} instance.
-     */
-    public LobbyBalancerInformationSerializer() {
-        this(null);
-    }
-
-    /**
-     * Construct a {@link LobbyBalancerInformationSerializer} instance.
+     * Construct a {@link LobbyMixin} instance.
      *
-     * @param cls The class to serialize.
+     * @param id The unique identifier of the lobby.
+     * @param status The status of the lobby.
+     * @param configuration The configuration of the lobby.
+     * @param users The users in the lobby.
      */
-    public LobbyBalancerInformationSerializer(Class<LobbyBalancer> cls) {
-        super(cls);
-    }
-
-    @Override
-    public void serialize(LobbyBalancer value, JsonGenerator gen,
-                          SerializerProvider provider) throws IOException, JsonProcessingException {
-        gen.writeStartObject();
-        gen.writeArrayFieldStart("lobbies");
-        for (Lobby lobby : value.getLobbies().values()) {
-            gen.writeObject(lobby);
-        }
-        gen.writeEndArray();
-        gen.writeEndObject();
+    @JsonCreator
+    public LobbyMixin(@JsonProperty("id") String id, @JsonProperty("status") LobbyStatus status,
+                      @JsonProperty("configuration") LobbyConfiguration configuration,
+                      @JsonProperty("users") Set<User> users) {
+        // no implementation. Jackson does the work
     }
 }

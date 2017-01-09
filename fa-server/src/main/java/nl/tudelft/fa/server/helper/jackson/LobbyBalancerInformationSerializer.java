@@ -23,35 +23,50 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.server.helper;
+package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import nl.tudelft.fa.core.lobby.Lobby;
-import nl.tudelft.fa.core.lobby.LobbyConfiguration;
-import nl.tudelft.fa.core.lobby.LobbyStatus;
-import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.core.lobby.LobbyBalancer;
 
-import java.util.Set;
+import java.io.IOException;
+
 
 /**
- * Mixin for the {@link Lobby} class.
+ * This class serializes the {@link LobbyBalancer} class for the REST API.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class LobbyMixin {
+public class LobbyBalancerInformationSerializer extends StdSerializer<LobbyBalancer> {
+
     /**
-     * Construct a {@link LobbyMixin} instance.
-     *
-     * @param id The unique identifier of the lobby.
-     * @param status The status of the lobby.
-     * @param configuration The configuration of the lobby.
-     * @param users The users in the lobby.
+     * Construct a {@link LobbyBalancerInformationSerializer} instance.
      */
-    @JsonCreator
-    public LobbyMixin(@JsonProperty("id") String id, @JsonProperty("status") LobbyStatus status,
-                      @JsonProperty("configuration") LobbyConfiguration configuration,
-                      @JsonProperty("users") Set<User> users) {
-        // no implementation. Jackson does the work
+    public LobbyBalancerInformationSerializer() {
+        this(null);
+    }
+
+    /**
+     * Construct a {@link LobbyBalancerInformationSerializer} instance.
+     *
+     * @param cls The class to serialize.
+     */
+    public LobbyBalancerInformationSerializer(Class<LobbyBalancer> cls) {
+        super(cls);
+    }
+
+    @Override
+    public void serialize(LobbyBalancer value, JsonGenerator gen,
+                          SerializerProvider provider) throws IOException, JsonProcessingException {
+        gen.writeStartObject();
+        gen.writeArrayFieldStart("lobbies");
+        for (Lobby lobby : value.getLobbies().values()) {
+            gen.writeObject(lobby);
+        }
+        gen.writeEndArray();
+        gen.writeEndObject();
     }
 }

@@ -48,7 +48,7 @@ import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.core.lobby.message.RequestInformation;
-import nl.tudelft.fa.server.helper.LobbyModule;
+import nl.tudelft.fa.server.helper.jackson.LobbyModule;
 import scala.concurrent.duration.FiniteDuration;
 
 import java.util.UUID;
