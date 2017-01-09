@@ -27,6 +27,11 @@ package nl.tudelft.fa.frontend.javafx.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * The controller for the start screen.
@@ -41,8 +46,17 @@ public class StartScreenController {
      * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
-    protected void newGame(ActionEvent event) {
-        System.out.println("NEW GAME!!");
+    protected void newGame(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../teamname-screen.fxml"));
+
+        Scene scene = new Scene(root);
+        Node source = (Node)  event.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+
+        stage.setTitle("Formula Andy!");
+        stage.setScene(scene);
+        stage.sizeToScene();
+        stage.show();
     }
 
     /**
