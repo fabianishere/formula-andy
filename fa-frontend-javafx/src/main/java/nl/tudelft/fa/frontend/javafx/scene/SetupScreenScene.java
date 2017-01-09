@@ -207,6 +207,8 @@ public class SetupScreenScene extends Scene {
         //Combobox dropdowns
         //Slick tires for car one
         ObservableList<String> slick1 = FXCollections.observableArrayList(
+                "Wet",
+                "Intermediate",
                 "Ultra Soft",
                 "Super soft",
                 "Soft",
@@ -216,25 +218,14 @@ public class SetupScreenScene extends Scene {
 
         //Slick tires for car two
         ObservableList<String> slick2 = FXCollections.observableArrayList(
+                "Wet",
+                "Intermediate",
                 "Ultra Soft",
                 "Super soft",
                 "Soft",
                 "Medium",
                 "Hard");
         dropdown(slick2, "#slick2");
-
-
-        //Threaded tires for car one
-        ObservableList<String> threaded1 = FXCollections.observableArrayList(
-                "Intermediate",
-                "Wet");
-        dropdown(threaded1, "#threaded1");
-
-        //Threaded tires for car two
-        ObservableList<String> threaded2 = FXCollections.observableArrayList(
-                "Intermediate",
-                "Wet");
-        dropdown(threaded2, "#threaded2");
 
         //Engine for car two
         ObservableList<String> engine1 = FXCollections.observableArrayList(

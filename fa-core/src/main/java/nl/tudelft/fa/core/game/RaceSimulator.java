@@ -80,6 +80,14 @@ public class RaceSimulator {
     }
 
     /**
+     * Returns if it's raining or not.
+     * @return The boolean raining.
+     */
+    public boolean getRaining() {
+        return raining;
+    }
+
+    /**
      * Generates the next race cycle. The moved distance and the crashes.
      */
     public void getNextRaceCycle() {
