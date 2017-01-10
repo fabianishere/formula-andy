@@ -26,7 +26,7 @@
 package nl.tudelft.fa.core.lobby.actor;
 
 import akka.actor.*;
-import akka.japi.pf.ReceiveBuilder;
+import akka.japi.pf.ReceiveBuilder; 
 import nl.tudelft.fa.core.lobby.message.Subscribe;
 import nl.tudelft.fa.core.lobby.message.Unsubscribe;
 import scala.PartialFunction;
@@ -44,7 +44,7 @@ public class LobbyEventBus extends AbstractActor {
     /**
      * The subscriptions of this event bus.
      */
-    private Set<ActorRef> subscriptions = new HashSet<ActorRef>();
+    private Set<ActorRef> subscriptions = new HashSet<>();
 
     /**
      * Construct a {@link LobbyEventBus} instance.
@@ -104,6 +104,6 @@ public class LobbyEventBus extends AbstractActor {
      *         (e.g. calling `.withDispatcher()` on it)
      */
     public static Props props() {
-        return Props.create(LobbyEventBus.class, LobbyEventBus::new);
+        return Props.create(LobbyEventBus.class);
     }
 }
