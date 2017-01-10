@@ -36,11 +36,11 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public final class Unsubscribe {
+public final class Unsubscribe implements LobbyRequest {
     /**
      * The actor that wants to subscribe to the {@link LobbyActor}.
      */
-    private ActorRef actor;
+    private final ActorRef actor;
 
     /**
      * Construct a {@link Unsubscribe} instance.

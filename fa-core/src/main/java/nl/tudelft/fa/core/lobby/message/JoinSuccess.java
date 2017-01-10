@@ -35,7 +35,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public final class JoinSuccess {
+public final class JoinSuccess implements LobbyResponse {
     /**
      * The user that has just joined the lobby.
      */

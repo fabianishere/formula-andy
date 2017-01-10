@@ -25,46 +25,10 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import akka.actor.ActorRef;
-import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
-
 /**
- * This message represents an exception within the {@link LobbyBalancerActor} actor.
+ * A special {@link LobbyOutboundMessage} that represents an event that has happened in the lobby
+ * and is published in the lobby's event bus.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyBalancerException extends Exception implements LobbyResponse {
-    /**
-     * The {@link LobbyBalancerActor} of this exception.
-     */
-    private ActorRef balancer;
-
-    /**
-     * Construct a {@link LobbyBalancerException} instance.
-     *
-     * @param balancer The lobby balancer where the exception occurred.
-     * @param message The message of this exception.
-     */
-    public LobbyBalancerException(ActorRef balancer, String message) {
-        super(message);
-        this.balancer = balancer;
-    }
-
-    /**
-     * Construct a {@link LobbyBalancerException} instance.
-     *
-     * @param balancer The lobby balancer where the exception occurred.
-     */
-    public LobbyBalancerException(ActorRef balancer) {
-        this.balancer = balancer;
-    }
-
-    /**
-     * Return the {@link LobbyBalancerActor} where the exception occurred.
-     *
-     * @return The reference to the lobby balancer where the exception occurred.
-     */
-    public ActorRef getBalancer() {
-        return balancer;
-    }
-}
+public interface LobbyEvent extends LobbyOutboundMessage {}

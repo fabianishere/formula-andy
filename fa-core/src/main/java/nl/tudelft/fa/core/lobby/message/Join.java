@@ -36,7 +36,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public final class Join {
+public final class Join implements LobbyRequest {
     /**
      * The {@link User} that wants to join the lobby.
      */

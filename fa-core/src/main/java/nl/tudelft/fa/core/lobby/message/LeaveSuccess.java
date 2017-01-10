@@ -35,11 +35,11 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public class LeaveSuccess {
+public final class LeaveSuccess implements LobbyResponse {
     /**
      * The user that has left the lobby.
      */
-    private User user;
+    private final User user;
 
     /**
      * Construct a {@link LeaveSuccess} message instance.
