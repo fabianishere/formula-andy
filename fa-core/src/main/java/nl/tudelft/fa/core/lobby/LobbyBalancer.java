@@ -27,7 +27,6 @@ package nl.tudelft.fa.core.lobby;
 
 import akka.actor.ActorRef;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
-import nl.tudelft.fa.core.lobby.message.LobbyResponse;
 
 import java.util.Map;
 import java.util.Objects;
@@ -37,7 +36,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public final class LobbyBalancer implements LobbyResponse {
+public final class LobbyBalancer {
     /**
      * A {@link Map} containing the lobbies the balancer manages.
      */
