@@ -88,6 +88,6 @@ public class LobbyControllerTest extends JUnitRouteTest {
         Lobby expected = info.getLobbies().values().iterator().next();
 
         route.run(HttpRequest.GET(String.format("/%s/feed", expected.getId())))
-            .assertStatusCode(StatusCodes.NOT_IMPLEMENTED);
+            .assertStatusCode(StatusCodes.BAD_REQUEST);
     }
 }

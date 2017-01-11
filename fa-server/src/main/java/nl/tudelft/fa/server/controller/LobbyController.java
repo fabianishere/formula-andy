@@ -26,7 +26,7 @@
 package nl.tudelft.fa.server.controller;
 
 import static akka.http.javadsl.server.Directives.*;
-import static akka.http.javadsl.server.PathMatchers.uuidSegment;
+import static akka.http.javadsl.server.PathMatchers.*;
 import static scala.compat.java8.JFunction.func;
 
 import akka.NotUsed;
@@ -39,8 +39,6 @@ import akka.http.javadsl.server.Route;
 import akka.japi.pf.PFBuilder;
 import akka.pattern.PatternsCS;
 import akka.stream.javadsl.Flow;
-import akka.stream.javadsl.Sink;
-import akka.stream.javadsl.Source;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import nl.tudelft.fa.core.lobby.Lobby;
@@ -49,6 +47,9 @@ import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.core.lobby.message.RequestInformation;
 import nl.tudelft.fa.server.helper.jackson.LobbyModule;
+import nl.tudelft.fa.server.net.AnonymousSessionStage;
+import nl.tudelft.fa.server.net.codec.AbstractCodec;
+import nl.tudelft.fa.server.net.codec.jackson.JacksonWebSocketCodec;
 import scala.concurrent.duration.FiniteDuration;
 
 import java.util.UUID;
@@ -78,6 +79,11 @@ public class LobbyController {
     private final ObjectMapper mapper;
 
     /**
+     * The {@link AbstractCodec} to use.
+     */
+    private final AbstractCodec<Message> codec;
+
+    /**
      * Construct a {@link LobbyController} instance.
      *
      * @param system The {@link ActorSystem}  of the balancer.
@@ -89,6 +95,7 @@ public class LobbyController {
         this.mapper = new ObjectMapper();
         this.mapper.registerModule(new LobbyModule());
         this.mapper.registerModule(new JavaTimeModule()); // Duration (de)serialization
+        this.codec = new JacksonWebSocketCodec();
     }
 
     /**
@@ -169,8 +176,8 @@ public class LobbyController {
      * @param lobby The lobby to get the feed of.
      * @return The {@link Flow} that handles the messages in the lobby's feed.
      */
-    public static Flow<Message, Message, NotUsed> feedHandler(ActorRef lobby) {
-        return Flow.fromSinkAndSource(Sink.ignore(), Source.empty());
+    public Flow<Message, Message, NotUsed> feedHandler(ActorRef lobby) {
+        return codec.bidiFlow().join(Flow.fromGraph(new AnonymousSessionStage(lobby)));
     }
 
     /**
