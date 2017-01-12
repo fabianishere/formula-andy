@@ -80,12 +80,22 @@ public class UnauthorizedSessionStage extends AbstractSessionStage {
         }
 
         /**
+         * This method is invoked before the start of the stage.
+         */
+        @Override
+        public void preStart() {
+            // request first elements
+            pull(inA);
+            pull(inB);
+        }
+
+        /**
          * Push the given message to the next stage.
          *
          * @param message The message to push.
          */
         private void pushMessage(LobbyInboundMessage message) {
-            push(outA, message);
+            emit(outA, message);
             pull(inA);
         }
 
@@ -96,7 +106,7 @@ public class UnauthorizedSessionStage extends AbstractSessionStage {
          */
         private void rejectMessage(LobbyInboundMessage message) {
             log().debug("Message {} disregarded. Session is unauthorized.", message);
-            push(outB, new NotAuthorizedException());
+            emit(outB, new NotAuthorizedException());
             pull(inA);
         }
 
@@ -110,27 +120,19 @@ public class UnauthorizedSessionStage extends AbstractSessionStage {
 
             setHandler(outA, new AbstractOutHandler() {
                 @Override
-                public void onPull() throws Exception {
-                    if (!hasBeenPulled(inA)) {
-                        pull(inA);
-                    }
-                }
+                public void onPull() throws Exception {}
             });
 
             setHandler(inB, new AbstractInHandler() {
                 @Override
                 public void onPush() throws Exception {
-                    push(outB, grab(inB));
+                    emit(outB, grab(inB));
                 }
             });
 
             setHandler(outB, new AbstractOutHandler() {
                 @Override
-                public void onPull() throws Exception {
-                    if (!hasBeenPulled(inB)) {
-                        pull(inB);
-                    }
-                }
+                public void onPull() throws Exception {}
             });
         }
     }
