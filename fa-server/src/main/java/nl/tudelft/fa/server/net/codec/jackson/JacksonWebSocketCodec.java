@@ -36,8 +36,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.tudelft.fa.core.lobby.message.LobbyInboundMessage;
 import nl.tudelft.fa.core.lobby.message.LobbyOutboundMessage;
 import nl.tudelft.fa.server.net.codec.AbstractCodec;
-import nl.tudelft.fa.server.helper.jackson.LobbyInboundMessageMixin;
-import nl.tudelft.fa.server.helper.jackson.LobbyOutboundMessageMixin;
 
 import java.io.IOException;
 
@@ -60,8 +58,6 @@ public class JacksonWebSocketCodec extends AbstractCodec<Message> {
      */
     public JacksonWebSocketCodec(ObjectMapper mapper) {
         this.mapper = mapper;
-        this.mapper.addMixIn(LobbyInboundMessage.class, LobbyInboundMessageMixin.class);
-        this.mapper.addMixIn(LobbyOutboundMessage.class, LobbyOutboundMessageMixin.class);
     }
 
     /**
@@ -102,7 +98,7 @@ public class JacksonWebSocketCodec extends AbstractCodec<Message> {
      * @param message The message to decode.
      * @return The {@link Source} that provides the {@link LobbyInboundMessage} instance.
      */
-    private Source<LobbyInboundMessage, NotUsed> decode(Message message) throws IOException {
+    private Source<LobbyInboundMessage, NotUsed> decode(Message message) {
         return message.isText() ? decode(message.asTextMessage()) :
             decode(message.asBinaryMessage());
     }
@@ -120,11 +116,15 @@ public class JacksonWebSocketCodec extends AbstractCodec<Message> {
                 return Source.single(mapper.readValue(message.getStrictText(),
                     LobbyInboundMessage.class));
             } catch (IOException cause) {
-                return Source.failed(cause);
+                cause.printStackTrace();
+                // XXX Don't pass on error until Akka can handle inner stream exceptions.
+                // XXX See https://github.com/akka/akka/issues/20173
+                // return Source.failed(cause);
+                return Source.empty();
             }
         }
-        return message.getStreamedText()
-            .mapMaterializedValue(val -> NotUsed.getInstance())
+        return Source.empty()
+            .concat(message.getStreamedText())
             .map(val -> mapper.readValue(val, LobbyInboundMessage.class));
     }
 
@@ -141,11 +141,15 @@ public class JacksonWebSocketCodec extends AbstractCodec<Message> {
                 return Source.single(mapper.readValue(message.getStrictData().toArray(),
                     LobbyInboundMessage.class));
             } catch (IOException cause) {
-                return Source.failed(cause);
+                cause.printStackTrace();
+                // XXX Don't pass on error until Akka can handle inner stream exceptions.
+                // XXX See https://github.com/akka/akka/issues/20173
+                // return Source.failed(cause);
+                return Source.empty();
             }
         }
-        return message.getStreamedData()
-            .mapMaterializedValue(val -> NotUsed.getInstance())
+        return Source.empty()
+            .concat(message.getStreamedData())
             .map(val -> mapper.readValue(val.toArray(), LobbyInboundMessage.class));
     }
 }
