@@ -25,31 +25,26 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.core.lobby.Lobby;
-import nl.tudelft.fa.core.lobby.actor.LobbyEventBus;
-import nl.tudelft.fa.core.lobby.message.*;
-import nl.tudelft.fa.server.net.message.NotAuthorizedException;
+import akka.actor.ActorRef;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.core.lobby.message.Join;
+import nl.tudelft.fa.core.user.User;
 
 /**
- * This mixin creates an envelope around the outbound messages published in the
- * {@link LobbyEventBus} or received from the {@link nl.tudelft.fa.core.lobby.actor.LobbyActor}.
+ * Mix-in for the {@link Join} class.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = Lobby.class, name = "info"),
-        @JsonSubTypes.Type(value = JoinSuccess.class, name = "join.success"),
-        @JsonSubTypes.Type(value = LeaveSuccess.class, name = "leave.success"),
-        @JsonSubTypes.Type(value = UserJoined.class, name = "join.event"),
-        @JsonSubTypes.Type(value = UserLeft.class, name = "leave.left"),
-        /* Error types */
-        @JsonSubTypes.Type(value = LobbyFullException.class, name = "join.full"),
-        @JsonSubTypes.Type(value = NotInLobbyException.class, name = "leave.not-in-lobby"),
-        @JsonSubTypes.Type(value = NotAuthorizedException.class, name = "unauthorized"),
+public abstract class JoinMixin {
+    /**
+     * Construct a {@link JoinMixin} instance.
+     *
+     * @param user The user to join the lobby.
+     * @param handler The handler of the user.
+     */
+    @JsonCreator
+    public JoinMixin(@JsonProperty("user") User user, @JsonProperty("handler") ActorRef handler) {
+        // no implementation. Jackson does the work
     }
-)
-public abstract class LobbyOutboundMessageMixin {}
+}

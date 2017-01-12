@@ -25,26 +25,28 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.core.lobby.message.Join;
-import nl.tudelft.fa.core.lobby.message.Leave;
-import nl.tudelft.fa.core.lobby.message.RequestInformation;
-import nl.tudelft.fa.server.net.message.Ping;
+import akka.actor.ActorRef;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import nl.tudelft.fa.core.user.User;
 
 /**
- * This mixin creates an envelope around the inbound messages received from subscribers of
- * a lobby.
+ * Mix-in for the {@link nl.tudelft.fa.core.lobby.message.JoinSuccess} message.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
-    }
-)
-public abstract class LobbyInboundMessageMixin {}
+public abstract class JoinSuccessMixin {
+    /**
+     * Return the user that has just joined the lobby.
+     *
+     * @return The user that has just joined the lobby.
+     */
+    public abstract User getUser();
+
+    /**
+     * Return the reference to the lobby the user has joined.
+     *
+     * @return The reference to the lobby the user has joined.
+     */
+    @JsonIgnore
+    public abstract ActorRef getLobby();
+}

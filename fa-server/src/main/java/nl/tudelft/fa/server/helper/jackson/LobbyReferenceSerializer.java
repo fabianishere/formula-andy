@@ -25,31 +25,40 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.core.lobby.Lobby;
-import nl.tudelft.fa.core.lobby.actor.LobbyEventBus;
-import nl.tudelft.fa.core.lobby.message.*;
-import nl.tudelft.fa.server.net.message.NotAuthorizedException;
+import akka.actor.ActorRef;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+
+import java.io.IOException;
+
 
 /**
- * This mixin creates an envelope around the outbound messages published in the
- * {@link LobbyEventBus} or received from the {@link nl.tudelft.fa.core.lobby.actor.LobbyActor}.
+ * This class serializes a reference to a lobby's {@link ActorRef}.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = Lobby.class, name = "info"),
-        @JsonSubTypes.Type(value = JoinSuccess.class, name = "join.success"),
-        @JsonSubTypes.Type(value = LeaveSuccess.class, name = "leave.success"),
-        @JsonSubTypes.Type(value = UserJoined.class, name = "join.event"),
-        @JsonSubTypes.Type(value = UserLeft.class, name = "leave.left"),
-        /* Error types */
-        @JsonSubTypes.Type(value = LobbyFullException.class, name = "join.full"),
-        @JsonSubTypes.Type(value = NotInLobbyException.class, name = "leave.not-in-lobby"),
-        @JsonSubTypes.Type(value = NotAuthorizedException.class, name = "unauthorized"),
+public class LobbyReferenceSerializer extends StdSerializer<ActorRef> {
+
+    /**
+     * Construct a {@link LobbyReferenceSerializer} instance.
+     */
+    public LobbyReferenceSerializer() {
+        this(null);
     }
-)
-public abstract class LobbyOutboundMessageMixin {}
+
+    /**
+     * Construct a {@link LobbyReferenceSerializer} instance.
+     *
+     * @param cls The class to serialize.
+     */
+    public LobbyReferenceSerializer(Class<ActorRef> cls) {
+        super(cls);
+    }
+
+    @Override
+    public void serialize(ActorRef value, JsonGenerator gen,
+                          SerializerProvider provider) throws IOException {
+        gen.writeString(value.path().name());
+    }
+}

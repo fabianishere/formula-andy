@@ -25,26 +25,21 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.core.lobby.message.Join;
-import nl.tudelft.fa.core.lobby.message.Leave;
-import nl.tudelft.fa.core.lobby.message.RequestInformation;
-import nl.tudelft.fa.server.net.message.Ping;
+import akka.actor.ActorRef;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 
 /**
- * This mixin creates an envelope around the inbound messages received from subscribers of
- * a lobby.
+ * Mix-in for exceptions thrown by the lobby and serialized by Jackson.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
-    }
-)
-public abstract class LobbyInboundMessageMixin {}
+public abstract class LobbyExceptionMixin {
+    /**
+     * Return the {@link LobbyActor} where the exception occurred.
+     *
+     * @return The reference to the lobby where the exception occurred.
+     */
+    @JsonIgnore
+    public abstract ActorRef getLobby();
+}

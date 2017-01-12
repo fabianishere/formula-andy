@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.module.SimpleSerializers;
 import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+import nl.tudelft.fa.core.lobby.message.*;
 
 /**
  * This class is a module for the Jackson library to provide serializers for the lobby package
@@ -58,5 +59,11 @@ public class LobbyModule extends SimpleModule {
         context.addSerializers(serializers);
         context.setMixInAnnotations(Lobby.class, LobbyMixin.class);
         context.setMixInAnnotations(LobbyConfiguration.class, LobbyConfigurationMixin.class);
+        context.setMixInAnnotations(Exception.class, ExceptionMixin.class);
+        context.setMixInAnnotations(LobbyException.class, LobbyExceptionMixin.class);
+        context.setMixInAnnotations(LobbyInboundMessage.class, LobbyInboundMessageMixin.class);
+        context.setMixInAnnotations(LobbyOutboundMessage.class, LobbyOutboundMessageMixin.class);
+        context.setMixInAnnotations(Join.class, JoinMixin.class);
+        context.setMixInAnnotations(JoinSuccess.class, JoinSuccessMixin.class);
     }
 }
