@@ -41,8 +41,6 @@ import nl.tudelft.fa.core.lobby.message.Subscribe;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
-import javax.swing.*;
-
 /**
  * A {@link GraphStage} that provides a bi-directional communication channel with a
  * {@link LobbyActor}.
@@ -136,8 +134,13 @@ public class LobbyStage extends GraphStage<FlowShape<LobbyInboundMessage, LobbyO
          */
         private final PartialFunction<Object, BoxedUnit> receive =  ReceiveBuilder
             .match(Terminated.class, msg -> completeStage())
-            .match(LobbyOutboundMessage.class, msg -> push(out, msg))
+            .match(LobbyOutboundMessage.class, msg -> emit(out, msg))
             .build();
+
+        /**
+         * Indicates that the upstream has finished.
+         */
+        private boolean finished = false;
 
         /**
          * Construct a {@link LobbyStageLogic} instance.
@@ -166,13 +169,8 @@ public class LobbyStage extends GraphStage<FlowShape<LobbyInboundMessage, LobbyO
             self.watch(lobby);
         }
 
-        /**
-         * Return the {@link InHandler} of this stage.
-         *
-         * @return The {@link InHandler} of this stage.
-         */
-        protected InHandler getInHandler() {
-            return new AbstractInHandler() {
+        {
+            setHandler(in, new AbstractInHandler() {
                 @Override
                 public void onPush() throws Exception {
                     // tell lobby
@@ -181,26 +179,21 @@ public class LobbyStage extends GraphStage<FlowShape<LobbyInboundMessage, LobbyO
                     // pull next message
                     pull(in);
                 }
-            };
-        }
 
-        /**
-         * Return the {@link OutHandler} of this stage.
-         *
-         * @return The {@link OutHandler} of this stage.
-         */
-        protected OutHandler getOutHandler() {
-            return new AbstractOutHandler() {
+                @Override
+                public void onUpstreamFinish() {
+                    // prevent completing the stage if the upstream has finished
+                    // because we will still receive messages from the lobby's event bus
+                    // to send downstream.
+                }
+            });
+
+            setHandler(out, new AbstractOutHandler() {
                 @Override
                 public void onPull() throws Exception {
                     // just wait for messages to be published in the event bus
                 }
-            };
-        }
-
-        {
-            setHandler(in, getInHandler());
-            setHandler(out, getOutHandler());
+            });
         }
     }
 }
