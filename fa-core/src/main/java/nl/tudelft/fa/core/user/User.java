@@ -115,6 +115,6 @@ public class User {
      */
     @Override
     public String toString() {
-        return String.format("User(id=%s, username=%s)", id, credentials.getPassword());
+        return String.format("User(id=%s, username=%s)", id, credentials.getUsername());
     }
 }
