@@ -59,6 +59,13 @@ public final class Join implements LobbyRequest {
     }
 
     /**
+     * Construct a {@link Join} message.
+     */
+    protected Join() {
+        // Helper constructor for libraries that instantiate messages via reflection
+    }
+
+    /**
      * Return the {@link User} that wants to join the lobby.
      *
      * @return The user that wants to join the lobby.

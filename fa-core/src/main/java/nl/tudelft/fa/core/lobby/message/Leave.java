@@ -51,6 +51,13 @@ public final class Leave implements LobbyRequest {
     }
 
     /**
+     * Construct a {@link Leave} message.
+     */
+    protected Leave() {
+        // Helper constructor for libraries that instantiate messages via reflection
+    }
+
+    /**
      * Return the {@link User} that wants to leave the lobby.
      *
      * @return The user that wants to leave the lobby.
