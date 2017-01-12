@@ -28,6 +28,7 @@ package nl.tudelft.fa.core.lobby.actor;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.actor.Terminated;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
@@ -40,6 +41,7 @@ import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This actor represents a game lobby with multiple users.
@@ -107,6 +109,7 @@ public class LobbyActor extends AbstractActor {
             .match(Leave.class, req -> leave(req.getUser()))
             .match(Subscribe.class, req -> bus.tell(req, sender()))
             .match(Unsubscribe.class, req -> bus.tell(req, sender()))
+            .match(Terminated.class, msg -> handleTermination(msg.actor()))
             .build();
     }
 
@@ -134,6 +137,9 @@ public class LobbyActor extends AbstractActor {
             sender().tell(new LobbyFullException(self(), users.size()), self());
             return;
         }
+
+        // watch the handler
+        context().watch(handler);
 
         // Put the user in the lobby
         users.put(user, handler);
@@ -163,6 +169,9 @@ public class LobbyActor extends AbstractActor {
             return;
         }
 
+        // unwatch the handler
+        context().unwatch(ref);
+
         // Inform the requesting actor
         sender().tell(LeaveSuccess.INSTANCE, self());
 
@@ -170,6 +179,19 @@ public class LobbyActor extends AbstractActor {
         bus.tell(new UserLeft(user), self());
 
         log.debug("The user {} has left the lobby", user);
+    }
+
+    /**
+     * Handle the termination of the given user handler.
+     *
+     * @param handler The handler that has been terminated.
+     */
+    private void handleTermination(ActorRef handler) {
+        users.entrySet()
+            .stream()
+            .filter(entry -> handler.equals(entry.getValue()))
+            .iterator()
+            .forEachRemaining(entry -> leave(entry.getKey()));
     }
 
     /**

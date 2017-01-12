@@ -224,4 +224,24 @@ public class LobbyActorTest {
         };
     }
 
+    @Test
+    public void testTerminatedLeave() {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyActor.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Leave req = new Leave(user);
+                final JavaTestKit probe = new JavaTestKit(system);
+
+                subject.tell(new Subscribe(getRef()), getRef());
+                subject.tell(new Join(user, probe.getRef()), probe.getRef());
+                expectMsgClass(duration("1 second"),  UserJoined.class);
+                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
+
+                system.stop(probe.getRef());
+                expectMsgClass(duration("1 second"), UserLeft.class);
+            }
+        };
+    }
+
 }
