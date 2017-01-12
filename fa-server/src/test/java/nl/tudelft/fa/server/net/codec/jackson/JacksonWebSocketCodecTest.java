@@ -5,22 +5,24 @@ import akka.actor.ActorSystem;
 import akka.http.javadsl.model.ws.BinaryMessage;
 import akka.http.javadsl.model.ws.Message;
 import akka.http.javadsl.model.ws.TextMessage;
+import akka.stream.ActorAttributes;
 import akka.stream.ActorMaterializer;
-import akka.stream.impl.ActorMaterializerImpl;
+import akka.stream.Supervision;
+import akka.stream.javadsl.Flow;
 import akka.stream.javadsl.Source;
 import akka.stream.testkit.javadsl.TestSink;
 import akka.testkit.JavaTestKit;
 import akka.util.ByteString;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.tudelft.fa.core.lobby.message.LobbyInboundMessage;
-import nl.tudelft.fa.core.lobby.message.RequestInformation;
+import nl.tudelft.fa.core.lobby.message.*;
+import nl.tudelft.fa.server.helper.jackson.LobbyModule;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.IOException;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -28,6 +30,7 @@ public class JacksonWebSocketCodecTest {
     private static ActorSystem system;
     private static ActorMaterializer mat;
     private JacksonWebSocketCodec codec;
+    private ObjectMapper mapper;
 
     @BeforeClass
     public static void setUpClass() {
@@ -42,7 +45,9 @@ public class JacksonWebSocketCodecTest {
 
     @Before
     public void setUp() {
-        codec = new JacksonWebSocketCodec();
+        mapper = new ObjectMapper();
+        mapper.registerModule(new LobbyModule());
+        codec = new JacksonWebSocketCodec(mapper);
     }
 
     public void decodeMessageSuccess(Message message) {
@@ -65,6 +70,19 @@ public class JacksonWebSocketCodecTest {
         assertTrue(cause instanceof JsonMappingException);
     }
 
+    @Test
+    public void decodeTextMessageFailureResume() {
+        final Message messageA = TextMessage.create(Source.single("{ \"@type\": \"non-existent\" }"));
+        final Message messageB = TextMessage.create("{ \"@type\": \"lobby.info\" }");
+        final Source<Message, NotUsed> source = Source.from(Arrays.asList(messageA, messageB));
+
+        Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> join = Flow.fromFunction(ign -> new UserLeft(null));
+        Message msg = source
+            .via(codec.bidiFlow().join(join))
+            .withAttributes(ActorAttributes.withSupervisionStrategy(Supervision.getResumingDecider()))
+            .runWith(TestSink.probe(system), mat)
+            .requestNext();
+    }
 
     @Test
     public void decodeTextMessageStrictSuccess() {
