@@ -97,6 +97,7 @@ public class UnauthorizedSessionStage extends AbstractSessionStage {
         private void rejectMessage(LobbyInboundMessage message) {
             log().debug("Message {} disregarded. Session is unauthorized.", message);
             push(outB, new NotAuthorizedException());
+            pull(inA);
         }
 
         {
