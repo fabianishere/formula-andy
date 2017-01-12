@@ -31,6 +31,7 @@ import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.message.*;
+import nl.tudelft.fa.core.user.User;
 
 /**
  * This class is a module for the Jackson library to provide serializers for the lobby package
@@ -56,6 +57,7 @@ public class LobbyModule extends SimpleModule {
     public void setupModule(SetupContext context) {
         SimpleSerializers serializers = new SimpleSerializers();
         serializers.addSerializer(LobbyBalancer.class, new LobbyBalancerInformationSerializer());
+        serializers.addSerializer(User.class, new UserSerializer());
         context.addSerializers(serializers);
         context.setMixInAnnotations(Lobby.class, LobbyMixin.class);
         context.setMixInAnnotations(LobbyConfiguration.class, LobbyConfigurationMixin.class);
