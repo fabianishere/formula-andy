@@ -23,40 +23,49 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.server.helper;
+package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.module.SimpleSerializers;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyBalancer;
-import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+
+import java.io.IOException;
+
 
 /**
- * This class is a module for the Jackson library to provide serializers for the lobby package
- * of the <i>fa-core</i> module.
+ * This class serializes the {@link LobbyBalancer} class for the REST API.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyModule extends SimpleModule {
+public class LobbyBalancerInformationSerializer extends StdSerializer<LobbyBalancer> {
+
     /**
-     * Construct a {@link LobbyModule} instance.
+     * Construct a {@link LobbyBalancerInformationSerializer} instance.
      */
-    public LobbyModule() {
-        super(LobbyModule.class.getName());
+    public LobbyBalancerInformationSerializer() {
+        this(null);
     }
 
     /**
-     * Setup this module.
+     * Construct a {@link LobbyBalancerInformationSerializer} instance.
      *
-     * {@inheritDoc}
-     * @param context The setup context.
+     * @param cls The class to serialize.
      */
+    public LobbyBalancerInformationSerializer(Class<LobbyBalancer> cls) {
+        super(cls);
+    }
+
     @Override
-    public void setupModule(SetupContext context) {
-        SimpleSerializers serializers = new SimpleSerializers();
-        serializers.addSerializer(LobbyBalancer.class, new LobbyBalancerInformationSerializer());
-        context.addSerializers(serializers);
-        context.setMixInAnnotations(Lobby.class, LobbyMixin.class);
-        context.setMixInAnnotations(LobbyConfiguration.class, LobbyConfigurationMixin.class);
+    public void serialize(LobbyBalancer value, JsonGenerator gen,
+                          SerializerProvider provider) throws IOException {
+        gen.writeStartObject();
+        gen.writeArrayFieldStart("lobbies");
+        for (Lobby lobby : value.getLobbies().values()) {
+            gen.writeObject(lobby);
+        }
+        gen.writeEndArray();
+        gen.writeEndObject();
     }
 }

@@ -23,29 +23,30 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.server.net.message;
 
-import nl.tudelft.fa.core.user.User;
-
+import nl.tudelft.fa.core.lobby.message.LobbyOutboundMessage;
 
 /**
- * This message indicates a {@link User} that he has successfully joined a lobby.
+ * This {@link Exception} is sent by the server to unauthorized sessions that have sent
+ * messages to the server that require authorization.
  *
  * @author Fabian Mastenbroek
  */
-public final class JoinSuccess implements LobbyResponse {
+public class NotAuthorizedException extends Exception implements LobbyOutboundMessage {
     /**
-     * The singleton instance of this class.
+     * Construct a {@link NotAuthorizedException} instance.
+     *
+     * @param message The message of the exception.
      */
-    public static final JoinSuccess INSTANCE = new JoinSuccess();
+    public NotAuthorizedException(String message) {
+        super(message);
+    }
 
     /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
+     * Construct a {@link NotAuthorizedException} instance.
      */
-    @Override
-    public String toString() {
-        return "JoinSuccess";
+    public NotAuthorizedException() {
+        this("The session is not authorized to sent this message.");
     }
 }

@@ -23,29 +23,28 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.server.helper.jackson;
 
+import akka.actor.ActorRef;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.core.lobby.message.Join;
 import nl.tudelft.fa.core.user.User;
 
-
 /**
- * This message indicates a {@link User} that he has successfully joined a lobby.
+ * Mix-in for the {@link Join} class.
  *
  * @author Fabian Mastenbroek
  */
-public final class JoinSuccess implements LobbyResponse {
+public abstract class JoinMixin {
     /**
-     * The singleton instance of this class.
-     */
-    public static final JoinSuccess INSTANCE = new JoinSuccess();
-
-    /**
-     * Return a string representation of this message.
+     * Construct a {@link JoinMixin} instance.
      *
-     * @return A string representation of this message.
+     * @param user The user to join the lobby.
+     * @param handler The handler of the user.
      */
-    @Override
-    public String toString() {
-        return "JoinSuccess";
+    @JsonCreator
+    public JoinMixin(@JsonProperty("user") User user, @JsonProperty("handler") ActorRef handler) {
+        // no implementation. Jackson does the work
     }
 }

@@ -23,48 +23,56 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.server.helper.jackson;
 
-import akka.actor.ActorRef;
-import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * This message represents an exception within the {@link LobbyBalancerActor} actor.
+ * Mix-in for exceptions thrown by the lobby and serialized by Jackson.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyBalancerException extends Exception implements LobbyResponse {
+public abstract class ExceptionMixin {
     /**
-     * The {@link LobbyBalancerActor} of this exception.
+     * Returns an array containing all of the exceptions that were suppressed, typically by the
+     * try-with-resources statement, in order to deliver this exception.
+     *
+     * @return An array containing all of the exceptions that were suppressed to deliver this
+     *     exception.
      */
-    private ActorRef balancer;
+    @JsonIgnore
+    public abstract Throwable[] getSuppressed();
 
     /**
-     * Construct a {@link LobbyBalancerException} instance.
+     * Return the stacktrace of this exception.
      *
-     * @param balancer The lobby balancer where the exception occurred.
-     * @param message The message of this exception.
+     * @return The stacktrace of this exception.
      */
-    public LobbyBalancerException(ActorRef balancer, String message) {
-        super(message);
-        this.balancer = balancer;
-    }
+    @JsonIgnore
+    public abstract StackTraceElement[] getStackTrace();
 
     /**
-     * Construct a {@link LobbyBalancerException} instance.
+     * Return the cause of this exception.
      *
-     * @param balancer The lobby balancer where the exception occurred.
+     * @return The cause of this exception.
      */
-    public LobbyBalancerException(ActorRef balancer) {
-        this.balancer = balancer;
-    }
+    @JsonIgnore
+    public abstract Throwable getCause();
 
     /**
-     * Return the {@link LobbyBalancerActor} where the exception occurred.
+     * Return the message of this exception.
      *
-     * @return The reference to the lobby balancer where the exception occurred.
+     * @return The message of this exception.
      */
-    public ActorRef getBalancer() {
-        return balancer;
-    }
+    @JsonProperty("message")
+    public abstract String getMessage();
+
+    /**
+     * Return the localized message of this exception.
+     *
+     * @return The localized message of this exception.
+     */
+    @JsonIgnore
+    public abstract String getLocalizedMessage();
 }

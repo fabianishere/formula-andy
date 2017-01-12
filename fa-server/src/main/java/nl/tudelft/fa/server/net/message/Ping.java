@@ -23,29 +23,13 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.server.net.message;
 
-import nl.tudelft.fa.core.user.User;
-
+import nl.tudelft.fa.core.lobby.message.LobbyInboundMessage;
 
 /**
- * This message indicates a {@link User} that he has successfully joined a lobby.
+ * This message is sent by the user to keep the connection alive.
  *
  * @author Fabian Mastenbroek
  */
-public final class JoinSuccess implements LobbyResponse {
-    /**
-     * The singleton instance of this class.
-     */
-    public static final JoinSuccess INSTANCE = new JoinSuccess();
-
-    /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
-     */
-    @Override
-    public String toString() {
-        return "JoinSuccess";
-    }
-}
+public class Ping implements LobbyInboundMessage {}

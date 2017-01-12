@@ -142,7 +142,7 @@ public class LobbyActorTest {
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());
-                expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
+                expectMsgClass(duration("1 second"), LeaveSuccess.class);
             }
         };
     }
@@ -161,7 +161,7 @@ public class LobbyActorTest {
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());
-                expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
+                expectMsgClass(duration("1 second"), LeaveSuccess.class);
                 probe.expectNoMsg();
             }
         };
@@ -182,7 +182,7 @@ public class LobbyActorTest {
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());
-                expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
+                expectMsgClass(duration("1 second"), LeaveSuccess.class);
                 probe.expectMsgEquals(duration("1 second"), new UserLeft(user));
             }
         };
@@ -204,7 +204,7 @@ public class LobbyActorTest {
 
                 subject.tell(new Unsubscribe(probe.getRef()), probe.getRef());
                 subject.tell(req, getRef());
-                expectMsgEquals(duration("1 second"), new LeaveSuccess(user));
+                expectMsgClass(duration("1 second"), LeaveSuccess.class);
                 probe.expectNoMsg();
             }
         };

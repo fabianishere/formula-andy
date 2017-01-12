@@ -25,27 +25,11 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.user.User;
-
-
 /**
- * This message indicates a {@link User} that he has successfully joined a lobby.
+ * Messages that implement the {@link LobbyOutboundMessage} represent messages that are supposed to
+ * be sent by a {@link nl.tudelft.fa.core.lobby.actor.LobbyActor} instance or actors related to
+ * the lobby.
  *
  * @author Fabian Mastenbroek
  */
-public final class JoinSuccess implements LobbyResponse {
-    /**
-     * The singleton instance of this class.
-     */
-    public static final JoinSuccess INSTANCE = new JoinSuccess();
-
-    /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
-     */
-    @Override
-    public String toString() {
-        return "JoinSuccess";
-    }
-}
+public interface LobbyOutboundMessage {}

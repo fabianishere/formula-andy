@@ -19,7 +19,7 @@ import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.core.lobby.message.RequestInformation;
 import nl.tudelft.fa.server.controller.LobbyController;
-import nl.tudelft.fa.server.helper.LobbyModule;
+import nl.tudelft.fa.server.helper.jackson.LobbyModule;
 import org.junit.Before;
 import org.junit.Test;
 import scala.concurrent.Await;
@@ -88,6 +88,6 @@ public class LobbyControllerTest extends JUnitRouteTest {
         Lobby expected = info.getLobbies().values().iterator().next();
 
         route.run(HttpRequest.GET(String.format("/%s/feed", expected.getId())))
-            .assertStatusCode(StatusCodes.NOT_IMPLEMENTED);
+            .assertStatusCode(StatusCodes.BAD_REQUEST);
     }
 }

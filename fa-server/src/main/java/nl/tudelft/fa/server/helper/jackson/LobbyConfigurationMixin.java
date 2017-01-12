@@ -23,29 +23,29 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.server.helper.jackson;
 
-import nl.tudelft.fa.core.user.User;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 
+import java.time.Duration;
 
 /**
- * This message indicates a {@link User} that he has successfully joined a lobby.
+ * Mixin for the {@link LobbyConfiguration} class.
  *
  * @author Fabian Mastenbroek
  */
-public final class JoinSuccess implements LobbyResponse {
+public abstract class LobbyConfigurationMixin {
     /**
-     * The singleton instance of this class.
-     */
-    public static final JoinSuccess INSTANCE = new JoinSuccess();
-
-    /**
-     * Return a string representation of this message.
+     * Construct a {@link LobbyConfigurationMixin} instance.
      *
-     * @return A string representation of this message.
+     * @param maxPlayers The maximum amount of players in the lobby.
+     * @param preparationTime The preparation time in the lobby.
      */
-    @Override
-    public String toString() {
-        return "JoinSuccess";
+    @JsonCreator
+    public LobbyConfigurationMixin(@JsonProperty("playerMaximum") int maxPlayers,
+                                   @JsonProperty("preparationTime") Duration preparationTime) {
+        // no implementation. Jackson does the work
     }
 }

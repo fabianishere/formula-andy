@@ -23,29 +23,12 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.server.helper;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.tudelft.fa.core.lobby.LobbyConfiguration;
-
-import java.time.Duration;
+package nl.tudelft.fa.core.lobby.message;
 
 /**
- * Mixin for the {@link LobbyConfiguration} class.
+ * A special {@link LobbyOutboundMessage} that represents an event that has happened in the lobby
+ * and is published in the lobby's event bus.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class LobbyConfigurationMixin {
-    /**
-     * Construct a {@link LobbyConfigurationMixin} instance.
-     *
-     * @param maxPlayers The maximum amount of players in the lobby.
-     * @param preparationTime The preparation time in the lobby.
-     */
-    @JsonCreator
-    public LobbyConfigurationMixin(@JsonProperty("playerMaximum") int maxPlayers,
-                                   @JsonProperty("preparationTime") Duration preparationTime) {
-        // no implementation. Jackson does the work
-    }
-}
+public interface LobbyEvent extends LobbyOutboundMessage {}

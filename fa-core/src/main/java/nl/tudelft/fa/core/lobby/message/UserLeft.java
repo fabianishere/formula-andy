@@ -34,11 +34,11 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public final class UserLeft {
+public final class UserLeft implements LobbyEvent {
     /**
      * The {@link User} that has left the lobby.
      */
-    private User user;
+    private final User user;
 
     /**
      * Construct a {@link UserLeft} instance.

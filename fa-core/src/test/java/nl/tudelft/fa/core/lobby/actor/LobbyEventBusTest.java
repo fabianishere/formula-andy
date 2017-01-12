@@ -5,6 +5,7 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.actor.Terminated;
 import akka.testkit.JavaTestKit;
+import nl.tudelft.fa.core.lobby.message.LobbyEvent;
 import nl.tudelft.fa.core.lobby.message.Subscribe;
 import nl.tudelft.fa.core.lobby.message.Unsubscribe;
 import org.junit.*;
@@ -36,13 +37,25 @@ public class LobbyEventBusTest {
     }
 
     @Test
-    public void testSubscribe() {
+    public void testNoEvent() {
         new JavaTestKit(system) {
             {
                 bus.tell(new Subscribe(getRef()), getRef());
                 bus.tell("Hello World", getRef());
+                expectNoMsg();
+            }
+        };
+    }
+
+    @Test
+    public void testSubscribe() {
+        new JavaTestKit(system) {
+            {
+                LobbyEvent event = new LobbyEvent() {};
+                bus.tell(new Subscribe(getRef()), getRef());
+                bus.tell(event, getRef());
                 // await the correct response
-                expectMsgEquals(duration("1 second"), "Hello World");
+                expectMsgEquals(duration("1 second"), event);
             }
         };
     }
@@ -51,9 +64,10 @@ public class LobbyEventBusTest {
     public void testUnsubscribe() {
         new JavaTestKit(system) {
             {
+                LobbyEvent event = new LobbyEvent() {};
                 bus.tell(new Subscribe(getRef()), getRef());
                 bus.tell(new Unsubscribe(getRef()), getRef());
-                bus.tell("Hello World", getRef());
+                bus.tell(event, getRef());
                 expectNoMsg();
             }
         };
@@ -63,13 +77,14 @@ public class LobbyEventBusTest {
     public void testKill() {
         new JavaTestKit(system) {
             {
+                LobbyEvent event = new LobbyEvent() {};
                 JavaTestKit probe = new JavaTestKit(system);
 
                 watch(probe.getRef());
                 bus.tell(new Subscribe(probe.getRef()), probe.getRef());
                 system.stop(probe.getRef());
                 expectMsgClass(duration("1 second"), Terminated.class);
-                bus.tell("Hello World", getRef());
+                bus.tell(event, getRef());
                 probe.expectNoMsg();
             }
         };

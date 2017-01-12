@@ -36,7 +36,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public final class Join {
+public final class Join implements LobbyRequest {
     /**
      * The {@link User} that wants to join the lobby.
      */
@@ -56,6 +56,13 @@ public final class Join {
     public Join(User user, ActorRef handler) {
         this.user = user;
         this.handler = handler;
+    }
+
+    /**
+     * Construct a {@link Join} message.
+     */
+    protected Join() {
+        // Helper constructor for libraries that instantiate messages via reflection
     }
 
     /**

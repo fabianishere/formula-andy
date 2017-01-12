@@ -33,7 +33,7 @@ import nl.tudelft.fa.core.lobby.actor.LobbyActor;
  *
  * @author Fabian Mastenbroek
  */
-public final class RequestInformation {
+public final class RequestInformation implements LobbyRequest {
     /**
      * A static instance of this class.
      */

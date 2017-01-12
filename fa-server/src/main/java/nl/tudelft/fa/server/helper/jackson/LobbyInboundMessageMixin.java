@@ -23,29 +23,28 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.server.helper.jackson;
 
-import nl.tudelft.fa.core.user.User;
-
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import nl.tudelft.fa.core.lobby.message.Join;
+import nl.tudelft.fa.core.lobby.message.Leave;
+import nl.tudelft.fa.core.lobby.message.RequestInformation;
+import nl.tudelft.fa.server.net.message.Ping;
 
 /**
- * This message indicates a {@link User} that he has successfully joined a lobby.
+ * This mixin creates an envelope around the inbound messages received from subscribers of
+ * a lobby.
  *
  * @author Fabian Mastenbroek
  */
-public final class JoinSuccess implements LobbyResponse {
-    /**
-     * The singleton instance of this class.
-     */
-    public static final JoinSuccess INSTANCE = new JoinSuccess();
-
-    /**
-     * Return a string representation of this message.
-     *
-     * @return A string representation of this message.
-     */
-    @Override
-    public String toString() {
-        return "JoinSuccess";
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+@JsonSubTypes(
+    {
+        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
+        @JsonSubTypes.Type(value = Join.class, name = "join"),
+        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
+        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
     }
-}
+)
+public abstract class LobbyInboundMessageMixin {}
