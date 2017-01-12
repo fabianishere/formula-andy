@@ -47,6 +47,6 @@ public class NotAuthorizedException extends Exception implements LobbyOutboundMe
      * Construct a {@link NotAuthorizedException} instance.
      */
     public NotAuthorizedException() {
-        super("The session is not authorized to sent this message.");
+        this("The session is not authorized to sent this message.");
     }
 }
