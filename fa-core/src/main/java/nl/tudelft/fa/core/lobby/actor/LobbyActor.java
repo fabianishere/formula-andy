@@ -139,7 +139,7 @@ public class LobbyActor extends AbstractActor {
         users.put(user, handler);
 
         // Inform the requesting actor
-        sender().tell(new JoinSuccess(user, self()), self());
+        sender().tell(JoinSuccess.INSTANCE, self());
 
         // Tell all subscribers about the change
         bus.tell(new UserJoined(user), self());
@@ -164,7 +164,7 @@ public class LobbyActor extends AbstractActor {
         }
 
         // Inform the requesting actor
-        sender().tell(new LeaveSuccess(user), self());
+        sender().tell(LeaveSuccess.INSTANCE, self());
 
         // Tell all subscribers about the change
         bus.tell(new UserLeft(user), self());
