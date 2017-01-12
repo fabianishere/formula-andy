@@ -26,7 +26,6 @@
 package nl.tudelft.fa.server.helper.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import nl.tudelft.fa.core.lobby.Lobby;
@@ -60,7 +59,7 @@ public class LobbyBalancerInformationSerializer extends StdSerializer<LobbyBalan
 
     @Override
     public void serialize(LobbyBalancer value, JsonGenerator gen,
-                          SerializerProvider provider) throws IOException, JsonProcessingException {
+                          SerializerProvider provider) throws IOException {
         gen.writeStartObject();
         gen.writeArrayFieldStart("lobbies");
         for (Lobby lobby : value.getLobbies().values()) {
