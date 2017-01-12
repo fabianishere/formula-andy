@@ -28,6 +28,7 @@ package nl.tudelft.fa.core.lobby.actor;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.actor.Terminated;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
@@ -120,6 +121,10 @@ public class LobbyBalancerActor extends AbstractActor {
             .match(UserLeft.class, req -> left(req.getUser(), sender()))
             .match(Lobby.class, this::update)
             .match(Refresh.class, req -> refresh())
+            .match(Terminated.class, msg -> {
+                available.remove(msg.actor());
+                instances.remove(msg.actor());
+            })
             .build();
     }
 
@@ -141,7 +146,6 @@ public class LobbyBalancerActor extends AbstractActor {
         if (!available.isEmpty()) {
             ref = instances.keySet().iterator().next();
         } else if (instances.size() < max) {
-            log.info("Spinning up new lobby to meet demand");
             ref = createLobby();
         } else {
             log.warning("Balancer exhausted. Cannot fulfil request {} ", req);
@@ -196,7 +200,8 @@ public class LobbyBalancerActor extends AbstractActor {
      * @param information The information that has been received.
      */
     private void update(Lobby information) {
-        if (information.getUsers().size() == 0 && instances.size() > min) {
+        int avail = available.containsKey(sender()) ? available.size() : available.size() + 1;
+        if (information.getUsers().size() == 0 && avail > min) {
             log.debug("Lobby {} is empty and will be killed", sender());
 
             // Kill the lobby if it is empty
@@ -214,6 +219,14 @@ public class LobbyBalancerActor extends AbstractActor {
             // Update the information of the available lobby
             available.put(sender(), information);
         }
+
+        if (available.size() < min) {
+            // Create new lobbies if we do not reach the minimum
+            for (int i = 0; i < min - available.size(); i++) {
+                createLobby();
+            }
+        }
+
         instances.put(sender(), information);
     }
 
@@ -230,11 +243,17 @@ public class LobbyBalancerActor extends AbstractActor {
      * @return The reference to the {@link LobbyActor} actor that has been created.
      */
     private ActorRef createLobby() {
+        log.info("Spinning up new lobby");
+
         String id = UUID.randomUUID().toString();
         ActorRef ref = context().actorOf(LobbyActor.props(configuration), id);
         Lobby info = new Lobby(id, LobbyStatus.PREPARATION, configuration,
             Collections.emptySet());
         ref.tell(new Subscribe(self()), self());
+
+        // watch lobby for termination
+        context().watch(ref);
+
         instances.put(ref, info);
         available.put(ref, info);
         return ref;
