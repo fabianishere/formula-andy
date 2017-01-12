@@ -41,6 +41,8 @@ import nl.tudelft.fa.core.lobby.message.Subscribe;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
+import javax.swing.*;
+
 /**
  * A {@link GraphStage} that provides a bi-directional communication channel with a
  * {@link LobbyActor}.
@@ -130,6 +132,14 @@ public class LobbyStage extends GraphStage<FlowShape<LobbyInboundMessage, LobbyO
                 .build();
 
         /**
+         * This partial function handles the messages received as actor.
+         */
+        private final PartialFunction<Object, BoxedUnit> receive =  ReceiveBuilder
+            .match(Terminated.class, msg -> completeStage())
+            .match(LobbyOutboundMessage.class, msg -> push(out, msg))
+            .build();
+
+        /**
          * Construct a {@link LobbyStageLogic} instance.
          *
          * @param shape The shape of the stage.
@@ -143,7 +153,6 @@ public class LobbyStage extends GraphStage<FlowShape<LobbyInboundMessage, LobbyO
          */
         @Override
         public void preStart() {
-            PartialFunction<Object, BoxedUnit> receive = this.receive();
             StageActor self = getStageActor(func(tuple -> receive.apply(tuple._2)));
             ActorRef ref = self.ref();
 
@@ -155,19 +164,6 @@ public class LobbyStage extends GraphStage<FlowShape<LobbyInboundMessage, LobbyO
 
             // watch the lobby for termination
             self.watch(lobby);
-        }
-
-        /**
-         * This method defines the initial actor behavior, it must return a partial function with
-         * the actor logic.
-         *
-         * @return The initial actor behavior as a partial function.
-         */
-        private PartialFunction<Object, BoxedUnit> receive() {
-            return ReceiveBuilder
-                .match(Terminated.class, msg -> completeStage())
-                .match(LobbyOutboundMessage.class, msg -> push(out, msg))
-                .build();
         }
 
         /**
