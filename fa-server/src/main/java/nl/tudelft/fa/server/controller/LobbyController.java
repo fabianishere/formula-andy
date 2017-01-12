@@ -38,16 +38,23 @@ import akka.http.javadsl.model.ws.Message;
 import akka.http.javadsl.server.Route;
 import akka.japi.pf.PFBuilder;
 import akka.pattern.PatternsCS;
+import akka.stream.ActorAttributes;
+import akka.stream.Supervision;
+import akka.stream.javadsl.BidiFlow;
 import akka.stream.javadsl.Flow;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.core.lobby.message.RequestInformation;
+import nl.tudelft.fa.core.user.User;
 import nl.tudelft.fa.server.helper.jackson.LobbyModule;
-import nl.tudelft.fa.server.net.AnonymousSessionStage;
+import nl.tudelft.fa.server.net.AuthorizedSessionStage;
+import nl.tudelft.fa.server.net.LobbyStage;
+import nl.tudelft.fa.server.net.UnauthorizedSessionStage;
 import nl.tudelft.fa.server.net.codec.AbstractCodec;
 import nl.tudelft.fa.server.net.codec.jackson.JacksonWebSocketCodec;
 import scala.concurrent.duration.FiniteDuration;
@@ -95,7 +102,8 @@ public class LobbyController {
         this.mapper = new ObjectMapper();
         this.mapper.registerModule(new LobbyModule());
         this.mapper.registerModule(new JavaTimeModule()); // Duration (de)serialization
-        this.codec = new JacksonWebSocketCodec();
+        this.mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); // Return empty responses
+        this.codec = new JacksonWebSocketCodec(mapper);
     }
 
     /**
@@ -177,7 +185,11 @@ public class LobbyController {
      * @return The {@link Flow} that handles the messages in the lobby's feed.
      */
     public Flow<Message, Message, NotUsed> feedHandler(ActorRef lobby) {
-        return codec.bidiFlow().join(Flow.fromGraph(new AnonymousSessionStage(lobby)));
+        return codec.bidiFlow()
+            .atop(BidiFlow.fromGraph(new UnauthorizedSessionStage()))
+            .join(Flow.fromGraph(new LobbyStage(lobby)))
+            .withAttributes(ActorAttributes.withSupervisionStrategy(
+                Supervision.getResumingDecider()));
     }
 
     /**

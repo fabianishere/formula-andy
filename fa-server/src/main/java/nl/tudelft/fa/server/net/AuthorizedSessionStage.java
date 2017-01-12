@@ -25,36 +25,36 @@
 
 package nl.tudelft.fa.server.net;
 
-import akka.actor.ActorRef;
+import akka.japi.pf.PFBuilder;
 import akka.stream.Attributes;
 import akka.stream.Shape;
-import akka.stream.stage.AbstractInHandler;
-import akka.stream.stage.GraphStageLogic;
-import akka.stream.stage.InHandler;
-import akka.stream.stage.OutHandler;
+import akka.stream.stage.*;
+import nl.tudelft.fa.core.lobby.message.Join;
+import nl.tudelft.fa.core.lobby.message.Leave;
+import nl.tudelft.fa.core.lobby.message.LobbyInboundMessage;
 import nl.tudelft.fa.core.user.User;
+import scala.PartialFunction;
 
 /**
- * A {@link SessionStage} where the user has been authenticated. This stage will pass through
- * messages from the event bus to the output and messages from the input to the lobby.
+ * An {@link AbstractSessionStage} where a user has been authorized and is allowed to receive/sent
+ * all messages.
  *
- * @see AnonymousSessionStage if you want to disregard inbound messages
+ * @see UnauthorizedSessionStage if the user is just a spectator that should not be allowed to sent
+ *     messages to the lobby.
  * @author Fabian Mastenbroek
  */
-public class UserSessionStage extends SessionStage {
+public class AuthorizedSessionStage extends AbstractSessionStage {
     /**
      * The user of this session.
      */
     private final User user;
 
     /**
-     * Construct a {@link UserSessionStage} instance.
+     * Construct a {@link AuthorizedSessionStage} instance.
      *
-     * @param lobby The reference to the lobby between which the communication takes place.
      * @param user The user of this session.
      */
-    public UserSessionStage(ActorRef lobby, User user) {
-        super(lobby);
+    public AuthorizedSessionStage(User user) {
         this.user = user;
     }
 
@@ -66,7 +66,7 @@ public class UserSessionStage extends SessionStage {
      */
     @Override
     public GraphStageLogic createLogic(Attributes inheritedAttributes) {
-        return new UserSessionStageLogic(shape());
+        return new AuthorizedSessionStageLogic(shape());
     }
 
     /**
@@ -79,39 +79,59 @@ public class UserSessionStage extends SessionStage {
     }
 
     /**
-     * This class defines the logic for a stage where all events received from the lobby's event bus
-     * are communicated to the stage's outlet, but input is not processed.
+     * This class defines the logic for a stage where the user's session is attached to the inbound
+     * messages.
      *
      * @author Fabian Mastenbroek
      */
-    public class UserSessionStageLogic extends SessionStage.SessionStageLogic {
+    public class AuthorizedSessionStageLogic extends GraphStageLogicWithLogging {
         /**
-         * Construct a {@link UserSessionStageLogic} instance.
+         * This partial function attaches the session to messages.
+         */
+        private final PartialFunction<LobbyInboundMessage, LobbyInboundMessage> attach =
+            new PFBuilder<LobbyInboundMessage, LobbyInboundMessage>()
+                .match(Join.class, msg -> new Join(user, msg.getHandler()))
+                .match(Leave.class, msg -> new Leave(user))
+                .matchAny(msg -> msg)
+                .build();
+
+        /**
+         * Construct a {@link AuthorizedSessionStageLogic} instance.
          *
          * @param shape The shape of the stage.
          */
-        public UserSessionStageLogic(Shape shape) {
+        public AuthorizedSessionStageLogic(Shape shape) {
             super(shape);
         }
 
-        /**
-         * Return the {@link OutHandler} of this stage.
-         *
-         * @return The {@link OutHandler} of this stage.
-         */
-        @Override
-        protected InHandler getInHandler() {
-            return new AbstractInHandler() {
+        {
+            setHandler(inA, new AbstractInHandler() {
                 @Override
                 public void onPush() throws Exception {
-                    log().info("Received message");
-                    // tell lobby
-                    getLobby().tell(grab(in), stageActor().ref());
-
-                    // pull next message
-                    pull(in);
+                    push(outA, attach.apply(grab(inA)));
                 }
-            };
+            });
+
+            setHandler(outA, new AbstractOutHandler() {
+                @Override
+                public void onPull() throws Exception {
+                    pull(inA);
+                }
+            });
+
+            setHandler(inB, new AbstractInHandler() {
+                @Override
+                public void onPush() throws Exception {
+                    push(outB, grab(inB));
+                }
+            });
+
+            setHandler(outB, new AbstractOutHandler() {
+                @Override
+                public void onPull() throws Exception {
+                    pull(inB);
+                }
+            });
         }
     }
 }

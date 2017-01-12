@@ -23,24 +23,13 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.server.net;
+package nl.tudelft.fa.server.net.message;
 
-import akka.actor.ActorRef;
+import nl.tudelft.fa.core.lobby.message.LobbyInboundMessage;
 
 /**
- * An anonymous {@link SessionStage} which means that the user has not yet authenticated.
- * Therefore, all inbound messages are regarded in this stage.
+ * This message is sent by the user to keep the connection alive.
  *
- * @see UserSessionStage if you want to handle inbound messages
  * @author Fabian Mastenbroek
  */
-public class AnonymousSessionStage extends SessionStage {
-    /**
-     * Construct a {@link AnonymousSessionStage} instance.
-     *
-     * @param lobby The reference to the lobby between which the communication takes place.
-     */
-    public AnonymousSessionStage(ActorRef lobby) {
-        super(lobby);
-    }
-}
+public class Ping implements LobbyInboundMessage {}
