@@ -63,7 +63,7 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Button onAction="#signup" mnemonicParsing="false" prefHeight="31.0" prefWidth="107.0" text="Sign Up!" translateX="200.0" GridPane.columnIndex="6" GridPane.rowIndex="11">
+            <Button onAction="#signupnow" mnemonicParsing="false" prefHeight="31.0" prefWidth="107.0" text="Sign Up!" translateX="200.0" GridPane.columnIndex="6" GridPane.rowIndex="11">
                <font>
                   <Font size="20.0" />
                </font>

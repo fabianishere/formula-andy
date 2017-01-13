@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+
 /**
  * Created by Laetitia Molkenboer on 9-1-2017.
  */
@@ -17,9 +19,10 @@ public class TeamnameController {
      *
      * @param event The {@link ActionEvent} that occurred.
      */
+
     @FXML
-    protected void next(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../setuptwee-screen.fxml"));
+    protected void nextpage(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../setup-screen.fxml"));
 
         Scene scene = new Scene(root);
         Node source = (Node)  event.getSource();
@@ -30,4 +33,7 @@ public class TeamnameController {
         stage.sizeToScene();
         stage.show();
     }
+
+
+
 }

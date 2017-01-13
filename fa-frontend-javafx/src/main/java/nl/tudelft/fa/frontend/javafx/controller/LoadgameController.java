@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 /**
  * Created by laeti on 9-1-2017.
  */
-public class LoginController {
+public class LoadgameController {
     /**
      * This method is invoked when the login game button is pressed and the user wants to start
      * playing the game.
@@ -19,8 +19,8 @@ public class LoginController {
      * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
-    protected void login(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../start-screen.fxml"));
+    protected void grandprix(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../grandprix-screen.fxml"));
 
         Scene scene = new Scene(root);
         Node source = (Node)  event.getSource();
@@ -33,8 +33,8 @@ public class LoginController {
     }
 
     @FXML
-    protected void signupnow(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../signup-screen.fxml"));
+    protected void back(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../start-screen.fxml"));
 
         Scene scene = new Scene(root);
         Node source = (Node)  event.getSource();
