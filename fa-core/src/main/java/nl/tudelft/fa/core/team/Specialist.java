@@ -96,10 +96,7 @@ public abstract class Specialist extends Member {
                 return lowRisk * level / 100;
             case 2:
                 return mediumRisk * level / 100;
-            case 3:
-                return highRisk * level / 100;
-            default:
-                return 5.0;
         }
+        return highRisk * level / 100;
     }
 }
