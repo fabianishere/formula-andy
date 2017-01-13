@@ -70,6 +70,7 @@ public class RaceSimulator {
         List<CarSimulator> updatedList = new ArrayList<CarSimulator>();
         for (CarSimulator cs: carSimulators) {
             if (cs.getCarParameters().getCrashed()) {
+                updatedList.add(cs);
                 continue;
             }
 
