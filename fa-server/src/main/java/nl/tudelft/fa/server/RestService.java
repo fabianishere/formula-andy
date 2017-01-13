@@ -33,7 +33,8 @@ import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.model.StatusCodes;
 import akka.http.javadsl.server.Route;
 
-import nl.tudelft.fa.core.lobby.LobbyBalancer;
+import nl.tudelft.fa.core.auth.actor.Authenticator;
+import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.server.controller.LobbyController;
 import nl.tudelft.fa.server.model.Information;
 
@@ -69,11 +70,12 @@ public class RestService {
      * Construct a {@link RestService} instance.
      *
      * @param system The {@link ActorSystem} instance to use.
-     * @param balancer The reference to the {@link LobbyBalancer}.
+     * @param authenticator The reference to the {@link Authenticator} actor.
+     * @param balancer The reference to the {@link LobbyBalancerActor}.
      */
-    public RestService(ActorSystem system, ActorRef balancer) {
+    public RestService(ActorSystem system, ActorRef authenticator, ActorRef balancer) {
         this.system = system;
-        this.lobbies = new LobbyController(system, balancer);
+        this.lobbies = new LobbyController(system, authenticator, balancer);
     }
 
     /**
