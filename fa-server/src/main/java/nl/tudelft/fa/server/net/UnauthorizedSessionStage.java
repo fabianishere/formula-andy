@@ -127,6 +127,7 @@ public class UnauthorizedSessionStage extends AbstractSessionStage {
                 @Override
                 public void onPush() throws Exception {
                     emit(outB, grab(inB));
+                    pull(inB);
                 }
             });
 
