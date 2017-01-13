@@ -3,6 +3,7 @@ package nl.tudelft.fa.core.team;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -54,6 +55,11 @@ public class MemberTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(member, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(member, member);
     }
@@ -75,6 +81,6 @@ public class MemberTest {
 
     @Test
     public void testHashCode() {
-        assertEquals(id.hashCode(), member.hashCode());
+        assertEquals(Objects.hash(id), member.hashCode());
     }
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -151,15 +151,19 @@ public class CarConfiguration {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (other instanceof CarConfiguration) {
-            CarConfiguration that = (CarConfiguration) other;
-
-            return this.car.equals(that.car) && this.driver.equals(that.driver)
-                && this.engine.equals(that.engine) && this.mechanic.equals(that.mechanic)
-                && this.aerodynamicist.equals(that.aerodynamicist)
-                && this.strategist.equals(that.strategist);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        CarConfiguration that = (CarConfiguration) other;
+        return Objects.equals(car, that.car)
+            && Objects.equals(engine, that.engine)
+            && Objects.equals(driver, that.driver)
+            && Objects.equals(mechanic, that.mechanic)
+            && Objects.equals(aerodynamicist, that.aerodynamicist)
+            && Objects.equals(strategist, that.strategist);
     }
 
     /**

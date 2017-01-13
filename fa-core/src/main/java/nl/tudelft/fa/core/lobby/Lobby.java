@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,165 +25,128 @@
 
 package nl.tudelft.fa.core.lobby;
 
-import akka.actor.AbstractActor;
-import akka.actor.ActorRef;
-import akka.actor.Props;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
-import akka.japi.pf.ReceiveBuilder;
-
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
+import nl.tudelft.fa.core.lobby.message.LobbyResponse;
 import nl.tudelft.fa.core.user.User;
-import scala.PartialFunction;
-import scala.runtime.BoxedUnit;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
+import java.util.Objects;
+import java.util.Set;
 
 /**
- * This actor represents a game lobby with multiple users.
+ * This class represents the state of a {@link LobbyActor} instance.
  *
  * @author Fabian Mastenbroek
  */
-public class Lobby extends AbstractActor {
+public final class Lobby implements LobbyResponse {
     /**
-     * The unique identifier of this lobby.
+     * The unique identifier of the lobby.
      */
-    private UUID id;
+    private final String id;
+
+    /**
+     * The status of the lobby.
+     */
+    private final LobbyStatus status;
 
     /**
      * The configuration of the lobby.
      */
-    private LobbyConfiguration configuration;
+    private final LobbyConfiguration configuration;
 
     /**
-     * The users that have joined this lobby.
+     * The {@link User}s in this lobby.
      */
-    private Map<User, ActorRef> users;
-
-    /**
-     * The {@link LoggingAdapter} of this class.
-     */
-    private final LoggingAdapter log = Logging.getLogger(context().system(), this);
+    private final Set<User> users;
 
     /**
      * Construct a {@link Lobby} instance.
      *
-     * @param configuration The configuration of the lobby.
-     */
-    private Lobby(LobbyConfiguration configuration) {
-        this.configuration = configuration;
-        this.users = new HashMap<>(configuration.getPlayerMaximum());
-    }
-
-    /**
-     * This method is invoked before the start of this actor.
-     */
-    @Override
-    public void preStart() {
-        this.id = UUID.fromString(self().path().name());
-    }
-
-    /**
-     * This method defines the initial actor behavior, it must return a partial function with the
-     * actor logic.
-     *
-     * @return The initial actor behavior as a partial function.
-     */
-    @Override
-    public PartialFunction<Object, BoxedUnit> receive() {
-        return preparation();
-    }
-
-    /**
-     * This method defines the behavior of the actor when the lobby is in preparation.
-     *
-     * @return The preparation actor behavior as a partial function.
-     */
-    private PartialFunction<Object, BoxedUnit> preparation() {
-        return ReceiveBuilder
-            .match(Inform.class, req -> inform(LobbyStatus.PREPARATION))
-            .match(Join.class, this::join)
-            .match(Leave.class, this::leave)
-            .build();
-    }
-
-    /**
-     * Inform an actor about the current state of this {@link Lobby}.
-     *
-     * @param status The current status of the lobby.
-     */
-    private void inform(LobbyStatus status) {
-        sender().tell(getInformation(status), self());
-    }
-
-    /**
-     * Handle a {@link Join} request.
-     *
-     * @param req The join request to handle.
-     */
-    private void join(Join req) {
-        if (users.size() >= configuration.getPlayerMaximum()) {
-            sender().tell(new LobbyFull(users.size()), self());
-            return;
-        }
-
-        users.put(req.getUser(), sender());
-        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        Joined event = new Joined(information);
-
-        for (User user : users.keySet()) {
-            users.get(user).tell(event, self());
-        }
-
-        context().system().eventStream().publish(information);
-    }
-
-    /**
-     * Handle a {@link Leave} request.
-     *
-     * @param req The leave request to handle.
-     */
-    private void leave(Leave req) {
-        ActorRef ref = users.remove(req.getUser());
-
-        if (ref == null) {
-            // The user is not in the lobby
-            log.warning("The user {} tried to leave the lobby, but is not in the lobby",
-                req.getUser().getCredentials().getUsername());
-            sender().tell(new NotInLobby(), self());
-            return;
-        }
-
-        LobbyInformation information = getInformation(LobbyStatus.PREPARATION);
-        Left event = new Left(req.getUser(), self());
-
-        for (User user : users.keySet()) {
-            users.get(user).tell(event, self());
-        }
-        sender().tell(event, self());
-        context().system().eventStream().publish(information);
-    }
-
-    /**
-     * Return the {@link LobbyInformation} of this lobby.
-     *
+     * @param id The unique identifier of the lobby.
      * @param status The status of the lobby.
-     * @return The information of this lobby.
+     * @param configuration The configuration of the lobby.
+     * @param users The users in the lobby.
      */
-    private LobbyInformation getInformation(LobbyStatus status) {
-        return new LobbyInformation(id, status, configuration, users.keySet());
+    public Lobby(String id, LobbyStatus status, LobbyConfiguration configuration, Set<User> users) {
+        this.id = id;
+        this.status = status;
+        this.configuration = configuration;
+        this.users = users;
     }
 
     /**
-     * Create {@link Props} instance for an actor of this type.
+     * Return the unique identifier of the lobby.
      *
-     * @param configuration The configuration of the lobby.
-     * @return A Props for creating this actor, which can then be further configured
-     *         (e.g. calling `.withDispatcher()` on it)
+     * @return The unique identifier of the lobby.
      */
-    public static Props props(LobbyConfiguration configuration) {
-        return Props.create(Lobby.class, () -> new Lobby(configuration));
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Return the status of the lobby.
+     *
+     * @return The status of the lobby.
+     */
+    public LobbyStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * Return the configuration of the lobby.
+     *
+     * @return The configuration of the lobby.
+     */
+    public LobbyConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    /**
+     * Return the users of the lobby.
+     *
+     * @return The users of the lobby.
+     */
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    /**
+     * Test whether this {@link Lobby} is equal to the given object.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
+     */
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Lobby that = (Lobby) other;
+        return Objects.equals(id, that.id)
+            && Objects.equals(status, that.status)
+            && Objects.equals(configuration, that.configuration)
+            && Objects.equals(users, that.users);
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, status, configuration, users);
+    }
+
+    /**
+     * Return a string representation of this configuration.
+     *
+     * @return A string representation of this configuration.
+     */
+    @Override
+    public String toString() {
+        return String.format("Lobby(id=%s, status=%s, configuration=%s, users=%d)",
+            id, status, configuration, users.size());
     }
 }

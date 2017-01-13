@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,11 +25,13 @@
 
 package nl.tudelft.fa.core.lobby;
 
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
+
 import java.time.Duration;
 import java.util.Objects;
 
 /**
- * This class contains the configuration of a {@link Lobby} actor.
+ * This class contains the configuration of a {@link LobbyActor} actor.
  *
  * @author Fabian Mastenbroek
  */
@@ -80,12 +82,15 @@ public class LobbyConfiguration {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (other instanceof LobbyConfiguration) {
-            LobbyConfiguration that = (LobbyConfiguration) other;
-            return this.maxPlayers == that.maxPlayers
-                && this.preparationTime.equals(that.preparationTime);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        LobbyConfiguration that = (LobbyConfiguration) other;
+        return Objects.equals(maxPlayers, that.maxPlayers)
+            && Objects.equals(preparationTime, that.preparationTime);
     }
 
     /**

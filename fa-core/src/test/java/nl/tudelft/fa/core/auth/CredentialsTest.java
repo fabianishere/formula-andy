@@ -37,6 +37,11 @@ public class CredentialsTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(credentials, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(credentials, credentials);
     }

@@ -4,6 +4,7 @@ import nl.tudelft.fa.core.auth.Credentials;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -38,6 +39,11 @@ public class UserTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(user, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(user, user);
     }
@@ -59,12 +65,12 @@ public class UserTest {
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(id.hashCode(), user.hashCode());
+        assertEquals(Objects.hash(id), user.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("User(id=%s, credentials=%s)", id, credentials), user.toString());
+        assertEquals(String.format("User(id=%s, username=%s)", id, credentials.getUsername()), user.toString());
     }
 
 }

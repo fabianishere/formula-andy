@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -159,15 +159,17 @@ public class CarParameters {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (other instanceof CarParameters) {
-            CarParameters that = (CarParameters) other;
-
-            return this.mechanicalRisk == that.mechanicalRisk
-                && this.aerodynamicRisk == that.aerodynamicRisk
-                && this.strategicRisk == that.strategicRisk
-                && this.tire.equals(that.tire);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        CarParameters that = (CarParameters) other;
+        return Objects.equals(mechanicalRisk, that.mechanicalRisk)
+            && Objects.equals(aerodynamicRisk, that.aerodynamicRisk)
+            && Objects.equals(strategicRisk, that.strategicRisk)
+            && Objects.equals(tire, that.tire);
     }
 
     /**
