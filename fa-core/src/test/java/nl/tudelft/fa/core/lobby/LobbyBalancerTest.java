@@ -49,7 +49,7 @@ public class LobbyBalancerTest {
     @Test
     public void equalsDifferentLobbies() {
         assertNotEquals(new LobbyBalancer(new HashMap<ActorRef, Lobby>() {{
-            put(null, new Lobby(UUID.randomUUID().toString(), LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO), Collections.emptySet()));
+            put(null, new Lobby(UUID.randomUUID().toString(), LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO, Duration.ZERO), Collections.emptySet()));
         }}), information);
     }
 

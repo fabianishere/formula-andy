@@ -38,10 +38,12 @@ import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
+import scala.concurrent.duration.FiniteDuration;
 import scala.runtime.BoxedUnit;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This actor represents a game lobby with multiple users.
@@ -81,7 +83,7 @@ public class LobbyActor extends AbstractActor {
      */
     private LobbyActor(LobbyConfiguration configuration) {
         this.configuration = configuration;
-        this.users = new HashMap<>(configuration.getPlayerMaximum());
+        this.users = new HashMap<>(configuration.getUserMaximum());
         this.bus = context().actorOf(LobbyEventBus.props(), "event-bus");
         this.id = self().path().name();
     }
@@ -94,7 +96,33 @@ public class LobbyActor extends AbstractActor {
      */
     @Override
     public PartialFunction<Object, BoxedUnit> receive() {
-        return preparation();
+        return intermission();
+    }
+
+    /**
+     * This method defines the behavior of the actor when the lobby is in intermission.
+     *
+     * @return The intermission actor behavior as a partial function.
+     */
+    private PartialFunction<Object, BoxedUnit> intermission() {
+        // Schedule the game intermission
+        context().system().scheduler().scheduleOnce(
+            FiniteDuration.create(configuration.getIntermission().toNanos(),
+                TimeUnit.NANOSECONDS), self(),
+            new LobbyStatusChanged(LobbyStatus.INTERMISSION, LobbyStatus.PREPARATION),
+            context().dispatcher(),
+            self()
+        );
+
+        return ReceiveBuilder
+            .match(RequestInformation.class, req -> inform(LobbyStatus.INTERMISSION))
+            .match(Join.class, req -> join(req.getUser(), req.getHandler()))
+            .match(Leave.class, req -> leave(req.getUser()))
+            .match(Subscribe.class, req -> bus.tell(req, sender()))
+            .match(Unsubscribe.class, req -> bus.tell(req, sender()))
+            .match(Terminated.class, msg -> handleTermination(msg.actor()))
+            .match(LobbyStatusChanged.class, this::transitToPreparation)
+            .build();
     }
 
     /**
@@ -103,13 +131,36 @@ public class LobbyActor extends AbstractActor {
      * @return The preparation actor behavior as a partial function.
      */
     private PartialFunction<Object, BoxedUnit> preparation() {
+        // Schedule the game preparation
+        context().system().scheduler().scheduleOnce(
+            FiniteDuration.create(configuration.getPreparation().toNanos(),
+                TimeUnit.NANOSECONDS), self(),
+            new LobbyStatusChanged(LobbyStatus.INTERMISSION, LobbyStatus.PREPARATION),
+            context().dispatcher(),
+            self()
+        );
+
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform(LobbyStatus.PREPARATION))
-            .match(Join.class, req -> join(req.getUser(), req.getHandler()))
-            .match(Leave.class, req -> leave(req.getUser()))
             .match(Subscribe.class, req -> bus.tell(req, sender()))
             .match(Unsubscribe.class, req -> bus.tell(req, sender()))
             .match(Terminated.class, msg -> handleTermination(msg.actor()))
+            .match(LobbyStatusChanged.class, this::transitToProgression)
+            .build();
+    }
+
+    /**
+     * This method defines the behavior of the actor when the lobby is progressing.
+     *
+     * @return The progressing actor behavior as a partial function.
+     */
+    private PartialFunction<Object, BoxedUnit> progression() {
+        return ReceiveBuilder
+            .match(RequestInformation.class, req -> inform(LobbyStatus.PROGRESSION))
+            .match(Subscribe.class, req -> bus.tell(req, sender()))
+            .match(Unsubscribe.class, req -> bus.tell(req, sender()))
+            .match(Terminated.class, msg -> handleTermination(msg.actor()))
+            .match(LobbyStatusChanged.class, this::transitToIntermission)
             .build();
     }
 
@@ -130,7 +181,7 @@ public class LobbyActor extends AbstractActor {
      * @param handler The handler of the user.
      */
     private void join(User user, ActorRef handler) {
-        if (users.size() >= configuration.getPlayerMaximum()) {
+        if (users.size() >= configuration.getUserMaximum()) {
             log.warning("The user {} failed to join because the lobby is full");
 
             // The lobby has reached its maximum capacity
@@ -192,6 +243,48 @@ public class LobbyActor extends AbstractActor {
             .filter(entry -> handler.equals(entry.getValue()))
             .iterator()
             .forEachRemaining(entry -> leave(entry.getKey()));
+    }
+
+    /**
+     * Transit to the preparation state.
+     *
+     * @param event The event that occurred.
+     */
+    private void transitToPreparation(LobbyStatusChanged event) {
+        if (users.size() > 0) {
+            log.info("Changing lobby status from {} to {}", event.getPrevious(),
+                event.getStatus());
+            bus.tell(event, self());
+            context().become(preparation());
+            return;
+        }
+
+        log.info("Lobby kept in intermission because not enough users");
+        context().become(intermission());
+    }
+
+    /**
+     * Transit to the progression state.
+     *
+     * @param event The event that occurred.
+     */
+    private void transitToProgression(LobbyStatusChanged event) {
+        log.info("Changing lobby status from {} to {}", event.getPrevious(),
+                event.getStatus());
+        bus.tell(event, self());
+        context().become(progression());
+    }
+
+    /**
+     * Transit to the intermission state.
+     *
+     * @param event The event that occurred.
+     */
+    private void transitToIntermission(LobbyStatusChanged event) {
+        log.info("Changing lobby status from {} to {}", event.getPrevious(),
+            event.getStatus());
+        bus.tell(event, self());
+        context().become(intermission());
     }
 
     /**

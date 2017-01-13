@@ -33,5 +33,18 @@ import nl.tudelft.fa.core.lobby.actor.LobbyActor;
  * @author Fabian Mastenbroek
  */
 public enum LobbyStatus {
-    PREPARATION, IN_PROGRESS
+    /**
+     * The lobby is receiving new users.
+     */
+    INTERMISSION,
+
+    /**
+     * The lobby is in preparation for a game.
+     */
+    PREPARATION,
+
+    /**
+     * A game is in progress in the lobby.
+     */
+    PROGRESSION
 }

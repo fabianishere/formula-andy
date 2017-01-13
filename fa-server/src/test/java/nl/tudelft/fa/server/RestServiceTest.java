@@ -22,7 +22,7 @@ public class RestServiceTest extends JUnitRouteTest {
 
     @Before
     public void setUp() {
-        configuration = new LobbyConfiguration(11, Duration.ofMinutes(5));
+        configuration = new LobbyConfiguration(11, Duration.ofMinutes(5), Duration.ofMinutes(5));
         balancer = system().actorOf(LobbyBalancerActor.props(configuration));
         route = testRoute(new RestService(system(), balancer).createRoute());
     }

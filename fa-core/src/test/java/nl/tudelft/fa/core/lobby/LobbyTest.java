@@ -23,7 +23,7 @@ public class LobbyTest {
     public void setUp() {
         id = UUID.randomUUID().toString();
         status = LobbyStatus.PREPARATION;
-        configuration = new LobbyConfiguration(11, Duration.ofMinutes(5));
+        configuration = new LobbyConfiguration(11, Duration.ofMinutes(5), Duration.ZERO);
         users = new HashSet<>();
         users.add(new User(UUID.randomUUID(), new Credentials("fabianishere", "test")));
         information = new Lobby(id, status, configuration, users);
@@ -77,12 +77,12 @@ public class LobbyTest {
 
     @Test
     public void equalsDifferentStatus() {
-        assertNotEquals(new Lobby(id, LobbyStatus.IN_PROGRESS, configuration, users), information);
+        assertNotEquals(new Lobby(id, LobbyStatus.PROGRESSION, configuration, users), information);
     }
 
     @Test
     public void equalsDifferentConfiguration() {
-        assertNotEquals(new Lobby(id, status, new LobbyConfiguration(0, Duration.ZERO), users), information);
+        assertNotEquals(new Lobby(id, status, new LobbyConfiguration(0, Duration.ZERO, Duration.ZERO), users), information);
     }
 
     @Test

@@ -34,7 +34,7 @@ public class LobbyActorTest {
     @Before
     public void setUp() {
         id = UUID.randomUUID();
-        configuration = new LobbyConfiguration(2, Duration.ofMinutes(2));
+        configuration = new LobbyConfiguration(2, Duration.ofMinutes(10), Duration.ofMinutes(5));
         user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
     }
 
@@ -56,7 +56,7 @@ public class LobbyActorTest {
 
                 // await the correct response
                 expectMsgEquals(duration("1 second"), new Lobby(
-                    subject.path().name(), LobbyStatus.PREPARATION, configuration, Collections.emptySet()));
+                    subject.path().name(), LobbyStatus.INTERMISSION, configuration, Collections.emptySet()));
             }
         };
     }
@@ -114,7 +114,7 @@ public class LobbyActorTest {
     public void testJoinFull() {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyActor.props(new LobbyConfiguration(0, Duration.ZERO));
+                final Props props = LobbyActor.props(new LobbyConfiguration(0, Duration.ofMinutes(5), Duration.ofMinutes(5)));
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Join req = new Join(user, getRef());
 

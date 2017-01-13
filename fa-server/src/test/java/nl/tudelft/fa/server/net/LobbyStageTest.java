@@ -48,7 +48,7 @@ public class LobbyStageTest {
 
     @Before
     public void setUp() {
-        configuration = new LobbyConfiguration(11, Duration.ZERO);
+        configuration = new LobbyConfiguration(11, Duration.ofMinutes(3), Duration.ZERO);
         lobby = system.actorOf(LobbyActor.props(configuration));
         user = new User(UUID.randomUUID(), null);
         stage = new LobbyStage(lobby);

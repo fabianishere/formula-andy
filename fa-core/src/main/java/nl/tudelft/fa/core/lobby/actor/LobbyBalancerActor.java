@@ -210,7 +210,7 @@ public class LobbyBalancerActor extends AbstractActor {
             available.remove(sender());
             return;
         } else if (information.getUsers().size()
-                == information.getConfiguration().getPlayerMaximum()) {
+                == information.getConfiguration().getUserMaximum()) {
             log.debug("Lobby {} is full and will be forgotten", sender());
 
             // Forget the lobby if it is full
@@ -247,7 +247,7 @@ public class LobbyBalancerActor extends AbstractActor {
 
         String id = UUID.randomUUID().toString();
         ActorRef ref = context().actorOf(LobbyActor.props(configuration), id);
-        Lobby info = new Lobby(id, LobbyStatus.PREPARATION, configuration,
+        Lobby info = new Lobby(id, LobbyStatus.INTERMISSION, configuration,
             Collections.emptySet());
         ref.tell(new Subscribe(self()), self());
 

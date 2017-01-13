@@ -22,7 +22,7 @@ public class ServerTest {
         // boot up server using the route as defined below
         ActorSystem system = ActorSystem.create();
 
-        final ActorRef balancer = system.actorOf(LobbyBalancerActor.props(new LobbyConfiguration(11, Duration.ofMinutes(5))));
+        final ActorRef balancer = system.actorOf(LobbyBalancerActor.props(new LobbyConfiguration(11, Duration.ofMinutes(1), Duration.ofMinutes(3))));
 
         // HttpApp.bindRoute expects a route being provided by HttpApp.createRoute
         final RestService app = new RestService(system, balancer);

@@ -46,6 +46,8 @@ import nl.tudelft.fa.server.net.message.NotAuthorizedException;
         @JsonSubTypes.Type(value = LeaveSuccess.class, name = "leave.success"),
         @JsonSubTypes.Type(value = UserJoined.class, name = "join.event"),
         @JsonSubTypes.Type(value = UserLeft.class, name = "leave.left"),
+        @JsonSubTypes.Type(value = LobbyStatusChanged.class, name = "status.event"),
+
         /* Error types */
         @JsonSubTypes.Type(value = LobbyFullException.class, name = "join.full"),
         @JsonSubTypes.Type(value = NotInLobbyException.class, name = "leave.not-in-lobby"),

@@ -36,7 +36,7 @@ public class LobbyBalancerActorTest {
 
     @Before
     public void setUp() {
-        configuration = new LobbyConfiguration(1, Duration.ofMinutes(2));
+        configuration = new LobbyConfiguration(1, Duration.ofMinutes(2), Duration.ZERO);
         user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
     }
 
@@ -130,7 +130,7 @@ public class LobbyBalancerActorTest {
     public void testJoinSame() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyBalancerActor.props(new LobbyConfiguration(2, Duration.ZERO), 0, 1);
+                final Props props = LobbyBalancerActor.props(new LobbyConfiguration(2, Duration.ofMinutes(5), Duration.ofMinutes(5)), 0, 1);
                 final ActorRef subject = system.actorOf(props);
                 final Join req = new Join(user, getRef());
                 final JavaTestKit probe = new JavaTestKit(system);

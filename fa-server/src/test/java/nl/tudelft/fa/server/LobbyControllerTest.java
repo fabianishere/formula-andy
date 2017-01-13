@@ -36,7 +36,7 @@ public class LobbyControllerTest extends JUnitRouteTest {
 
     @Before
     public void setUp() {
-        configuration = new LobbyConfiguration(11, java.time.Duration.ofMinutes(5));
+        configuration = new LobbyConfiguration(11, java.time.Duration.ofMinutes(5), java.time.Duration.ofMinutes(3));
         balancer = system().actorOf(LobbyBalancerActor.props(configuration, 2, 10));
         route = testRoute(new LobbyController(system(), balancer).createRoute());
         mapper = new ObjectMapper();
