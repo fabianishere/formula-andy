@@ -1,10 +1,12 @@
 package nl.tudelft.fa.core.auth.message;
 
 import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
@@ -21,8 +23,8 @@ public class AuthenticationRequestTest {
     }
 
     @Test
-    public void getCredentials() throws Exception {
-        assertEquals(credentials, request.getCredentials());
+    public void getUsername() throws Exception {
+        assertEquals(credentials.getUsername(), request.getUsername());
     }
 
     @Test
@@ -53,11 +55,11 @@ public class AuthenticationRequestTest {
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(credentials), request.hashCode());
+        assertEquals(Objects.hash(credentials.getUsername()), request.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("AuthenticationRequest(credentials=%s)", credentials), request.toString());
+        assertEquals(String.format("AuthenticationRequest(username=%s)", credentials.getUsername()), request.toString());
     }
 }

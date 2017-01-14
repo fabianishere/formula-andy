@@ -33,7 +33,7 @@ import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyBalancerException extends Exception {
+public class LobbyBalancerException extends Exception implements LobbyResponse {
     /**
      * The {@link LobbyBalancerActor} of this exception.
      */

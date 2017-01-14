@@ -34,11 +34,11 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public final class UserJoined {
+public final class UserJoined implements LobbyEvent {
     /**
      * The {@link User} that has joined the lobby.
      */
-    private User user;
+    private final User user;
 
     /**
      * Construct a {@link UserJoined} instance.

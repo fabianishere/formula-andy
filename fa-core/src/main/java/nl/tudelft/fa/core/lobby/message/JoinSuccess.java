@@ -25,82 +25,19 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import akka.actor.ActorRef;
 import nl.tudelft.fa.core.user.User;
 
-import java.util.Objects;
 
 /**
  * This message indicates a {@link User} that he has successfully joined a lobby.
  *
  * @author Fabian Mastenbroek
  */
-public final class JoinSuccess {
+public final class JoinSuccess implements LobbyResponse {
     /**
-     * The user that has just joined the lobby.
+     * The singleton instance of this class.
      */
-    private User user;
-
-    /**
-     * The lobby the user has joined.
-     */
-    private ActorRef lobby;
-
-    /**
-     * Construct a {@link JoinSuccess} message instance.
-     *
-     * @param user The user that has just joined the lobby.
-     * @param lobby The lobby the user has joined.
-     */
-    public JoinSuccess(User user, ActorRef lobby) {
-        this.user = user;
-        this.lobby = lobby;
-    }
-
-    /**
-     * Return the user that has just joined the lobby.
-     *
-     * @return The user that has just joined the lobby.
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Return the reference to the lobby the user has joined.
-     *
-     * @return The reference to the lobby the user has joined.
-     */
-    public ActorRef getLobby() {
-        return lobby;
-    }
-
-    /**
-     * Test whether this message is equal to the given object.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null || getClass() != other.getClass()) {
-            return false;
-        }
-        JoinSuccess that = (JoinSuccess) other;
-        return Objects.equals(user, that.user) && Objects.equals(lobby, that.lobby);
-    }
-
-    /**
-     * Return the hash code of this object.
-     *
-     * @return The hash code of this object as integer.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(user, lobby);
-    }
+    public static final JoinSuccess INSTANCE = new JoinSuccess();
 
     /**
      * Return a string representation of this message.
@@ -109,6 +46,6 @@ public final class JoinSuccess {
      */
     @Override
     public String toString() {
-        return String.format("JoinSuccess(user=%s, lobby=%s)", user, lobby);
+        return "JoinSuccess";
     }
 }

@@ -36,11 +36,11 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public final class Subscribe {
+public final class Subscribe implements LobbyRequest {
     /**
      * The actor that wants to subscribe to the {@link LobbyActor}.
      */
-    private ActorRef actor;
+    private final ActorRef actor;
 
     /**
      * Construct a {@link Subscribe} instance.

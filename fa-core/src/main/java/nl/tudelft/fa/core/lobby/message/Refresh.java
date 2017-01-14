@@ -7,7 +7,7 @@ import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
  *
  * @author Fabian Mastenbroek
  */
-public final class Refresh {
+public final class Refresh implements LobbyRequest {
     /**
      * The static instance of this class.
      */

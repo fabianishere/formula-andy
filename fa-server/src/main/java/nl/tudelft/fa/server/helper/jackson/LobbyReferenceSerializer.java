@@ -23,50 +23,42 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.server.helper;
+package nl.tudelft.fa.server.helper.jackson;
 
+import akka.actor.ActorRef;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import nl.tudelft.fa.core.lobby.Lobby;
-import nl.tudelft.fa.core.lobby.LobbyBalancer;
 
 import java.io.IOException;
 
 
 /**
- * This class serializes the {@link LobbyBalancer} class for the REST API.
+ * This class serializes a reference to a lobby's {@link ActorRef}.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyBalancerInformationSerializer extends StdSerializer<LobbyBalancer> {
+public class LobbyReferenceSerializer extends StdSerializer<ActorRef> {
 
     /**
-     * Construct a {@link LobbyBalancerInformationSerializer} instance.
+     * Construct a {@link LobbyReferenceSerializer} instance.
      */
-    public LobbyBalancerInformationSerializer() {
+    public LobbyReferenceSerializer() {
         this(null);
     }
 
     /**
-     * Construct a {@link LobbyBalancerInformationSerializer} instance.
+     * Construct a {@link LobbyReferenceSerializer} instance.
      *
      * @param cls The class to serialize.
      */
-    public LobbyBalancerInformationSerializer(Class<LobbyBalancer> cls) {
+    public LobbyReferenceSerializer(Class<ActorRef> cls) {
         super(cls);
     }
 
     @Override
-    public void serialize(LobbyBalancer value, JsonGenerator gen,
-                          SerializerProvider provider) throws IOException, JsonProcessingException {
-        gen.writeStartObject();
-        gen.writeArrayFieldStart("lobbies");
-        for (Lobby lobby : value.getLobbies().values()) {
-            gen.writeObject(lobby);
-        }
-        gen.writeEndArray();
-        gen.writeEndObject();
+    public void serialize(ActorRef value, JsonGenerator gen,
+                          SerializerProvider provider) throws IOException {
+        gen.writeString(value.path().name());
     }
 }

@@ -35,7 +35,7 @@ import java.util.Objects;
  *
  * @author Fabian Mastenbroek
  */
-public final class Leave {
+public final class Leave implements LobbyRequest {
     /**
      * The {@link User} that wants to leave the lobby.
      */
@@ -48,6 +48,13 @@ public final class Leave {
      */
     public Leave(User user) {
         this.user = user;
+    }
+
+    /**
+     * Construct a {@link Leave} message.
+     */
+    protected Leave() {
+        // Helper constructor for libraries that instantiate messages via reflection
     }
 
     /**

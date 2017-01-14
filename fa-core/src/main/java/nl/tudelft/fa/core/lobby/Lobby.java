@@ -26,6 +26,7 @@
 package nl.tudelft.fa.core.lobby;
 
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
+import nl.tudelft.fa.core.lobby.message.LobbyResponse;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
@@ -36,7 +37,7 @@ import java.util.Set;
  *
  * @author Fabian Mastenbroek
  */
-public final class Lobby {
+public final class Lobby implements LobbyResponse {
     /**
      * The unique identifier of the lobby.
      */

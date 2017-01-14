@@ -85,7 +85,7 @@ public class RaceDemo {
         boolean racing = true;
         int cycles = 0;
         while(racing) {
-            rs.getNextRaceCycle();
+            carSimulatorList = RaceSimulator.getNextRaceCycle(carSimulatorList, rs.getRaining());
             racing = false;
             for (CarSimulator cs : carSimulatorList) {
                 if (!cs.getCarParameters().getCrashed()) {
@@ -99,49 +99,24 @@ public class RaceDemo {
             cycles++;
 
         }
-        System.out.println("Cycle: " + cycles);
-        carSimulatorList = sort();
-        System.out.println();
+        System.out.println("Cycle: " + cycles + "\n");
+        System.out.println("Raining: " + rs.getRaining());
+        System.out.println("Laps: " + gp.getLaps() + " Length lap: " + gp.getCircuit().getLength() + "\n");
+
         for (CarSimulator cs : carSimulatorList) {
             System.out.println(cs.getCarConfiguration().getDriver().getName() + ": " + cs.getCarParameters().getTraveledDistance() + "  " + cs.getCarParameters().getCrashed());
         }
-        System.out.println();
-
-        System.out.println("Racing is done");
-    }
-
-
-    public static List<CarSimulator> sort() {
-        List<CarSimulator> tempList = new ArrayList<CarSimulator>();
-        for (int i = 0; i < 9; i++) {
-            tempList.add(first());
-        }
-        return tempList;
-    }
-
-    public static CarSimulator first() {
-        int n = 0;
-        CarSimulator temp = carSimulatorList.get(n);
-        n++;
-        for (int i = 0; i < carSimulatorList.size() - 1; i++) {
-            if (carSimulatorList.get(n).getCarParameters().getTraveledDistance() > temp.getCarParameters().getTraveledDistance()) {
-                temp = carSimulatorList.get(n);
-            }
-            n++;
-        }
-        carSimulatorList.remove(temp);
-        return  temp;
     }
 
     public static void setUpGrandPrix() {
-        circuit = new Circuit(UUID.randomUUID(), "name", "country", 50000);
-        gp = new GrandPrix(UUID.randomUUID(), circuit, Instant.now(), 100, 0);
+        circuit = new Circuit(UUID.randomUUID(), "name", "country", 700); /// delete country
+        gp = new GrandPrix(UUID.randomUUID(), circuit, Instant.now(), 10, 50); //
     }
 
     public static void setUpCarSimulators() {
         mechanicalRisk = 2;
         aerodynamicRisk = 3;
-        strategicRisk = 3;
+        strategicRisk = 1;
         tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 7, 1);
 
         parameters1 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);

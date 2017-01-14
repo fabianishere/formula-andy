@@ -26,28 +26,47 @@
 package nl.tudelft.fa.server.controller;
 
 import static akka.http.javadsl.server.Directives.*;
-import static akka.http.javadsl.server.PathMatchers.uuidSegment;
+import static akka.http.javadsl.server.PathMatchers.*;
+import static akka.pattern.PatternsCS.*;
 import static scala.compat.java8.JFunction.func;
 
+import akka.NotUsed;
 import akka.actor.ActorNotFound;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.http.javadsl.marshallers.jackson.Jackson;
-import akka.http.javadsl.model.StatusCodes;
+import akka.http.javadsl.model.ws.Message;
 import akka.http.javadsl.server.Route;
+import akka.http.javadsl.server.directives.SecurityDirectives.ProvidedCredentials;
 import akka.japi.pf.PFBuilder;
-import akka.pattern.PatternsCS;
+import akka.stream.ActorAttributes;
+import akka.stream.Supervision;
+import akka.stream.javadsl.BidiFlow;
+import akka.stream.javadsl.Flow;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import nl.tudelft.fa.core.auth.actor.Authenticator;
+import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
+import nl.tudelft.fa.core.auth.message.AuthenticationSuccess;
 import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.core.lobby.message.RequestInformation;
-import nl.tudelft.fa.server.helper.LobbyModule;
+import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.server.helper.jackson.LobbyModule;
+import nl.tudelft.fa.server.net.AbstractSessionStage;
+import nl.tudelft.fa.server.net.AuthorizedSessionStage;
+import nl.tudelft.fa.server.net.LobbyStage;
+import nl.tudelft.fa.server.net.UnauthorizedSessionStage;
+import nl.tudelft.fa.server.net.codec.AbstractCodec;
+import nl.tudelft.fa.server.net.codec.jackson.JacksonWebSocketCodec;
 import scala.concurrent.duration.FiniteDuration;
 
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 
@@ -64,6 +83,11 @@ public class LobbyController {
     private final ActorSystem system;
 
     /**
+     * The reference to the {@link Authenticator} actor.
+     */
+    private final ActorRef authenticator;
+
+    /**
      * The reference to the {@link LobbyBalancerActor} actor.
      */
     private final ActorRef balancer;
@@ -74,17 +98,26 @@ public class LobbyController {
     private final ObjectMapper mapper;
 
     /**
+     * The {@link AbstractCodec} to use.
+     */
+    private final AbstractCodec<Message> codec;
+
+    /**
      * Construct a {@link LobbyController} instance.
      *
      * @param system The {@link ActorSystem}  of the balancer.
+     * @param authenticator The reference to the {@link Authenticator} actor.
      * @param balancer The reference to the {@link LobbyBalancerActor} actor.
      */
-    public LobbyController(ActorSystem system, ActorRef balancer) {
+    public LobbyController(ActorSystem system, ActorRef authenticator, ActorRef balancer) {
         this.system = system;
+        this.authenticator = authenticator;
         this.balancer = balancer;
         this.mapper = new ObjectMapper();
         this.mapper.registerModule(new LobbyModule());
         this.mapper.registerModule(new JavaTimeModule()); // Duration (de)serialization
+        this.mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); // Return empty responses
+        this.codec = new JacksonWebSocketCodec(mapper);
     }
 
     /**
@@ -109,9 +142,9 @@ public class LobbyController {
     public Route list() {
         return route(
             get(() ->
-                completeOKWithFuture(PatternsCS.ask(balancer, RequestInformation.INSTANCE, 1000)
-                    .thenApplyAsync(LobbyBalancer.class::cast),
-                        Jackson.marshaller(mapper))
+                completeOKWithFuture(ask(balancer, RequestInformation.INSTANCE, 1000)
+                        .thenApplyAsync(LobbyBalancer.class::cast),
+                    Jackson.marshaller(mapper))
             )
         );
     }
@@ -139,6 +172,36 @@ public class LobbyController {
     }
 
     /**
+     * Return the middleware {@link Route} instance that authenticates the user using HTTP Basic
+     * authentication.
+     *
+     * @param inner The inner route producer to use on success.
+     * @return The {@link Route} instance that authenticates the user.
+     */
+    public Route authenticate(Function<User, Route> inner) {
+        return authenticateBasicAsyncOptional("fa", this::authenticate, opt ->
+            opt.map(inner).orElse(reject()));
+    }
+
+    /**
+     * Authenticate the user with the {@link ProvidedCredentials} instance.
+     *
+     * @param opt The optional credentials to authenticate with.
+     * @return The {@link CompletionStage} of the authentication returning the user.
+     */
+    public CompletionStage<Optional<User>> authenticate(Optional<ProvidedCredentials> opt) {
+        System.out.println(opt);
+        return opt.map(credentials ->
+            ask(authenticator, new AuthenticationRequest(credentials.identifier(), user ->
+                    credentials.verify(user.getCredentials().getPassword())), 1000)
+                .thenApply(AuthenticationSuccess.class::cast)
+                .thenApply(AuthenticationSuccess::getUser)
+                .thenApply(Optional::of)
+                .exceptionally(exc -> Optional.empty())
+        ).orElse(CompletableFuture.completedFuture(Optional.empty()));
+    }
+
+    /**
      * Return the {@link Route} instance for a {@link LobbyActor}.
      *
      * @param id The unique identifier of the lobby.
@@ -146,8 +209,21 @@ public class LobbyController {
     public Route lobby(UUID id) {
         return middleware(id, lobby -> route(
             pathEndOrSingleSlash(() -> information(lobby)),
-            path("feed", () -> feed(lobby))
+            path("feed", () -> authorizedFeed(lobby).orElse(feed(lobby)))
         ));
+    }
+
+    /**
+     * Return the {@link Route} instance for the authorized feed of a {@link LobbyActor}.
+     *
+     * @param lobby The lobby to get the feed of.
+     */
+    public Route authorizedFeed(ActorRef lobby) {
+        return get(() ->
+            authenticate(user ->
+                handleWebSocketMessages(feedHandler(lobby, new AuthorizedSessionStage(user)))
+            )
+        );
     }
 
     /**
@@ -156,7 +232,24 @@ public class LobbyController {
      * @param lobby The lobby to get the feed of.
      */
     public Route feed(ActorRef lobby) {
-        return get(() -> complete(StatusCodes.NOT_IMPLEMENTED));
+        return get(() -> handleWebSocketMessages(feedHandler(lobby,
+            new UnauthorizedSessionStage())));
+    }
+
+    /**
+     * Return the {@link Flow} that handles the messages in the lobby's feed.
+     *
+     * @param lobby The lobby to get the feed of.
+     * @param sessionStage The session stage to use.
+     * @return The {@link Flow} that handles the messages in the lobby's feed.
+     */
+    public Flow<Message, Message, NotUsed> feedHandler(ActorRef lobby,
+                                                       AbstractSessionStage sessionStage) {
+        return codec.bidiFlow()
+            .atop(BidiFlow.fromGraph(new UnauthorizedSessionStage()))
+            .join(Flow.fromGraph(new LobbyStage(lobby)))
+            .withAttributes(ActorAttributes.withSupervisionStrategy(
+                Supervision.getResumingDecider()));
     }
 
     /**
@@ -166,8 +259,8 @@ public class LobbyController {
      * @param lobby The lobby to show the information of.
      */
     public Route information(ActorRef lobby) {
-        final CompletionStage<Lobby> cs = PatternsCS.ask(lobby, RequestInformation.INSTANCE, 1000)
-                .thenApply(Lobby.class::cast);
+        final CompletionStage<Lobby> cs = ask(lobby, RequestInformation.INSTANCE, 1000)
+            .thenApply(Lobby.class::cast);
         return completeOKWithFuture(cs, Jackson.marshaller(mapper));
     }
 }

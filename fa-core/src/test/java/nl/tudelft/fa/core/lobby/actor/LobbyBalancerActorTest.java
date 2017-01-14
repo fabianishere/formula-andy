@@ -7,6 +7,7 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.pattern.Patterns;
 import akka.testkit.JavaTestKit;
+import akka.testkit.TestActorRef;
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
@@ -123,6 +124,8 @@ public class LobbyBalancerActorTest {
         };
     }
 
+
+
     @Test
     public void testJoinSame() throws Exception {
         new JavaTestKit(system) {
@@ -162,19 +165,18 @@ public class LobbyBalancerActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyBalancerActor.props(configuration, 0, 2);
-                final ActorRef subject = system.actorOf(props);
+                final TestActorRef<LobbyBalancerActor> subject = TestActorRef.create(system, props, "testB");
                 final Join req = new Join(user, getRef());
                 final JavaTestKit probe = new JavaTestKit(system);
                 final User snd = new User(UUID.randomUUID(), new Credentials("test", "test"));
-                subject.tell(new Join(snd, probe.getRef()), probe.getRef());
-                probe.expectMsgClass(duration("1 second"),JoinSuccess.class);
-                subject.tell(req, getRef());
-                expectMsgClass(duration("1 second"), JoinSuccess.class);
-                reply(new Leave(user));
-                expectMsgClass(duration("1 second"), LeaveSuccess.class);
 
+                subject.tell(new Join(user, probe.getRef()), probe.getRef());
+                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
+                probe.reply(new Leave(user));
+                probe.expectMsgClass(duration("1 second"), LeaveSuccess.class);
+                probe.expectNoMsg(duration("1 second"));
                 LobbyBalancer info = (LobbyBalancer) Await.result(Patterns.ask(subject, RequestInformation.INSTANCE, 1000), duration("1 second"));
-                assertEquals(1, info.getLobbies().size());
+                assertEquals(0, info.getLobbies().size());
             }
         };
     }
@@ -191,7 +193,7 @@ public class LobbyBalancerActorTest {
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
                 reply(new Leave(user));
                 expectMsgClass(duration("1 second"), LeaveSuccess.class);
-
+                expectNoMsg(duration("1 second"));
                 LobbyBalancer info = (LobbyBalancer) Await.result(Patterns.ask(subject, RequestInformation.INSTANCE, 1000), duration("1 second"));
                 assertEquals(1, info.getLobbies().size());
             }
