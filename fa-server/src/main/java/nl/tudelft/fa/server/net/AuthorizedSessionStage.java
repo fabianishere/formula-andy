@@ -110,6 +110,13 @@ public class AuthorizedSessionStage extends AbstractSessionStage {
                 public void onPush() throws Exception {
                     push(outA, attach.apply(grab(inA)));
                 }
+
+                @Override
+                public void onUpstreamFinish() {
+                    // prevent completing the stage if the upstream has finished
+                    // because we will still receive messages from the lobby's event bus
+                    // to send downstream.
+                }
             });
 
             setHandler(outA, new AbstractOutHandler() {
