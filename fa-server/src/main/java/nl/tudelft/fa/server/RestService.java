@@ -27,11 +27,15 @@ package nl.tudelft.fa.server;
 
 import static akka.http.javadsl.server.Directives.*;
 
+import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.model.StatusCodes;
 import akka.http.javadsl.server.Route;
 
+import nl.tudelft.fa.core.auth.actor.Authenticator;
+import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
+import nl.tudelft.fa.server.controller.LobbyController;
 import nl.tudelft.fa.server.model.Information;
 
 import java.lang.management.ManagementFactory;
@@ -55,15 +59,23 @@ public class RestService {
     /**
      * The {@link ActorSystem} of this {@link RestService}.
      */
-    private ActorSystem system;
+    private final ActorSystem system;
+
+    /**
+     * The controller that manages the lobbies.
+     */
+    private final LobbyController lobbies;
 
     /**
      * Construct a {@link RestService} instance.
      *
      * @param system The {@link ActorSystem} instance to use.
+     * @param authenticator The reference to the {@link Authenticator} actor.
+     * @param balancer The reference to the {@link LobbyBalancerActor}.
      */
-    public RestService(ActorSystem system) {
+    public RestService(ActorSystem system, ActorRef authenticator, ActorRef balancer) {
         this.system = system;
+        this.lobbies = new LobbyController(system, authenticator, balancer);
     }
 
     /**
@@ -73,7 +85,8 @@ public class RestService {
      */
     public Route createRoute() {
         return route(
-            path("information", this::information)
+            path("information", this::information),
+            pathPrefix("lobbies", lobbies::createRoute)
         );
     }
 

@@ -25,67 +25,19 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.user.User;
 
-import java.util.Objects;
-
 /**
- * This message indicates the {@link User} has left the {@link Lobby}.
+ * This message indicates the {@link User} has left the {@link LobbyActor}.
  *
  * @author Fabian Mastenbroek
  */
-public class LeaveSuccess {
+public final class LeaveSuccess implements LobbyResponse {
     /**
-     * The user that has left the lobby.
+     * The singleton instance of this class.
      */
-    private User user;
-
-    /**
-     * Construct a {@link LeaveSuccess} message instance.
-     *
-     * @param user The user that has left the lobby.
-     */
-    public LeaveSuccess(User user) {
-        this.user = user;
-    }
-
-    /**
-     * Return the user that has left the lobby.
-     *
-     * @return The user that has left the lobby.
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Test whether this message is equal to the given object.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null || getClass() != other.getClass()) {
-            return false;
-        }
-        LeaveSuccess that = (LeaveSuccess) other;
-        return Objects.equals(user, that.user);
-    }
-
-    /**
-     * Return the hash code of this object.
-     *
-     * @return The hash code of this object as integer.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(user);
-    }
+    public static final LeaveSuccess INSTANCE = new LeaveSuccess();
 
     /**
      * Return a string representation of this message.
@@ -94,6 +46,6 @@ public class LeaveSuccess {
      */
     @Override
     public String toString() {
-        return String.format("LeaveSuccess(user=%s)", user);
+        return "LeaveSuccess";
     }
 }

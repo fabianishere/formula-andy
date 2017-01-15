@@ -25,10 +25,10 @@
 
 package nl.tudelft.fa.core.lobby;
 
-import nl.tudelft.fa.core.lobby.actor.Lobby;
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 
 /**
- * This enumeration defines the states a {@link Lobby} can be in.
+ * This enumeration defines the states a {@link LobbyActor} can be in.
  *
  * @author Fabian Mastenbroek
  */

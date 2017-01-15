@@ -70,7 +70,7 @@ public class UserTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("User(id=%s, credentials=%s)", id, credentials), user.toString());
+        assertEquals(String.format("User(id=%s, username=%s)", id, credentials.getUsername()), user.toString());
     }
 
 }

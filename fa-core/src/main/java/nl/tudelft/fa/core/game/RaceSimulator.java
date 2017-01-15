@@ -28,6 +28,7 @@ package nl.tudelft.fa.core.game;
 
 import nl.tudelft.fa.core.race.GrandPrix;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -80,17 +81,18 @@ public class RaceSimulator {
     }
 
     /**
-     * Returns if it's raining or not.
-     * @return The boolean raining.
+     * Returns if it is raining during the race.
+     * @return True if raining else false.
      */
     public boolean getRaining() {
-        return raining;
+        return this.raining;
     }
 
     /**
      * Generates the next race cycle. The moved distance and the crashes.
      */
-    public void getNextRaceCycle() {
+    public static List<CarSimulator> getNextRaceCycle(List<CarSimulator> carSimulators, boolean raining) {
+        List<CarSimulator> updatedList = new ArrayList<CarSimulator>();
         for (CarSimulator cs: carSimulators) {
             if (cs.getCarParameters().getCrashed()) {
                 continue;
@@ -101,6 +103,8 @@ public class RaceSimulator {
             } else {
                 cs.getCarParameters().setCrashed(true);
             }
+            updatedList.add(cs);
         }
+        return updatedList;
     }
 }
