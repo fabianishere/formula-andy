@@ -11,17 +11,16 @@ import javafx.stage.Stage;
 /**
  * Created by laeti on 9-1-2017.
  */
-public class StartScreenController {
-
+public class LoadgameController {
     /**
-     * This method is invoked when the signup game button is
-     * pressed and the user wants to create a new account
+     * This method is invoked when the login game button is pressed and the user wants to start
+     * playing the game.
      *
      * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
-    protected void loadGame(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../loadgame-screen.fxml"));
+    protected void grandprix(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../grandprix-screen.fxml"));
 
         Scene scene = new Scene(root);
         Node source = (Node)  event.getSource();
@@ -34,8 +33,8 @@ public class StartScreenController {
     }
 
     @FXML
-    protected void newGame(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../teamname-screen.fxml"));
+    protected void back(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../start-screen.fxml"));
 
         Scene scene = new Scene(root);
         Node source = (Node)  event.getSource();
@@ -46,4 +45,5 @@ public class StartScreenController {
         stage.sizeToScene();
         stage.show();
     }
+
 }
