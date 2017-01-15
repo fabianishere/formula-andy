@@ -477,7 +477,8 @@ public class SetupScreenScene extends Scene {
             return comboBox.getValue().toString().split(" ")[0];
         }
         return comboBox.getValue().toString();
-
+    }
+        
     @FXML
     protected void back(ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../teamname-screen.fxml"));
@@ -492,6 +493,5 @@ public class SetupScreenScene extends Scene {
         stage.show();
 
     }
-
 }
 
