@@ -10,6 +10,9 @@ import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
+import nl.tudelft.fa.core.race.CarConfiguration;
+import nl.tudelft.fa.core.race.TeamConfiguration;
+import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,6 +21,7 @@ import org.junit.Test;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.UUID;
 
 public class LobbyActorTest {
@@ -56,7 +60,7 @@ public class LobbyActorTest {
 
                 // await the correct response
                 expectMsgEquals(duration("1 second"), new Lobby(
-                    subject.path().name(), LobbyStatus.INTERMISSION, configuration, Collections.emptySet()));
+                    subject.path().name(), LobbyStatus.INTERMISSION, configuration, Collections.emptySet(), Collections.emptyList()));
             }
         };
     }
@@ -244,4 +248,28 @@ public class LobbyActorTest {
         };
     }
 
+    @Test
+    public void testSubmitConfiguration() {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyActor.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Leave req = new Leave(user);
+                final JavaTestKit probe = new JavaTestKit(system);
+                final User user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
+                final TeamConfiguration configuration = new TeamConfiguration(new HashSet<CarConfiguration>() {{
+                    add(new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null));
+                }});
+                final TeamConfigurationSubmission msg = new TeamConfigurationSubmission(user, configuration);
+
+                subject.tell(new Subscribe(probe.getRef()), probe.getRef());
+                subject.tell(new Join(user, getRef()), getRef());
+                expectMsgClass(duration("1 second"),  JoinSuccess.class);
+                probe.expectMsgClass(duration("1 second"), UserJoined.class);
+
+                subject.tell(msg, getRef());
+                probe.expectMsgClass(duration("1 second"), TeamConfigurationSubmission.class);
+            }
+        };
+    }
 }

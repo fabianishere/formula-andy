@@ -163,7 +163,8 @@ public class LobbyBalancerActor extends AbstractActor {
         Lobby info = instances.get(ref);
         Set<User> users = new HashSet<>(info.getUsers());
         users.add(req.getUser());
-        info = new Lobby(ref.path().name(), info.getStatus(), info.getConfiguration(), users);
+        info = new Lobby(ref.path().name(), info.getStatus(), info.getConfiguration(), users,
+            Collections.emptyList());
         instances.put(ref, info);
         available.put(ref, info);
     }
@@ -178,7 +179,8 @@ public class LobbyBalancerActor extends AbstractActor {
         Lobby info = instances.get(lobby);
         Set<User> users = new HashSet<>(info.getUsers());
         users.add(user);
-        update(new Lobby(lobby.path().name(), info.getStatus(), info.getConfiguration(), users));
+        update(new Lobby(lobby.path().name(), info.getStatus(), info.getConfiguration(),
+            users, info.getSchedule()));
     }
 
     /**
@@ -191,7 +193,8 @@ public class LobbyBalancerActor extends AbstractActor {
         Lobby info = instances.get(lobby);
         Set<User> users = new HashSet<>(info.getUsers());
         users.remove(user);
-        update(new Lobby(lobby.path().name(), info.getStatus(), info.getConfiguration(), users));
+        update(new Lobby(lobby.path().name(), info.getStatus(), info.getConfiguration(), users,
+            info.getSchedule()));
     }
 
     /**
@@ -248,7 +251,7 @@ public class LobbyBalancerActor extends AbstractActor {
         String id = UUID.randomUUID().toString();
         ActorRef ref = context().actorOf(LobbyActor.props(configuration), id);
         Lobby info = new Lobby(id, LobbyStatus.INTERMISSION, configuration,
-            Collections.emptySet());
+            Collections.emptySet(), Collections.emptyList());
         ref.tell(new Subscribe(self()), self());
 
         // watch lobby for termination

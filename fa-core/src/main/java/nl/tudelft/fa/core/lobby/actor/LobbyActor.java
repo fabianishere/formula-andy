@@ -36,13 +36,13 @@ import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
+import nl.tudelft.fa.core.race.GrandPrix;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.concurrent.duration.FiniteDuration;
 import scala.runtime.BoxedUnit;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -77,6 +77,16 @@ public class LobbyActor extends AbstractActor {
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
 
     /**
+     * The remaining schedule of the lobby.
+     */
+    private LinkedList<GrandPrix> schedule;
+
+    /**
+     * The reference to the {@link LobbyRaceSimulationActor} instance.
+     */
+    private ActorRef simulator;
+
+    /**
      * Construct a {@link LobbyActor} instance.
      *
      * @param configuration The configuration of the lobby.
@@ -86,6 +96,9 @@ public class LobbyActor extends AbstractActor {
         this.users = new HashMap<>(configuration.getUserMaximum());
         this.bus = context().actorOf(LobbyEventBus.props(), "event-bus");
         this.id = self().path().name();
+
+        this.schedule = new LinkedList<>();
+        this.simulator = context().actorOf(LobbyRaceSimulationActor.props(bus, null));
     }
 
     /**
@@ -110,6 +123,8 @@ public class LobbyActor extends AbstractActor {
             .match(Subscribe.class, req -> bus.tell(req, sender()))
             .match(Unsubscribe.class, req -> bus.tell(req, sender()))
             .match(Terminated.class, msg -> handleTermination(msg.actor()))
+            .match(TeamConfigurationSubmission.class, msg -> simulator.tell(msg, sender()))
+            .match(CarParametersSubmission.class, msg -> simulator.tell(msg, sender()))
             .build();
     }
 
@@ -292,6 +307,7 @@ public class LobbyActor extends AbstractActor {
         log.info("Changing lobby status from {} to {}", event.getPrevious(),
             event.getStatus());
         bus.tell(event, self());
+        schedule.poll(); // remove the GrandPrix from the schedule
         context().become(intermission());
     }
 
@@ -302,7 +318,7 @@ public class LobbyActor extends AbstractActor {
      * @return The information of this lobby.
      */
     private Lobby getInformation(LobbyStatus status) {
-        return new Lobby(id, status, configuration, users.keySet());
+        return new Lobby(id, status, configuration, users.keySet(), schedule);
     }
 
     /**

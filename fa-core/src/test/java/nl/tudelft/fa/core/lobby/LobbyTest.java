@@ -1,6 +1,7 @@
 package nl.tudelft.fa.core.lobby;
 
 import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.race.GrandPrix;
 import nl.tudelft.fa.core.user.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ public class LobbyTest {
     private LobbyStatus status;
     private LobbyConfiguration configuration;
     private Set<User> users;
+    private List<GrandPrix> schedule;
     private Lobby information;
 
     @Before
@@ -26,7 +28,9 @@ public class LobbyTest {
         configuration = new LobbyConfiguration(11, Duration.ofMinutes(5), Duration.ZERO);
         users = new HashSet<>();
         users.add(new User(UUID.randomUUID(), new Credentials("fabianishere", "test")));
-        information = new Lobby(id, status, configuration, users);
+        schedule = new ArrayList<>();
+        schedule.add(new GrandPrix(UUID.randomUUID(), null, null, 0, 0));
+        information = new Lobby(id, status, configuration, users, schedule);
     }
 
     @Test
@@ -50,6 +54,11 @@ public class LobbyTest {
     }
 
     @Test
+    public void testSchedule() {
+        assertEquals(schedule, information.getSchedule());
+    }
+
+    @Test
     public void equalsNull() {
         assertThat(information, not(equalTo(null)));
     }
@@ -66,38 +75,38 @@ public class LobbyTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new Lobby(id, status, configuration, users), information);
+        assertEquals(new Lobby(id, status, configuration, users, schedule), information);
     }
 
     @Test
     public void equalsDifferentId() {
-        assertNotEquals(new Lobby(UUID.randomUUID().toString(), status, configuration, users), information);
+        assertNotEquals(new Lobby(UUID.randomUUID().toString(), status, configuration, users, schedule), information);
     }
 
 
     @Test
     public void equalsDifferentStatus() {
-        assertNotEquals(new Lobby(id, LobbyStatus.PROGRESSION, configuration, users), information);
+        assertNotEquals(new Lobby(id, LobbyStatus.PROGRESSION, configuration, users, schedule), information);
     }
 
     @Test
     public void equalsDifferentConfiguration() {
-        assertNotEquals(new Lobby(id, status, new LobbyConfiguration(0, Duration.ZERO, Duration.ZERO), users), information);
+        assertNotEquals(new Lobby(id, status, new LobbyConfiguration(0, Duration.ZERO, Duration.ZERO), users, schedule), information);
     }
 
     @Test
     public void equalsDifferentUsers() {
-        assertNotEquals(new Lobby(id, status, configuration, Collections.emptySet()), information);
+        assertNotEquals(new Lobby(id, status, configuration, Collections.emptySet(), schedule), information);
     }
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(id, status, configuration, users), information.hashCode());
+        assertEquals(Objects.hash(id, status, configuration, users, schedule), information.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("Lobby(id=%s, status=%s, configuration=%s, users=%d)",
-            id, status, configuration, users.size()), information.toString());
+        assertEquals(String.format("Lobby(id=%s, status=%s, configuration=%s, users=%s, schedule=%s)",
+            id, status, configuration, users, schedule), information.toString());
     }
 }
