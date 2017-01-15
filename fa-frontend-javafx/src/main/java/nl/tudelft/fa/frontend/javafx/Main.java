@@ -45,7 +45,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("store-screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("setup-screen.fxml"));
 
         Scene scene = new Scene(root);
 

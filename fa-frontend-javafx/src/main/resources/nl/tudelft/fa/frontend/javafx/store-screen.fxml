@@ -37,7 +37,7 @@
 <?import javafx.scene.control.ComboBox?>
 <VBox id="store-screen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="1020.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="nl.tudelft.fa.frontend.javafx.controller.GrandprixController">
+      fx:controller="nl.tudelft.fa.frontend.javafx.controller.StoreController">
     <stylesheets>
         <URL value="@css/style.css"/>
     </stylesheets>
@@ -46,7 +46,7 @@
                   prefHeight="1020.0" prefWidth="1920.0">
             <children>
 
-                <Button fx:id="back" prefHeight="31.0" prefWidth="100" text="Back" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Button fx:id="back" onAction="#back" prefHeight="31.0" prefWidth="100" text="Back" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
                 <ComboBox fx:id="driver" prefHeight="31.0" prefWidth="300.0" promptText="Drivers" GridPane.columnIndex="4" GridPane.rowIndex="3" />
                 <Button fx:id="buyDriver" prefHeight="31.0" prefWidth="100" text="Buy" GridPane.columnIndex="6" GridPane.rowIndex="3" />
