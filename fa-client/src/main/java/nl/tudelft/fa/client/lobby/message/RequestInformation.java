@@ -22,26 +22,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
-apply plugin: 'scala'
+package nl.tudelft.fa.client.lobby.message;
 
-dependencies {
-    compile 'org.scala-lang:scala-library:2.11.8'
-    compile 'com.typesafe.akka:akka-actor_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-slf4j_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-http_2.11:10.0.0'
-    compile 'com.typesafe.akka:akka-http-jackson_2.11:10.0.0'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.6'
+/**
+ * This message is send to a lobby to request information about its current state.
+ *
+ * @author Fabian Mastenbroek
+ */
+public final class RequestInformation implements LobbyRequest {
+    /**
+     * A static instance of this class.
+     */
+    public static final RequestInformation INSTANCE = new RequestInformation();
 
-    testCompile 'com.typesafe.akka:akka-testkit_2.11:2.4.14'
-    testCompile 'com.typesafe.akka:akka-http-testkit_2.11:10.0.0'
-    testCompile 'org.scalatest:scalatest_2.11:3.0.1'
-    testCompile 'junit:junit:4.11'
-    testCompile project(':fa-server')
-    testRuntime 'org.slf4j:slf4j-simple:1.7.22'
-    testRuntime 'org.hibernate:hibernate-core:5.2.5.Final'
-    testRuntime 'com.h2database:h2:1.4.193'
+    /**
+     * Return a string representation of this message.
+     *
+     * @return A string representation of this message.
+     */
+    @Override
+    public String toString() {
+        return "RequestInformation";
+    }
 }

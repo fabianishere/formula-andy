@@ -22,26 +22,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
-apply plugin: 'scala'
+package nl.tudelft.fa.client.net.message;
 
-dependencies {
-    compile 'org.scala-lang:scala-library:2.11.8'
-    compile 'com.typesafe.akka:akka-actor_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-slf4j_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-http_2.11:10.0.0'
-    compile 'com.typesafe.akka:akka-http-jackson_2.11:10.0.0'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.6'
+import nl.tudelft.fa.client.lobby.message.LobbyOutboundMessage;
 
-    testCompile 'com.typesafe.akka:akka-testkit_2.11:2.4.14'
-    testCompile 'com.typesafe.akka:akka-http-testkit_2.11:10.0.0'
-    testCompile 'org.scalatest:scalatest_2.11:3.0.1'
-    testCompile 'junit:junit:4.11'
-    testCompile project(':fa-server')
-    testRuntime 'org.slf4j:slf4j-simple:1.7.22'
-    testRuntime 'org.hibernate:hibernate-core:5.2.5.Final'
-    testRuntime 'com.h2database:h2:1.4.193'
+/**
+ * This {@link Exception} is sent by the server to unauthorized sessions that have sent
+ * messages to the server that require authorization.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class NotAuthorizedException extends Exception implements LobbyOutboundMessage {
+    /**
+     * Construct a {@link NotAuthorizedException} instance.
+     *
+     * @param message The message of the exception.
+     */
+    public NotAuthorizedException(String message) {
+        super(message);
+    }
+
+    /**
+     * Construct a {@link NotAuthorizedException} instance.
+     */
+    public NotAuthorizedException() {
+        this("The session is not authorized to sent this message.");
+    }
 }

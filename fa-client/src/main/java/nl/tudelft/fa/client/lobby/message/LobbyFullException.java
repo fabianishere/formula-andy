@@ -22,26 +22,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
-apply plugin: 'scala'
+package nl.tudelft.fa.client.lobby.message;
 
-dependencies {
-    compile 'org.scala-lang:scala-library:2.11.8'
-    compile 'com.typesafe.akka:akka-actor_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-slf4j_2.11:2.4.14'
-    compile 'com.typesafe.akka:akka-http_2.11:10.0.0'
-    compile 'com.typesafe.akka:akka-http-jackson_2.11:10.0.0'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.6'
+/**
+ * This message indicates that the lobby a user trying to join, is full.
+ *
+ * @author Fabian Mastenbroek
+ */
+public final class LobbyFullException extends JoinException {
+    /**
+     * The amount of users in the lobby currently.
+     */
+    private int users;
 
-    testCompile 'com.typesafe.akka:akka-testkit_2.11:2.4.14'
-    testCompile 'com.typesafe.akka:akka-http-testkit_2.11:10.0.0'
-    testCompile 'org.scalatest:scalatest_2.11:3.0.1'
-    testCompile 'junit:junit:4.11'
-    testCompile project(':fa-server')
-    testRuntime 'org.slf4j:slf4j-simple:1.7.22'
-    testRuntime 'org.hibernate:hibernate-core:5.2.5.Final'
-    testRuntime 'com.h2database:h2:1.4.193'
+    /**
+     * Construct a {@link LobbyFullException} message.
+     *
+     * @param users The amount of users in the lobby currently.
+     */
+    public LobbyFullException(int users) {
+        super("The lobby you are trying to join is full.");
+        this.users = users;
+    }
+
+    /**
+     * Return the amount of users currently in the lobby.
+     *
+     * @return The amount of users currently in the lobby.
+     */
+    public int getUsers() {
+        return users;
+    }
 }
