@@ -22,10 +22,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.helper.jackson;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.client.lobby.Lobby;
+import nl.tudelft.fa.client.lobby.LobbyBalancer;
+
+import java.util.Set;
+
+/**
+ * Mixin for the {@link LobbyBalancer} class.
+ *
+ * @author Fabian Mastenbroek
+ */
+public abstract class LobbyBalancerMixin {
+    /**
+     * Construct a {@link LobbyBalancerMixin} instance.
+     *
+     * @param lobbies The lobbies of the balancer.
+     */
+    @JsonCreator
+    public LobbyBalancerMixin(@JsonProperty("lobbies") Set<Lobby> lobbies) {}
+}

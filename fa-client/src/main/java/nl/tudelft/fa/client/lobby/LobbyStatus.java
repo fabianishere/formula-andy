@@ -22,10 +22,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.lobby;
 
+/**
+ * This enumeration defines the states a lobby can be in.
+ *
+ * @author Fabian Mastenbroek
+ */
+public enum LobbyStatus {
+    PREPARATION, IN_PROGRESS
+}

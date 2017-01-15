@@ -22,10 +22,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.lobby.message;
 
+/**
+ * Messages that implement the {@link LobbyInboundMessage} represent messages that are received
+ * by the server from the client.
+ *
+ * @author Fabian Mastenbroek
+ */
+public interface LobbyInboundMessage {}

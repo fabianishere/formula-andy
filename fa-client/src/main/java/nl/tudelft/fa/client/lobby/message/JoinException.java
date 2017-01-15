@@ -22,10 +22,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.lobby.message;
 
+/**
+ * This class represents a {@link JoinException} that occurred specifically in the lobby.
+ *
+ * @author Fabian Mastenbroek
+ */
+public abstract class JoinException extends LobbyException {
+    /**
+     * Construct a {@link JoinException} instance.
+     *
+     * @param message The message of the error.
+     */
+    public JoinException(String message) {
+        super(message);
+    }
+
+    /**
+     * Construct a {@link JoinException} instance.
+     */
+    public JoinException() {
+        super();
+    }
+}

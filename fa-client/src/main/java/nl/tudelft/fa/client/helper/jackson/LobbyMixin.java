@@ -22,10 +22,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.helper.jackson;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.client.lobby.Lobby;
+import nl.tudelft.fa.client.lobby.LobbyConfiguration;
+import nl.tudelft.fa.client.lobby.LobbyStatus;
+import nl.tudelft.fa.client.user.User;
+
+import java.util.Set;
+
+/**
+ * Mixin for the {@link Lobby} class.
+ *
+ * @author Fabian Mastenbroek
+ */
+public abstract class LobbyMixin {
+    /**
+     * Construct a {@link LobbyMixin} instance.
+     *
+     * @param id The unique identifier of the lobby.
+     * @param status The status of the lobby.
+     * @param configuration The configuration of the lobby.
+     * @param users The users in the lobby.
+     */
+    @JsonCreator
+    public LobbyMixin(@JsonProperty("id") String id, @JsonProperty("status") LobbyStatus status,
+                      @JsonProperty("configuration") LobbyConfiguration configuration,
+                      @JsonProperty("users") Set<User> users) {
+        // no implementation. Jackson does the work
+    }
+}

@@ -22,10 +22,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.net.message;
 
+import nl.tudelft.fa.client.lobby.message.LobbyOutboundMessage;
+
+/**
+ * This {@link Exception} is sent by the server to unauthorized sessions that have sent
+ * messages to the server that require authorization.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class NotAuthorizedException extends Exception implements LobbyOutboundMessage {
+    /**
+     * Construct a {@link NotAuthorizedException} instance.
+     *
+     * @param message The message of the exception.
+     */
+    public NotAuthorizedException(String message) {
+        super(message);
+    }
+
+    /**
+     * Construct a {@link NotAuthorizedException} instance.
+     */
+    public NotAuthorizedException() {
+        this("The session is not authorized to sent this message.");
+    }
+}

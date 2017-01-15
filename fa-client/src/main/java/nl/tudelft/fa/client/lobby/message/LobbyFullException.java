@@ -22,10 +22,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.lobby.message;
 
+/**
+ * This message indicates that the lobby a user trying to join, is full.
+ *
+ * @author Fabian Mastenbroek
+ */
+public final class LobbyFullException extends JoinException {
+    /**
+     * The amount of users in the lobby currently.
+     */
+    private int users;
+
+    /**
+     * Construct a {@link LobbyFullException} message.
+     *
+     * @param users The amount of users in the lobby currently.
+     */
+    public LobbyFullException(int users) {
+        super("The lobby you are trying to join is full.");
+        this.users = users;
+    }
+
+    /**
+     * Return the amount of users currently in the lobby.
+     *
+     * @return The amount of users currently in the lobby.
+     */
+    public int getUsers() {
+        return users;
+    }
+}

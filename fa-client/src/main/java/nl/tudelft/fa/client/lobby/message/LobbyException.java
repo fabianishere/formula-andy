@@ -22,10 +22,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.lobby.message;
 
+/**
+ * This message represents an exception within the lobby.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class LobbyException extends Exception implements LobbyResponse {
+    /**
+     * Construct a {@link LobbyException} instance.
+     *
+     * @param message The message of the exception.
+     */
+    public LobbyException(String message) {
+        super(message);
+    }
+
+    /**
+     * Construct a {@link JoinException} instance.
+     */
+    public LobbyException() {
+        super();
+    }
+}
