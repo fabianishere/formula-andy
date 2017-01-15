@@ -20,83 +20,45 @@ import java.util.UUID;
 
 public class RaceSimulatorTest {
 
-    int testAmount;
     double delta;
-
     Circuit circuit;
     GrandPrix gp;
-
     RaceSimulator rs;
-
     int mechanicalRisk;
     int aerodynamicRisk;
     int strategicRisk;
     Tire tire;
-
+    CarConfiguration configuration;
     CarParameters parameters;
-    CarParameters parameters2;
-
     Car car;
-
     Driver driver;
-    Driver driver2;
-
     Engine engine;
     Mechanic mechanic;
     Aerodynamicist aerodynamicist;
     Strategist strategist;
-
-    CarConfiguration configuration;
-    CarConfiguration configuration2;
-
     CarSimulator cs;
-    CarSimulator cs2;
-
     List<CarSimulator> carSimulatorList;
 
-    public void setUpCarSimulators() {
+    public void setUp() {
+        delta = 0.00001;
         mechanicalRisk = 2;
         aerodynamicRisk = 3;
         strategicRisk = 3;
         tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 7, 1);
-
         parameters = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
-        parameters2 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
-
         car = new Car(UUID.randomUUID());
-
         driver = new Driver(UUID.randomUUID(), "Henry", 3, 80, 90, 70);
-        driver2 = new Driver(UUID.randomUUID(), "Max", 3, 70, 80, 30);
-
         engine = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
         mechanic = new Mechanic(UUID.randomUUID(), "Harry", 35, 80);
         aerodynamicist = new Aerodynamicist(UUID.randomUUID(), "Fred", 100, 80);
         strategist = new Strategist(UUID.randomUUID(), "Louis", 100, 80);
-
         configuration = new CarConfiguration(car, engine, driver, mechanic, aerodynamicist, strategist);
-        configuration2 = new CarConfiguration(car, engine, driver2, mechanic, aerodynamicist, strategist);
-
         cs = new CarSimulator(configuration, parameters);
-        cs2 = new CarSimulator(configuration2, parameters2);
-
         carSimulatorList = new ArrayList<CarSimulator>();
-
         carSimulatorList.add(cs);
-        carSimulatorList.add(cs2);
-    }
-
-    public void setUpGrandPrix(int rainchance, int laps) {
         circuit = new Circuit(UUID.randomUUID(), "circuitName", "county", 5000);
-        gp = new GrandPrix(UUID.randomUUID(), circuit, Instant.now(), laps, rainchance);
-    }
-
-    @Test
-    public void setUp() {
-        setUpCarSimulators();
-        setUpGrandPrix(100, 100);
-
+        gp = new GrandPrix(UUID.randomUUID(), circuit, Instant.now(), 10000, 10000);
         rs = new RaceSimulator(carSimulatorList, gp);
-
     }
 
     @Test
@@ -109,5 +71,42 @@ public class RaceSimulatorTest {
     public void getCarSimulators() {
         setUp();
         assertEquals(carSimulatorList, rs.getCarSimulators());
+    }
+
+    @Test
+    public void getNextCycle() {
+        setUp();
+        cs.getCarParameters().setCrashed(true);
+        rs.getNextRaceCycle(carSimulatorList, rs.getRaining());
+        assertTrue(cs.getCarParameters().getTraveledDistance() == 0);
+    }
+
+    @Test
+    public void getNextCycle2() {
+        setUp();
+        rs.getNextRaceCycle(carSimulatorList, rs.getRaining());
+        assertFalse(cs.getCarParameters().getTraveledDistance() == 0);
+    }
+
+    @Test
+    public void getNextCycle3() {
+        setUp();
+        rs.getNextRaceCycle(carSimulatorList, rs.getRaining());
+        if (cs.getCarParameters().getCrashed()) {
+            assertTrue(cs.getCarParameters().getTraveledDistance() == 0.0);
+        }
+        assertTrue(cs.getCarParameters().getTraveledDistance() != 0.0);
+    }
+
+    @Test
+    public void getNextCycle4() {
+        setUp();
+        double distance = 0.0;
+        while(!cs.getCarParameters().getCrashed()) {
+            rs.getNextRaceCycle(carSimulatorList, rs.getRaining());
+            distance = cs.getCarParameters().getTraveledDistance();
+        }
+        rs.getNextRaceCycle(carSimulatorList, rs.getRaining());
+        assertEquals(distance, cs.getCarParameters().getTraveledDistance(), delta);
     }
 }
