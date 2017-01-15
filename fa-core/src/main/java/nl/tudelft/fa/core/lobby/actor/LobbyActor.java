@@ -100,6 +100,20 @@ public class LobbyActor extends AbstractActor {
     }
 
     /**
+     * This method defines the base actor behavior, it must return a partial function with the
+     * actor logic.
+     *
+     * @return The base actor behavior as a partial function.
+     */
+    private PartialFunction<Object, BoxedUnit> base() {
+        return ReceiveBuilder
+            .match(Subscribe.class, req -> bus.tell(req, sender()))
+            .match(Unsubscribe.class, req -> bus.tell(req, sender()))
+            .match(Terminated.class, msg -> handleTermination(msg.actor()))
+            .build();
+    }
+
+    /**
      * This method defines the behavior of the actor when the lobby is in intermission.
      *
      * @return The intermission actor behavior as a partial function.
@@ -118,11 +132,9 @@ public class LobbyActor extends AbstractActor {
             .match(RequestInformation.class, req -> inform(LobbyStatus.INTERMISSION))
             .match(Join.class, req -> join(req.getUser(), req.getHandler()))
             .match(Leave.class, req -> leave(req.getUser()))
-            .match(Subscribe.class, req -> bus.tell(req, sender()))
-            .match(Unsubscribe.class, req -> bus.tell(req, sender()))
-            .match(Terminated.class, msg -> handleTermination(msg.actor()))
             .match(LobbyStatusChanged.class, this::transitToPreparation)
-            .build();
+            .build()
+            .orElse(base());
     }
 
     /**
@@ -142,11 +154,9 @@ public class LobbyActor extends AbstractActor {
 
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform(LobbyStatus.PREPARATION))
-            .match(Subscribe.class, req -> bus.tell(req, sender()))
-            .match(Unsubscribe.class, req -> bus.tell(req, sender()))
-            .match(Terminated.class, msg -> handleTermination(msg.actor()))
             .match(LobbyStatusChanged.class, this::transitToProgression)
-            .build();
+            .build()
+            .orElse(base());
     }
 
     /**
@@ -157,11 +167,9 @@ public class LobbyActor extends AbstractActor {
     private PartialFunction<Object, BoxedUnit> progression() {
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform(LobbyStatus.PROGRESSION))
-            .match(Subscribe.class, req -> bus.tell(req, sender()))
-            .match(Unsubscribe.class, req -> bus.tell(req, sender()))
-            .match(Terminated.class, msg -> handleTermination(msg.actor()))
             .match(LobbyStatusChanged.class, this::transitToIntermission)
-            .build();
+            .build()
+            .orElse(base());
     }
 
     /**
