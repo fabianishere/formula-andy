@@ -22,10 +22,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.lobby.message;
 
+/**
+ * This message indicates the user that he has successfully joined the lobby.
+ *
+ * @author Fabian Mastenbroek
+ */
+public final class JoinSuccess implements LobbyResponse {
+    /**
+     * The singleton instance of this class.
+     */
+    public static final JoinSuccess INSTANCE = new JoinSuccess();
+
+    /**
+     * Return a string representation of this message.
+     *
+     * @return A string representation of this message.
+     */
+    @Override
+    public String toString() {
+        return "JoinSuccess";
+    }
+}

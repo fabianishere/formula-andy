@@ -22,10 +22,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.helper.jackson;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.client.lobby.message.UserJoined;
+import nl.tudelft.fa.client.user.User;
+
+/**
+ * Mix-in for the {@link UserJoined} event class.
+ *
+ * @author Fabian Mastenbroek
+ */
+public abstract class UserJoinedMixin {
+    /**
+     * Construct a {@link UserJoinedMixin} instance.
+     *
+     * @param user The user that has joined the lobby.
+     */
+    @JsonCreator
+    public UserJoinedMixin(@JsonProperty("user") User user) {}
+}

@@ -22,10 +22,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.lobby.message;
 
+/**
+ * This message is sent to a lobby to request to join it.
+ *
+ * @author Fabian Mastenbroek
+ */
+public final class Join implements LobbyRequest {
+    /**
+     * The static instance of this class.
+     */
+    public static final Join INSTANCE = new Join();
+
+
+    /**
+     * Return a string representation of this message.
+     *
+     * @return A string representation of this message.
+     */
+    @Override
+    public String toString() {
+        return "Join";
+    }
+}

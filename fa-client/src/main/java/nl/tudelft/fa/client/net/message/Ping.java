@@ -22,10 +22,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.net.message;
 
+import nl.tudelft.fa.client.lobby.message.LobbyInboundMessage;
+
+/**
+ * This message is sent to the user to keep the connection alive.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class Ping implements LobbyInboundMessage {
+    /**
+     * The static instance of this class.
+     */
+    public static final Ping INSTANCE = new Ping();
+}

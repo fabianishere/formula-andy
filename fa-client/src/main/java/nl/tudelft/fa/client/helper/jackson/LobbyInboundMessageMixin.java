@@ -22,10 +22,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.helper.jackson;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import nl.tudelft.fa.client.lobby.message.Join;
+import nl.tudelft.fa.client.lobby.message.Leave;
+import nl.tudelft.fa.client.lobby.message.RequestInformation;
+import nl.tudelft.fa.client.net.message.Ping;
+
+/**
+ * This mixin creates an envelope around the messages sent to the lobby.
+ *
+ * @author Fabian Mastenbroek
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+@JsonSubTypes(
+    {
+        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
+        @JsonSubTypes.Type(value = Join.class, name = "join"),
+        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
+       /* Miscellaneous */
+        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
+    }
+)
+public abstract class LobbyInboundMessageMixin {}

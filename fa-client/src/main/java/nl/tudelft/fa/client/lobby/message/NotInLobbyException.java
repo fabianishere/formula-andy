@@ -22,10 +22,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.lobby.message;
 
+/**
+ * This message represents a failure to leave a lobby, because the user was not in that lobby.
+ *
+ * @author Fabian Mastenbroek
+ */
+public final class NotInLobbyException extends LeaveException {
+    /**
+     * Construct a {@link NotInLobbyException} instance.
+     *
+     * @param message The message of the error.
+     */
+    public NotInLobbyException(String message) {
+        super(message);
+    }
+
+    /**
+     * Construct a {@link NotInLobbyException} instance.
+     */
+    public NotInLobbyException() {
+        super("You are not in the lobby you are trying to leave.");
+    }
+}

@@ -22,10 +22,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
+package nl.tudelft.fa.client.helper.jackson;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.client.lobby.LobbyConfiguration;
+
+import java.time.Duration;
+
+/**
+ * Mixin for the {@link LobbyConfiguration} class.
+ *
+ * @author Fabian Mastenbroek
+ */
+public abstract class LobbyConfigurationMixin {
+    /**
+     * Construct a {@link LobbyConfigurationMixin} instance.
+     *
+     * @param maxPlayers The maximum amount of players in the lobby.
+     * @param preparationTime The preparation time in the lobby.
+     */
+    @JsonCreator
+    public LobbyConfigurationMixin(@JsonProperty("playerMaximum") int maxPlayers,
+                                   @JsonProperty("preparationTime") Duration preparationTime) {
+        // no implementation. Jackson does the work
+    }
+}

@@ -22,10 +22,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'formula-andy'
 
-include 'fa-frontend-javafx'
-include 'fa-core'
-include 'fa-server'
-include 'fa-client'
 
+package nl.tudelft.fa.client.helper.jackson;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.client.user.User;
+
+import java.util.UUID;
+
+/**
+ * Mix-in for the {@link User} class.
+ *
+ * @author Fabian Mastenbroek
+ */
+public abstract class UserMixin {
+    /**
+     * Construct a {@link UserMixin} instance.
+     *
+     * @param id The unique identifier of the user.
+     * @param username The username of the user.
+     */
+    @JsonCreator
+    public UserMixin(@JsonProperty("id") UUID id, @JsonProperty("username") String username) {}
+}
