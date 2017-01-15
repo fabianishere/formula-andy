@@ -108,6 +108,7 @@ public class LobbyRaceSimulationActor extends AbstractActor {
             })
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),
                 msg.getParameters()))
+            .matchEquals("start", msg -> context().become(running()))
             .build();
     }
 
@@ -130,8 +131,7 @@ public class LobbyRaceSimulationActor extends AbstractActor {
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),
                 msg.getParameters()))
             .matchEquals("tick", msg -> {
-                // calculate next race cycle
-                simulator.getNextRaceCycle();
+                // TODO calculate next race cycle
                 // TODO publish results to lobby
             })
             .build();

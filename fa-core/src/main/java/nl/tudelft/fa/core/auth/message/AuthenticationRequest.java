@@ -27,20 +27,37 @@ package nl.tudelft.fa.core.auth.message;
 
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.auth.actor.Authenticator;
+import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
- * This message is sent to an {@link Authenticator} actor to request the user with the given
- * {@link Credentials} to be authenticated.
+ * This message is sent to an {@link Authenticator} actor to request the user to be authenticated.
  *
  * @author Fabian Mastenbroek
  */
 public final class AuthenticationRequest {
     /**
-     * The credentials to authenticate with.
+     * The username to authenticate with.
      */
-    private final Credentials credentials;
+    private final String username;
+
+    /**
+     * The verification function to use.
+     */
+    private final Predicate<User> verifier;
+
+    /**
+     * Construct a {@link AuthenticationRequest} message.
+     *
+     * @param username The username of the user that wants to authenticate.
+     * @param verifier The verification function to use.
+     */
+    public AuthenticationRequest(String username, Predicate<User> verifier) {
+        this.username = username;
+        this.verifier = verifier;
+    }
 
     /**
      * Construct a {@link AuthenticationRequest} message.
@@ -48,16 +65,36 @@ public final class AuthenticationRequest {
      * @param credentials The credentials to authenticate with.
      */
     public AuthenticationRequest(Credentials credentials) {
-        this.credentials = credentials;
+        this(credentials.getUsername(), user -> user.getCredentials().equals(credentials));
     }
 
     /**
-     * Return the {@link Credentials} to authenticate with.
+     * Return the username to authenticate with.
      *
-     * @return The credentials to authenticate with.
+     * @return The username to authenticate with.
      */
-    public Credentials getCredentials() {
-        return credentials;
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Return the verifier to use.
+     *
+     * @return The verifier to use.
+     */
+    public Predicate<User> getVerifier() {
+        return verifier;
+    }
+
+    /**
+     * Verify this request for the given user.
+     *
+     * @param user The {@link User} to verify.
+     * @return <code>true</code> if this request is correct for the given user, <code>false</code>
+     *     otherwise.
+     */
+    public boolean verify(User user) {
+        return verifier.test(user);
     }
 
     /**
@@ -76,7 +113,7 @@ public final class AuthenticationRequest {
             return false;
         }
         AuthenticationRequest that = (AuthenticationRequest) other;
-        return Objects.equals(credentials, that.credentials);
+        return Objects.equals(username, that.username);
     }
 
     /**
@@ -86,7 +123,7 @@ public final class AuthenticationRequest {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(credentials);
+        return Objects.hash(username);
     }
 
     /**
@@ -96,6 +133,6 @@ public final class AuthenticationRequest {
      */
     @Override
     public String toString() {
-        return String.format("AuthenticationRequest(credentials=%s)", credentials);
+        return String.format("AuthenticationRequest(username=%s)", username);
     }
 }

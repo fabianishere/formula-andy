@@ -42,4 +42,6 @@ dependencies {
     testCompile 'org.scalatest:scalatest_2.11:3.0.1'
     testCompile 'junit:junit:4.11'
     testRuntime 'org.slf4j:slf4j-simple:1.7.22'
+    testRuntime 'org.hibernate:hibernate-core:5.2.5.Final'
+    testRuntime 'com.h2database:h2:1.4.193'
 }

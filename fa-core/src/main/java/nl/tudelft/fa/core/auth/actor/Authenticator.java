@@ -94,7 +94,7 @@ public class Authenticator extends AbstractActor {
         Optional<User> user = entityManager
             .createQuery("SELECT t FROM Users t where t.credentials.username = :username",
                 User.class)
-            .setParameter("username", req.getCredentials().getUsername())
+            .setParameter("username", req.getUsername())
             .setMaxResults(1)
             .getResultList()
             .stream()
@@ -102,8 +102,7 @@ public class Authenticator extends AbstractActor {
 
         // If the user cannot be found, or the password is incorrect, return a InvalidCredentials
         // error message.
-        if (!user.isPresent() || !user.get()
-                .getCredentials().getPassword().equals(req.getCredentials().getPassword())) {
+        if (!user.isPresent() || !req.verify(user.get())) {
             sender().tell(new InvalidCredentialsError(), self());
             return;
         }

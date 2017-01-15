@@ -30,10 +30,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
+import javafx.stage.Stage;
 
 public class SetupScreenScene extends Scene {
 
@@ -329,6 +333,20 @@ public class SetupScreenScene extends Scene {
     private void dropdown(ObservableList<String> options, String id) {
         ComboBox<String> comboBox = (ComboBox<String>) this.lookup(id);
         comboBox.setItems(options);
+    }
+
+    @FXML
+    protected void back(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../teamname-screen.fxml"));
+
+        Scene scene = new Scene(root);
+        Node source = (Node)  event.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+
+        stage.setTitle("Formula Andy!");
+        stage.setScene(scene);
+        stage.sizeToScene();
+        stage.show();
     }
 
 }

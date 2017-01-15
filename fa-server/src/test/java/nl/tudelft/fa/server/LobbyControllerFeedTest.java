@@ -35,6 +35,6 @@ public class LobbyControllerFeedTest {
     public void setUp() {
         configuration = new LobbyConfiguration(11, java.time.Duration.ofMinutes(5), Duration.ZERO);
         lobby = system.actorOf(LobbyActor.props(configuration));
-        controller = new LobbyController(system, null);
+        controller = new LobbyController(system, null,null);
     }
 }
