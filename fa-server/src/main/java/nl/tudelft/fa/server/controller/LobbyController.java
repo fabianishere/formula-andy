@@ -190,7 +190,6 @@ public class LobbyController {
      * @return The {@link CompletionStage} of the authentication returning the user.
      */
     public CompletionStage<Optional<User>> authenticate(Optional<ProvidedCredentials> opt) {
-        System.out.println(opt);
         return opt.map(credentials ->
             ask(authenticator, new AuthenticationRequest(credentials.identifier(), user ->
                     credentials.verify(user.getCredentials().getPassword())), 1000)
@@ -209,7 +208,7 @@ public class LobbyController {
     public Route lobby(UUID id) {
         return middleware(id, lobby -> route(
             pathEndOrSingleSlash(() -> information(lobby)),
-            path("feed", () -> authorizedFeed(lobby).orElse(feed(lobby)))
+            path("feed", () -> feed(lobby))
         ));
     }
 
@@ -218,22 +217,12 @@ public class LobbyController {
      *
      * @param lobby The lobby to get the feed of.
      */
-    public Route authorizedFeed(ActorRef lobby) {
-        return get(() ->
-            authenticate(user ->
-                handleWebSocketMessages(feedHandler(lobby, new AuthorizedSessionStage(user)))
-            )
-        );
-    }
-
-    /**
-     * Return the {@link Route} instance for the feed of a {@link LobbyActor}.
-     *
-     * @param lobby The lobby to get the feed of.
-     */
     public Route feed(ActorRef lobby) {
-        return get(() -> handleWebSocketMessages(feedHandler(lobby,
-            new UnauthorizedSessionStage())));
+        return authenticate(user -> get(() -> handleWebSocketMessages(feedHandler(lobby,
+            new AuthorizedSessionStage(user)))
+        )).orElse(get(() -> handleWebSocketMessages(feedHandler(lobby,
+            new UnauthorizedSessionStage()))
+        ));
     }
 
     /**
@@ -246,7 +235,7 @@ public class LobbyController {
     public Flow<Message, Message, NotUsed> feedHandler(ActorRef lobby,
                                                        AbstractSessionStage sessionStage) {
         return codec.bidiFlow()
-            .atop(BidiFlow.fromGraph(new UnauthorizedSessionStage()))
+            .atop(BidiFlow.fromGraph(sessionStage))
             .join(Flow.fromGraph(new LobbyStage(lobby)))
             .withAttributes(ActorAttributes.withSupervisionStrategy(
                 Supervision.getResumingDecider()));
