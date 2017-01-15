@@ -14,13 +14,14 @@ import javafx.stage.Stage;
 public class StartScreenController {
 
     /**
-     * This method is invoked when the signup game button is pressed and the user wants to create a new account
+     * This method is invoked when the signup game button is
+     * pressed and the user wants to create a new account
      *
      * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
     protected void loadGame(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../load-screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../loadgame-screen.fxml"));
 
         Scene scene = new Scene(root);
         Node source = (Node)  event.getSource();

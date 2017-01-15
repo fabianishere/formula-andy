@@ -24,7 +24,6 @@
   THE SOFTWARE.
 -->
 
-<?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>

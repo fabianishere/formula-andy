@@ -25,9 +25,7 @@
   THE SOFTWARE.
 -->
 
-<?import java.lang.*?>
 <?import java.net.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -85,7 +83,7 @@
                         <Font size="48.0" />
                     </font>
                 </Label>
-                <Button mnemonicParsing="false" prefHeight="57.0" prefWidth="181.0" text="Race set-up" translateX="35.0" GridPane.columnIndex="5" GridPane.rowIndex="10">
+                <Button onAction="#racesetup" mnemonicParsing="false" prefHeight="57.0" prefWidth="181.0" text="Race set-up" translateX="35.0" GridPane.columnIndex="5" GridPane.rowIndex="10">
                     <font>
                         <Font size="24.0" />
                     </font>

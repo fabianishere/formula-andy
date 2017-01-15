@@ -32,7 +32,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox id="setup-screen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.SetupScreenController">
+<VBox id="setuptwee-screen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.SetupScreenController">
    <children>
                  <GridPane prefHeight="1080.0" prefWidth="1920.0">
                  <columnConstraints>
@@ -299,7 +299,7 @@
                                     <Font size="22.0" />
                                  </font>
                               </Label>
-                              <Button onAction="#next" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="88.0" prefWidth="329.0" style="-fx-background-color: red; -fx-border-color: black; -fx-border-style: solid; -fx-border-width: 4;" text="NEXT" textFill="WHITE" GridPane.columnIndex="11" GridPane.rowIndex="23">
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#start" prefHeight="88.0" prefWidth="329.0" style="-fx-background-color: red; -fx-border-color: black; -fx-border-style: solid; -fx-border-width: 4;" text="START RACE" textFill="WHITE" GridPane.columnIndex="11" GridPane.rowIndex="23">
                            <font>
                               <Font name="System Bold" size="44.0" />
                            </font>

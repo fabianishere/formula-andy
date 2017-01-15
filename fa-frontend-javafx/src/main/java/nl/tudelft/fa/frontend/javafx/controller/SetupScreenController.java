@@ -40,4 +40,20 @@ public class SetupScreenController {
         stage.sizeToScene();
         stage.show();
     }
+
+    @FXML
+    protected void start(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../game-screen.fxml"));
+
+        Scene scene = new Scene(root);
+        Node source = (Node)  event.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+
+        stage.setTitle("Formula Andy!");
+        stage.setScene(scene);
+        stage.sizeToScene();
+        stage.show();
+    }
+
+
 }

@@ -20,7 +20,7 @@ public class GrandprixController {
      */
     @FXML
     protected void back(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../load-screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../loadgame-screen.fxml"));
 
         Scene scene = new Scene(root);
         Node source = (Node)  event.getSource();
@@ -31,6 +31,50 @@ public class GrandprixController {
         stage.sizeToScene();
         stage.show();
     }
+
+    @FXML
+    protected void racesetup(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../setuptwee-screen.fxml"));
+
+        Scene scene = new Scene(root);
+        Node source = (Node)  event.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+
+        stage.setTitle("Formula Andy!");
+        stage.setScene(scene);
+        stage.sizeToScene();
+        stage.show();
+    }
+
+    @FXML
+    protected void grandprix(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../grandprix-screen.fxml"));
+
+        Scene scene = new Scene(root);
+        Node source = (Node)  event.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+
+        stage.setTitle("Formula Andy!");
+        stage.setScene(scene);
+        stage.sizeToScene();
+        stage.show();
+    }
+
+    @FXML
+    protected void endrace(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../results-screen.fxml"));
+
+        Scene scene = new Scene(root);
+        Node source = (Node)  event.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+
+        stage.setTitle("Formula Andy!");
+        stage.setScene(scene);
+        stage.sizeToScene();
+        stage.show();
+    }
+
+
 
 
 }
