@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,9 +25,9 @@
 
 package nl.tudelft.fa.core.user;
 
-
 import nl.tudelft.fa.core.auth.Credentials;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -88,11 +88,14 @@ public class User {
      */
     @Override
     public boolean equals(Object other) {
-        if (other instanceof User) {
-            User that = (User) other;
-            return this.id.equals(that.id);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        User that = (User) other;
+        return Objects.equals(id, that.id);
     }
 
     /**
@@ -102,7 +105,7 @@ public class User {
      */
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return Objects.hash(id);
     }
 
     /**
@@ -112,6 +115,6 @@ public class User {
      */
     @Override
     public String toString() {
-        return String.format("User(id=%s, credentials=%s)", id, credentials);
+        return String.format("User(id=%s, username=%s)", id, credentials.getUsername());
     }
 }

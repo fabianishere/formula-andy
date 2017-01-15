@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  The MIT License (MIT)
+
+  Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
+  Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+-->
+
+<?import java.net.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox id="results-screen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1020.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.GrandprixController">
+    <stylesheets>
+        <URL value="@css/style.css" />
+    </stylesheets>
+    <children>
+        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1020.0" prefWidth="1920.0">
+            <children>
+                <Label alignment="CENTER" prefHeight="53.0" prefWidth="433.0" text="RESULTS" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                    <font>
+                        <Font size="72.0" />
+                    </font>
+                </Label>
+                <Button mnemonicParsing="false" onAction="#grandprix" prefHeight="65.0" prefWidth="171.0" text="Next" translateX="75.0" GridPane.columnIndex="4" GridPane.rowIndex="13">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Button>
+            <Label prefHeight="85.0" prefWidth="302.0" text="Your position:" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="5">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Label>
+            <TextField GridPane.columnIndex="4" GridPane.rowIndex="5" />
+            <Label prefHeight="66.0" prefWidth="349.0" text="Your standings:" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="6">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Label>
+            <TextField GridPane.columnIndex="4" GridPane.rowIndex="6" />
+            </children>
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="385.0" minWidth="10.0" prefWidth="134.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="10.0" prefWidth="291.33331298828125" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="593.0" minWidth="10.0" prefWidth="352.6666259765625" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1307.0" minWidth="10.0" prefWidth="293.3333740234375" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1037.0" minWidth="0.0" prefWidth="19.6666259765625" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="962.0" minWidth="10.0" prefWidth="165.00006103515625" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="962.0" minWidth="10.0" prefWidth="666.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                <RowConstraints maxHeight="29.0" minHeight="7.999998092651367" prefHeight="29.0" />
+                <RowConstraints maxHeight="179.3333282470703" minHeight="0.0" prefHeight="179.3333282470703" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="213.6666717529297" minHeight="10.0" prefHeight="19.666671752929688" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="309.0" minHeight="10.0" prefHeight="88.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="281.0" minHeight="0.0" prefHeight="132.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="265.33331298828125" minHeight="0.0" prefHeight="37.333343505859375" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="363.0" minHeight="0.0" prefHeight="220.33334350585938" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="173.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="342.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="233.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="330.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="347.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="275.0" minHeight="0.0" prefHeight="76.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="275.0" minHeight="10.0" prefHeight="153.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="275.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+        </GridPane>
+    </children>
+</VBox>

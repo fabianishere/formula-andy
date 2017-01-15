@@ -2,7 +2,7 @@
 <!--
   The MIT License (MIT)
 
-  Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+  Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
   Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -52,7 +52,7 @@
                 rotate="-32.7" text="New Game" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
         <Button mnemonicParsing="false" onAction="#loadGame" opacity="0.0" prefHeight="230.0" prefWidth="369.0"
                 rotate="33.7" text="Load Game" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-        <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#openSettings" opacity="0.0"
+        <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" opacity="0.0"
                 prefHeight="240.0" prefWidth="268.0" text="Settings" textAlignment="CENTER" GridPane.columnIndex="4"
                 GridPane.rowIndex="3"/>
     </GridPane>
