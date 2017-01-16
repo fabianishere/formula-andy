@@ -29,8 +29,9 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.japi.pf.ReceiveBuilder;
-import nl.tudelft.fa.core.game.CarSimulator;
-import nl.tudelft.fa.core.game.RaceSimulator;
+import nl.tudelft.fa.core.race.CarSimulationResult;
+import nl.tudelft.fa.core.race.CarSimulator;
+import nl.tudelft.fa.core.race.RaceSimulator;
 import nl.tudelft.fa.core.lobby.message.CarParametersSubmission;
 import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.core.race.CarConfiguration;
@@ -44,9 +45,9 @@ import scala.concurrent.duration.FiniteDuration;
 import scala.runtime.BoxedUnit;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * The {@link LobbyRaceSimulationActor} class is in charge of running the {@link RaceSimulator}.
@@ -65,19 +66,9 @@ public class LobbyRaceSimulationActor extends AbstractActor {
     private final GrandPrix grandPrix;
 
     /**
-     * The cars participating in this lobby.
+     * The cars participating in the simulation.
      */
-    private final Map<Car, User> cars;
-
-    /**
-     * The configurations of the cars.
-     */
-    private final Map<Car, CarConfiguration> configurations;
-
-    /**
-     * The parameters of the cars.
-     */
-    private final Map<Car, CarParameters> parameters;
+    private final Map<Car, CarSimulator> cars;
 
     /**
      * Construct a {@link LobbyRaceSimulationActor} instance.
@@ -89,8 +80,6 @@ public class LobbyRaceSimulationActor extends AbstractActor {
         this.bus = bus;
         this.grandPrix = grandPrix;
         this.cars = new HashMap<>();
-        this.configurations = new HashMap<>();
-        this.parameters = new HashMap<>();
     }
 
     /**
@@ -125,15 +114,12 @@ public class LobbyRaceSimulationActor extends AbstractActor {
             context().dispatcher(), self());
 
         // setup the car simulator
-        final RaceSimulator simulator = simulator();
+        final Iterator<Map<Car, CarSimulationResult>> simulator = simulator().iterator();
 
         return ReceiveBuilder
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),
                 msg.getParameters()))
-            .matchEquals("tick", msg -> {
-                // TODO calculate next race cycle
-                // TODO publish results to lobby
-            })
+            .matchEquals("tick", msg -> bus.tell(simulator.next(), self()))
             .build();
     }
 
@@ -143,13 +129,7 @@ public class LobbyRaceSimulationActor extends AbstractActor {
      * @return A {@link RaceSimulator} created from the given state.
      */
     private RaceSimulator simulator() {
-        return new RaceSimulator(
-            configurations.entrySet()
-                .stream()
-                .map(entry -> new CarSimulator(entry.getValue(), parameters.get(entry.getKey())))
-                .collect(Collectors.toList()),
-            grandPrix
-        );
+        return new RaceSimulator(cars.values(), grandPrix);
     }
 
     /**
@@ -160,8 +140,7 @@ public class LobbyRaceSimulationActor extends AbstractActor {
      */
     private void submitConfiguration(User user, TeamConfiguration configuration) {
         configuration.getConfigurations().forEach(conf -> {
-            cars.put(conf.getCar(), user);
-            configurations.put(conf.getCar(), conf);
+            cars.put(conf.getCar(), new CarSimulator(conf, null));
         });
     }
 
@@ -172,7 +151,9 @@ public class LobbyRaceSimulationActor extends AbstractActor {
      * @param parameters The parameters to use.
      */
     private void submitParameters(Car car, CarParameters parameters) {
-        this.parameters.put(car, parameters);
+        CarSimulator simulator = cars.getOrDefault(car, new CarSimulator(null, null));
+        simulator.setParameters(parameters);
+        cars.put(car, simulator);
     }
 
     /**

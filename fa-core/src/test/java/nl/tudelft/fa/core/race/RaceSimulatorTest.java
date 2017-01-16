@@ -1,9 +1,6 @@
-package nl.tudelft.fa.core.game;
+package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.race.CarConfiguration;
-import nl.tudelft.fa.core.race.CarParameters;
-import nl.tudelft.fa.core.race.Circuit;
-import nl.tudelft.fa.core.race.GrandPrix;
+import nl.tudelft.fa.core.race.*;
 import nl.tudelft.fa.core.team.*;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Engine;
@@ -13,10 +10,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class RaceSimulatorTest {
 
@@ -39,6 +33,7 @@ public class RaceSimulatorTest {
     CarSimulator cs;
     List<CarSimulator> carSimulatorList;
 
+    @Before
     public void setUp() {
         delta = 0.00001;
         mechanicalRisk = 2;
@@ -63,50 +58,48 @@ public class RaceSimulatorTest {
 
     @Test
     public void getGrandPrix() {
-        setUp();
         assertEquals(gp, rs.getGrandPrix());
     }
 
     @Test
-    public void getCarSimulators() {
-        setUp();
-        assertEquals(carSimulatorList, rs.getCarSimulators());
-    }
-
-    @Test
     public void getNextCycle() {
-        setUp();
-        cs.getCarParameters().setCrashed(true);
-        rs.getNextRaceCycle(carSimulatorList, rs.getRaining());
-        assertTrue(cs.getCarParameters().getTraveledDistance() == 0);
+        Map<Car, CarSimulationResult> results = new HashMap<>();
+        results.put(car, new CarSimulationResult(0, true));
+        results = rs.next(results);
+        assertEquals(0, results.get(car).getDistanceTraveled(), 0.01);
     }
 
     @Test
     public void getNextCycle2() {
-        setUp();
-        rs.getNextRaceCycle(carSimulatorList, rs.getRaining());
-        assertFalse(cs.getCarParameters().getTraveledDistance() == 0);
+        Map<Car, CarSimulationResult> results = new HashMap<>();
+        results.put(car, new CarSimulationResult(0, false));
+        results = rs.next(results);
+        assertNotEquals(0, results.get(car).getDistanceTraveled(), 0.01);
     }
 
     @Test
     public void getNextCycle3() {
-        setUp();
-        rs.getNextRaceCycle(carSimulatorList, rs.getRaining());
-        if (cs.getCarParameters().getCrashed()) {
-            assertTrue(cs.getCarParameters().getTraveledDistance() == 0.0);
+        Map<Car, CarSimulationResult> results = new HashMap<>();
+        results.put(car, new CarSimulationResult(0, false));
+        results = rs.next(results);
+
+        if (results.get(car).hasCrashed()) {
+            assertEquals(0, results.get(car).getDistanceTraveled(), 0.01);
+            return;
         }
-        assertTrue(cs.getCarParameters().getTraveledDistance() != 0.0);
+        assertNotEquals(0, results.get(car).getDistanceTraveled(), 0.01);
     }
 
     @Test
     public void getNextCycle4() {
-        setUp();
         double distance = 0.0;
-        while(!cs.getCarParameters().getCrashed()) {
-            rs.getNextRaceCycle(carSimulatorList, rs.getRaining());
-            distance = cs.getCarParameters().getTraveledDistance();
+        Map<Car, CarSimulationResult> results = new HashMap<>();
+        results.put(car, new CarSimulationResult(0, false));
+
+        while(!results.get(car).hasCrashed()) {
+            distance = results.get(car).getDistanceTraveled();
+            results = rs.next(results);
         }
-        rs.getNextRaceCycle(carSimulatorList, rs.getRaining());
-        assertEquals(distance, cs.getCarParameters().getTraveledDistance(), delta);
+        assertEquals(distance, results.get(car).getDistanceTraveled(), 0.01);
     }
 }

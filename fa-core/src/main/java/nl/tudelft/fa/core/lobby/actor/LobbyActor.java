@@ -180,6 +180,7 @@ public class LobbyActor extends AbstractActor {
      * @return The progressing actor behavior as a partial function.
      */
     private PartialFunction<Object, BoxedUnit> progression() {
+        simulator.tell("start", self()); // start the simulation
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform(LobbyStatus.PROGRESSION))
             .match(LobbyStatusChanged.class, this::transitToIntermission)

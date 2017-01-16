@@ -1,7 +1,9 @@
-package nl.tudelft.fa.core.game;
+package nl.tudelft.fa.core.race;
 
 import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.race.CarParameters;
+import nl.tudelft.fa.core.race.CarSimulationResult;
+import nl.tudelft.fa.core.race.CarSimulator;
 import nl.tudelft.fa.core.team.*;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Engine;
@@ -9,10 +11,7 @@ import nl.tudelft.fa.core.team.inventory.Tire;
 import nl.tudelft.fa.core.team.inventory.TireType;
 import org.junit.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -45,7 +44,7 @@ public class CarSimulatorTest {
     CarSimulator cs;
     CarSimulator cs2;
 
-    List<CarSimulator> carSimulatorList;
+    Map<Car, CarSimulationResult> results;
 
     @Before
     public void setUp() {
@@ -76,34 +75,33 @@ public class CarSimulatorTest {
         cs = new CarSimulator(configuration, parameters);
         cs2 = new CarSimulator(configuration2, parameters2);
 
-        carSimulatorList = new ArrayList<CarSimulator>();
-
-        carSimulatorList.add(cs);
-        carSimulatorList.add(cs2);
+        results = new HashMap<>();
+        results.put(car, new CarSimulationResult(0, false));
+        results.put(new Car(UUID.randomUUID()), new CarSimulationResult(0, false));
     }
 
     @Test
     public void getCarConfiguration() {
-        assertEquals(configuration, cs.getCarConfiguration());
+        assertEquals(configuration, cs.getConfiguration());
     }
 
     @Test
     public void getCarParameters() {
-        assertEquals(parameters, cs.getCarParameters());
+        assertEquals(parameters, cs.getParameters());
     }
 
     @Test
     public void TestCloseDriver() {
-        setUp();
-        assertTrue(cs.closeDriver(carSimulatorList, 50));
+        assertTrue(cs.isNearby(results.get(car), results, 50));
     }
 
     @Test
     public void TestCloseDriver2() {
-        setUp();
-        cs.getCarParameters().increaseTraveledDistance(200);
-        cs2.getCarParameters().increaseTraveledDistance(100);
-        assertFalse(cs.closeDriver(carSimulatorList, 50));
+        results = new HashMap<>();
+        results.put(car, new CarSimulationResult(0, false));
+        results.put(new Car(UUID.randomUUID()), new CarSimulationResult(200, false));
+
+        assertFalse(cs.isNearby(results.get(car), results, 50));
     }
 
     @Test
@@ -112,7 +110,7 @@ public class CarSimulatorTest {
         double temp = 0;
         Random random = new Random(1);
         for (int i = 0; i < 100000; i++) {
-            temp += cs.getMovedDistance(random);
+            temp += cs.calculateDelta(random);
         }
         assertEquals(718.6285499929213, temp/100000, delta);
     }
@@ -121,9 +119,8 @@ public class CarSimulatorTest {
     public void getCrashedThisCycle() {
         int temp = 0;
         Random random = new Random(1);
-        setUp();
         for (int i = 0; i < testAmount; i++) {
-            if (cs.crashedThisCycle(true, cs.closeDriver(carSimulatorList, 50), random)) {
+            if (cs.hasCrashed(true, cs.isNearby(results.get(car), results, 50), random)) {
                 temp++;
             }
         }
@@ -135,9 +132,8 @@ public class CarSimulatorTest {
     public void getCrashedThisCycle2() {
         int temp = 0;
         Random random = new Random(1);
-        setUp();
         for (int i = 0; i < testAmount; i++) {
-            if (cs.crashedThisCycle(false, cs.closeDriver(carSimulatorList, 50), random)) {
+            if (cs.hasCrashed(false, cs.isNearby(results.get(car), results, 50), random)) {
                 temp++;
             }
         }
@@ -150,9 +146,9 @@ public class CarSimulatorTest {
         int temp = 0;
         Random random = new Random(1);
         setUp();
-        cs.getCarParameters().increaseTraveledDistance(1000);
+        cs.getParameters().increaseTraveledDistance(1000);
         for (int i = 0; i < testAmount; i++) {
-            if (cs.crashedThisCycle(true, cs.closeDriver(carSimulatorList, 50), random)) {
+            if (cs.hasCrashed(true, cs.isNearby(results.get(car), results, 50), random)) {
                 temp++;
             }
         }
@@ -165,9 +161,9 @@ public class CarSimulatorTest {
         int temp = 0;
         Random random = new Random(2);
         setUp();
-        cs.getCarParameters().increaseTraveledDistance(1000);
+        cs.getParameters().increaseTraveledDistance(1000);
         for (int i = 0; i < testAmount; i++) {
-            if (cs.crashedThisCycle(false, cs.closeDriver(carSimulatorList, 50), random)) {
+            if (cs.hasCrashed(false, cs.isNearby(results.get(car), results, 50), random)) {
                 temp++;
             }
         }

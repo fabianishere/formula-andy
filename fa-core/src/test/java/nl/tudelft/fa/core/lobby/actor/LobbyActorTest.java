@@ -3,6 +3,7 @@ package nl.tudelft.fa.core.lobby.actor;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import akka.pattern.Patterns;
 import akka.testkit.JavaTestKit;
 
 import nl.tudelft.fa.core.auth.Credentials;
@@ -18,11 +19,16 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import scala.concurrent.Await;
+import scala.concurrent.duration.FiniteDuration;
 
 import java.time.Duration;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
 
 public class LobbyActorTest {
     private static ActorSystem system;
@@ -269,6 +275,38 @@ public class LobbyActorTest {
 
                 subject.tell(msg, getRef());
                 probe.expectMsgClass(duration("1 second"), TeamConfigurationSubmission.class);
+            }
+        };
+    }
+
+    @Test
+    public void testTransitToPreparationEnough() throws Exception {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ofMillis(500), Duration.ofMinutes(5)));
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Subscribe req = new Subscribe(getRef());
+
+                subject.tell(new Join(new User(UUID.randomUUID(), null), getRef()), getRef());
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+                expectNoMsg(duration("1 second"));
+                Lobby info = (Lobby) Await.result(Patterns.ask(subject, RequestInformation.INSTANCE, 1000), FiniteDuration.create(1000, TimeUnit.MILLISECONDS));
+                assertEquals(LobbyStatus.PREPARATION, info.getStatus());
+            }
+        };
+    }
+
+    @Test
+    public void testTransitToPreparationNotEnough() throws Exception {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ZERO, Duration.ofMinutes(5)));
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Subscribe req = new Subscribe(getRef());
+
+                subject.tell(req, getRef());
+                Lobby info = (Lobby) Await.result(Patterns.ask(subject, RequestInformation.INSTANCE, 1000), FiniteDuration.create(1000, TimeUnit.MILLISECONDS));
+                assertEquals(LobbyStatus.INTERMISSION, info.getStatus());
             }
         };
     }
