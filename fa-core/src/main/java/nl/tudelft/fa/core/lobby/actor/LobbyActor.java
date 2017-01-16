@@ -123,8 +123,12 @@ public class LobbyActor extends AbstractActor {
             .match(Subscribe.class, req -> bus.tell(req, sender()))
             .match(Unsubscribe.class, req -> bus.tell(req, sender()))
             .match(Terminated.class, msg -> handleTermination(msg.actor()))
-            .match(TeamConfigurationSubmission.class, msg -> simulator.tell(msg, sender()))
-            .match(CarParametersSubmission.class, msg -> simulator.tell(msg, sender()))
+            .match(TeamConfigurationSubmission.class,
+                msg -> users.get(msg.getUser()).equals(sender()), // check if the submission is from the correct user
+                msg -> simulator.tell(msg, sender()))
+            .match(CarParametersSubmission.class,
+                msg -> users.get(msg.getUser()).equals(sender()), // check if the submission is from the correct user
+                msg -> simulator.tell(msg, sender()))
             .build();
     }
 
