@@ -9,20 +9,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.tudelft.fa.frontend.javafx.scene.SetupScreenScene;
 
-import javax.swing.*;
-
 /**
- * Created by Laetitia Molkenboer on 9-1-2017.
+ * Created by fchri on 15-1-2017.
  */
-public class TeamnameController {
-    /**
-     * This method is invoked when the signup game button is pressed and the user has created a new account
-     *
-     * @param event The {@link ActionEvent} that occurred.
-     */
-
+public class StoreController {
     @FXML
-    protected void nextpage(ActionEvent event) throws Exception {
+    protected void back(ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../setup-screen.fxml"));
 
         SetupScreenScene scene = new SetupScreenScene(root);
@@ -34,7 +26,5 @@ public class TeamnameController {
         stage.sizeToScene();
         stage.show();
     }
-
-
-
 }
+

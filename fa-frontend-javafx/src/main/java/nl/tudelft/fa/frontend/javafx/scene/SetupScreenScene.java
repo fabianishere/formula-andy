@@ -127,6 +127,8 @@ public class SetupScreenScene extends Scene {
                 catch (Exception e) {
 
                 }
+                System.out.println(settings + "\n");
+                printSettings();
                 // client.send(settings);
             }
         });
@@ -478,7 +480,7 @@ public class SetupScreenScene extends Scene {
         }
         return comboBox.getValue().toString();
     }
-        
+
     @FXML
     protected void back(ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../teamname-screen.fxml"));

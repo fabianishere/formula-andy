@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nl.tudelft.fa.frontend.javafx.scene.SetupScreenScene;
 
 /**
  * Created by laeti on 9-1-2017.
@@ -34,9 +35,9 @@ public class GrandprixController {
 
     @FXML
     protected void racesetup(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../setuptwee-screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../setup-screen.fxml"));
 
-        Scene scene = new Scene(root);
+        SetupScreenScene scene = new SetupScreenScene(root);
         Node source = (Node)  event.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
 
