@@ -32,6 +32,7 @@ import akka.stream.stage.*;
 import nl.tudelft.fa.core.lobby.message.LobbyInboundMessage;
 import nl.tudelft.fa.core.lobby.message.RequestInformation;
 import nl.tudelft.fa.server.net.message.NotAuthorizedException;
+import nl.tudelft.fa.server.net.message.Ping;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
@@ -67,6 +68,7 @@ public class UnauthorizedSessionStage extends AbstractSessionStage {
         private final PartialFunction<LobbyInboundMessage, BoxedUnit> receive =
             new UnitPFBuilder<LobbyInboundMessage>()
                 .match(RequestInformation.class, this::pushMessage)
+                .match(Ping.class, this::pushMessage)
                 .match(LobbyInboundMessage.class, this::rejectMessage)
                 .build();
 
