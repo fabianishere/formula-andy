@@ -28,7 +28,7 @@
     -fx-font-size: 2em;
     -fx-font-style: oblique;
     -fx-font-weight: bold;
-    -fx-focus-traversable: false;
+    -fx-background-image: url("../images/setupscreenbackground.jpg");
 }
 
 .button {
@@ -40,4 +40,63 @@
 .button:hover {
     -fx-border-color: black;
     -fx-cursor: hand;
+}
+
+.startScreenButton {
+    -fx-pref-width: 1000em;
+}
+
+.combo-box {
+    -fx-pref-width: 1000em;
+    -fx-focus-traversable: false;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-border-color: white;
+    -fx-border-width: 0.1em;
+}
+
+.combo-box:hover {
+    -fx-border-color: black;
+    -fx-cursor: hand;
+}
+
+.toggle-button {
+    -fx-background-radius: 100%;
+    -fx-pref-width: 4em;
+    -fx-pref-height: 4em;
+    -fx-focus-traversable: false;
+}
+
+.toggle-button:hover {
+    -fx-cursor: hand;
+}
+
+.toggle-button:selected {
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-font-size: 125%;
+}
+
+.lowRisk {
+    -fx-background-color: #0b6b13;
+}
+
+.lowRisk:hover {
+    -fx-background-color: #10a324;
+}
+
+.mediumRisk {
+    -fx-background-color: #efd322;
+}
+
+.mediumRisk:hover {
+    -fx-background-color: #ffe659;
+}
+
+.highRisk {
+    -fx-background-color: #910101;
+}
+
+.highRisk:hover {
+    -fx-background-color: #af0303;
 }

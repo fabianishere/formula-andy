@@ -39,8 +39,8 @@
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
-            <ColumnConstraints prefWidth="192"/>
-            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="114"/>
+            <ColumnConstraints prefWidth="270"/>
             <ColumnConstraints prefWidth="344"/>
             <ColumnConstraints prefWidth="40"/>
             <ColumnConstraints prefWidth="192"/>

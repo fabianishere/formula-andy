@@ -21,7 +21,7 @@ public class LoginController {
      */
     @FXML
     protected void login(ActionEvent event) throws Exception {
-        Main.launchScreen(event, "setup-screen.fxml");
+        Main.launchScreen(event, "start-screen.fxml");
     }
 
     @FXML

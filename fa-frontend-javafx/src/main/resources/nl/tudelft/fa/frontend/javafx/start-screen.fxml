@@ -27,17 +27,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import java.net.URL?>
 <VBox id="start-screen" xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="nl.tudelft.fa.frontend.javafx.controller.StartScreenController">
-    <GridPane gridLinesVisible="true">
+    <GridPane styleClass="basic" gridLinesVisible="false">
+        <stylesheets>
+            <URL value="@css/style.css" />
+        </stylesheets>
         <columnConstraints>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
-            <ColumnConstraints prefWidth="192"/>
-            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="384"/>
+            <ColumnConstraints prefWidth="0"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
@@ -57,8 +63,12 @@
             <RowConstraints prefHeight="108"/>
         </rowConstraints>
 
-        <Button onAction="#newGame" text="New Game" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Button onAction="#loadGame" text="Load Game" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <ImageView fitHeight="600.0" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <Image url="@images/formula1logo.jpeg" />
+        </ImageView>
+
+        <Button styleClass="startScreenButton" onAction="#newGame" text="New Game" GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+        <Button styleClass="startScreenButton" onAction="#loadGame" text="Load Game" GridPane.columnIndex="4" GridPane.rowIndex="5"/>
 
     </GridPane>
 </VBox>

@@ -51,10 +51,10 @@
             <ColumnConstraints prefWidth="192" />
             <ColumnConstraints prefWidth="192" />
             <ColumnConstraints prefWidth="344" />
-            <ColumnConstraints prefWidth="40" />
+            <ColumnConstraints prefWidth="10" />
             <ColumnConstraints prefWidth="344" />
             <ColumnConstraints prefWidth="40" />
-            <ColumnConstraints prefWidth="192" />
+            <ColumnConstraints prefWidth="222" />
         </columnConstraints>
 
         <rowConstraints>
@@ -66,8 +66,8 @@
             <RowConstraints prefHeight="108" />
             <RowConstraints prefHeight="108" />
             <RowConstraints prefHeight="108" />
-            <RowConstraints prefHeight="108" />
-            <RowConstraints prefHeight="108" />
+            <RowConstraints prefHeight="8" />
+            <RowConstraints prefHeight="208" />
         </rowConstraints>
 
         <ImageView fitHeight="600.0" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">

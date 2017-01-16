@@ -21,7 +21,7 @@ public class SignupController {
      */
     @FXML
     protected void signup(ActionEvent event) throws Exception {
-        Main.launchScreen(event, "teamname-screen.fxml");
+        Main.launchScreen(event, "start-screen.fxml");
     }
 
     @FXML

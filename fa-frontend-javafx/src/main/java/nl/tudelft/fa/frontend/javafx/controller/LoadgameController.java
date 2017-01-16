@@ -7,10 +7,19 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nl.tudelft.fa.frontend.javafx.Main;
 
 /**
  * Created by laeti on 9-1-2017.
  */
 public class LoadgameController {
+    @FXML
+    protected void back(ActionEvent event) throws Exception {
+        Main.launchScreen(event, "start-screen.fxml");
+    }
 
+    @FXML
+    protected void next(ActionEvent event) throws Exception {
+        Main.launchScreen(event, "setup-screen.fxml");
+    }
 }

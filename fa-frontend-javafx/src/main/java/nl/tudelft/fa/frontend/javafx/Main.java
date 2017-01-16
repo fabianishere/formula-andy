@@ -31,6 +31,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import nl.tudelft.fa.frontend.javafx.controller.LoginController;
 
@@ -47,12 +48,13 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("signup-screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("login-screen.fxml"));
 
         Scene scene = new Scene(root);
-        stage.setFullScreen(true);
         stage.setTitle("Formula Andy!");
         stage.setScene(scene);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreen(true);
 
         stage.show();
     }
@@ -67,6 +69,7 @@ public class Main extends Application {
 
             stage.setTitle("Formula Andy!");
             stage.setScene(scene);
+            stage.setFullScreenExitHint("");
             stage.setFullScreen(true);
             stage.show();
         }
