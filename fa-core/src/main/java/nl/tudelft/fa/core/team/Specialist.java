@@ -57,12 +57,13 @@ public abstract class Specialist extends Member {
      * Construct a {@link Specialist} instance.
      *
      * @param id The unique id of the specialist.
+     * @param team The team of the specialist.
      * @param name The name of the specialist.
      * @param salary The salary of the specialist.
      * @param level The level of the specialist.
      */
-    public Specialist(UUID id, String name, int salary, double level) {
-        super(id, name, salary);
+    public Specialist(UUID id, Team team, String name, int salary, double level) {
+        super(id, team, name, salary);
         this.level = level;
     }
 

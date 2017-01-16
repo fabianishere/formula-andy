@@ -114,7 +114,7 @@ public class RaceDemo {
         mechanicalRisk = 2;
         aerodynamicRisk = 3;
         strategicRisk = 1;
-        tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 7, 1);
+        tire = new Tire(UUID.randomUUID(), null, "Pirelli", TireType.SUPER_SOFT, 7, 1);
 
         parameters1 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
         parameters2 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
@@ -126,31 +126,31 @@ public class RaceDemo {
         parameters8 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
         parameters9 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
 
-        car = new Car(UUID.randomUUID());
+        car = new Car(UUID.randomUUID(), null);
 
-        driver1 = new Driver(UUID.randomUUID(), "Racer 1", 3, 80, 90, 70);
-        driver2 = new Driver(UUID.randomUUID(), "Racer 2", 3, 80, 90, 70);
-        driver3 = new Driver(UUID.randomUUID(), "Racer 3", 3, 80, 90, 70);
-        driver4 = new Driver(UUID.randomUUID(), "Racer 4", 3, 80, 90, 70);
-        driver5 = new Driver(UUID.randomUUID(), "Racer 5", 3, 80, 90, 70);
-        driver6 = new Driver(UUID.randomUUID(), "Racer 6", 3, 80, 90, 70);
-        driver7 = new Driver(UUID.randomUUID(), "Racer 7", 3, 80, 90, 70);
-        driver8 = new Driver(UUID.randomUUID(), "Sonic", 3, 100, 100, 100);
-        driver9 = new Driver(UUID.randomUUID(), "Max", 3, 90, 90, 90);
+        driver1 = new Driver(UUID.randomUUID(), null, "Racer 1", 3, 80, 90, 70);
+        driver2 = new Driver(UUID.randomUUID(), null, "Racer 2", 3, 80, 90, 70);
+        driver3 = new Driver(UUID.randomUUID(), null, "Racer 3", 3, 80, 90, 70);
+        driver4 = new Driver(UUID.randomUUID(), null, "Racer 4", 3, 80, 90, 70);
+        driver5 = new Driver(UUID.randomUUID(), null, "Racer 5", 3, 80, 90, 70);
+        driver6 = new Driver(UUID.randomUUID(), null, "Racer 6", 3, 80, 90, 70);
+        driver7 = new Driver(UUID.randomUUID(), null, "Racer 7", 3, 80, 90, 70);
+        driver8 = new Driver(UUID.randomUUID(), null, "Sonic", 3, 100, 100, 100);
+        driver9 = new Driver(UUID.randomUUID(), null, "Max", 3, 90, 90, 90);
 
-        engine = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
-        mechanic = new Mechanic(UUID.randomUUID(), "Harry", 35, 80);
-        aerodynamicist = new Aerodynamicist(UUID.randomUUID(), "Fred", 100, 80);
-        strategist = new Strategist(UUID.randomUUID(), "Louis", 100, 80);
+        engine = new Engine(UUID.randomUUID(), null, "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
+        mechanic = new Mechanic(UUID.randomUUID(), null, "Harry", 35, 80);
+        aerodynamicist = new Aerodynamicist(UUID.randomUUID(), null, "Fred", 100, 80);
+        strategist = new Strategist(UUID.randomUUID(), null, "Louis", 100, 80);
 
-        configuration1 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver1, mechanic, aerodynamicist, strategist);
-        configuration2 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver2, mechanic, aerodynamicist, strategist);
-        configuration3 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver3, mechanic, aerodynamicist, strategist);
-        configuration4 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver4, mechanic, aerodynamicist, strategist);
-        configuration5 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver5, mechanic, aerodynamicist, strategist);
-        configuration6 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver6, mechanic, aerodynamicist, strategist);
-        configuration7 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver7, mechanic, aerodynamicist, strategist);
-        configuration8 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver8, mechanic, aerodynamicist, strategist);
+        configuration1 = new CarConfiguration(new Car(UUID.randomUUID(), null), engine, driver1, mechanic, aerodynamicist, strategist);
+        configuration2 = new CarConfiguration(new Car(UUID.randomUUID(), null), engine, driver2, mechanic, aerodynamicist, strategist);
+        configuration3 = new CarConfiguration(new Car(UUID.randomUUID(), null), engine, driver3, mechanic, aerodynamicist, strategist);
+        configuration4 = new CarConfiguration(new Car(UUID.randomUUID(), null), engine, driver4, mechanic, aerodynamicist, strategist);
+        configuration5 = new CarConfiguration(new Car(UUID.randomUUID(), null), engine, driver5, mechanic, aerodynamicist, strategist);
+        configuration6 = new CarConfiguration(new Car(UUID.randomUUID(), null), engine, driver6, mechanic, aerodynamicist, strategist);
+        configuration7 = new CarConfiguration(new Car(UUID.randomUUID(), null), engine, driver7, mechanic, aerodynamicist, strategist);
+        configuration8 = new CarConfiguration(new Car(UUID.randomUUID(), null), engine, driver8, mechanic, aerodynamicist, strategist);
         configuration9 = new CarConfiguration(car, engine, driver9, mechanic, aerodynamicist, strategist);
 
         cs1 = new CarSimulator(configuration1, parameters1);

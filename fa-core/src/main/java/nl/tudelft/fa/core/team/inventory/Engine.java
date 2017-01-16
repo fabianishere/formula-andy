@@ -25,7 +25,8 @@
 
 package nl.tudelft.fa.core.team.inventory;
 
-import java.util.Objects;
+import nl.tudelft.fa.core.team.Team;
+
 import java.util.UUID;
 
 /**
@@ -33,12 +34,7 @@ import java.util.UUID;
  *
  * @author Christian Slothouber
  */
-public class Engine {
-    /**
-     * The unique id of this engine.
-     */
-    private UUID id;
-
+public class Engine extends InventoryItem {
     /**
      * The name of the brand of this engine.
      */
@@ -68,15 +64,16 @@ public class Engine {
      * Construct a {@link Engine} instance.
      *
      * @param id The unique id of this engine.
+     * @param owner The owner of this engine.
      * @param brand The brand name of the engine.
      * @param name The name of the engine.
      * @param power A numeric representation of power
      * @param driveability A numeric representation of driveability
      * @param fuelConsumption A numeric representation of fuel consumption
      */
-    public Engine(UUID id, String brand, String name, double power, double driveability,
+    public Engine(UUID id, Team owner, String brand, String name, double power, double driveability,
                   double fuelConsumption) {
-        this.id = id;
+        super(id, owner);
         this.brand = brand;
         this.name = name;
         this.power = power;
@@ -85,12 +82,10 @@ public class Engine {
     }
 
     /**
-     * Return the unique id of this engine.
-     *
-     * @return The unique id of this engine.
+     * Construct a {@link Engine} instance.
      */
-    public UUID getId() {
-        return id;
+    protected Engine() {
+        super(null, null);
     }
 
     /**
@@ -139,23 +134,6 @@ public class Engine {
     }
 
     /**
-     * Test whether this {@link Engine} is equal to the given object.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null || getClass() != other.getClass()) {
-            return false;
-        }
-        Engine that = (Engine) other;
-        return Objects.equals(id, that.id);
-    }
-
-    /**
      * Determines the maximum distance the car can potentially travel.
      * @param tire The tire type currently used by the car.
      * @return The maximum distance.
@@ -165,22 +143,12 @@ public class Engine {
     }
 
     /**
-     * Return the hash code of this object.
-     *
-     * @return The hash code of this object as integer.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    /**
      * Return a string representation of this engine.
      *
      * @return A string representation of this engine.
      */
     @Override
     public String toString() {
-        return String.format("Engine(id=%s, brand=%s, name=%s)", id, brand, name);
+        return String.format("Engine(id=%s, brand=%s, name=%s)", getId(), brand, name);
     }
 }

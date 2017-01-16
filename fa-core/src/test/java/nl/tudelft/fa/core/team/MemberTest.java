@@ -25,7 +25,7 @@ public class MemberTest {
         id = UUID.randomUUID();
         name = "Hank";
         salary = 123;
-        member = new Strategist(id, name, salary, 123);
+        member = new Strategist(id, null, name, salary, 123);
     }
 
     @Test
@@ -66,17 +66,17 @@ public class MemberTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new Strategist(id, name, salary, 123), member);
+        assertEquals(new Strategist(id, null, name, salary, 123), member);
     }
 
     @Test
     public void equalsDifferentId() {
-        assertThat(member, not(equalTo(new Strategist(UUID.randomUUID(), name, salary, 123))));
+        assertThat(member, not(equalTo(new Strategist(UUID.randomUUID(), null, name, salary, 123))));
     }
 
     @Test
     public void equalsOtherPropertiesHaveNoEffect() {
-        assertEquals(new Strategist(id, "Test", salary + 1,15), member);
+        assertEquals(new Strategist(id, null, "Test", salary + 1,15), member);
     }
 
     @Test

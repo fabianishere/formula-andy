@@ -1,7 +1,7 @@
 package nl.tudelft.fa.core.team;
 
-import nl.tudelft.fa.core.team.manager.Manager;
-import nl.tudelft.fa.core.team.manager.UserManager;
+import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class TeamTest {
     UUID id;
     String name;
     int budget;
-    Manager manager;
+    User manager;
     List<Member> staff;
     Team team;
 
@@ -25,9 +25,9 @@ public class TeamTest {
         id = UUID.randomUUID();
         name = "Redbull";
         budget = 1000;
-        manager = new UserManager();
+        manager = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
         staff = new ArrayList<>();
-        staff.add(new Strategist(UUID.randomUUID(),"Barnes", 200, 100));
+        staff.add(new Strategist(UUID.randomUUID(),null, "Barnes", 200, 100));
         team = new Team(id, name, budget, manager, staff);
     }
 
@@ -47,8 +47,8 @@ public class TeamTest {
     }
 
     @Test
-    public void getManager() throws Exception {
-        assertEquals(manager, team.getManager());
+    public void getOwner() throws Exception {
+        assertEquals(manager, team.getOwner());
     }
 
     @Test

@@ -13,7 +13,7 @@ public class AerodynamicistTest {
         String name = "Bjorn";
         int salary = 445;
         double level = 1;
-        Aerodynamicist aerodynamicist = new Aerodynamicist(id, name, salary, level);
+        Aerodynamicist aerodynamicist = new Aerodynamicist(id, null, name, salary, level);
 
         assertEquals(String.format("Aerodynamicist(id=%s, name=%s, salary=%d, level=%f)",
             id, name, salary, level), aerodynamicist.toString());

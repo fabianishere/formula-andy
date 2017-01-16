@@ -68,7 +68,7 @@ public class TeamConfigurationSubmissionTest {
     @Test
     public void equalsDifferentConfiguration() {
         assertNotEquals(new TeamConfigurationSubmission(user, new TeamConfiguration(new HashSet<CarConfiguration>() {{
-            add(new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null));
+            add(new CarConfiguration(new Car(UUID.randomUUID(), null), null, null, null, null, null));
             }})), event);
     }
 

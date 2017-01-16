@@ -18,7 +18,7 @@ public class CarTest {
     @Before
     public void setUp() {
         id = UUID.randomUUID();
-        car = new Car(id);
+        car = new Car(id, null);
     }
 
     @Test
@@ -43,12 +43,12 @@ public class CarTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new Car(id), car);
+        assertEquals(new Car(id, null), car);
     }
 
     @Test
     public void equalsDifferentId() {
-        assertThat(car, not(equalTo(new Car(UUID.randomUUID()))));
+        assertThat(car, not(equalTo(new Car(UUID.randomUUID(), null))));
     }
 
     @Test

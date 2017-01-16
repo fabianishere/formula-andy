@@ -50,7 +50,7 @@ public class TeamConfigurationTest {
 
     @Test
     public void equalsDifferentConfigurations() {
-        CarConfiguration config = new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null);
+        CarConfiguration config = new CarConfiguration(new Car(UUID.randomUUID(), null), null, null, null, null, null);
         Set<CarConfiguration> configurations = new HashSet<CarConfiguration>() {{
             add(config);
         }};

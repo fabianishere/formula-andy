@@ -23,42 +23,37 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.team;
+package nl.tudelft.fa.server.helper.jackson;
 
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import nl.tudelft.fa.core.team.Team;
+import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.Engine;
+import nl.tudelft.fa.core.team.inventory.InventoryItem;
+import nl.tudelft.fa.core.team.inventory.Tire;
 
 /**
- * A mechanical {@link Specialist}.
+ * Mix-in for the {@link InventoryItem} class.
  *
- * @author Christian Slothouber
+ * @author Fabian Mastenbroek
  */
-public class Mechanic extends Specialist {
-    /**
-     * Construct a {@link Mechanic} instance.
-     *
-     * @param id The unique id of this mechanic.
-     * @param team The team of this mechanic.
-     * @param name name of mechanic
-     * @param salary salary of mechanic
-     * @param level level of mechanic
-     */
-    public Mechanic(UUID id, Team team, String name, int salary, double level) {
-        super(id, team, name, salary, level);
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+@JsonSubTypes(
+    {
+        @JsonSubTypes.Type(value = Car.class, name = "car"),
+        @JsonSubTypes.Type(value = Engine.class, name = "engine"),
+        @JsonSubTypes.Type(value = Tire.class, name = "tire"),
     }
-
+)
+public abstract class InventoryItemMixin {
     /**
-     * Construct a {@link Mechanic}.
-     */
-    protected Mechanic() {}
-
-    /**
-     * Return a string representation of this specialist.
+     * Return the owner of this item.
      *
-     * @return A string representation of this specialist.
+     * @return The owner of this item.
      */
-    @Override
-    public String toString() {
-        return String.format("Mechanic(id=%s, name=%s, salary=%d, level=%f)",
-            getId(), getName(), getSalary(), getLevel());
-    }
+    @JsonBackReference
+    public abstract Team getOwner();
+
 }

@@ -13,7 +13,7 @@ public class MechanicTest {
         String name = "Bjorn";
         int salary = 445;
         double level = 1;
-        Mechanic mechanic = new Mechanic(id, name, salary, level);
+        Mechanic mechanic = new Mechanic(id, null, name, salary, level);
 
         assertEquals(String.format("Mechanic(id=%s, name=%s, salary=%d, level=%f)",
             id, name, salary, level), mechanic.toString());

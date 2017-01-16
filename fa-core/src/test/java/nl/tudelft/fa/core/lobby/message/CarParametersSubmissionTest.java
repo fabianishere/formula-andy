@@ -23,7 +23,7 @@ public class CarParametersSubmissionTest {
     @Before
     public void setUp() throws Exception {
         user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
-        car = new Car(UUID.randomUUID());
+        car = new Car(UUID.randomUUID(), null);
         parameters = new CarParameters(0, 0, 0, null);
         msg = new CarParametersSubmission(user, car, parameters);
     }
@@ -71,7 +71,7 @@ public class CarParametersSubmissionTest {
 
     @Test
     public void equalsDifferentCar() {
-        assertNotEquals(new CarParametersSubmission(user, new Car(UUID.randomUUID()), parameters),
+        assertNotEquals(new CarParametersSubmission(user, new Car(UUID.randomUUID(), null), parameters),
             msg);
     }
 

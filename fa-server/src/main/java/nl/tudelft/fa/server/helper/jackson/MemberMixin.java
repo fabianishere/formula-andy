@@ -23,42 +23,34 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.team;
+package nl.tudelft.fa.server.helper.jackson;
 
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import nl.tudelft.fa.core.team.*;
 
 /**
- * A mechanical {@link Specialist}.
+ * Mix-in for the {@link Member} class.
  *
- * @author Christian Slothouber
+ * @author Fabian Mastenbroek
  */
-public class Mechanic extends Specialist {
-    /**
-     * Construct a {@link Mechanic} instance.
-     *
-     * @param id The unique id of this mechanic.
-     * @param team The team of this mechanic.
-     * @param name name of mechanic
-     * @param salary salary of mechanic
-     * @param level level of mechanic
-     */
-    public Mechanic(UUID id, Team team, String name, int salary, double level) {
-        super(id, team, name, salary, level);
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+@JsonSubTypes(
+    {
+        @JsonSubTypes.Type(value = Driver.class, name = "driver"),
+        @JsonSubTypes.Type(value = Mechanic.class, name = "mechanic"),
+        @JsonSubTypes.Type(value = Strategist.class, name = "strategist"),
+        @JsonSubTypes.Type(value = Aerodynamicist.class, name = "aerodynamicist"),
     }
-
+)
+public abstract class MemberMixin {
     /**
-     * Construct a {@link Mechanic}.
-     */
-    protected Mechanic() {}
-
-    /**
-     * Return a string representation of this specialist.
+     * Return the team of this member.
      *
-     * @return A string representation of this specialist.
+     * @return The team of this member.
      */
-    @Override
-    public String toString() {
-        return String.format("Mechanic(id=%s, name=%s, salary=%d, level=%f)",
-            getId(), getName(), getSalary(), getLevel());
-    }
+    @JsonBackReference
+    public abstract Team getTeam();
+
 }

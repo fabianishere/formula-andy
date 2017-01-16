@@ -32,6 +32,8 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <mapping-file>jpa/user.xml</mapping-file>
         <mapping-file>jpa/auth.xml</mapping-file>
+        <mapping-file>jpa/team.xml</mapping-file>
+        <mapping-file>jpa/inventory.xml</mapping-file>
         <properties>
             <property name="hibernate.archive.autodetection" value="class" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />

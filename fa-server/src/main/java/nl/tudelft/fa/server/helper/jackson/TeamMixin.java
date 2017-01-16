@@ -23,42 +23,35 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.team;
+package nl.tudelft.fa.server.helper.jackson;
 
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import nl.tudelft.fa.core.team.Member;
+import nl.tudelft.fa.core.team.Team;
+import nl.tudelft.fa.core.team.inventory.InventoryItem;
+
+import java.util.List;
 
 /**
- * A mechanical {@link Specialist}.
+ * Mix-in for the {@link Team} class.
  *
- * @author Christian Slothouber
+ * @author Fabian Mastenbroek
  */
-public class Mechanic extends Specialist {
-    /**
-     * Construct a {@link Mechanic} instance.
-     *
-     * @param id The unique id of this mechanic.
-     * @param team The team of this mechanic.
-     * @param name name of mechanic
-     * @param salary salary of mechanic
-     * @param level level of mechanic
-     */
-    public Mechanic(UUID id, Team team, String name, int salary, double level) {
-        super(id, team, name, salary, level);
-    }
+public abstract class TeamMixin {
 
     /**
-     * Construct a {@link Mechanic}.
+     * Return the staff members of the team.
+     *
+     * @return A list of the members of this team.
      */
-    protected Mechanic() {}
+    @JsonManagedReference
+    public abstract List<Member> getStaff();
 
     /**
-     * Return a string representation of this specialist.
+     * Return the inventory of the team.
      *
-     * @return A string representation of this specialist.
+     * @return The inventory of this team.
      */
-    @Override
-    public String toString() {
-        return String.format("Mechanic(id=%s, name=%s, salary=%d, level=%f)",
-            getId(), getName(), getSalary(), getLevel());
-    }
+    @JsonManagedReference
+    public abstract List<InventoryItem> getInventory();
 }

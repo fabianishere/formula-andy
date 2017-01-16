@@ -27,7 +27,7 @@ public class TireTest {
         type = TireType.INTERMEDIATE;
         durability = 1.0;
         grip = 7.0;
-        tireA = new Tire(id, brand, type, durability, grip);
+        tireA = new Tire(id, null, brand, type, durability, grip);
     }
 
     @Test
@@ -77,12 +77,12 @@ public class TireTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new Tire(id, brand, type, durability, grip), tireA);
+        assertEquals(new Tire(id, null, brand, type, durability, grip), tireA);
     }
 
     @Test
     public void equalsDifferentId() {
-        assertThat(tireA, not(equalTo(new Tire(UUID.randomUUID(), brand, type, durability, grip))));
+        assertThat(tireA, not(equalTo(new Tire(UUID.randomUUID(), null, brand, type, durability, grip))));
     }
 
     @Test

@@ -13,7 +13,7 @@ public class StrategistTest {
         String name = "Bjorn";
         int salary = 445;
         double level = 1;
-        Strategist strategist = new Strategist(id, name, salary, level);
+        Strategist strategist = new Strategist(id, null, name, salary, level);
 
         assertEquals(String.format("Strategist(id=%s, name=%s, salary=%d, level=%f)",
             id, name, salary, level), strategist.toString());

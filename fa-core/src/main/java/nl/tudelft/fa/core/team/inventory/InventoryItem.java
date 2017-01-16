@@ -23,104 +23,65 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.team;
+package nl.tudelft.fa.core.team.inventory;
+
+import nl.tudelft.fa.core.team.Team;
 
 import java.util.Objects;
 import java.util.UUID;
 
 /**
- * This class represents a member of a Formula 1 {@link Team}.
+ * This class represents an item in a team's inventory.
  *
- * @author Christian Slothouber
+ * @author Fabian Mastenbroek
  */
-public abstract class Member {
+public abstract class InventoryItem {
     /**
-     * The unique id of this member.
+     * The unique identifier of the car.
      */
     private UUID id;
 
     /**
-     * The team of this member.
+     * The owner of this item.
      */
-    private Team team;
+    private Team owner;
 
     /**
-     * The name of this member.
-     */
-    private String name;
-
-    /**
-     * The salary of this member.
-     */
-    private int salary;
-
-    /**
-     * Construct a {@link Member} instance.
+     * Construct a {@link InventoryItem} instance.
      *
-     * @param id     The unique id of the member.
-     * @param team   The team of this member.
-     * @param name   Name of crew member
-     * @param salary salary of crew member
+     * @param id The unique id of the car.
+     * @param owner The owner of this item.
      */
-    public Member(UUID id, Team team, String name, int salary) {
+    public InventoryItem(UUID id, Team owner) {
         this.id = id;
-        this.team = team;
-        this.name = name;
-        this.salary = salary;
+        this.owner = owner;
     }
 
     /**
-     * Construct a {@link Member} instance.
+     * Construct a {@link InventoryItem} instance.
      */
-    protected Member() {}
+    protected InventoryItem() {}
 
     /**
-     * Return the unique id of this member.
+     * Return the unique identifier of the car.
      *
-     * @return The id of this member.
+     * @return The unique identifier of the car.
      */
     public UUID getId() {
         return id;
     }
 
     /**
-     * Return the team of this member.
+     * Return the owner of this item.
      *
-     * @return The team of this member.
+     * @return The owner of this item.
      */
-    public Team getTeam() {
-        return team;
+    public Team getOwner() {
+        return owner;
     }
 
     /**
-     * Return the name of this member.
-     *
-     * @return The name of this member.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Return the salary of this member.
-     *
-     * @return The salary of this member.
-     */
-    public int getSalary() {
-        return salary;
-    }
-
-    /**
-     * Set the salary of this member.
-     *
-     * @param salary The salary to set.
-     */
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
-
-    /**
-     * Test whether this {@link Member} is equal to the given object.
+     * Test whether this {@link InventoryItem} is equal to the given object.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
@@ -133,7 +94,7 @@ public abstract class Member {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        Member that = (Member) other;
+        InventoryItem that = (InventoryItem) other;
         return Objects.equals(id, that.id);
     }
 

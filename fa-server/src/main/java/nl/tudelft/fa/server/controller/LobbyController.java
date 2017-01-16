@@ -109,7 +109,7 @@ public class LobbyController {
      * @param system The {@link ActorSystem}  of the balancer.
      * @param authenticator The reference to the {@link Authenticator} actor.
      * @param balancer The reference to the {@link LobbyBalancerActor} actor.
-     * @parma entityManager The {@link EntityManager} to use.
+     * @param entityManager The {@link EntityManager} to use.
      */
     public LobbyController(ActorSystem system, ActorRef authenticator, ActorRef balancer,
                            EntityManager entityManager) {
