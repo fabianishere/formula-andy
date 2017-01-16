@@ -38,6 +38,7 @@ import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.server.controller.LobbyController;
 import nl.tudelft.fa.server.model.Information;
 
+import javax.persistence.EntityManager;
 import java.lang.management.ManagementFactory;
 
 /**
@@ -72,10 +73,12 @@ public class RestService {
      * @param system The {@link ActorSystem} instance to use.
      * @param authenticator The reference to the {@link Authenticator} actor.
      * @param balancer The reference to the {@link LobbyBalancerActor}.
+     * @param entityManager Th e{@link EntityManager} to use.
      */
-    public RestService(ActorSystem system, ActorRef authenticator, ActorRef balancer) {
+    public RestService(ActorSystem system, ActorRef authenticator, ActorRef balancer,
+                       EntityManager entityManager) {
         this.system = system;
-        this.lobbies = new LobbyController(system, authenticator, balancer);
+        this.lobbies = new LobbyController(system, authenticator, balancer, entityManager);
     }
 
     /**

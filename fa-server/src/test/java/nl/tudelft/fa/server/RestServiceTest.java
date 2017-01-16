@@ -26,7 +26,7 @@ public class RestServiceTest extends JUnitRouteTest {
     public void setUp() {
         configuration = new LobbyConfiguration(11, Duration.ofMinutes(5), Duration.ofMinutes(5), new StaticLobbyScheduleFactory(Collections.emptyList()));
         balancer = system().actorOf(LobbyBalancerActor.props(configuration));
-        route = testRoute(new RestService(system(), null, balancer).createRoute());
+        route = testRoute(new RestService(system(), null, balancer, null).createRoute());
     }
 
     @Test

@@ -25,26 +25,46 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.core.lobby.message.*;
-import nl.tudelft.fa.server.net.message.Ping;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import nl.tudelft.fa.core.team.Driver;
+import nl.tudelft.fa.core.team.inventory.Car;
+
+import java.io.IOException;
+import javax.persistence.EntityManager;
 
 /**
- * This mixin creates an envelope around the inbound messages received from subscribers of
- * a lobby.
+ * A deserializer for the {@link Driver} class.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
+public class DriverDeserializer extends StdDeserializer<Driver> {
+    /**
+     * The entity manager to use.
+     */
+    private final EntityManager entityManager;
+
+    /**
+     * Construct a {@link DriverDeserializer} instance.
+     *
+     * @param entityManager The {@link EntityManager} to deserialize the car with.
+     */
+    protected DriverDeserializer(EntityManager entityManager) {
+        super(Driver.class);
+        this.entityManager = entityManager;
     }
-)
-public abstract class LobbyInboundMessageMixin {}
+
+    /**
+     * Deserialize the given JSON tree into a {@link Car} object.
+     * {@inheritDoc}
+     *
+     * @param parser The {@link JsonParser} to use.
+     * @param ctx The {@link DeserializationContext} to use.
+     * @throws IOException on failure.
+     */
+    @Override
+    public Driver deserialize(JsonParser parser, DeserializationContext ctx) throws IOException {
+        return entityManager.find(Driver.class, parser.getValueAsString());
+    }
+}

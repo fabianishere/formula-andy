@@ -25,26 +25,26 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.core.lobby.message.*;
-import nl.tudelft.fa.server.net.message.Ping;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmission;
+import nl.tudelft.fa.core.race.TeamConfiguration;
+import nl.tudelft.fa.core.user.User;
 
 /**
- * This mixin creates an envelope around the inbound messages received from subscribers of
- * a lobby.
+ * Mix-in for the {@link TeamConfigurationSubmission} class.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
-    }
-)
-public abstract class LobbyInboundMessageMixin {}
+public abstract class TeamConfigurationSubmissionMixin {
+    /**
+     * Construct a {@link TeamConfiguration} message instance.
+     *
+     * @param user The user that wants to submit this configuration.
+     * @param configuration The configuration of the team to submit.
+     */
+    @JsonCreator
+    public TeamConfigurationSubmissionMixin(@JsonProperty("user") User user,
+                                            @JsonProperty("configuration")
+                                                TeamConfiguration configuration) {}
+}

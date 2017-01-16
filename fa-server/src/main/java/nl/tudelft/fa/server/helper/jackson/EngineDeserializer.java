@@ -25,26 +25,46 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.core.lobby.message.*;
-import nl.tudelft.fa.server.net.message.Ping;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.Engine;
+
+import java.io.IOException;
+import javax.persistence.EntityManager;
 
 /**
- * This mixin creates an envelope around the inbound messages received from subscribers of
- * a lobby.
+ * A deserializer for the {@link Engine} class.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
+public class EngineDeserializer extends StdDeserializer<Engine> {
+    /**
+     * The entity manager to use.
+     */
+    private final EntityManager entityManager;
+
+    /**
+     * Construct a {@link EngineDeserializer} instance.
+     *
+     * @param entityManager The {@link EntityManager} to deserialize the car with.
+     */
+    protected EngineDeserializer(EntityManager entityManager) {
+        super(Engine.class);
+        this.entityManager = entityManager;
     }
-)
-public abstract class LobbyInboundMessageMixin {}
+
+    /**
+     * Deserialize the given JSON tree into a {@link Car} object.
+     * {@inheritDoc}
+     *
+     * @param parser The {@link JsonParser} to use.
+     * @param ctx The {@link DeserializationContext} to use.
+     * @throws IOException on failure.
+     */
+    @Override
+    public Engine deserialize(JsonParser parser, DeserializationContext ctx) throws IOException {
+        return entityManager.find(Engine.class, parser.getValueAsString());
+    }
+}

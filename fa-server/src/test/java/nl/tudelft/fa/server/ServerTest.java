@@ -41,7 +41,7 @@ public class ServerTest {
         final ActorRef balancer = system.actorOf(LobbyBalancerActor.props(new LobbyConfiguration(11, Duration.ofMinutes(1), Duration.ofMinutes(3), new StaticLobbyScheduleFactory(Collections.emptyList()))));
 
         // HttpApp.bindRoute expects a route being provided by HttpApp.createRoute
-        final RestService app = new RestService(system, authenticator, balancer);
+        final RestService app = new RestService(system, authenticator, balancer, manager);
 
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);

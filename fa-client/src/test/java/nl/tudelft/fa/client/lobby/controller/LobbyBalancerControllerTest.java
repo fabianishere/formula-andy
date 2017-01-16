@@ -65,7 +65,7 @@ public class LobbyBalancerControllerTest {
 
     @Before
     public void setUp() {
-        final RestService app = new RestService(system, authenticator, balancer);
+        final RestService app = new RestService(system, authenticator, balancer, null);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = app.createRoute().flow(system, materializer);
         client = new Client(new HttpMock(routeFlow), materializer, Uri.create("http://localhost:8080"));
         controller = client.balancer();

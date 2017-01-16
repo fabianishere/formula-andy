@@ -46,7 +46,7 @@ public class JacksonWebSocketCodecTest {
     @Before
     public void setUp() {
         mapper = new ObjectMapper();
-        mapper.registerModule(new LobbyModule());
+        mapper.registerModule(new LobbyModule(null));
         codec = new JacksonWebSocketCodec(mapper);
     }
 

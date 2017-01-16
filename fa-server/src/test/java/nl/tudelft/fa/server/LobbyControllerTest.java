@@ -72,9 +72,9 @@ public class LobbyControllerTest extends JUnitRouteTest {
         configuration = new LobbyConfiguration(11, java.time.Duration.ofMinutes(5), java.time.Duration.ofMinutes(3), new StaticLobbyScheduleFactory(Collections.emptyList()));
         authenticator = system().actorOf(Authenticator.props(manager));
         balancer = system().actorOf(LobbyBalancerActor.props(configuration, 2, 10));
-        route = testRoute(new LobbyController(system(), authenticator, balancer).createRoute());
+        route = testRoute(new LobbyController(system(), authenticator, balancer, manager).createRoute());
         mapper = new ObjectMapper();
-        mapper.registerModule(new LobbyModule());
+        mapper.registerModule(new LobbyModule(manager));
         mapper.registerModule(new JavaTimeModule());
     }
 
