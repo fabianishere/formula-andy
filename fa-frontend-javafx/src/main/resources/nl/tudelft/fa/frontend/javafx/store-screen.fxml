@@ -24,71 +24,60 @@
   THE SOFTWARE.
 -->
 
-<?import javafx.scene.control.Label?>
 <?import java.net.URL?>
 <?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.control.ComboBox?>
-<VBox id="store-screen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="1020.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<VBox id="store-screen" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="nl.tudelft.fa.frontend.javafx.controller.StoreController">
-    <stylesheets>
-        <URL value="@css/style.css"/>
-    </stylesheets>
-    <children>
-        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                  prefHeight="1020.0" prefWidth="1920.0">
-            <children>
+    <GridPane gridLinesVisible="true">
+        <columnConstraints>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+        </columnConstraints>
 
-                <Button fx:id="back" onAction="#back" prefHeight="31.0" prefWidth="100" text="Back" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+        <rowConstraints>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+        </rowConstraints>
 
-                <ComboBox fx:id="driver" prefHeight="31.0" prefWidth="300.0" promptText="Drivers" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                <Button fx:id="buyDriver" prefHeight="31.0" prefWidth="100" text="Buy" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                <ComboBox fx:id="mechanic" prefHeight="31.0" prefWidth="300.0" promptText="Mechanics" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-                <Button fx:id="buyMechanic" prefHeight="31.0" prefWidth="100" text="Buy" GridPane.columnIndex="6" GridPane.rowIndex="5" />
-                <ComboBox fx:id="aero" prefHeight="31.0" prefWidth="300.0" promptText="Aerodynamicists" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-                <Button fx:id="buyAero" prefHeight="31.0" prefWidth="100" text="Buy" GridPane.columnIndex="6" GridPane.rowIndex="7" />
-                <ComboBox fx:id="strategist" prefHeight="31.0" prefWidth="300.0" promptText="Strategist" GridPane.columnIndex="4" GridPane.rowIndex="9" />
-                <Button fx:id="buyStrategist" prefHeight="31.0" prefWidth="100" text="Buy" GridPane.columnIndex="6" GridPane.rowIndex="9" />
+        <Button onAction="#back" text="Back" GridPane.columnIndex="0"
+                GridPane.rowIndex="0"/>
 
-            </children>
-            <columnConstraints>
-                <ColumnConstraints/>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="385.0" minWidth="10.0" prefWidth="134.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="10.0" prefWidth="291.33331298828125"/>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="593.0" minWidth="10.0" prefWidth="352.6666259765625"/>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1307.0" minWidth="10.0" prefWidth="293.3333740234375"/>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1037.0" minWidth="0.0" prefWidth="19.6666259765625"/>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="962.0" minWidth="10.0" prefWidth="165.00006103515625"/>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="962.0" minWidth="10.0" prefWidth="666.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
-                <RowConstraints maxHeight="29.0" minHeight="7.999998092651367" prefHeight="29.0"/>
-                <RowConstraints maxHeight="179.3333282470703" minHeight="0.0" prefHeight="179.3333282470703"
-                                vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="213.6666717529297" minHeight="10.0" prefHeight="19.666671752929688"
-                                vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="309.0" minHeight="10.0" prefHeight="88.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="281.0" minHeight="0.0" prefHeight="132.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="265.33331298828125" minHeight="0.0" prefHeight="37.333343505859375"
-                                vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="363.0" minHeight="0.0" prefHeight="220.33334350585938" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="173.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="342.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="233.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="330.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="347.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="275.0" minHeight="0.0" prefHeight="76.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="275.0" minHeight="10.0" prefHeight="153.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="275.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES"/>
-            </rowConstraints>
-        </GridPane>
-    </children>
+        <ComboBox promptText="Drivers"
+                  GridPane.columnIndex="4" GridPane.rowIndex="3"/>
+        <Button text="Buy"
+                GridPane.columnIndex="5" GridPane.rowIndex="3"/>
+        <ComboBox promptText="Mechanics"
+                  GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+        <Button text="Buy"
+                GridPane.columnIndex="5" GridPane.rowIndex="4"/>
+        <ComboBox promptText="Aerodynamicists"
+                  GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+        <Button text="Buy"
+                GridPane.columnIndex="5" GridPane.rowIndex="5"/>
+        <ComboBox promptText="Strategist"
+                  GridPane.columnIndex="4" GridPane.rowIndex="6"/>
+        <Button text="Buy"
+                GridPane.columnIndex="5" GridPane.rowIndex="6"/>
+    </GridPane>
 </VBox>

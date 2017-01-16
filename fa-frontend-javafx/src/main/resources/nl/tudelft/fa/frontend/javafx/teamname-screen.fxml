@@ -62,5 +62,6 @@
         <Label text="Team name:" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
         <Button onAction="#nextpage" text="Next" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        
     </GridPane>
 </VBox>

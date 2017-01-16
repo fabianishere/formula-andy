@@ -25,7 +25,4 @@ public class TeamnameController {
     protected void nextpage(ActionEvent event) throws Exception {
         Main.launchScreen(event, "setup-screen.fxml");
     }
-
-
-
 }

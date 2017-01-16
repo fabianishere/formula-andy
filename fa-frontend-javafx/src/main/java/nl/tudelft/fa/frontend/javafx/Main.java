@@ -47,13 +47,13 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("teamname-screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("signup-screen.fxml"));
 
         Scene scene = new Scene(root);
-
+        stage.setFullScreen(true);
         stage.setTitle("Formula Andy!");
         stage.setScene(scene);
-        stage.setFullScreen(true);
+
         stage.show();
     }
 

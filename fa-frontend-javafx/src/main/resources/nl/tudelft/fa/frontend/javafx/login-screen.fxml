@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
   The MIT License (MIT)
 
@@ -24,74 +25,64 @@
   THE SOFTWARE.
 -->
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox id="login-screen" fx:controller="nl.tudelft.fa.frontend.javafx.controller.LoginController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1020.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox id="login-screen" styleClass="basic" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.LoginController">
     <stylesheets>
         <URL value="@css/style.css" />
     </stylesheets>
-   <children>
-       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1020.0" prefWidth="1920.0">
-          <children>
-              <Button onAction="#login" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="5.0" prefWidth="84.0" text="Log in" textAlignment="CENTER" translateX="75.0" translateY="-20.0" GridPane.columnIndex="4" GridPane.rowIndex="7">
-                  <font>
-                      <Font name="Marlett" size="20.0" />
-                  </font>
-                  <GridPane.margin>
-                      <Insets />
-                  </GridPane.margin>
-              </Button>
-              <PasswordField GridPane.columnIndex="4" GridPane.rowIndex="6" />
-              <Label alignment="CENTER" prefHeight="42.0" prefWidth="157.0" text=" Password" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="6">
-                  <font>
-                      <Font size="30.0" />
-                  </font>
-              </Label>
-              <Label alignment="CENTER" prefHeight="53.0" prefWidth="179.0" text="Username" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="5">
-                  <font>
-                      <Font size="30.0" />
-                  </font>
-              </Label>
-              <TextField GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <Label alignment="CENTER" prefHeight="76.0" prefWidth="540.0" text="Not a player yet? Sign up below!" textFill="WHITE" GridPane.columnIndex="6" GridPane.rowIndex="10">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-            <Button onAction="#signupnow" mnemonicParsing="false" prefHeight="31.0" prefWidth="107.0" text="Sign Up!" translateX="200.0" GridPane.columnIndex="6" GridPane.rowIndex="11">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Button>
-          </children>
-           <columnConstraints>
-               <ColumnConstraints />
-               <ColumnConstraints hgrow="SOMETIMES" maxWidth="385.0" minWidth="10.0" prefWidth="198.0" />
-               <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="10.0" prefWidth="518.0" />
-               <ColumnConstraints hgrow="SOMETIMES" maxWidth="593.0" minWidth="10.0" prefWidth="224.0" />
-               <ColumnConstraints hgrow="SOMETIMES" maxWidth="1307.0" minWidth="10.0" prefWidth="262.0" />
-               <ColumnConstraints hgrow="SOMETIMES" maxWidth="1037.0" minWidth="10.0" prefWidth="76.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="962.0" minWidth="10.0" prefWidth="666.0" />
-           </columnConstraints>
-           <rowConstraints>
-               <RowConstraints />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="211.0" minHeight="10.0" prefHeight="211.0" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="179.0" minHeight="10.0" prefHeight="168.0" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="164.0" minHeight="0.0" prefHeight="43.0" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="110.0" minHeight="0.0" prefHeight="93.0" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="173.0" minHeight="0.0" prefHeight="68.0" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="342.0" minHeight="1.0" prefHeight="3.0" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="233.0" minHeight="0.0" prefHeight="186.0" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="330.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="347.0" minHeight="10.0" prefHeight="73.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="275.0" minHeight="8.0" prefHeight="75.0" vgrow="SOMETIMES" />
-           </rowConstraints>
-       </GridPane>
-   </children>
+    <GridPane gridLinesVisible="false">
+        <columnConstraints>
+            <ColumnConstraints prefWidth="192" />
+            <ColumnConstraints prefWidth="192" />
+            <ColumnConstraints prefWidth="192" />
+            <ColumnConstraints prefWidth="192" />
+            <ColumnConstraints prefWidth="192" />
+            <ColumnConstraints prefWidth="344" />
+            <ColumnConstraints prefWidth="40" />
+            <ColumnConstraints prefWidth="344" />
+            <ColumnConstraints prefWidth="40" />
+            <ColumnConstraints prefWidth="192" />
+        </columnConstraints>
+
+        <rowConstraints>
+            <RowConstraints prefHeight="108" />
+            <RowConstraints prefHeight="108" />
+            <RowConstraints prefHeight="108" />
+            <RowConstraints prefHeight="108" />
+            <RowConstraints prefHeight="108" />
+            <RowConstraints prefHeight="108" />
+            <RowConstraints prefHeight="108" />
+            <RowConstraints prefHeight="108" />
+            <RowConstraints prefHeight="108" />
+            <RowConstraints prefHeight="108" />
+        </rowConstraints>
+
+        <ImageView fitHeight="600.0" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <Image url="@images/formula1logo.jpeg" />
+        </ImageView>
+
+        <Label text="Username" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+        <TextField prefWidth="400" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+
+        <Label text="Password" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+        <PasswordField prefWidth="400" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+
+        <Button onAction="#login" text="Log in" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+
+        <Label text="Not a member yet?" GridPane.columnIndex="7" GridPane.rowIndex="9" GridPane.halignment="RIGHT" />
+        <Button onAction="#signupnow" text="Sign up" GridPane.columnIndex="9" GridPane.rowIndex="9" />
+    </GridPane>
 </VBox>

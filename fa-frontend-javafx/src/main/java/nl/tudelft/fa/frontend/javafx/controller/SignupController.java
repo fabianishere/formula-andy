@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nl.tudelft.fa.frontend.javafx.Main;
 
 /**
  * Created by laeti on 9-1-2017.
@@ -19,16 +20,12 @@ public class SignupController {
      * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
-    protected void newsignup(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../teamname-screen.fxml"));
+    protected void signup(ActionEvent event) throws Exception {
+        Main.launchScreen(event, "teamname-screen.fxml");
+    }
 
-        Scene scene = new Scene(root);
-        Node source = (Node)  event.getSource();
-        Stage stage  = (Stage) source.getScene().getWindow();
-
-        stage.setTitle("Formula Andy!");
-        stage.setScene(scene);
-        stage.sizeToScene();
-        stage.show();
+    @FXML
+    protected void back(ActionEvent event) throws Exception {
+        Main.launchScreen(event, "login-screen.fxml");
     }
 }

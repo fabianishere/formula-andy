@@ -13,7 +13,6 @@ import nl.tudelft.fa.frontend.javafx.Main;
  * Created by laeti on 9-1-2017.
  */
 public class StartScreenController {
-
     /**
      * This method is invoked when the signup game button is
      * pressed and the user wants to create a new account

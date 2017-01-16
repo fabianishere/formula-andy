@@ -59,5 +59,6 @@
 
         <Button onAction="#newGame" text="New Game" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
         <Button onAction="#loadGame" text="Load Game" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
     </GridPane>
 </VBox>
