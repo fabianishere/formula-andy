@@ -14,6 +14,7 @@ import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.auth.actor.Authenticator;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import nl.tudelft.fa.core.user.User;
 
 import javax.persistence.EntityManager;
@@ -21,6 +22,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
@@ -36,7 +38,7 @@ public class ServerTest {
         manager.getTransaction().commit();
 
         final ActorRef authenticator = system.actorOf(Authenticator.props(manager));
-        final ActorRef balancer = system.actorOf(LobbyBalancerActor.props(new LobbyConfiguration(11, Duration.ofMinutes(1), Duration.ofMinutes(3))));
+        final ActorRef balancer = system.actorOf(LobbyBalancerActor.props(new LobbyConfiguration(11, Duration.ofMinutes(1), Duration.ofMinutes(3), new StaticLobbyScheduleFactory(Collections.emptyList()))));
 
         // HttpApp.bindRoute expects a route being provided by HttpApp.createRoute
         final RestService app = new RestService(system, authenticator, balancer);

@@ -29,6 +29,7 @@ import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.auth.actor.Authenticator;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import nl.tudelft.fa.core.user.User;
 import nl.tudelft.fa.server.RestService;
 import org.junit.AfterClass;
@@ -41,6 +42,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
@@ -71,7 +73,7 @@ public class LobbyControllerTest {
         manager.getTransaction().commit();
 
         authenticator = system.actorOf(Authenticator.props(manager));
-        balancer = system.actorOf(LobbyBalancerActor.props(new LobbyConfiguration(11, Duration.ofMinutes(6), Duration.ZERO), 2, 4));
+        balancer = system.actorOf(LobbyBalancerActor.props(new LobbyConfiguration(11, Duration.ofMinutes(6), Duration.ZERO, new StaticLobbyScheduleFactory(Collections.emptyList())), 2, 4));
     }
 
     @Before

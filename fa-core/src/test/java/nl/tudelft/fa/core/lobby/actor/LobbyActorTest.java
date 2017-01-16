@@ -11,6 +11,8 @@ import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
+import nl.tudelft.fa.core.lobby.schedule.LobbyScheduleFactory;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.race.TeamConfiguration;
 import nl.tudelft.fa.core.team.inventory.Car;
@@ -33,6 +35,7 @@ import static org.junit.Assert.assertEquals;
 public class LobbyActorTest {
     private static ActorSystem system;
     private UUID id;
+    private LobbyScheduleFactory factory;
     private LobbyConfiguration configuration;
     private User user;
 
@@ -44,7 +47,8 @@ public class LobbyActorTest {
     @Before
     public void setUp() {
         id = UUID.randomUUID();
-        configuration = new LobbyConfiguration(2, Duration.ofMinutes(10), Duration.ofMinutes(5));
+        factory = new StaticLobbyScheduleFactory(Collections.emptyList());
+        configuration = new LobbyConfiguration(2, Duration.ofMinutes(10), Duration.ofMinutes(5), factory);
         user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
     }
 
@@ -124,7 +128,7 @@ public class LobbyActorTest {
     public void testJoinFull() {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyActor.props(new LobbyConfiguration(0, Duration.ofMinutes(5), Duration.ofMinutes(5)));
+                final Props props = LobbyActor.props(new LobbyConfiguration(0, Duration.ofMinutes(5), Duration.ofMinutes(5), factory));
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Join req = new Join(user, getRef());
 
@@ -283,7 +287,7 @@ public class LobbyActorTest {
     public void testTransitToPreparationEnough() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ofMillis(500), Duration.ofMinutes(5)));
+                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ofMillis(500), Duration.ofMinutes(5), factory));
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Subscribe req = new Subscribe(getRef());
 
@@ -300,7 +304,7 @@ public class LobbyActorTest {
     public void testTransitToPreparationNotEnough() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ZERO, Duration.ofMinutes(5)));
+                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ZERO, Duration.ofMinutes(5), factory));
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Subscribe req = new Subscribe(getRef());
 

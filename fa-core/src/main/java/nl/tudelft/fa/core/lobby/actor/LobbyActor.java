@@ -97,7 +97,7 @@ public class LobbyActor extends AbstractActor {
         this.bus = context().actorOf(LobbyEventBus.props(), "event-bus");
         this.id = self().path().name();
 
-        this.schedule = new LinkedList<>();
+        this.schedule = new LinkedList<>(configuration.getScheduleFactory().generate());
         this.simulator = context().actorOf(LobbyRaceSimulationActor.props(bus, null));
     }
 

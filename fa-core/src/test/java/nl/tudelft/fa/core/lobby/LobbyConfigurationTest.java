@@ -1,9 +1,12 @@
 package nl.tudelft.fa.core.lobby;
 
+import nl.tudelft.fa.core.lobby.schedule.LobbyScheduleFactory;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.Objects;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -16,13 +19,15 @@ public class LobbyConfigurationTest {
     private Duration intermission;
     private Duration preparation;
     private LobbyConfiguration configuration;
+    private LobbyScheduleFactory factory;
 
     @Before
     public void setUp() {
         maxUsers = 1;
         intermission = Duration.ofMinutes(2);
         preparation = Duration.ofMinutes(2);
-        configuration = new LobbyConfiguration(maxUsers, intermission, preparation);
+        factory = new StaticLobbyScheduleFactory(Collections.emptyList());
+        configuration = new LobbyConfiguration(maxUsers, intermission, preparation, factory);
     }
 
     @Test
@@ -57,22 +62,22 @@ public class LobbyConfigurationTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new LobbyConfiguration(maxUsers, intermission, preparation), configuration);
+        assertEquals(new LobbyConfiguration(maxUsers, intermission, preparation, factory), configuration);
     }
 
     @Test
     public void equalsDifferentMaxUsers() {
-        assertNotEquals(new LobbyConfiguration(maxUsers + 1, intermission, preparation), configuration);
+        assertNotEquals(new LobbyConfiguration(maxUsers + 1, intermission, preparation, factory), configuration);
     }
 
     @Test
     public void equalsDifferentIntermissionTime() {
-        assertNotEquals(new LobbyConfiguration(maxUsers, intermission, preparation.plusMinutes(5)), configuration);
+        assertNotEquals(new LobbyConfiguration(maxUsers, intermission, preparation.plusMinutes(5), factory), configuration);
     }
 
     @Test
     public void equalsDifferentPreparationTime() {
-        assertNotEquals(new LobbyConfiguration(maxUsers, intermission.plusMinutes(5), preparation), configuration);
+        assertNotEquals(new LobbyConfiguration(maxUsers, intermission.plusMinutes(5), preparation, factory), configuration);
     }
 
     @Test
@@ -82,7 +87,7 @@ public class LobbyConfigurationTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals( String.format("LobbyConfiguration(userMaximum=%d, intermission=%s, preparation=%s)",
-            maxUsers, intermission, preparation), configuration.toString());
+        assertEquals(String.format("LobbyConfiguration(userMaximum=%d, intermission=%s, preparation=%s, scheduleFactory=%s)",
+            maxUsers, intermission, preparation, factory), configuration.toString());
     }
 }

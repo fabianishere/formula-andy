@@ -26,6 +26,7 @@
 package nl.tudelft.fa.core.lobby;
 
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
+import nl.tudelft.fa.core.lobby.schedule.LobbyScheduleFactory;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -52,16 +53,24 @@ public class LobbyConfiguration {
     private final Duration preparation;
 
     /**
+     * The {@link LobbyScheduleFactory} to use.
+     */
+    private final LobbyScheduleFactory scheduleFactory;
+
+    /**
      * Construct a {@link LobbyConfiguration} instance.
      *
      * @param maxUsers The maximum amount of users in this lobby.
      * @param intermission The duration of the intermission.
      * @param preparation The preparation time players have before the game.
+     * @param scheduleFactory The {@link LobbyScheduleFactory} to use.
      */
-    public LobbyConfiguration(int maxUsers, Duration intermission, Duration preparation) {
+    public LobbyConfiguration(int maxUsers, Duration intermission, Duration preparation,
+                              LobbyScheduleFactory scheduleFactory) {
         this.maxUsers = maxUsers;
         this.intermission = intermission;
         this.preparation = preparation;
+        this.scheduleFactory = scheduleFactory;
     }
 
     /**
@@ -90,6 +99,15 @@ public class LobbyConfiguration {
      */
     public Duration getPreparation() {
         return preparation;
+    }
+
+    /**
+     * Return the {@link LobbyScheduleFactory} to generate the schedule.
+     *
+     * @return The {@link LobbyScheduleFactory} instance.
+     */
+    public LobbyScheduleFactory getScheduleFactory() {
+        return scheduleFactory;
     }
 
     /**
@@ -128,7 +146,7 @@ public class LobbyConfiguration {
      */
     @Override
     public String toString() {
-        return String.format("LobbyConfiguration(userMaximum=%d, intermission=%s, preparation=%s)",
-            maxUsers, intermission, preparation);
+        return String.format("LobbyConfiguration(userMaximum=%d, intermission=%s, preparation=%s, "
+            + "scheduleFactory=%s)", maxUsers, intermission, preparation, scheduleFactory);
     }
 }

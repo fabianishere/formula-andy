@@ -1,6 +1,7 @@
 package nl.tudelft.fa.core.lobby;
 
 import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import nl.tudelft.fa.core.race.GrandPrix;
 import nl.tudelft.fa.core.user.User;
 import org.junit.Before;
@@ -25,7 +26,7 @@ public class LobbyTest {
     public void setUp() {
         id = UUID.randomUUID().toString();
         status = LobbyStatus.PREPARATION;
-        configuration = new LobbyConfiguration(11, Duration.ofMinutes(5), Duration.ZERO);
+        configuration = new LobbyConfiguration(11, Duration.ofMinutes(5), Duration.ZERO, new StaticLobbyScheduleFactory(Collections.emptyList()));
         users = new HashSet<>();
         users.add(new User(UUID.randomUUID(), new Credentials("fabianishere", "test")));
         schedule = new ArrayList<>();
@@ -91,7 +92,7 @@ public class LobbyTest {
 
     @Test
     public void equalsDifferentConfiguration() {
-        assertNotEquals(new Lobby(id, status, new LobbyConfiguration(0, Duration.ZERO, Duration.ZERO), users, schedule), information);
+        assertNotEquals(new Lobby(id, status, new LobbyConfiguration(0, Duration.ZERO, Duration.ZERO, null), users, schedule), information);
     }
 
     @Test

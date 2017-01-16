@@ -6,12 +6,14 @@ import akka.stream.ActorMaterializer;
 import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import nl.tudelft.fa.server.controller.LobbyController;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
 import java.time.Duration;
+import java.util.Collections;
 
 public class LobbyControllerFeedTest {
     private static ActorSystem system;
@@ -33,7 +35,7 @@ public class LobbyControllerFeedTest {
 
     @Before
     public void setUp() {
-        configuration = new LobbyConfiguration(11, java.time.Duration.ofMinutes(5), Duration.ZERO);
+        configuration = new LobbyConfiguration(11, java.time.Duration.ofMinutes(5), Duration.ZERO, new StaticLobbyScheduleFactory(Collections.emptyList()));
         lobby = system.actorOf(LobbyActor.props(configuration));
         controller = new LobbyController(system, null,null);
     }

@@ -26,8 +26,10 @@
 package nl.tudelft.fa.server.helper.jackson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
+import nl.tudelft.fa.core.lobby.schedule.LobbyScheduleFactory;
 
 import java.time.Duration;
 
@@ -43,11 +45,22 @@ public abstract class LobbyConfigurationMixin {
      * @param maxUsers The maximum amount of users in the lobby.
      * @param intermission The duration of the intermission.
      * @param preparation The preparation time in the lobby.
+     * @param scheduleFactory The schedule factory to use.
      */
     @JsonCreator
     public LobbyConfigurationMixin(@JsonProperty("userMaximum") int maxUsers,
                                    @JsonProperty("intermission") Duration intermission,
-                                   @JsonProperty("preparation") Duration preparation) {
+                                   @JsonProperty("preparation") Duration preparation,
+                                   @JsonProperty("schedule-factory")
+                                           LobbyScheduleFactory scheduleFactory) {
         // no implementation. Jackson does the work
     }
+
+    /**
+     * Return the {@link LobbyScheduleFactory} to generate the schedule.
+     *
+     * @return The {@link LobbyScheduleFactory} instance.
+     */
+    @JsonIgnore
+    public abstract LobbyScheduleFactory getScheduleFactory();
 }
