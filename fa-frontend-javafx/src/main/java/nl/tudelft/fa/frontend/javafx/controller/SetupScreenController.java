@@ -28,6 +28,20 @@ public class SetupScreenController {
     }
 
     @FXML
+    protected void store(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../store-screen.fxml"));
+
+        Scene scene = new Scene(root);
+        Node source = (Node)  event.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+
+        stage.setTitle("Formula Andy!");
+        stage.setScene(scene);
+        stage.sizeToScene();
+        stage.show();
+    }
+
+    @FXML
     protected void next(ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../grandprix-screen.fxml"));
 
