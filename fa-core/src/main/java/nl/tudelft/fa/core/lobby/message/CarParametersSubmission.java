@@ -27,6 +27,7 @@ package nl.tudelft.fa.core.lobby.message;
 
 import nl.tudelft.fa.core.race.CarParameters;
 import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 
@@ -36,6 +37,11 @@ import java.util.Objects;
  * @author Fabian Mastenbroek
  */
 public class CarParametersSubmission implements LobbyInboundMessage {
+    /**
+     * The user that wants to submit this configuration.
+     */
+    private final User user;
+
     /**
      * The {@link Car} to which the parameters should apply.
      */
@@ -49,12 +55,23 @@ public class CarParametersSubmission implements LobbyInboundMessage {
     /**
      * Construct a {@link CarParametersSubmission} instance.
      *
+     * @param user The user that wants to submit this configuration.
      * @param car The car to which the parameters should apply.
      * @param parameters The parameters to submit.
      */
-    public CarParametersSubmission(Car car, CarParameters parameters) {
+    public CarParametersSubmission(User user, Car car, CarParameters parameters) {
+        this.user = user;
         this.car = car;
         this.parameters = parameters;
+    }
+
+    /**
+     * Return the {@link User} that wants to submit this configuration.
+     *
+     * @return The user that wants to submit the configuration.
+     */
+    public User getUser() {
+        return user;
     }
 
     /**
@@ -91,7 +108,8 @@ public class CarParametersSubmission implements LobbyInboundMessage {
             return false;
         }
         CarParametersSubmission that = (CarParametersSubmission) other;
-        return Objects.equals(car, that.car)
+        return Objects.equals(user, that.user)
+            && Objects.equals(car, that.car)
             && Objects.equals(parameters, that.parameters);
     }
 
@@ -102,7 +120,7 @@ public class CarParametersSubmission implements LobbyInboundMessage {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(car, parameters);
+        return Objects.hash(user, car, parameters);
     }
 
     /**
@@ -112,6 +130,7 @@ public class CarParametersSubmission implements LobbyInboundMessage {
      */
     @Override
     public String toString() {
-        return String.format("CarParametersSubmission(car=%s, parameters=%s)", car, parameters);
+        return String.format("CarParametersSubmission(user=%s, car=%s, parameters=%s)", user, car,
+            parameters);
     }
 }
