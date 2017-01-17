@@ -22,19 +22,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
+package nl.tudelft.fa.frontend.javafx.inject;
 
-repositories {
-    mavenCentral()
-}
+import com.google.inject.AbstractModule;
 
-dependencies {
-    compile project(':fa-client')
-    compile 'org.slf4j:slf4j-jdk14:1.7.22'
-    compile 'com.gluonhq:ignite-guice:1.0.0'
-
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+/**
+ * Guice module for the user interface.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class UIModule extends AbstractModule {
+    @Override
+    protected void configure() {}
 }

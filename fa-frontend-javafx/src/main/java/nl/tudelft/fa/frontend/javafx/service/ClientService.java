@@ -22,19 +22,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
+package nl.tudelft.fa.frontend.javafx.service;
 
-repositories {
-    mavenCentral()
-}
+import akka.actor.ActorSystem;
+import akka.http.javadsl.model.Uri;
+import nl.tudelft.fa.client.Client;
 
-dependencies {
-    compile project(':fa-client')
-    compile 'org.slf4j:slf4j-jdk14:1.7.22'
-    compile 'com.gluonhq:ignite-guice:1.0.0'
-
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+/**
+ * This service provides the {@link Client} instance for the controllers.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class ClientService {
+    /**
+     * Return the {@link Client} instance of the service.
+     *
+     * @return The {@link Client} instance of the service.
+     */
+    public Client getClient() {
+        return new Client(ActorSystem.create(), Uri.create("http://localhost:8080"));
+    }
 }
