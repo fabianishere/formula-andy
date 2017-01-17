@@ -25,27 +25,29 @@
 
 package nl.tudelft.fa.client.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.client.lobby.message.*;
-import nl.tudelft.fa.client.net.message.Ping;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.client.race.Circuit;
+
+import java.util.UUID;
 
 /**
- * This mixin creates an envelope around the messages sent to the lobby.
+ * A mix-in for the {@link Circuit}.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-
-       /* Miscellaneous */
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
-    }
-)
-public abstract class LobbyInboundMessageMixin {}
+public abstract class CircuitMixin {
+    /**
+     * Construct a {@link CircuitMixin} instance.
+     *
+     * @param id The unique id of the circuit.
+     * @param name The name of the circuit
+     * @param country The country this circuit is located in.
+     * @param length The length of the circuit.
+     */
+    @JsonCreator
+    public CircuitMixin(@JsonProperty("id") UUID id,
+                        @JsonProperty("name") String name,
+                        @JsonProperty("country") String country,
+                        @JsonProperty("length") int length) {}
+}

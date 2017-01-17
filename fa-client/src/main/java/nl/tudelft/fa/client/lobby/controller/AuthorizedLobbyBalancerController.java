@@ -28,12 +28,9 @@ package nl.tudelft.fa.client.lobby.controller;
 import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.model.HttpMethods;
 import akka.http.javadsl.model.HttpRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import nl.tudelft.fa.client.Client;
-import nl.tudelft.fa.client.helper.jackson.LobbyModule;
+import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.client.lobby.Lobby;
-import nl.tudelft.fa.client.lobby.LobbyBalancer;
 import nl.tudelft.fa.client.lobby.LobbyStatus;
 
 import java.util.Set;
@@ -41,81 +38,38 @@ import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
 /**
- * A controller for the lobby balancer REST API.
+ * A controller for the lobby balancer REST API for an authorized user.
  *
  * @author Fabian Mastenbroek
  */
-public class LobbyBalancerController {
+public class AuthorizedLobbyBalancerController extends LobbyBalancerController {
     /**
-     * The {@link Client} to use for connection.
+     * The credentials of the user to manage the teams of.
      */
-    protected final Client client;
-
-    /**
-     * The {@link ObjectMapper} to use for deserialization.
-     */
-    protected final ObjectMapper mapper;
+    private final Credentials credentials;
 
     /**
      * Construct a {@link LobbyBalancerController} instance.
      *
      * @param client The {@link Client} to use for the connection.
+     * @param credentials The credentials to authorize with.
      */
-    public LobbyBalancerController(Client client) {
-        this.client = client;
-        this.mapper = new ObjectMapper();
-        this.mapper.registerModule(new JavaTimeModule());
-        this.mapper.registerModule(new LobbyModule());
+    public AuthorizedLobbyBalancerController(Client client, Credentials credentials) {
+        super(client);
+        this.credentials = credentials;
     }
-
-    /**
-     * Return the information of the lobbies running on the server.
-     *
-     * @return The information of the lobbies running on the server.
-     */
-    public CompletionStage<Set<Lobby>> lobbies() {
-        final HttpRequest request = HttpRequest.create()
-            .withUri(client.baseUri().addPathSegment("lobbies"))
-            .withMethod(HttpMethods.GET);
-
-        return client.http().singleRequest(request, client.materializer())
-            .thenCompose(res ->
-                Jackson.unmarshaller(mapper, LobbyBalancer.class)
-                    .unmarshall(res.entity(), client.materializer().executionContext(),
-                        client.materializer())
-            )
-            .thenApply(LobbyBalancer::getLobbies);
-    }
-
     /**
      * Return the controllers of the lobbies running on the server.
      *
      * @return The lobbies running on the server.
      */
+    @Override
     public CompletionStage<Set<LobbyController>> controllers() {
         return lobbies()
             .thenApply(lobbies -> lobbies.stream()
-                .map(lobby -> new LobbyController(client, mapper, lobby.getId()))
+                .map(lobby -> new AuthorizedLobbyController(client, mapper, lobby.getId(),
+                    credentials))
                 .collect(Collectors.toSet())
-            );
-    }
-
-    /**
-     * Return the information of a lobby running on the server.
-     *
-     * @param id The identifier of the lobby.
-     * @return The information of the lobby running on the server.
-     */
-    public CompletionStage<Lobby> lobby(String id) {
-        final HttpRequest request = HttpRequest.create()
-            .withUri(client.baseUri().addPathSegment("lobbies").addPathSegment(id))
-            .withMethod(HttpMethods.GET);
-
-        return client.http().singleRequest(request, client.materializer())
-            .thenCompose(res ->
-                Jackson.unmarshaller(mapper, Lobby.class)
-                    .unmarshall(res.entity(), client.materializer().executionContext(),
-                        client.materializer())
             );
     }
 
@@ -127,7 +81,8 @@ public class LobbyBalancerController {
      */
     public CompletionStage<LobbyController> controller(String id) {
         return lobby(id)
-            .thenApply(lobby -> new LobbyController(client, mapper, lobby.getId()));
+            .thenApply(lobby -> new LobbyController(client, mapper, lobby.getId()))
+            .thenApply(controller -> controller.authorize(credentials));
     }
 
     /**
@@ -137,12 +92,13 @@ public class LobbyBalancerController {
      */
     public CompletionStage<LobbyController> find() {
         return lobbies().thenApply(lobbies -> lobbies.stream()
-            .filter(lobby -> lobby.getStatus().equals(LobbyStatus.INTERMISSION))
+            .filter(lobby -> lobby.getStatus().equals(LobbyStatus.PREPARATION))
             .filter(lobby -> lobby.getUsers().size() < lobby.getConfiguration()
                 .getUserMaximum())
             .findFirst()
             .get()
         )
-            .thenApply(lobby -> new LobbyController(client, mapper, lobby.getId()));
+            .thenApply(lobby -> new LobbyController(client, mapper, lobby.getId()))
+            .thenApply(controller -> controller.authorize(credentials));
     }
 }

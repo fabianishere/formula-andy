@@ -25,27 +25,21 @@
 
 package nl.tudelft.fa.client.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.client.lobby.message.*;
-import nl.tudelft.fa.client.net.message.Ping;
+import com.fasterxml.jackson.annotation.*;
+import nl.tudelft.fa.client.team.*;
 
 /**
- * This mixin creates an envelope around the messages sent to the lobby.
+ * Mix-in for the {@link Member} class.
  *
  * @author Fabian Mastenbroek
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes(
     {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-
-       /* Miscellaneous */
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
+        @JsonSubTypes.Type(value = Driver.class, name = "driver"),
+        @JsonSubTypes.Type(value = Mechanic.class, name = "mechanic"),
+        @JsonSubTypes.Type(value = Strategist.class, name = "strategist"),
+        @JsonSubTypes.Type(value = Aerodynamicist.class, name = "aerodynamicist"),
     }
 )
-public abstract class LobbyInboundMessageMixin {}
+public abstract class MemberMixin {}

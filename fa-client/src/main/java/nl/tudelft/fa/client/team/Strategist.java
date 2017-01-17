@@ -23,29 +23,41 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.client.helper.jackson;
+package nl.tudelft.fa.client.team;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.client.lobby.message.*;
-import nl.tudelft.fa.client.net.message.Ping;
+import java.util.UUID;
 
 /**
- * This mixin creates an envelope around the messages sent to the lobby.
+ * A strategic {@link Specialist}.
  *
- * @author Fabian Mastenbroek
+ * @author Christian Slothouber
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-
-       /* Miscellaneous */
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
+public class Strategist extends Specialist {
+    /**
+     * Construct a {@link Strategist} instance.
+     *
+     * @param id The unique id of this strategist.
+     * @param name name The name of the strategist.
+     * @param salary salary The salary of the strategist.
+     * @param level level The level of the strategist.
+     */
+    public Strategist(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
     }
-)
-public abstract class LobbyInboundMessageMixin {}
+
+    /**
+     * Construct a {@link Strategist}.
+     */
+    public Strategist() {}
+
+    /**
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
+     */
+    @Override
+    public String toString() {
+        return String.format("Strategist(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
+    }
+}

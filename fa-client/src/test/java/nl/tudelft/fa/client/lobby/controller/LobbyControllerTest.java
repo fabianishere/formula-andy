@@ -10,8 +10,6 @@ import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.http.javadsl.model.StatusCodes;
 import akka.http.javadsl.model.Uri;
-import akka.http.javadsl.model.ws.Message;
-import akka.http.javadsl.model.ws.TextMessage;
 import akka.http.javadsl.model.ws.WebSocketUpgradeResponse;
 import akka.japi.Pair;
 import akka.stream.ActorMaterializer;
@@ -25,11 +23,16 @@ import nl.tudelft.fa.client.lobby.message.Join;
 import nl.tudelft.fa.client.lobby.message.LobbyInboundMessage;
 import nl.tudelft.fa.client.lobby.message.LobbyOutboundMessage;
 import nl.tudelft.fa.client.net.message.Ping;
+import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.auth.actor.Authenticator;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
+import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
+import nl.tudelft.fa.client.race.CarConfiguration;
+import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.InventoryItem;
 import nl.tudelft.fa.core.user.User;
 import nl.tudelft.fa.server.RestService;
 import org.junit.AfterClass;
@@ -42,8 +45,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.Duration;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
@@ -53,12 +55,14 @@ public class LobbyControllerTest {
     private static ActorSystem system;
     private static ActorMaterializer materializer;
     private static EntityManagerFactory factory;
+    private static EntityManager manager;
     private static ActorRef authenticator;
     private static ActorRef balancer;
 
     private Client client;
     private Lobby lobby;
     private LobbyController controller;
+    private nl.tudelft.fa.client.auth.Credentials credentials;
 
     @BeforeClass
     public static void setUpClass() {
@@ -68,8 +72,16 @@ public class LobbyControllerTest {
         final EntityManager manager = factory.createEntityManager();
 
         // Create simple user
+        // Create simple user
+        User user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
+        List<InventoryItem> inventory = new ArrayList<InventoryItem>();
+        final nl.tudelft.fa.core.team.Team team = new nl.tudelft.fa.core.team.Team(UUID.randomUUID(), "test", 30000, user, Collections.emptyList(), inventory);
+        final Car car = new Car(UUID.randomUUID());
+        inventory.add(car);
         manager.getTransaction().begin();
-        manager.persist(new User(UUID.randomUUID(), new Credentials("fabianishere", "test")));
+        manager.persist(user);
+        manager.persist(team);
+        manager.persist(car);
         manager.getTransaction().commit();
 
         authenticator = system.actorOf(Authenticator.props(manager));
@@ -78,7 +90,7 @@ public class LobbyControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        final RestService app = new RestService(system, authenticator, balancer, null);
+        final RestService app = new RestService(system, authenticator, balancer, manager);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = app.createRoute().flow(system, materializer);
         client = new Client(new HttpMock(routeFlow), materializer, Uri.create("http://localhost:8080"));
         lobby = client.balancer()
@@ -90,6 +102,8 @@ public class LobbyControllerTest {
             .controller(lobby.getId())
             .toCompletableFuture()
             .get();
+
+        credentials = new nl.tudelft.fa.client.auth.Credentials("fabianishere", "test");
     }
 
     @AfterClass
@@ -111,12 +125,14 @@ public class LobbyControllerTest {
             .toCompletableFuture()
             .get();
 
-        nl.tudelft.fa.client.auth.Credentials credentials = new nl.tudelft.fa.client.auth.Credentials("fabianishere", "test");
+        Team team = client.authorize(credentials).teams().list().toCompletableFuture().get().get(0);
+        TeamConfigurationSubmission submission = new TeamConfigurationSubmission(team.getOwner(), new HashSet<CarConfiguration>() {{
+        }});
         final Source<LobbyInboundMessage, Cancellable> source = Source.tick(FiniteDuration.Zero(),
-                FiniteDuration.create(500, TimeUnit.MILLISECONDS), Ping.INSTANCE)
-            .merge(Source.single(Join.INSTANCE));
+                FiniteDuration.create(1000, TimeUnit.MILLISECONDS), Ping.INSTANCE)
+            .merge(Source.from(Arrays.asList(Join.INSTANCE, submission)));
         Flow<LobbyOutboundMessage, LobbyInboundMessage, CompletionStage<Done>> flow = Flow.fromSinkAndSourceMat(Sink.foreach(System.out::println), source, Keep.left());
-        Pair<CompletionStage<WebSocketUpgradeResponse>, CompletionStage<Done>> pair = controller.feed(credentials, flow);
+        Pair<CompletionStage<WebSocketUpgradeResponse>, CompletionStage<Done>> pair = controller.authorize(credentials).feed(flow);
 
 
         // The first value in the pair is a CompletionStage<WebSocketUpgradeResponse> that

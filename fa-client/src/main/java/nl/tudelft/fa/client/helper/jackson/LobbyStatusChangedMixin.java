@@ -25,27 +25,24 @@
 
 package nl.tudelft.fa.client.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.client.lobby.message.*;
-import nl.tudelft.fa.client.net.message.Ping;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.client.lobby.LobbyStatus;
+import nl.tudelft.fa.client.lobby.message.LobbyStatusChanged;
 
 /**
- * This mixin creates an envelope around the messages sent to the lobby.
+ * Mix-in for the {@link LobbyStatusChanged} class.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-
-       /* Miscellaneous */
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
-    }
-)
-public abstract class LobbyInboundMessageMixin {}
+public abstract class LobbyStatusChangedMixin {
+    /**
+     * Construct a {@link LobbyStatusChangedMixin} instance.
+     *
+     * @param previous The previous status of the lobby.
+     * @param status The new status of the lobby.
+     */
+    @JsonCreator
+    public LobbyStatusChangedMixin(@JsonProperty("previous") LobbyStatus previous,
+                                   @JsonProperty("status") LobbyStatus status) {}
+}

@@ -25,27 +25,30 @@
 
 package nl.tudelft.fa.client.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.client.lobby.message.*;
-import nl.tudelft.fa.client.net.message.Ping;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.client.race.Circuit;
+import nl.tudelft.fa.client.race.GrandPrix;
+
+import java.time.Instant;
+import java.util.UUID;
 
 /**
- * This mixin creates an envelope around the messages sent to the lobby.
+ * Mix-in for the {@link GrandPrix} class.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-
-       /* Miscellaneous */
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
-    }
-)
-public abstract class LobbyInboundMessageMixin {}
+public abstract class GrandPrixMixin {
+    /**
+     * Construct a {@link GrandPrix} instance.
+     *
+     * @param id The unique id of this grand prix.
+     * @param circuit The race circuit at which this grand prix takes place.
+     * @param date The date of the race.
+     * @param laps The amount of laps in a grand prix.
+     */
+    @JsonCreator
+    public GrandPrixMixin(@JsonProperty("id") UUID id, @JsonProperty("circuit") Circuit circuit,
+                     @JsonProperty("date") Instant date,
+                     @JsonProperty("laps") int laps, @JsonProperty("rainChance") int rainChance) {}
+}

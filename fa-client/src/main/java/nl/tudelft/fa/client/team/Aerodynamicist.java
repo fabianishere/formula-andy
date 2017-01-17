@@ -23,29 +23,41 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.client.helper.jackson;
+package nl.tudelft.fa.client.team;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.client.lobby.message.*;
-import nl.tudelft.fa.client.net.message.Ping;
+import java.util.UUID;
 
 /**
- * This mixin creates an envelope around the messages sent to the lobby.
+ * A aerodynamic {@link Specialist}.
  *
- * @author Fabian Mastenbroek
+ * @author Christian Slothouber
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-
-       /* Miscellaneous */
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
+public class Aerodynamicist extends Specialist {
+    /**
+     * Construct a {@link Aerodynamicist} instance.
+     *
+     * @param id The unique id of this specialist.
+     * @param name name The name of this specialist.
+     * @param salary salary The salary of this specialist.
+     * @param level level The level of this specialist.
+     */
+    public Aerodynamicist(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
     }
-)
-public abstract class LobbyInboundMessageMixin {}
+
+    /**
+     * Construct a {@link Aerodynamicist}.
+     */
+    protected Aerodynamicist() {}
+
+    /**
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
+     */
+    @Override
+    public String toString() {
+        return String.format("Aerodynamicist(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
+    }
+}

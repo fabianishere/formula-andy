@@ -25,27 +25,28 @@
 
 package nl.tudelft.fa.client.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.client.lobby.message.*;
-import nl.tudelft.fa.client.net.message.Ping;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.client.lobby.message.CarParametersSubmission;
+import nl.tudelft.fa.client.race.CarParameters;
+import nl.tudelft.fa.client.team.inventory.Car;
+import nl.tudelft.fa.client.user.User;
 
 /**
- * This mixin creates an envelope around the messages sent to the lobby.
+ * Mix-in for the {@link CarParametersSubmission} class.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-
-       /* Miscellaneous */
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
-    }
-)
-public abstract class LobbyInboundMessageMixin {}
+public abstract class CarParametersSubmissionMixin {
+    /**
+     * Construct a {@link CarParametersSubmissionMixin} instance.
+     *
+     * @param user The {@link User} that wants to submit the parameters.
+     * @param car The {@link Car} to apply the parameters to.
+     * @param parameters The parameters to apply
+     */
+    @JsonCreator
+    public CarParametersSubmissionMixin(@JsonProperty("user") User user,
+                                        @JsonProperty("car") Car car,
+                                        @JsonProperty("parameters") CarParameters parameters) {}
+}

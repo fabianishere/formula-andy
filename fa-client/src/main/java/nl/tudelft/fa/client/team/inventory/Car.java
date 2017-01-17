@@ -23,29 +23,40 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.client.helper.jackson;
+package nl.tudelft.fa.client.team.inventory;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.client.lobby.message.*;
-import nl.tudelft.fa.client.net.message.Ping;
+import java.util.UUID;
 
 /**
- * This mixin creates an envelope around the messages sent to the lobby.
+ * This class represents a Formula 1 car of a team.
  *
- * @author Fabian Mastenbroek
+ * @author Christian Slothouber
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-
-       /* Miscellaneous */
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
+public class Car extends InventoryItem {
+    /**
+     * Construct a {@link Car} instance.
+     *
+     * @param id The unique id of the car.
+     */
+    public Car(UUID id) {
+        super(id);
     }
-)
-public abstract class LobbyInboundMessageMixin {}
+
+    /**
+     * Construct a {@link Car} instance.
+     */
+    protected Car() {
+        super(null);
+    }
+
+    /**
+     * Return a string representation of this car.
+     *
+     * @return A string representation of this car.
+     */
+    @Override
+    public String toString() {
+        return String.format("Car(id=%s)", getId());
+    }
+}
+
