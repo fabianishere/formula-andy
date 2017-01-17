@@ -24,36 +24,51 @@
   THE SOFTWARE.
 -->
 
-<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox id="start-screen" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.StartScreenController">
-    <stylesheets>
-        <URL value="@css/style.css"/>
-    </stylesheets>
-
-    <GridPane prefHeight="1106.0" prefWidth="1920.0">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import java.net.URL?>
+<VBox id="start-screen" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="nl.tudelft.fa.frontend.javafx.controller.StartScreenController">
+    <GridPane styleClass="basic" gridLinesVisible="false">
+        <stylesheets>
+            <URL value="@css/style.css" />
+        </stylesheets>
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.0" minWidth="10.0" prefWidth="533.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.0" minWidth="10.0" prefWidth="519.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="876.0" minWidth="10.0" prefWidth="445.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="558.0" minWidth="10.0" prefWidth="204.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="558.0" minWidth="10.0" prefWidth="291.0"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="384"/>
+            <ColumnConstraints prefWidth="0"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="192"/>
         </columnConstraints>
+
         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            <RowConstraints maxHeight="264.0" minHeight="10.0" prefHeight="191.0" vgrow="SOMETIMES"/>
-            <RowConstraints maxHeight="353.0" minHeight="10.0" prefHeight="341.0" vgrow="SOMETIMES"/>
-            <RowConstraints maxHeight="243.0" minHeight="10.0" prefHeight="243.0" vgrow="SOMETIMES"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="108"/>
         </rowConstraints>
-        <Button mnemonicParsing="false" onAction="#newGame" opacity="0.0" prefHeight="232.0" prefWidth="360.0"
-                rotate="-32.7" text="New Game" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Button mnemonicParsing="false" onAction="#loadGame" opacity="0.0" prefHeight="230.0" prefWidth="369.0"
-                rotate="33.7" text="Load Game" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-        <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" opacity="0.0"
-                prefHeight="240.0" prefWidth="268.0" text="Settings" textAlignment="CENTER" GridPane.columnIndex="4"
-                GridPane.rowIndex="3"/>
+
+        <ImageView fitHeight="600.0" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <Image url="@images/formula1logo.jpeg" />
+        </ImageView>
+
+        <Button styleClass="startScreenButton" onAction="#newGame" text="New Game" GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+        <Button styleClass="startScreenButton" onAction="#loadGame" text="Load Game" GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+
     </GridPane>
 </VBox>

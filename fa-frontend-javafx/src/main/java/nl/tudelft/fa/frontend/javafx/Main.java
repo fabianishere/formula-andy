@@ -26,9 +26,12 @@
 package nl.tudelft.fa.frontend.javafx;
 
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import nl.tudelft.fa.frontend.javafx.controller.LoginController;
 
@@ -45,14 +48,33 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("setup-screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("game-screen.fxml"));
 
         Scene scene = new Scene(root);
-
         stage.setTitle("Formula Andy!");
         stage.setScene(scene);
-        stage.sizeToScene();
-        stage.show();
+        stage.setFullScreenExitHint("");
+        stage.setFullScreen(true);
 
+        stage.show();
+    }
+
+    public static void launchScreen(Event event, String resourceURL) {
+        try {
+            Parent root = FXMLLoader.load(Main.class.getResource(resourceURL));
+
+            Scene scene = new Scene(root);
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+
+            stage.setTitle("Formula Andy!");
+            stage.setScene(scene);
+            stage.setFullScreenExitHint("");
+            stage.setFullScreen(true);
+            stage.show();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
