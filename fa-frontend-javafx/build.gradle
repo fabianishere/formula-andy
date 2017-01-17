@@ -32,5 +32,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':fa-client')
+
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
