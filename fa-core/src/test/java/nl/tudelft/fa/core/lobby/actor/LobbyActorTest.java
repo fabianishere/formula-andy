@@ -14,7 +14,6 @@ import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.lobby.schedule.LobbyScheduleFactory;
 import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import nl.tudelft.fa.core.race.CarConfiguration;
-import nl.tudelft.fa.core.race.TeamConfiguration;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
@@ -267,10 +266,10 @@ public class LobbyActorTest {
                 final Leave req = new Leave(user);
                 final JavaTestKit probe = new JavaTestKit(system);
                 final User user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
-                final TeamConfiguration configuration = new TeamConfiguration(new HashSet<CarConfiguration>() {{
+
+                final TeamConfigurationSubmission msg = new TeamConfigurationSubmission(user, new HashSet<CarConfiguration>() {{
                     add(new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null));
                 }});
-                final TeamConfigurationSubmission msg = new TeamConfigurationSubmission(user, configuration);
 
                 subject.tell(new Subscribe(probe.getRef()), probe.getRef());
                 subject.tell(new Join(user, getRef()), getRef());
@@ -278,7 +277,7 @@ public class LobbyActorTest {
                 probe.expectMsgClass(duration("1 second"), UserJoined.class);
 
                 subject.tell(msg, getRef());
-                probe.expectMsgClass(duration("1 second"), TeamConfigurationSubmission.class);
+                probe.expectMsgClass(duration("1 second"), TeamConfigurationSubmitted.class);
             }
         };
     }

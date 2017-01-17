@@ -2,16 +2,12 @@ package nl.tudelft.fa.core.lobby.message;
 
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.race.CarConfiguration;
-import nl.tudelft.fa.core.race.TeamConfiguration;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
@@ -19,13 +15,13 @@ import static org.junit.Assert.*;
 
 public class TeamConfigurationSubmissionTest {
     private User user;
-    private TeamConfiguration configuration;
+    private Set<CarConfiguration> configuration;
     private TeamConfigurationSubmission event;
 
     @Before
     public void setUp() throws Exception {
         user = new User(UUID.randomUUID(), new Credentials("a", "b"));
-        configuration = new TeamConfiguration(Collections.emptySet());
+        configuration = Collections.emptySet();
         event = new TeamConfigurationSubmission(user, configuration);
     }
 
@@ -36,7 +32,7 @@ public class TeamConfigurationSubmissionTest {
 
     @Test
     public void getConfiguration() throws Exception {
-        assertEquals(configuration, event.getConfiguration());
+        assertEquals(configuration, event.getCars());
     }
 
     @Test
@@ -67,9 +63,9 @@ public class TeamConfigurationSubmissionTest {
 
     @Test
     public void equalsDifferentConfiguration() {
-        assertNotEquals(new TeamConfigurationSubmission(user, new TeamConfiguration(new HashSet<CarConfiguration>() {{
+        assertNotEquals(new TeamConfigurationSubmission(user, new HashSet<CarConfiguration>() {{
             add(new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null));
-            }})), event);
+            }}), event);
     }
 
     @Test
@@ -79,6 +75,6 @@ public class TeamConfigurationSubmissionTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("TeamConfigurationSubmission(user=%s, configuration=%s)", user, configuration), event.toString());
+        assertEquals(String.format("TeamConfigurationSubmission(user=%s, cars=%s)", user, configuration), event.toString());
     }
 }
