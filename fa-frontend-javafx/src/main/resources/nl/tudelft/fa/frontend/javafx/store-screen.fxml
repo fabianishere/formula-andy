@@ -24,15 +24,17 @@
   THE SOFTWARE.
 -->
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import java.net.URL?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<?import java.net.URL?>
-<VBox id="start-screen" xmlns="http://javafx.com/javafx/8"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="nl.tudelft.fa.frontend.javafx.controller.StartScreenController">
+<VBox id="store-screen" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="nl.tudelft.fa.frontend.javafx.controller.StoreController">
     <GridPane styleClass="basic" gridLinesVisible="false">
         <stylesheets>
             <URL value="@css/style.css" />
@@ -40,10 +42,10 @@
         <columnConstraints>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
-            <ColumnConstraints prefWidth="192"/>
-            <ColumnConstraints prefWidth="192"/>
-            <ColumnConstraints prefWidth="384"/>
-            <ColumnConstraints prefWidth="0"/>
+            <ColumnConstraints prefWidth="292"/>
+            <ColumnConstraints prefWidth="344"/>
+            <ColumnConstraints prefWidth="40"/>
+            <ColumnConstraints prefWidth="92"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
@@ -67,8 +69,24 @@
             <Image url="@images/formula1logo.jpeg" />
         </ImageView>
 
-        <Button styleClass="startScreenButton" onAction="#newGame" text="New Game" GridPane.columnIndex="4" GridPane.rowIndex="4"/>
-        <Button styleClass="startScreenButton" onAction="#loadGame" text="Load Game" GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+        <Button onAction="#back" text="Back" GridPane.columnIndex="9"
+                GridPane.rowIndex="0" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM"/>
 
+        <ComboBox promptText="Drivers"
+                  GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+        <Button text="Buy"
+                GridPane.columnIndex="5" GridPane.rowIndex="3"/>
+        <ComboBox promptText="Mechanics"
+                  GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+        <Button text="Buy"
+                GridPane.columnIndex="5" GridPane.rowIndex="4"/>
+        <ComboBox promptText="Aerodynamicists"
+                  GridPane.columnIndex="3" GridPane.rowIndex="5"/>
+        <Button text="Buy"
+                GridPane.columnIndex="5" GridPane.rowIndex="5"/>
+        <ComboBox promptText="Strategist"
+                  GridPane.columnIndex="3" GridPane.rowIndex="6"/>
+        <Button text="Buy"
+                GridPane.columnIndex="5" GridPane.rowIndex="6"/>
     </GridPane>
 </VBox>

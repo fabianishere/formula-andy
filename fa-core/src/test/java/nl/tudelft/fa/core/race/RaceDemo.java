@@ -105,8 +105,8 @@ public class RaceDemo {
     }
 
     public static void setUpGrandPrix() {
-        circuit = new Circuit(UUID.randomUUID(), "name", "country", 800); /// delete country
-        gp = new GrandPrix(UUID.randomUUID(), circuit, Instant.now(), 10, 50); //
+        circuit = new Circuit(UUID.randomUUID(), "name", "country", 7000); /// delete country
+        gp = new GrandPrix(UUID.randomUUID(), circuit, Instant.now(), 65, 50); //
     }
 
     public static void setUpCarSimulators() {

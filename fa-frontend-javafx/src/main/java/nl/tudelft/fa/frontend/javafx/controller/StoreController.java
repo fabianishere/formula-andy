@@ -8,18 +8,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.scene.SetupScreenScene;
 
 /**
- * Created by laeti on 9-1-2017.
+ * Created by fchri on 15-1-2017.
  */
-public class LoadgameController {
+public class StoreController {
     @FXML
     protected void back(ActionEvent event) throws Exception {
-        Main.launchScreen(event, "start-screen.fxml");
-    }
-
-    @FXML
-    protected void next(ActionEvent event) throws Exception {
         Main.launchScreen(event, "setup-screen.fxml");
     }
 }
+
