@@ -25,8 +25,6 @@
 
 package nl.tudelft.fa.core.team.inventory;
 
-import nl.tudelft.fa.core.team.Team;
-
 import java.util.UUID;
 
 /**
@@ -59,14 +57,13 @@ public class Tire extends InventoryItem {
      * Construct a {@link Tire} instance.
      *
      * @param id The unique identifier of this tire.
-     * @param owner The owner of this tire.
      * @param brand The name of the brand of this tire.
      * @param type The type of the tire e.g. "Ultra Soft" or "Intermediate"
      * @param durability A numeric representation of durability
      * @param grip A numeric representation of grip
      */
-    public Tire(UUID id, Team owner, String brand, TireType type, double durability, double grip) {
-        super(id, owner);
+    public Tire(UUID id, String brand, TireType type, double durability, double grip) {
+        super(id);
         this.brand = brand;
         this.type = type;
         this.durability = durability;
@@ -77,7 +74,7 @@ public class Tire extends InventoryItem {
      * Construct a {@link Tire} instance.
      */
     protected Tire() {
-        super(null, null);
+        super(null);
     }
 
     /**

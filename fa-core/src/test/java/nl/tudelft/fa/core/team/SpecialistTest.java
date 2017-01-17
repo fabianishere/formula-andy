@@ -40,7 +40,7 @@ public class SpecialistTest {
         this.mediumRiskFactor = 0.8;
         this.highRiskFactor = 1.0;
 
-        this.mechanic = new Mechanic(UUID.randomUUID(), null, name, salary, level);
+        this.mechanic = new Mechanic(UUID.randomUUID(), name, salary, level);
     }
 
     @Test

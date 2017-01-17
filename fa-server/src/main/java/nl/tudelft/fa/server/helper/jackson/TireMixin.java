@@ -25,24 +25,21 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.core.team.inventory.Car;
-import nl.tudelft.fa.core.team.inventory.Engine;
-import nl.tudelft.fa.core.team.inventory.InventoryItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import nl.tudelft.fa.core.team.inventory.Tire;
 
 /**
- * Mix-in for the {@link InventoryItem} class.
+ * Mix-in for the {@link Tire} class.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = Car.class, name = "car"),
-        @JsonSubTypes.Type(value = Engine.class, name = "engine"),
-        @JsonSubTypes.Type(value = Tire.class, name = "tire"),
-    }
-)
-public abstract class InventoryItemMixin {}
+public abstract class TireMixin {
+    /**
+     * Return a factor based on the grip of the tire. The more grip the tire has the more friction
+     * they cause.
+     *
+     * @return The resistance factor.
+     */
+    @JsonIgnore
+    public abstract double getResistanceFactor();
+}

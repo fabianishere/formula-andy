@@ -30,7 +30,6 @@ import akka.stream.Attributes;
 import akka.stream.Shape;
 import akka.stream.stage.*;
 import nl.tudelft.fa.core.lobby.message.*;
-import nl.tudelft.fa.core.race.TeamConfiguration;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 
@@ -92,7 +91,7 @@ public class AuthorizedSessionStage extends AbstractSessionStage {
                 .match(Join.class, msg -> new Join(user, msg.getHandler()))
                 .match(Leave.class, msg -> new Leave(user))
                 .match(TeamConfigurationSubmission.class, msg -> new TeamConfigurationSubmission(
-                    user, msg.getConfiguration()))
+                    user, msg.getCars()))
                 .match(CarParametersSubmission.class, msg -> new CarParametersSubmission(user,
                     msg.getCar(), msg.getParameters()))
                 .matchAny(msg -> msg)

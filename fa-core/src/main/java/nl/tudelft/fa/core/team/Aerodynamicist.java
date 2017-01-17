@@ -37,13 +37,12 @@ public class Aerodynamicist extends Specialist {
      * Construct a {@link Aerodynamicist} instance.
      *
      * @param id The unique id of this specialist.
-     * @param team The team of the specialist.
      * @param name name The name of this specialist.
      * @param salary salary The salary of this specialist.
      * @param level level The level of this specialist.
      */
-    public Aerodynamicist(UUID id, Team team, String name, int salary, double level) {
-        super(id, team, name, salary, level);
+    public Aerodynamicist(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
     }
 
     /**

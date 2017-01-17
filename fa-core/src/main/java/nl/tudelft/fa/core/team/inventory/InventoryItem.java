@@ -42,19 +42,12 @@ public abstract class InventoryItem {
     private UUID id;
 
     /**
-     * The owner of this item.
-     */
-    private Team owner;
-
-    /**
      * Construct a {@link InventoryItem} instance.
      *
      * @param id The unique id of the car.
-     * @param owner The owner of this item.
      */
-    public InventoryItem(UUID id, Team owner) {
+    public InventoryItem(UUID id) {
         this.id = id;
-        this.owner = owner;
     }
 
     /**
@@ -69,15 +62,6 @@ public abstract class InventoryItem {
      */
     public UUID getId() {
         return id;
-    }
-
-    /**
-     * Return the owner of this item.
-     *
-     * @return The owner of this item.
-     */
-    public Team getOwner() {
-        return owner;
     }
 
     /**

@@ -27,7 +27,7 @@ public class TeamTest {
         budget = 1000;
         manager = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
         staff = new ArrayList<>();
-        staff.add(new Strategist(UUID.randomUUID(),null, "Barnes", 200, 100));
+        staff.add(new Strategist(UUID.randomUUID(), "Barnes", 200, 100));
         team = new Team(id, name, budget, manager, staff);
     }
 

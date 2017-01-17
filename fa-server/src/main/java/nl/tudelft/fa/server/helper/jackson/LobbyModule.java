@@ -34,7 +34,6 @@ import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.race.CarParameters;
-import nl.tudelft.fa.core.race.TeamConfiguration;
 import nl.tudelft.fa.core.team.*;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Engine;
@@ -90,6 +89,9 @@ public class LobbyModule extends SimpleModule {
         deserializers.addDeserializer(Tire.class, new TireDeserializer(entityManager));
         context.addDeserializers(deserializers);
 
+        context.setMixInAnnotations(Driver.class, DriverMixin.class);
+        context.setMixInAnnotations(Tire.class, TireMixin.class);
+
         context.setMixInAnnotations(Lobby.class, LobbyMixin.class);
         context.setMixInAnnotations(LobbyConfiguration.class, LobbyConfigurationMixin.class);
         context.setMixInAnnotations(Exception.class, ExceptionMixin.class);
@@ -101,7 +103,6 @@ public class LobbyModule extends SimpleModule {
         context.setMixInAnnotations(CarParametersSubmission.class,
             CarParametersSubmissionMixin.class);
         context.setMixInAnnotations(CarParameters.class, CarParametersMixin.class);
-        context.setMixInAnnotations(TeamConfiguration.class, TeamConfigurationMixin.class);
         context.setMixInAnnotations(TeamConfigurationSubmission.class,
             TeamConfigurationSubmissionMixin.class);
         context.setMixInAnnotations(CarConfiguration.class, CarConfigurationMixin.class);

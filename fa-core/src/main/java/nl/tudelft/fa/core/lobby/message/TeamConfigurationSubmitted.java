@@ -23,46 +23,67 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.race;
+package nl.tudelft.fa.core.lobby.message;
+
+import nl.tudelft.fa.core.race.CarConfiguration;
+import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * A {@link TeamConfiguration} class consist of the configuration of both cars of a team.
+ * A {@link LobbyOutboundMessage} that indicates that a user has submitted its team configuration.
  *
  * @author Fabian Mastenbroek
  */
-public class TeamConfiguration {
+public final class TeamConfigurationSubmitted implements LobbyEvent {
+    /**
+     * The user that wants to submit this configuration.
+     */
+    private final User user;
+
     /**
      * The configurations of the cars in the team.
      */
-    private final Set<CarConfiguration> configurations;
+    private final Set<CarConfiguration> cars;
 
     /**
-     * Construct a {@link TeamConfiguration} instance.
+     * Construct a {@link TeamConfigurationSubmitted} message instance.
      *
-     * @param configurations The configurations of the cars of this team.
+     * @param user The user that wants to submit this configuration.
+     * @param cars The configuration of the team to submit.
      */
-    public TeamConfiguration(Set<CarConfiguration> configurations) {
-        this.configurations = configurations;
+    public TeamConfigurationSubmitted(User user, Set<CarConfiguration> cars) {
+        this.user = user;
+        this.cars = cars;
     }
 
     /**
-     * Return the configurations of the cars in the team.
+     * Return the {@link User} that wants to submit this configuration.
      *
-     * @return The configurations of the cars in the team.
+     * @return The user that wants to submit the configuration.
      */
-    public Set<CarConfiguration> getConfigurations() {
-        return configurations;
+    public User getUser() {
+        return user;
     }
 
     /**
-     * Test whether this {@link TeamConfiguration} is equal to the given object.
+     * Return the configuration of the cars that the user wants to submit.
+     *
+     * @return The configuration of the cars the user wants to submit.
+     */
+    public Set<CarConfiguration> getCars() {
+        return cars;
+    }
+
+    /**
+     * Test whether this message is equal to the given object, which means that all properties of
+     * this message are equal to the properties of the other class.
      *
      * @param other The object to be tested for equality
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;
@@ -70,8 +91,9 @@ public class TeamConfiguration {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        TeamConfiguration that = (TeamConfiguration) other;
-        return Objects.equals(configurations, that.configurations);
+        TeamConfigurationSubmitted that = (TeamConfigurationSubmitted) other;
+        return Objects.equals(user, that.user)
+            && Objects.equals(cars, that.cars);
     }
 
     /**
@@ -81,16 +103,16 @@ public class TeamConfiguration {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(configurations);
+        return Objects.hash(user, cars);
     }
 
     /**
-     * Return a string representation of this engine.
+     * Return a string representation of this message.
      *
-     * @return A string representation of this engine.
+     * @return A string representation of this message.
      */
     @Override
     public String toString() {
-        return String.format("TeamConfiguration(configurations=%s)", configurations);
+        return String.format("TeamConfigurationSubmitted(user=%s, cars=%s)", user, cars);
     }
 }

@@ -25,33 +25,11 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import nl.tudelft.fa.core.team.Member;
 import nl.tudelft.fa.core.team.Team;
-import nl.tudelft.fa.core.team.inventory.InventoryItem;
-
-import java.util.List;
 
 /**
  * Mix-in for the {@link Team} class.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class TeamMixin {
-
-    /**
-     * Return the staff members of the team.
-     *
-     * @return A list of the members of this team.
-     */
-    @JsonManagedReference
-    public abstract List<Member> getStaff();
-
-    /**
-     * Return the inventory of the team.
-     *
-     * @return The inventory of this team.
-     */
-    @JsonManagedReference
-    public abstract List<InventoryItem> getInventory();
-}
+public abstract class TeamMixin {}

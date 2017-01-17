@@ -40,11 +40,6 @@ public abstract class Member {
     private UUID id;
 
     /**
-     * The team of this member.
-     */
-    private Team team;
-
-    /**
      * The name of this member.
      */
     private String name;
@@ -56,15 +51,12 @@ public abstract class Member {
 
     /**
      * Construct a {@link Member} instance.
-     *
-     * @param id     The unique id of the member.
-     * @param team   The team of this member.
+     *  @param id     The unique id of the member.
      * @param name   Name of crew member
      * @param salary salary of crew member
      */
-    public Member(UUID id, Team team, String name, int salary) {
+    public Member(UUID id, String name, int salary) {
         this.id = id;
-        this.team = team;
         this.name = name;
         this.salary = salary;
     }
@@ -81,15 +73,6 @@ public abstract class Member {
      */
     public UUID getId() {
         return id;
-    }
-
-    /**
-     * Return the team of this member.
-     *
-     * @return The team of this member.
-     */
-    public Team getTeam() {
-        return team;
     }
 
     /**

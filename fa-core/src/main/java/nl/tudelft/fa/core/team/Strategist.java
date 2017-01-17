@@ -37,14 +37,13 @@ public class Strategist extends Specialist {
      * Construct a {@link Strategist} instance.
      *
      * @param id The unique id of this strategist.
-     * @param team The team of this strategist.
      * @param name name The name of the strategist.
      * @param salary salary The salary of the strategist.
      * @param level level The level of the strategist.
      *
      */
-    public Strategist(UUID id, Team team, String name, int salary, double level) {
-        super(id, team, name, salary, level);
+    public Strategist(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
     }
 
     /**

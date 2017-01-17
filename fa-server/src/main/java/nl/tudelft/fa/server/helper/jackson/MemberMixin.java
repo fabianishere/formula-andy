@@ -44,13 +44,4 @@ import nl.tudelft.fa.core.team.*;
         @JsonSubTypes.Type(value = Aerodynamicist.class, name = "aerodynamicist"),
     }
 )
-public abstract class MemberMixin {
-    /**
-     * Return the team of this member.
-     *
-     * @return The team of this member.
-     */
-    @JsonBackReference
-    public abstract Team getTeam();
-
-}
+public abstract class MemberMixin {}

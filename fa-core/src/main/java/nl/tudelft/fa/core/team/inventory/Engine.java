@@ -25,8 +25,6 @@
 
 package nl.tudelft.fa.core.team.inventory;
 
-import nl.tudelft.fa.core.team.Team;
-
 import java.util.UUID;
 
 /**
@@ -64,16 +62,15 @@ public class Engine extends InventoryItem {
      * Construct a {@link Engine} instance.
      *
      * @param id The unique id of this engine.
-     * @param owner The owner of this engine.
      * @param brand The brand name of the engine.
      * @param name The name of the engine.
      * @param power A numeric representation of power
      * @param driveability A numeric representation of driveability
      * @param fuelConsumption A numeric representation of fuel consumption
      */
-    public Engine(UUID id, Team owner, String brand, String name, double power, double driveability,
+    public Engine(UUID id, String brand, String name, double power, double driveability,
                   double fuelConsumption) {
-        super(id, owner);
+        super(id);
         this.brand = brand;
         this.name = name;
         this.power = power;
@@ -85,7 +82,7 @@ public class Engine extends InventoryItem {
      * Construct a {@link Engine} instance.
      */
     protected Engine() {
-        super(null, null);
+        super(null);
     }
 
     /**

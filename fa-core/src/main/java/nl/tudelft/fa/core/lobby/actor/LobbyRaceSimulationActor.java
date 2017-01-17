@@ -28,7 +28,10 @@ package nl.tudelft.fa.core.lobby.actor;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
+import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmitted;
 import nl.tudelft.fa.core.race.CarSimulationResult;
 import nl.tudelft.fa.core.race.CarSimulator;
 import nl.tudelft.fa.core.race.RaceSimulator;
@@ -37,7 +40,6 @@ import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.race.CarParameters;
 import nl.tudelft.fa.core.race.GrandPrix;
-import nl.tudelft.fa.core.race.TeamConfiguration;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
@@ -47,6 +49,7 @@ import scala.runtime.BoxedUnit;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -71,6 +74,11 @@ public class LobbyRaceSimulationActor extends AbstractActor {
     private final Map<Car, CarSimulator> cars;
 
     /**
+     * The {@link LoggingAdapter} of this class.
+     */
+    private final LoggingAdapter log = Logging.getLogger(context().system(), this);
+
+    /**
      * Construct a {@link LobbyRaceSimulationActor} instance.
      *
      * @param bus The reference to the event bus where the results are published.
@@ -91,10 +99,8 @@ public class LobbyRaceSimulationActor extends AbstractActor {
     @Override
     public PartialFunction<Object, BoxedUnit> receive() {
         return ReceiveBuilder
-            .match(TeamConfigurationSubmission.class, msg -> {
-                submitConfiguration(msg.getUser(), msg.getConfiguration());
-                bus.tell(msg, sender());
-            })
+            .match(TeamConfigurationSubmission.class, msg -> submitConfiguration(msg.getUser(),
+                msg.getCars()))
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),
                 msg.getParameters()))
             .matchEquals("start", msg -> context().become(running()))
@@ -108,6 +114,8 @@ public class LobbyRaceSimulationActor extends AbstractActor {
      * @return The running actor behavior as a partial function.
      */
     private PartialFunction<Object, BoxedUnit> running() {
+        log.info("Starting race simulation");
+
         // schedule the tick
         context().system().scheduler().schedule(FiniteDuration.Zero(),
             FiniteDuration.create(1, TimeUnit.SECONDS), self(), "tick",
@@ -136,12 +144,14 @@ public class LobbyRaceSimulationActor extends AbstractActor {
      * Submit the {@link CarConfiguration} of a user.
      *
      * @param user The user that wants to submit the configuration.
-     * @param configuration The configuration to use.
+     * @param cars The car configurations to use.
      */
-    private void submitConfiguration(User user, TeamConfiguration configuration) {
-        configuration.getConfigurations().forEach(conf -> {
-            cars.put(conf.getCar(), new CarSimulator(conf, null));
+    private void submitConfiguration(User user, Set<CarConfiguration> cars) {
+        cars.forEach(conf -> {
+            this.cars.put(conf.getCar(), new CarSimulator(conf, null));
         });
+        bus.tell(new TeamConfigurationSubmitted(user, cars), sender());
+        log.info("User {} has submitted its team configuration", user);
     }
 
     /**
@@ -154,6 +164,7 @@ public class LobbyRaceSimulationActor extends AbstractActor {
         CarSimulator simulator = cars.getOrDefault(car, new CarSimulator(null, null));
         simulator.setParameters(parameters);
         cars.put(car, simulator);
+        log.info("Parameters submitted for car {}", car);
     }
 
     /**

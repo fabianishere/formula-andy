@@ -98,7 +98,7 @@ public class LobbyActor extends AbstractActor {
         this.id = self().path().name();
 
         this.schedule = new LinkedList<>(configuration.getScheduleFactory().generate());
-        this.simulator = context().actorOf(LobbyRaceSimulationActor.props(bus, null));
+        this.simulator = context().actorOf(LobbyRaceSimulationActor.props(bus, schedule.peek()));
     }
 
     /**
@@ -124,10 +124,10 @@ public class LobbyActor extends AbstractActor {
             .match(Unsubscribe.class, req -> bus.tell(req, sender()))
             .match(Terminated.class, msg -> handleTermination(msg.actor()))
             .match(TeamConfigurationSubmission.class,
-                msg -> users.get(msg.getUser()).equals(sender()),
+                msg -> sender().equals(users.get(msg.getUser())),
                 msg -> simulator.tell(msg, sender()))
             .match(CarParametersSubmission.class,
-                msg -> users.get(msg.getUser()).equals(sender()),
+                msg -> sender().equals(users.get(msg.getUser())),
                 msg -> simulator.tell(msg, sender()))
             .build();
     }
@@ -162,11 +162,11 @@ public class LobbyActor extends AbstractActor {
      * @return The preparation actor behavior as a partial function.
      */
     private PartialFunction<Object, BoxedUnit> preparation() {
-        // Schedule the game preparation
+        // Schedule the game progression
         context().system().scheduler().scheduleOnce(
             FiniteDuration.create(configuration.getPreparation().toNanos(),
                 TimeUnit.NANOSECONDS), self(),
-            new LobbyStatusChanged(LobbyStatus.INTERMISSION, LobbyStatus.PREPARATION),
+            new LobbyStatusChanged(LobbyStatus.PREPARATION, LobbyStatus.PROGRESSION),
             context().dispatcher(),
             self()
         );

@@ -25,26 +25,21 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.tudelft.fa.core.race.CarConfiguration;
-import nl.tudelft.fa.core.race.TeamConfiguration;
-
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import nl.tudelft.fa.core.team.Driver;
 
 /**
- * Mix-in for the {@link TeamConfiguration} class.
+ * Mix-in for the {@link Driver} class.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class TeamConfigurationMixin {
+public abstract class DriverMixin {
     /**
-     * Construct a {@link TeamConfigurationMixin} instance.
+     * Return a factor based on the skill levels of the driver. The better levels the higher the
+     * factor.
      *
-     * @param configurations The configurations of the cars of this team.
+     * @return A factor between 0 (inclusive) and 1 (inclusive).
      */
-    @JsonCreator
-    public TeamConfigurationMixin(@JsonProperty("cars")
-                                          Set<CarConfiguration> configurations) {}
-
+    @JsonIgnore
+    public abstract double getDriverFactor();
 }

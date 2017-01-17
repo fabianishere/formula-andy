@@ -27,12 +27,12 @@ public class CarConfigurationTest {
 
     @Before
     public void setUp() throws Exception {
-        car = new Car(UUID.randomUUID(), null);
+        car = new Car(UUID.randomUUID());
         driver = new Driver(UUID.randomUUID(), null, "Henry",  3, 4, 5, 6);
-        engine = new Engine(UUID.randomUUID(), null, "Mercedes", "F1 W05 Hybrid", 1, 2, 3);
-        mechanic = new Mechanic(UUID.randomUUID(), null, "Harry", 1, 2);
-        aerodynamicist = new Aerodynamicist(UUID.randomUUID(), null, "Fred", 1, 2);
-        strategist = new Strategist(UUID.randomUUID(), null, "Louis", 1, 2);
+        engine = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 1, 2, 3);
+        mechanic = new Mechanic(UUID.randomUUID(), "Harry", 1, 2);
+        aerodynamicist = new Aerodynamicist(UUID.randomUUID(), "Fred", 1, 2);
+        strategist = new Strategist(UUID.randomUUID(), "Louis", 1, 2);
         configuration = new CarConfiguration(car, engine, driver, mechanic, aerodynamicist, strategist);
     }
 
@@ -88,12 +88,12 @@ public class CarConfigurationTest {
 
     @Test
     public void equalsDifferentCar() {
-        assertNotEquals(new CarConfiguration(new Car(UUID.randomUUID(), null), engine, driver, mechanic, aerodynamicist, strategist), configuration);
+        assertNotEquals(new CarConfiguration(new Car(UUID.randomUUID()), engine, driver, mechanic, aerodynamicist, strategist), configuration);
     }
 
     @Test
     public void equalsDifferentEngine() {
-        Engine engine = new Engine(UUID.randomUUID(), null, "Merqcedes", "F1 W05 Hybrid", 1, 2, 3);;
+        Engine engine = new Engine(UUID.randomUUID(), "Merqcedes", "F1 W05 Hybrid", 1, 2, 3);;
         assertNotEquals(new CarConfiguration(car, engine, driver, mechanic, aerodynamicist, strategist), configuration);
     }
 
@@ -105,19 +105,19 @@ public class CarConfigurationTest {
 
     @Test
     public void equalsDifferentMechanic() {
-        Mechanic mechanic = new Mechanic(UUID.randomUUID(), null, "Joop", 1, 2);
+        Mechanic mechanic = new Mechanic(UUID.randomUUID(), "Joop", 1, 2);
         assertNotEquals(new CarConfiguration(car, engine, driver, mechanic, aerodynamicist, strategist), configuration);
     }
 
     @Test
     public void equalsDifferentAerodynamicist() {
-        Aerodynamicist aerodynamicist = new Aerodynamicist(UUID.randomUUID(), null, "Frenk", 1, 2);
+        Aerodynamicist aerodynamicist = new Aerodynamicist(UUID.randomUUID(), "Frenk", 1, 2);
         assertNotEquals(new CarConfiguration(car, engine, driver, mechanic, aerodynamicist, strategist), configuration);
     }
 
     @Test
     public void equalsDifferentStrategist() {
-        Strategist  strategist = new Strategist(UUID.randomUUID(), null, "Calvin", 1, 2);
+        Strategist  strategist = new Strategist(UUID.randomUUID(), "Calvin", 1, 2);
         assertNotEquals(new CarConfiguration(car, engine, driver, mechanic, aerodynamicist, strategist), configuration);
     }
 

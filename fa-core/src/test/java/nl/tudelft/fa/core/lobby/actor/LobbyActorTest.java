@@ -268,7 +268,7 @@ public class LobbyActorTest {
                 final JavaTestKit probe = new JavaTestKit(system);
                 final User user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
                 final TeamConfiguration configuration = new TeamConfiguration(new HashSet<CarConfiguration>() {{
-                    add(new CarConfiguration(new Car(UUID.randomUUID(), null), null, null, null, null, null));
+                    add(new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null));
                 }});
                 final TeamConfigurationSubmission msg = new TeamConfigurationSubmission(user, configuration);
 

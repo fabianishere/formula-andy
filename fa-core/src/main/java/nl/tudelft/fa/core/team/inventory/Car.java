@@ -25,8 +25,6 @@
 
 package nl.tudelft.fa.core.team.inventory;
 
-import nl.tudelft.fa.core.team.Team;
-
 import java.util.UUID;
 
 /**
@@ -39,17 +37,16 @@ public class Car extends InventoryItem {
      * Construct a {@link Car} instance.
      *
      * @param id The unique id of the car.
-     * @param owner The owner of the car.
      */
-    public Car(UUID id, Team owner) {
-        super(id, owner);
+    public Car(UUID id) {
+        super(id);
     }
 
     /**
      * Construct a {@link Car} instance.
      */
     protected Car() {
-        super(null, null);
+        super(null);
     }
 
     /**

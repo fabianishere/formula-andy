@@ -25,36 +25,37 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.race.TeamConfiguration;
+import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A {@link LobbyInboundMessage} from a user that wants to submit its car configuration.
  *
  * @author Fabian Mastenbroek
  */
-public final class TeamConfigurationSubmission implements LobbyInboundMessage, LobbyEvent {
+public final class TeamConfigurationSubmission implements LobbyInboundMessage {
     /**
      * The user that wants to submit this configuration.
      */
     private final User user;
 
     /**
-     * The configuration of the team to submit.
+     * The configurations of the cars in the team.
      */
-    private final TeamConfiguration configuration;
+    private final Set<CarConfiguration> cars;
 
     /**
-     * Construct a {@link TeamConfiguration} message instance.
+     * Construct a {@link TeamConfigurationSubmission} message instance.
      *
      * @param user The user that wants to submit this configuration.
-     * @param configuration The configuration of the team to submit.
+     * @param cars The configuration of the team to submit.
      */
-    public TeamConfigurationSubmission(User user, TeamConfiguration configuration) {
+    public TeamConfigurationSubmission(User user, Set<CarConfiguration> cars) {
         this.user = user;
-        this.configuration = configuration;
+        this.cars = cars;
     }
 
     /**
@@ -67,12 +68,12 @@ public final class TeamConfigurationSubmission implements LobbyInboundMessage, L
     }
 
     /**
-     * Return the {@link TeamConfiguration} that the user wants to submit.
+     * Return the configuration of the cars that the user wants to submit.
      *
-     * @return The configuration of the team the user wants to submit.
+     * @return The configuration of the cars the user wants to submit.
      */
-    public TeamConfiguration getConfiguration() {
-        return configuration;
+    public Set<CarConfiguration> getCars() {
+        return cars;
     }
 
     /**
@@ -92,7 +93,7 @@ public final class TeamConfigurationSubmission implements LobbyInboundMessage, L
         }
         TeamConfigurationSubmission that = (TeamConfigurationSubmission) other;
         return Objects.equals(user, that.user)
-            && Objects.equals(configuration, that.configuration);
+            && Objects.equals(cars, that.cars);
     }
 
     /**
@@ -102,7 +103,7 @@ public final class TeamConfigurationSubmission implements LobbyInboundMessage, L
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user, configuration);
+        return Objects.hash(user, cars);
     }
 
     /**
@@ -112,7 +113,6 @@ public final class TeamConfigurationSubmission implements LobbyInboundMessage, L
      */
     @Override
     public String toString() {
-        return String.format("TeamConfigurationSubmission(user=%s, configuration=%s)", user,
-            configuration);
+        return String.format("TeamConfigurationSubmission(user=%s, cars=%s)", user, cars);
     }
 }

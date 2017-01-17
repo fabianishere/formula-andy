@@ -28,8 +28,10 @@ package nl.tudelft.fa.server.helper.jackson;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmission;
-import nl.tudelft.fa.core.race.TeamConfiguration;
+import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.user.User;
+
+import java.util.Set;
 
 /**
  * Mix-in for the {@link TeamConfigurationSubmission} class.
@@ -38,13 +40,12 @@ import nl.tudelft.fa.core.user.User;
  */
 public abstract class TeamConfigurationSubmissionMixin {
     /**
-     * Construct a {@link TeamConfiguration} message instance.
+     * Construct a {@link TeamConfigurationSubmission} message instance.
      *
      * @param user The user that wants to submit this configuration.
-     * @param configuration The configuration of the team to submit.
+     * @param cars The configuration of the cars the user wants to submit.
      */
     @JsonCreator
     public TeamConfigurationSubmissionMixin(@JsonProperty("user") User user,
-                                            @JsonProperty("configuration")
-                                                TeamConfiguration configuration) {}
+                                            @JsonProperty("cars") Set<CarConfiguration> cars) {}
 }

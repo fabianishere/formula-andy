@@ -1,6 +1,5 @@
 package nl.tudelft.fa.core.team.inventory;
 
-import nl.tudelft.fa.core.team.inventory.Engine;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,9 +33,9 @@ public class EngineTest {
         power = 5.0;
         driveability = 4.0;
         fuelConsumption = 1.0;
-        engine = new Engine(id, null, brand, name, power, driveability, fuelConsumption);
+        engine = new Engine(id, brand, name, power, driveability, fuelConsumption);
 
-        tire = new Tire(UUID.randomUUID(), null, "Pirelli", TireType.SUPER_SOFT, 1, 7);
+        tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 1, 7);
     }
 
     @Test
@@ -91,17 +90,17 @@ public class EngineTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new Engine(id, null, brand, name, power, driveability, fuelConsumption), engine);
+        assertEquals(new Engine(id, brand, name, power, driveability, fuelConsumption), engine);
     }
 
     @Test
     public void equalsDifferentId() {
-        assertThat(engine, not(equalTo(new Engine(UUID.randomUUID(), null, brand, name, power, driveability, fuelConsumption))));
+        assertThat(engine, not(equalTo(new Engine(UUID.randomUUID(), brand, name, power, driveability, fuelConsumption))));
     }
 
     @Test
     public void equalsOtherPropertiesHaveNoEffect() {
-        assertEquals(new Engine(id, null, brand + "m", name + "m", power + 1, driveability + 1, fuelConsumption + 1), engine);
+        assertEquals(new Engine(id, brand + "m", name + "m", power + 1, driveability + 1, fuelConsumption + 1), engine);
     }
 
     @Test

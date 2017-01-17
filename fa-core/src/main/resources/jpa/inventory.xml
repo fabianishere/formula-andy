@@ -39,7 +39,6 @@
         <inheritance strategy="TABLE_PER_CLASS" />
         <attributes>
             <id name="id" />
-            <many-to-one name="owner" />
         </attributes>
     </entity>
 

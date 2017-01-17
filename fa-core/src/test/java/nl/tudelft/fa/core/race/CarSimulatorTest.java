@@ -1,9 +1,5 @@
 package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.race.CarConfiguration;
-import nl.tudelft.fa.core.race.CarParameters;
-import nl.tudelft.fa.core.race.CarSimulationResult;
-import nl.tudelft.fa.core.race.CarSimulator;
 import nl.tudelft.fa.core.team.*;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Engine;
@@ -54,20 +50,20 @@ public class CarSimulatorTest {
         mechanicalRisk = 2;
         aerodynamicRisk = 3;
         strategicRisk = 3;
-        tire = new Tire(UUID.randomUUID(), null, "Pirelli", TireType.SUPER_SOFT, 7, 1);
+        tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 7, 1);
 
         parameters = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
         parameters2 = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
 
-        car = new Car(UUID.randomUUID(), null);
+        car = new Car(UUID.randomUUID());
 
         driver = new Driver(UUID.randomUUID(), null, "Henry",  3, 80, 90, 70);
         driver2 = new Driver(UUID.randomUUID(), null, "Max", 3, 70, 80, 30);
 
-        engine = new Engine(UUID.randomUUID(), null, "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
-        mechanic = new Mechanic(UUID.randomUUID(), null, "Harry", 35, 80);
-        aerodynamicist = new Aerodynamicist(UUID.randomUUID(), null, "Fred", 100, 80);
-        strategist = new Strategist(UUID.randomUUID(), null, "Louis", 100, 80);
+        engine = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
+        mechanic = new Mechanic(UUID.randomUUID(), "Harry", 35, 80);
+        aerodynamicist = new Aerodynamicist(UUID.randomUUID(), "Fred", 100, 80);
+        strategist = new Strategist(UUID.randomUUID(), "Louis", 100, 80);
 
         configuration = new CarConfiguration(car, engine, driver, mechanic, aerodynamicist, strategist);
         configuration2 = new CarConfiguration(car, engine, driver2, mechanic, aerodynamicist, strategist);
@@ -77,7 +73,7 @@ public class CarSimulatorTest {
 
         results = new HashMap<>();
         results.put(car, new CarSimulationResult(0, false));
-        results.put(new Car(UUID.randomUUID(), null), new CarSimulationResult(0, false));
+        results.put(new Car(UUID.randomUUID()), new CarSimulationResult(0, false));
     }
 
     @Test
@@ -99,7 +95,7 @@ public class CarSimulatorTest {
     public void TestCloseDriver2() {
         results = new HashMap<>();
         results.put(car, new CarSimulationResult(0, false));
-        results.put(new Car(UUID.randomUUID(), null), new CarSimulationResult(200, false));
+        results.put(new Car(UUID.randomUUID()), new CarSimulationResult(200, false));
 
         assertFalse(cs.isNearby(results.get(car), results, 50));
     }

@@ -63,7 +63,7 @@ public class Driver extends Member {
      */
     public Driver(UUID id, Team team, String name, int salary, double speed, double racecraft,
                   double strategy) {
-        super(id, team, name, salary);
+        super(id, name, salary);
         this.speed = speed;
         this.racecraft = racecraft;
         this.strategy = strategy;

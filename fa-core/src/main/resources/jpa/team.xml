@@ -44,8 +44,8 @@
             <basic name="budget" />
             <many-to-one name="owner" />
 
-            <one-to-many name="staff" mapped-by="team" />
-            <one-to-many name="inventory" mapped-by="owner" />
+            <one-to-many name="staff" />
+            <one-to-many name="inventory" />
         </attributes>
     </entity>
 
@@ -59,8 +59,6 @@
 
             <basic name="name" />
             <basic name="salary" />
-
-            <many-to-one name="team" />
         </attributes>
     </entity>
 

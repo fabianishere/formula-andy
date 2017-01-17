@@ -35,15 +35,13 @@ import java.util.UUID;
 public class Mechanic extends Specialist {
     /**
      * Construct a {@link Mechanic} instance.
-     *
-     * @param id The unique id of this mechanic.
-     * @param team The team of this mechanic.
+     *  @param id The unique id of this mechanic.
      * @param name name of mechanic
      * @param salary salary of mechanic
      * @param level level of mechanic
      */
-    public Mechanic(UUID id, Team team, String name, int salary, double level) {
-        super(id, team, name, salary, level);
+    public Mechanic(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
     }
 
     /**
