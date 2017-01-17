@@ -38,8 +38,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
+import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
+import nl.tudelft.fa.client.race.CarConfiguration;
+import nl.tudelft.fa.client.team.inventory.Car;
 import nl.tudelft.fa.frontend.javafx.controller.TeamSettings;
 import javafx.stage.Stage;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class SetupScreenScene extends Scene {
 
@@ -97,39 +104,14 @@ public class SetupScreenScene extends Scene {
         startRace.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                TeamSettings settings = new TeamSettings();
-                try {
-                    settings.setAero1(getSelectedValueComboBox(aerodynamicistCar1, false));
-                    settings.setAero2(getSelectedValueComboBox(aerodynamicistCar2, false));
-                    settings.setMechanic1(getSelectedValueComboBox(mechanicCar1, false));
-                    settings.setMechanic2(getSelectedValueComboBox(mechanicCar2, false));
-                    settings.setStrategist1(getSelectedValueComboBox(strategistCar1, false));
-                    settings.setStrategist2(getSelectedValueComboBox(strategistCar2, false));
+                final Set<CarConfiguration> cars = new HashSet<>();
+                final TeamConfigurationSubmission submission = new TeamConfigurationSubmission(null, cars);
+                cars.add(new CarConfiguration(
+                    null, null, null, null, null, null
+                ));
 
-                    settings.setAeroRisk1(getAeroRiskCar1());
-                    settings.setAeroRisk2(getAeroRiskCar2());
-                    settings.setMechanicRisk1(getMechanicalRiskCar1());
-                    settings.setMechanicRisk2(getMechanicalRiskCar2());
-                    settings.setStrategistRisk1(getStratRiskCar1());
-                    settings.setStrategistRisk2(getStratRiskCar2());
-
-                    settings.setDriver1(getSelectedValueComboBox(driverCar1, false));
-                    settings.setDriver2(getSelectedValueComboBox(driverCar2, false));
-
-                    settings.setEngine1(getSelectedValueComboBox(engineCar1, true));
-                    settings.setEngine2(getSelectedValueComboBox(engineCar2, true));
-
-                    settings.setTire1(getSelectedValueComboBox(tireCar1, false));
-                    settings.setTire2(getSelectedValueComboBox(tireCar2, false));
-
-                    settings.setRaceable(true);
-                }
-                catch (Exception e) {
-
-                }
-                System.out.println(settings + "\n");
                 printSettings();
-                // client.send(settings);
+                // session.tell(submission, ActorRef.noSender());
             }
         });
     }

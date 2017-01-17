@@ -31,9 +31,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
-import nl.tudelft.fa.frontend.javafx.controller.LoginController;
 
 /**
  * The main JavaFX {@link Application} class.
@@ -48,7 +46,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("game-screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("login-screen.fxml"));
 
         Scene scene = new Scene(root);
         stage.setTitle("Formula Andy!");

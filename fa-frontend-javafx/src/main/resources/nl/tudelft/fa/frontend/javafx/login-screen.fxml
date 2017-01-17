@@ -75,10 +75,10 @@
         </ImageView>
 
         <Label text="Username" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-        <TextField prefWidth="400" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+        <TextField fx:id="username" prefWidth="400" GridPane.columnIndex="5" GridPane.rowIndex="4" />
 
         <Label text="Password" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-        <PasswordField prefWidth="400" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+        <PasswordField fx:id="password" prefWidth="400" GridPane.columnIndex="5" GridPane.rowIndex="5" />
 
         <Button onAction="#login" text="Log in" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
 
