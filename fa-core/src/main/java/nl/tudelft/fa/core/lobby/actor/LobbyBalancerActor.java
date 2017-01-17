@@ -104,6 +104,9 @@ public class LobbyBalancerActor extends AbstractActor {
         for (int i = 0; i < min; i++) {
             createLobby();
         }
+
+        // refresh caches
+        refresh();
     }
 
     /**
@@ -117,8 +120,7 @@ public class LobbyBalancerActor extends AbstractActor {
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform())
             .match(Join.class, this::join)
-            .match(UserJoined.class, req -> joined(req.getUser(), sender()))
-            .match(UserLeft.class, req -> left(req.getUser(), sender()))
+            .match(LobbyEvent.class, msg -> refresh())
             .match(Lobby.class, this::update)
             .match(Refresh.class, req -> refresh())
             .match(Terminated.class, msg -> {
@@ -167,34 +169,6 @@ public class LobbyBalancerActor extends AbstractActor {
             Collections.emptyList());
         instances.put(ref, info);
         available.put(ref, info);
-    }
-
-    /**
-     * This method is invoked whenever a user has joined a lobby.
-     *
-     * @param user The user that has joined a lobby.
-     * @param lobby The lobby the user has joined.
-     */
-    private void joined(User user, ActorRef lobby) {
-        Lobby info = instances.get(lobby);
-        Set<User> users = new HashSet<>(info.getUsers());
-        users.add(user);
-        update(new Lobby(lobby.path().name(), info.getStatus(), info.getConfiguration(),
-            users, info.getSchedule()));
-    }
-
-    /**
-     * This method is invoked whenever a user has left a lobby.
-     *
-     * @param user The user that has left a lobby.
-     * @param lobby The lobby the user has left.
-     */
-    private void left(User user, ActorRef lobby) {
-        Lobby info = instances.get(lobby);
-        Set<User> users = new HashSet<>(info.getUsers());
-        users.remove(user);
-        update(new Lobby(lobby.path().name(), info.getStatus(), info.getConfiguration(), users,
-            info.getSchedule()));
     }
 
     /**
