@@ -26,7 +26,8 @@
 package nl.tudelft.fa.core.team;
 
 import nl.tudelft.fa.core.race.GrandPrix;
-import nl.tudelft.fa.core.team.manager.Manager;
+import nl.tudelft.fa.core.team.inventory.InventoryItem;
+import nl.tudelft.fa.core.user.User;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,8 +35,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * This class represents a Formula 1 team that participates in
- * {@link GrandPrix}s.
+ * This class represents a Formula 1 team that participates in {@link GrandPrix}s.
  *
  * @author Christian Slothouber
  */
@@ -56,29 +56,60 @@ public class Team {
     private int budget;
 
     /**
+     * The owner of this team.
+     */
+    private User owner;
+
+    /**
      * The staff members of this team.
      */
     private List<Member> staff;
 
     /**
-     * The manager that manages this team.
+     * The inventory of this team.
      */
-    private Manager manager;
+    private List<InventoryItem> inventory;
 
     /**
      * Construct a {@link Team} instance.
      *
      * @param name The name of the team.
      * @param budget The budget of the team.
-     * @param manager The manager that manages this team.
+     * @param owner The owner that owns this team.
+     */
+    public Team(UUID id, String name, int budget, User owner) {
+        this(id, name, budget, owner, Collections.emptyList());
+    }
+
+    /**
+     * Construct a {@link Team} instance.
+     *
+     * @param name The name of the team.
+     * @param budget The budget of the team.
+     * @param owner The owner that owns this team.
      * @param staff The staff members of this team.
      */
-    public Team(UUID id, String name, int budget, Manager manager, List<Member> staff) {
+    public Team(UUID id, String name, int budget, User owner, List<Member> staff) {
+        this(id, name, budget, owner, staff, Collections.emptyList());
+    }
+
+    /**
+     * Construct a {@link Team} instance.
+     *
+     * @param name The name of the team.
+     * @param budget The budget of the team.
+     * @param owner The owner that owns this team.
+     * @param staff The staff members of this team.
+     * @param inventory The inventory of this team.
+     */
+    public Team(UUID id, String name, int budget, User owner, List<Member> staff,
+                List<InventoryItem> inventory) {
         this.id = id;
         this.name = name;
         this.budget = budget;
-        this.manager = manager;
+        this.owner = owner;
         this.staff = staff;
+        this.inventory = inventory;
     }
 
     /**
@@ -114,12 +145,12 @@ public class Team {
     }
 
     /**
-     * Return the manager of this team.
+     * Return the owner of this team.
      *
-     * @return The manager of this team.
+     * @return The owner of this team.
      */
-    public Manager getManager() {
-        return manager;
+    public User getOwner() {
+        return owner;
     }
 
     /**
@@ -128,7 +159,16 @@ public class Team {
      * @return A list of the members of this team.
      */
     public List<Member> getStaff() {
-        return Collections.unmodifiableList(staff);
+        return staff;
+    }
+
+    /**
+     * Return the inventory of the team.
+     *
+     * @return The inventory of this team.
+     */
+    public List<InventoryItem> getInventory() {
+        return inventory;
     }
 
     /**

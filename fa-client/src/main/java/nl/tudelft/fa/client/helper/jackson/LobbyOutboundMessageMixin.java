@@ -43,7 +43,10 @@ import nl.tudelft.fa.client.net.message.NotAuthorizedException;
         @JsonSubTypes.Type(value = JoinSuccess.class, name = "join.success"),
         @JsonSubTypes.Type(value = LeaveSuccess.class, name = "leave.success"),
         @JsonSubTypes.Type(value = UserJoined.class, name = "join.event"),
-        @JsonSubTypes.Type(value = UserLeft.class, name = "leave.left"),
+        @JsonSubTypes.Type(value = UserLeft.class, name = "leave.event"),
+        @JsonSubTypes.Type(value = LobbyStatusChanged.class, name = "status.event"),
+        @JsonSubTypes.Type(value = TeamConfigurationSubmitted.class, name = "team.event"),
+
         /* Error types */
         @JsonSubTypes.Type(value = LobbyFullException.class, name = "join.full"),
         @JsonSubTypes.Type(value = NotInLobbyException.class, name = "leave.not-in-lobby"),

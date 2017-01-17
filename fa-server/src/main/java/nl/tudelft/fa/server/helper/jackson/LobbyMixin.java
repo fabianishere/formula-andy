@@ -30,8 +30,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
+import nl.tudelft.fa.core.race.GrandPrix;
 import nl.tudelft.fa.core.user.User;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -51,7 +53,8 @@ public abstract class LobbyMixin {
     @JsonCreator
     public LobbyMixin(@JsonProperty("id") String id, @JsonProperty("status") LobbyStatus status,
                       @JsonProperty("configuration") LobbyConfiguration configuration,
-                      @JsonProperty("users") Set<User> users) {
+                      @JsonProperty("users") Set<User> users,
+                      @JsonProperty("schedule") List<GrandPrix> schedule) {
         // no implementation. Jackson does the work
     }
 }

@@ -10,10 +10,12 @@ import akka.http.javadsl.testkit.JUnitRouteTest;
 import akka.http.javadsl.testkit.TestRoute;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Duration;
+import java.util.Collections;
 
 public class RestServiceTest extends JUnitRouteTest {
     private LobbyConfiguration configuration;
@@ -22,9 +24,9 @@ public class RestServiceTest extends JUnitRouteTest {
 
     @Before
     public void setUp() {
-        configuration = new LobbyConfiguration(11, Duration.ofMinutes(5));
+        configuration = new LobbyConfiguration(11, Duration.ofMinutes(5), Duration.ofMinutes(5), new StaticLobbyScheduleFactory(Collections.emptyList()));
         balancer = system().actorOf(LobbyBalancerActor.props(configuration));
-        route = testRoute(new RestService(system(), null, balancer).createRoute());
+        route = testRoute(new RestService(system(), null, balancer, null).createRoute());
     }
 
     @Test

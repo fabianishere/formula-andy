@@ -35,8 +35,7 @@ import java.util.UUID;
 public class Mechanic extends Specialist {
     /**
      * Construct a {@link Mechanic} instance.
-     *
-     * @param id The unique id of this mechanic.
+     *  @param id The unique id of this mechanic.
      * @param name name of mechanic
      * @param salary salary of mechanic
      * @param level level of mechanic

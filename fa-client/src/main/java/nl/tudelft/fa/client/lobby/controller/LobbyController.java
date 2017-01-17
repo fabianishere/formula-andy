@@ -60,22 +60,22 @@ public class LobbyController {
     /**
      * The {@link Client} of this controller.
      */
-    private final Client client;
+    protected final Client client;
 
     /**
      * The {@link ObjectMapper} of this controller.
      */
-    private final ObjectMapper mapper;
+    protected final ObjectMapper mapper;
 
     /**
      * The unique identifier of the lobby.
      */
-    private final String id;
+    protected final String id;
 
     /**
      * The {@link AbstractCodec} to decode/encode the incoming/outgoing message.
      */
-    private final AbstractCodec<Message> codec;
+    protected final AbstractCodec<Message> codec;
 
     /**
      * Construct a {@link LobbyController} instance.
@@ -104,6 +104,16 @@ public class LobbyController {
     }
 
     /**
+     * Authorize this {@link LobbyController} instance.
+     *
+     * @param credentials The credentials to authorize with.
+     * @return The authorized {@link LobbyController} instance.
+     */
+    public AuthorizedLobbyController authorize(Credentials credentials) {
+        return new AuthorizedLobbyController(client, mapper, id, credentials);
+    }
+
+    /**
      * Return the {@link Lobby} instance of this controller.
      *
      * @return The {@link Lobby} instance of this controller.
@@ -125,25 +135,13 @@ public class LobbyController {
      *
      * @return The {@link WebSocketRequest} instance to retrieve the lobby's feed.
      */
-    private WebSocketRequest feedRequest() {
+    protected WebSocketRequest feedRequest() {
         final Uri uri = client.baseUri()
             .scheme("ws")
             .addPathSegment("lobbies")
             .addPathSegment(id)
             .addPathSegment("feed");
         return WebSocketRequest.create(uri);
-    }
-
-    /**
-     * Return the {@link WebSocketRequest} instance to retrieve the lobby's feed as an authorized
-     * user.
-     *
-     * @param credentials The credentials to authorize with.
-     * @return The {@link WebSocketRequest} instance to retrieve the lobby's feed.
-     */
-    private WebSocketRequest feedRequest(Credentials credentials) {
-        return feedRequest().addHeader(Authorization.basic(credentials.getUsername(),
-            credentials.getPassword()));
     }
 
     /**
@@ -157,7 +155,7 @@ public class LobbyController {
      * @param request The {@link WebSocketRequest} to use.
      * @return The event feed of the lobby.
      */
-    private Flow<LobbyInboundMessage, LobbyOutboundMessage,
+    protected Flow<LobbyInboundMessage, LobbyOutboundMessage,
             CompletionStage<WebSocketUpgradeResponse>> feed(WebSocketRequest request) {
         return codec.bidiFlow()
             .reversed()
@@ -176,7 +174,7 @@ public class LobbyController {
      * @return The result of the WebSocket upgrade and a completion stage that succeeds on
      *     completion of the flow.
      */
-    private Pair<CompletionStage<WebSocketUpgradeResponse>, CompletionStage<Done>> feed(
+    protected Pair<CompletionStage<WebSocketUpgradeResponse>, CompletionStage<Done>> feed(
             WebSocketRequest request, Flow<LobbyOutboundMessage, LobbyInboundMessage,
             CompletionStage<Done>> handler) {
         return client.http()
@@ -200,22 +198,6 @@ public class LobbyController {
     }
 
     /**
-     * Return the flow of an authorized session.
-     *
-     * <p>
-     *  Please be aware that in order to keep the connection open, the client has to sent
-     *  {@link Ping} messages regularly.
-     * </p>
-     *
-     * @param credentials The credentials to use.
-     * @return The flow of an authorized session.
-     */
-    public Flow<LobbyInboundMessage, LobbyOutboundMessage,
-            CompletionStage<WebSocketUpgradeResponse>> feed(Credentials credentials) {
-        return feed(feedRequest(credentials));
-    }
-
-    /**
      * Handle the event feed of the lobby with the given handler.
      *
      * <p>
@@ -230,24 +212,5 @@ public class LobbyController {
     public Pair<CompletionStage<WebSocketUpgradeResponse>, CompletionStage<Done>> feed(
             Flow<LobbyOutboundMessage, LobbyInboundMessage, CompletionStage<Done>> handler) {
         return feed(feedRequest(), handler);
-    }
-
-    /**
-     * Handle the flow of an authorized session.
-     *
-     * <p>
-     *  Please be aware that in order to keep the connection open, the client has to sent
-     *  {@link Ping} messages regularly.
-     * </p>
-     *
-     * @param credentials The credentials to use.
-     * @param handler The flow to handle the events with.
-     * @return The result of the WebSocket upgrade and a completion stage that succeeds on
-     *     completion of the flow.
-     */
-    public Pair<CompletionStage<WebSocketUpgradeResponse>, CompletionStage<Done>> feed(
-            Credentials credentials,
-            Flow<LobbyOutboundMessage, LobbyInboundMessage, CompletionStage<Done>> handler) {
-        return feed(feedRequest(credentials), handler);
     }
 }

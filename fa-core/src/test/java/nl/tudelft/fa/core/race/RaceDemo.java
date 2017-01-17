@@ -1,9 +1,5 @@
-package nl.tudelft.fa.core.game;
+package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.race.CarConfiguration;
-import nl.tudelft.fa.core.race.CarParameters;
-import nl.tudelft.fa.core.race.Circuit;
-import nl.tudelft.fa.core.race.GrandPrix;
 import nl.tudelft.fa.core.team.*;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Engine;
@@ -11,9 +7,7 @@ import nl.tudelft.fa.core.team.inventory.Tire;
 import nl.tudelft.fa.core.team.inventory.TireType;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class RaceDemo {
 
@@ -74,24 +68,26 @@ public class RaceDemo {
     static CarSimulator cs8;
     static CarSimulator cs9;
 
-    static List<CarSimulator> carSimulatorList;
+    static Map<Car, CarSimulator> simulators;
+    static Map<Car, CarSimulationResult> results;
 
     public static void main(String[] args) {
         setUpGrandPrix();
         setUpCarSimulators();
 
-        rs = new RaceSimulator(carSimulatorList, gp);
+        rs = new RaceSimulator(simulators.values(), gp);
+        final Iterator<Map<Car, CarSimulationResult>> iterator = rs.iterator();
 
         boolean racing = true;
         int cycles = 0;
         while(racing) {
-            carSimulatorList = RaceSimulator.getNextRaceCycle(carSimulatorList, rs.getRaining());
+            results = iterator.next();
             racing = false;
-            for (CarSimulator cs : carSimulatorList) {
-                if (!cs.getCarParameters().getCrashed()) {
+            for (CarSimulationResult result : results.values()) {
+                if (!result.hasCrashed()) {
                     racing = true;
                 }
-                if (cs.getCarParameters().getTraveledDistance() > gp.getLaps() * circuit.getLength()) {
+                if (result.getDistanceTraveled() > gp.getLaps() * circuit.getLength()) {
                     racing = false;
                 }
 
@@ -100,12 +96,12 @@ public class RaceDemo {
 
         }
         System.out.println("Cycle: " + cycles + "\n");
-        System.out.println("Raining: " + rs.getRaining());
+        System.out.println("Raining: " + rs.isRaining());
         System.out.println("Laps: " + gp.getLaps() + " Length lap: " + gp.getCircuit().getLength() + "\n");
 
-        for (CarSimulator cs : carSimulatorList) {
-            System.out.println(cs.getCarConfiguration().getDriver().getName() + ": " + cs.getCarParameters().getTraveledDistance() + "  " + cs.getCarParameters().getCrashed());
-        }
+        results.forEach((car, result) -> {
+            System.out.println(simulators.get(car).getConfiguration().getDriver().getName() + ": " + result.getDistanceTraveled() + "  " + result.hasCrashed());
+        });
     }
 
     public static void setUpGrandPrix() {
@@ -131,29 +127,29 @@ public class RaceDemo {
 
         car = new Car(UUID.randomUUID());
 
-        driver1 = new Driver(UUID.randomUUID(), "Racer 1", 3, 80, 90, 70);
-        driver2 = new Driver(UUID.randomUUID(), "Racer 2", 3, 80, 90, 70);
-        driver3 = new Driver(UUID.randomUUID(), "Racer 3", 3, 80, 90, 70);
-        driver4 = new Driver(UUID.randomUUID(), "Racer 4", 3, 80, 90, 70);
-        driver5 = new Driver(UUID.randomUUID(), "Racer 5", 3, 80, 90, 70);
-        driver6 = new Driver(UUID.randomUUID(), "Racer 6", 3, 80, 90, 70);
-        driver7 = new Driver(UUID.randomUUID(), "Racer 7", 3, 80, 90, 70);
-        driver8 = new Driver(UUID.randomUUID(), "Sonic", 3, 100, 100, 100);
-        driver9 = new Driver(UUID.randomUUID(), "Max", 3, 90, 90, 90);
+        driver1 = new Driver(UUID.randomUUID(), null, "Racer 1", 3, 80, 90, 70);
+        driver2 = new Driver(UUID.randomUUID(), null, "Racer 2", 3, 80, 90, 70);
+        driver3 = new Driver(UUID.randomUUID(), null, "Racer 3", 3, 80, 90, 70);
+        driver4 = new Driver(UUID.randomUUID(), null, "Racer 4", 3, 80, 90, 70);
+        driver5 = new Driver(UUID.randomUUID(), null, "Racer 5", 3, 80, 90, 70);
+        driver6 = new Driver(UUID.randomUUID(), null, "Racer 6", 3, 80, 90, 70);
+        driver7 = new Driver(UUID.randomUUID(), null, "Racer 7", 3, 80, 90, 70);
+        driver8 = new Driver(UUID.randomUUID(), null, "Sonic", 3, 100, 100, 100);
+        driver9 = new Driver(UUID.randomUUID(), null, "Max", 3, 90, 90, 90);
 
         engine = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
         mechanic = new Mechanic(UUID.randomUUID(), "Harry", 35, 80);
         aerodynamicist = new Aerodynamicist(UUID.randomUUID(), "Fred", 100, 80);
         strategist = new Strategist(UUID.randomUUID(), "Louis", 100, 80);
 
-        configuration1 = new CarConfiguration(car, engine, driver1, mechanic, aerodynamicist, strategist);
-        configuration2 = new CarConfiguration(car, engine, driver2, mechanic, aerodynamicist, strategist);
-        configuration3 = new CarConfiguration(car, engine, driver3, mechanic, aerodynamicist, strategist);
-        configuration4 = new CarConfiguration(car, engine, driver4, mechanic, aerodynamicist, strategist);
-        configuration5 = new CarConfiguration(car, engine, driver5, mechanic, aerodynamicist, strategist);
-        configuration6 = new CarConfiguration(car, engine, driver6, mechanic, aerodynamicist, strategist);
-        configuration7 = new CarConfiguration(car, engine, driver7, mechanic, aerodynamicist, strategist);
-        configuration8 = new CarConfiguration(car, engine, driver8, mechanic, aerodynamicist, strategist);
+        configuration1 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver1, mechanic, aerodynamicist, strategist);
+        configuration2 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver2, mechanic, aerodynamicist, strategist);
+        configuration3 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver3, mechanic, aerodynamicist, strategist);
+        configuration4 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver4, mechanic, aerodynamicist, strategist);
+        configuration5 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver5, mechanic, aerodynamicist, strategist);
+        configuration6 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver6, mechanic, aerodynamicist, strategist);
+        configuration7 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver7, mechanic, aerodynamicist, strategist);
+        configuration8 = new CarConfiguration(new Car(UUID.randomUUID()), engine, driver8, mechanic, aerodynamicist, strategist);
         configuration9 = new CarConfiguration(car, engine, driver9, mechanic, aerodynamicist, strategist);
 
         cs1 = new CarSimulator(configuration1, parameters1);
@@ -166,17 +162,17 @@ public class RaceDemo {
         cs8 = new CarSimulator(configuration8, parameters8);
         cs9 = new CarSimulator(configuration9, parameters9);
 
-        carSimulatorList = new ArrayList<CarSimulator>();
+        simulators = new HashMap<>();
 
-        carSimulatorList.add(cs1);
-        carSimulatorList.add(cs2);
-        carSimulatorList.add(cs3);
-        carSimulatorList.add(cs4);
-        carSimulatorList.add(cs5);
-        carSimulatorList.add(cs6);
-        carSimulatorList.add(cs7);
-        carSimulatorList.add(cs8);
-        carSimulatorList.add(cs9);
+        simulators.put(cs1.getConfiguration().getCar(), cs1);
+        simulators.put(cs2.getConfiguration().getCar(), cs2);
+        simulators.put(cs3.getConfiguration().getCar(), cs3);
+        simulators.put(cs4.getConfiguration().getCar(), cs4);
+        simulators.put(cs5.getConfiguration().getCar(), cs5);
+        simulators.put(cs6.getConfiguration().getCar(), cs6);
+        simulators.put(cs7.getConfiguration().getCar(), cs7);
+        simulators.put(cs8.getConfiguration().getCar(), cs8);
+        simulators.put(cs9.getConfiguration().getCar(), cs9);
 
     }
 }

@@ -42,9 +42,10 @@
 
             <basic name="name" />
             <basic name="budget" />
-            <transient name="manager" />
+            <many-to-one name="owner" />
 
             <one-to-many name="staff" />
+            <one-to-many name="inventory" />
         </attributes>
     </entity>
 
@@ -52,9 +53,7 @@
     <!-- Member class -->
     <entity class="Member" access="FIELD" name="Members">
         <description>This entity represents a member of a Formula 1 team.</description>
-
         <inheritance strategy="JOINED" />
-        <discriminator-column name="MEMBER_TYPE" />
         <attributes>
             <id name="id" />
 

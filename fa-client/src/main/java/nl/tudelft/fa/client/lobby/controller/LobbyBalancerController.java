@@ -49,12 +49,12 @@ public class LobbyBalancerController {
     /**
      * The {@link Client} to use for connection.
      */
-    private final Client client;
+    protected final Client client;
 
     /**
      * The {@link ObjectMapper} to use for deserialization.
      */
-    private final ObjectMapper mapper;
+    protected final ObjectMapper mapper;
 
     /**
      * Construct a {@link LobbyBalancerController} instance.
@@ -137,11 +137,12 @@ public class LobbyBalancerController {
      */
     public CompletionStage<LobbyController> find() {
         return lobbies().thenApply(lobbies -> lobbies.stream()
-            .filter(lobby -> lobby.getStatus().equals(LobbyStatus.PREPARATION))
+            .filter(lobby -> lobby.getStatus().equals(LobbyStatus.INTERMISSION))
             .filter(lobby -> lobby.getUsers().size() < lobby.getConfiguration()
-                .getPlayerMaximum())
+                .getUserMaximum())
             .findFirst()
             .get()
-        ).thenApply(lobby -> new LobbyController(client, mapper, lobby.getId()));
+        )
+            .thenApply(lobby -> new LobbyController(client, mapper, lobby.getId()));
     }
 }

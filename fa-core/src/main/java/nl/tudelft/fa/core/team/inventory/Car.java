@@ -25,7 +25,6 @@
 
 package nl.tudelft.fa.core.team.inventory;
 
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -33,61 +32,21 @@ import java.util.UUID;
  *
  * @author Christian Slothouber
  */
-public class Car {
-    /**
-     * The unique identifier of the car.
-     */
-    private UUID id;
-
+public class Car extends InventoryItem {
     /**
      * Construct a {@link Car} instance.
      *
      * @param id The unique id of the car.
      */
     public Car(UUID id) {
-        this.id = id;
+        super(id);
     }
 
     /**
      * Construct a {@link Car} instance.
      */
-    protected Car() {}
-
-    /**
-     * Return the unique identifier of the car.
-     *
-     * @return The unique identifier of the car.
-     */
-    public UUID getId() {
-        return id;
-    }
-
-    /**
-     * Test whether this {@link Car} is equal to the given object.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null || getClass() != other.getClass()) {
-            return false;
-        }
-        Car that = (Car) other;
-        return Objects.equals(id, that.id);
-    }
-
-    /**
-     * Return the hash code of this object.
-     *
-     * @return The hash code of this object as integer.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    protected Car() {
+        super(null);
     }
 
     /**
@@ -97,7 +56,7 @@ public class Car {
      */
     @Override
     public String toString() {
-        return String.format("Car(id=%s)", id);
+        return String.format("Car(id=%s)", getId());
     }
 }
 

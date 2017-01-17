@@ -24,6 +24,7 @@ import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.core.lobby.message.RequestInformation;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import nl.tudelft.fa.core.user.User;
 import nl.tudelft.fa.server.controller.LobbyController;
 import nl.tudelft.fa.server.helper.jackson.LobbyModule;
@@ -37,6 +38,7 @@ import scala.concurrent.duration.Duration;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.Collections;
 import java.util.UUID;
 
 
@@ -67,12 +69,12 @@ public class LobbyControllerTest extends JUnitRouteTest {
 
     @Before
     public void setUp() {
-        configuration = new LobbyConfiguration(11, java.time.Duration.ofMinutes(5));
+        configuration = new LobbyConfiguration(11, java.time.Duration.ofMinutes(5), java.time.Duration.ofMinutes(3), new StaticLobbyScheduleFactory(Collections.emptyList()));
         authenticator = system().actorOf(Authenticator.props(manager));
         balancer = system().actorOf(LobbyBalancerActor.props(configuration, 2, 10));
-        route = testRoute(new LobbyController(system(), authenticator, balancer).createRoute());
+        route = testRoute(new LobbyController(system(), authenticator, balancer, manager).createRoute());
         mapper = new ObjectMapper();
-        mapper.registerModule(new LobbyModule());
+        mapper.registerModule(new LobbyModule(manager));
         mapper.registerModule(new JavaTimeModule());
     }
 

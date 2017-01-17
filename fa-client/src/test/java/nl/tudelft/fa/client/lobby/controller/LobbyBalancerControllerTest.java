@@ -19,6 +19,7 @@ import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.core.lobby.message.RequestInformation;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import nl.tudelft.fa.core.user.User;
 import nl.tudelft.fa.server.RestService;
 import org.junit.AfterClass;
@@ -32,6 +33,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
@@ -58,12 +60,12 @@ public class LobbyBalancerControllerTest {
         manager.getTransaction().commit();
 
         authenticator = system.actorOf(Authenticator.props(manager));
-        balancer = system.actorOf(LobbyBalancerActor.props(new LobbyConfiguration(11, Duration.ofMinutes(5)), 2, 4));
+        balancer = system.actorOf(LobbyBalancerActor.props(new LobbyConfiguration(11, Duration.ofMinutes(5), Duration.ZERO, new StaticLobbyScheduleFactory(Collections.emptyList())), 2, 4));
     }
 
     @Before
     public void setUp() {
-        final RestService app = new RestService(system, authenticator, balancer);
+        final RestService app = new RestService(system, authenticator, balancer, null);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = app.createRoute().flow(system, materializer);
         client = new Client(new HttpMock(routeFlow), materializer, Uri.create("http://localhost:8080"));
         controller = client.balancer();

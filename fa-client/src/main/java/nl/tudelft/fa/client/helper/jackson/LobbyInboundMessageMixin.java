@@ -27,9 +27,7 @@ package nl.tudelft.fa.client.helper.jackson;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.client.lobby.message.Join;
-import nl.tudelft.fa.client.lobby.message.Leave;
-import nl.tudelft.fa.client.lobby.message.RequestInformation;
+import nl.tudelft.fa.client.lobby.message.*;
 import nl.tudelft.fa.client.net.message.Ping;
 
 /**
@@ -43,6 +41,9 @@ import nl.tudelft.fa.client.net.message.Ping;
         @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
         @JsonSubTypes.Type(value = Join.class, name = "join"),
         @JsonSubTypes.Type(value = Leave.class, name = "leave"),
+        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
+        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
+
        /* Miscellaneous */
         @JsonSubTypes.Type(value = Ping.class, name = "ping"),
     }

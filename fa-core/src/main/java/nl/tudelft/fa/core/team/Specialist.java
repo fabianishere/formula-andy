@@ -55,8 +55,7 @@ public abstract class Specialist extends Member {
 
     /**
      * Construct a {@link Specialist} instance.
-     *
-     * @param id The unique id of the specialist.
+     *  @param id The unique id of the specialist.
      * @param name The name of the specialist.
      * @param salary The salary of the specialist.
      * @param level The level of the specialist.

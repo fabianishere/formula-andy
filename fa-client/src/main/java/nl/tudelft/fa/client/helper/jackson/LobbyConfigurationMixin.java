@@ -40,12 +40,14 @@ public abstract class LobbyConfigurationMixin {
     /**
      * Construct a {@link LobbyConfigurationMixin} instance.
      *
-     * @param maxPlayers The maximum amount of players in the lobby.
-     * @param preparationTime The preparation time in the lobby.
+     * @param maxUsers The maximum amount of players in the lobby.
+     * @param intermission The duration of the intermission.
+     * @param preparation The preparation time in the lobby.
      */
     @JsonCreator
-    public LobbyConfigurationMixin(@JsonProperty("playerMaximum") int maxPlayers,
-                                   @JsonProperty("preparationTime") Duration preparationTime) {
+    public LobbyConfigurationMixin(@JsonProperty("userMaximum") int maxUsers,
+                                   @JsonProperty("intermission") Duration intermission,
+                                   @JsonProperty("preparation") Duration preparation) {
         // no implementation. Jackson does the work
     }
 }

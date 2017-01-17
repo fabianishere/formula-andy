@@ -23,66 +23,41 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.core.game;
+package nl.tudelft.fa.client.team;
 
-import nl.tudelft.fa.core.race.GrandPrix;
-import nl.tudelft.fa.core.team.Team;
-
-import java.util.List;
+import java.util.UUID;
 
 /**
- * A class representing the lobby of players
- * @author F.C. Slothouber
+ * A aerodynamic {@link Specialist}.
+ *
+ * @author Christian Slothouber
  */
-public class Lobby {
-
+public class Aerodynamicist extends Specialist {
     /**
-     * List of teams.
+     * Construct a {@link Aerodynamicist} instance.
+     *
+     * @param id The unique id of this specialist.
+     * @param name name The name of this specialist.
+     * @param salary salary The salary of this specialist.
+     * @param level level The level of this specialist.
      */
-    private List<Team> teams;
-
-    /**
-     * List of all the grand prix.
-     */
-    private List<GrandPrix> shedule;
-
-    /**
-     * integer representing the current grand prix.
-     */
-    private int currentGrandPrix;
-
-    /**
-     * Constrctor.
-     * @param teams The list of teams.
-     * @param shedule The list of grand prix.
-     */
-    public Lobby(List<Team> teams, List<GrandPrix> shedule) {
-        this.teams = teams;
-        this.shedule = shedule;
-        this.currentGrandPrix = 0;
+    public Aerodynamicist(UUID id, String name, int salary, double level) {
+        super(id, name, salary, level);
     }
 
     /**
-     * Returns the list of teams.
-     * @return The list of teams.
+     * Construct a {@link Aerodynamicist}.
      */
-    public List<Team> getTeams() {
-        return teams;
-    }
+    protected Aerodynamicist() {}
 
     /**
-     * Returns the list of grand prix.
-     * @return The list of grand prix.
+     * Return a string representation of this specialist.
+     *
+     * @return A string representation of this specialist.
      */
-    public List<GrandPrix> getShedule() {
-        return shedule;
-    }
-
-    /**
-     * Returns the current grand prix.
-     * @return The integer representing the current grand prix.
-     */
-    public int getCurrentGrandPrix() {
-        return this.currentGrandPrix;
+    @Override
+    public String toString() {
+        return String.format("Aerodynamicist(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
     }
 }

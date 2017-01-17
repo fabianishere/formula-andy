@@ -48,7 +48,7 @@ public class LobbyBalancerTest {
     @Test
     public void equalsDifferentLobbies() {
         assertNotEquals(new LobbyBalancer(new HashSet<Lobby>() {{
-            add(new Lobby(UUID.randomUUID().toString(), LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO), Collections.emptySet()));
+            add(new Lobby(UUID.randomUUID().toString(), LobbyStatus.PREPARATION, new LobbyConfiguration(1, Duration.ZERO, Duration.ZERO), Collections.emptySet(), Collections.emptyList()));
         }}), information);
     }
 

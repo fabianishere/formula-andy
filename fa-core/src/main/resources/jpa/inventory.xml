@@ -33,22 +33,26 @@
     <description>The team inventory data mapping of the Formula Andy project.</description>
     <package>nl.tudelft.fa.core.team.inventory</package>
 
-    <!-- Car class -->
-    <entity class="Car" access="FIELD" name="Cars">
-        <description>This entity represents a Formula 1 car of a team.</description>
-
+    <!-- InventoryItem class -->
+    <entity class="InventoryItem" access="FIELD" name="Inventory">
+        <description>This entity represents an item in the inventory of a team.</description>
+        <inheritance strategy="TABLE_PER_CLASS" />
         <attributes>
             <id name="id" />
         </attributes>
     </entity>
 
+    <!-- Car class -->
+    <entity class="Car" access="FIELD" name="Cars">
+        <description>This entity represents a Formula 1 car of a team.</description>
+        <discriminator-value>car</discriminator-value>
+    </entity>
+
     <!-- Engine class -->
     <entity class="Engine" access="FIELD" name="Engines">
         <description>This entity represents a Formula 1 car engine.</description>
-
+        <discriminator-value>engine</discriminator-value>
         <attributes>
-            <id name="id" />
-
             <basic name="brand" />
             <basic name="name" />
             <basic name="power" />
@@ -60,10 +64,8 @@
     <!-- Tire class -->
     <entity class="Tire" access="FIELD" name="Tires">
         <description>This entity represents a Formula 1 tire.</description>
-
+        <discriminator-value>tire</discriminator-value>
         <attributes>
-            <id name="id" />
-
             <basic name="brand" />
             <basic name="type" />
             <basic name="durability" />

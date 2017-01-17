@@ -51,8 +51,7 @@ public abstract class Member {
 
     /**
      * Construct a {@link Member} instance.
-     *
-     * @param id     The unique id of the member.
+     *  @param id     The unique id of the member.
      * @param name   Name of crew member
      * @param salary salary of crew member
      */

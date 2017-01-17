@@ -25,13 +25,23 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
+import com.fasterxml.jackson.databind.module.SimpleDeserializers;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.module.SimpleSerializers;
 import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.message.*;
+import nl.tudelft.fa.core.race.CarConfiguration;
+import nl.tudelft.fa.core.race.CarParameters;
+import nl.tudelft.fa.core.team.*;
+import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.Engine;
+import nl.tudelft.fa.core.team.inventory.InventoryItem;
+import nl.tudelft.fa.core.team.inventory.Tire;
 import nl.tudelft.fa.core.user.User;
+
+import javax.persistence.EntityManager;
 
 /**
  * This class is a module for the Jackson library to provide serializers for the lobby package
@@ -41,10 +51,18 @@ import nl.tudelft.fa.core.user.User;
  */
 public class LobbyModule extends SimpleModule {
     /**
-     * Construct a {@link LobbyModule} instance.
+     * The entity manager to use.
      */
-    public LobbyModule() {
+    private final EntityManager entityManager;
+
+    /**
+     * Construct a {@link LobbyModule} instance.
+     *
+     * @param entityManager The {@link EntityManager} to deserialize persistent entities.
+     */
+    public LobbyModule(EntityManager entityManager) {
         super(LobbyModule.class.getName());
+        this.entityManager = entityManager;
     }
 
     /**
@@ -59,6 +77,21 @@ public class LobbyModule extends SimpleModule {
         serializers.addSerializer(LobbyBalancer.class, new LobbyBalancerInformationSerializer());
         serializers.addSerializer(User.class, new UserSerializer());
         context.addSerializers(serializers);
+
+        SimpleDeserializers deserializers = new SimpleDeserializers();
+        deserializers.addDeserializer(Car.class, new CarDeserializer(entityManager));
+        deserializers.addDeserializer(Engine.class, new EngineDeserializer(entityManager));
+        deserializers.addDeserializer(Driver.class, new DriverDeserializer(entityManager));
+        deserializers.addDeserializer(Mechanic.class, new MechanicDeserializer(entityManager));
+        deserializers.addDeserializer(Strategist.class, new StrategistDeserializer(entityManager));
+        deserializers.addDeserializer(Aerodynamicist.class,
+            new AerodynamicistDeserializer(entityManager));
+        deserializers.addDeserializer(Tire.class, new TireDeserializer(entityManager));
+        context.addDeserializers(deserializers);
+
+        context.setMixInAnnotations(Driver.class, DriverMixin.class);
+        context.setMixInAnnotations(Tire.class, TireMixin.class);
+
         context.setMixInAnnotations(Lobby.class, LobbyMixin.class);
         context.setMixInAnnotations(LobbyConfiguration.class, LobbyConfigurationMixin.class);
         context.setMixInAnnotations(Exception.class, ExceptionMixin.class);
@@ -67,5 +100,14 @@ public class LobbyModule extends SimpleModule {
         context.setMixInAnnotations(LobbyOutboundMessage.class, LobbyOutboundMessageMixin.class);
         context.setMixInAnnotations(Join.class, JoinMixin.class);
         context.setMixInAnnotations(JoinSuccess.class, JoinSuccessMixin.class);
+        context.setMixInAnnotations(CarParametersSubmission.class,
+            CarParametersSubmissionMixin.class);
+        context.setMixInAnnotations(CarParameters.class, CarParametersMixin.class);
+        context.setMixInAnnotations(TeamConfigurationSubmission.class,
+            TeamConfigurationSubmissionMixin.class);
+        context.setMixInAnnotations(CarConfiguration.class, CarConfigurationMixin.class);
+        context.setMixInAnnotations(Team.class, TeamMixin.class);
+        context.setMixInAnnotations(Member.class, MemberMixin.class);
+        context.setMixInAnnotations(InventoryItem.class, InventoryItemMixin.class);
     }
 }

@@ -64,6 +64,7 @@ import nl.tudelft.fa.server.net.codec.AbstractCodec;
 import nl.tudelft.fa.server.net.codec.jackson.JacksonWebSocketCodec;
 import scala.concurrent.duration.FiniteDuration;
 
+import javax.persistence.EntityManager;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -108,13 +109,15 @@ public class LobbyController {
      * @param system The {@link ActorSystem}  of the balancer.
      * @param authenticator The reference to the {@link Authenticator} actor.
      * @param balancer The reference to the {@link LobbyBalancerActor} actor.
+     * @param entityManager The {@link EntityManager} to use.
      */
-    public LobbyController(ActorSystem system, ActorRef authenticator, ActorRef balancer) {
+    public LobbyController(ActorSystem system, ActorRef authenticator, ActorRef balancer,
+                           EntityManager entityManager) {
         this.system = system;
         this.authenticator = authenticator;
         this.balancer = balancer;
         this.mapper = new ObjectMapper();
-        this.mapper.registerModule(new LobbyModule());
+        this.mapper.registerModule(new LobbyModule(entityManager));
         this.mapper.registerModule(new JavaTimeModule()); // Duration (de)serialization
         this.mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); // Return empty responses
         this.codec = new JacksonWebSocketCodec(mapper);

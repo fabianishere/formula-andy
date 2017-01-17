@@ -30,6 +30,7 @@ import akka.http.javadsl.Http;
 import akka.http.javadsl.model.Uri;
 import akka.stream.ActorMaterializer;
 import akka.stream.Materializer;
+import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
 
 /**
@@ -101,6 +102,16 @@ public class Client {
      */
     public Uri baseUri() {
         return baseUri;
+    }
+
+    /**
+     * Authorize this {@link Client} instance.
+     *
+     * @param credentials The credentials to authorize with.
+     * @return The authorized client.
+     */
+    public AuthorizedClient authorize(Credentials credentials) {
+        return new AuthorizedClient(http, materializer, baseUri, credentials);
     }
 
     /**

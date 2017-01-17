@@ -3,6 +3,7 @@ package nl.tudelft.fa.core.lobby.actor;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import akka.pattern.Patterns;
 import akka.testkit.JavaTestKit;
 
 import nl.tudelft.fa.core.auth.Credentials;
@@ -10,19 +11,30 @@ import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
+import nl.tudelft.fa.core.lobby.schedule.LobbyScheduleFactory;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
+import nl.tudelft.fa.core.race.CarConfiguration;
+import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import scala.concurrent.Await;
+import scala.concurrent.duration.FiniteDuration;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
 
 public class LobbyActorTest {
     private static ActorSystem system;
     private UUID id;
+    private LobbyScheduleFactory factory;
     private LobbyConfiguration configuration;
     private User user;
 
@@ -34,7 +46,8 @@ public class LobbyActorTest {
     @Before
     public void setUp() {
         id = UUID.randomUUID();
-        configuration = new LobbyConfiguration(2, Duration.ofMinutes(2));
+        factory = new StaticLobbyScheduleFactory(Collections.emptyList());
+        configuration = new LobbyConfiguration(2, Duration.ofMinutes(10), Duration.ofMinutes(5), factory);
         user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
     }
 
@@ -56,7 +69,7 @@ public class LobbyActorTest {
 
                 // await the correct response
                 expectMsgEquals(duration("1 second"), new Lobby(
-                    subject.path().name(), LobbyStatus.PREPARATION, configuration, Collections.emptySet()));
+                    subject.path().name(), LobbyStatus.INTERMISSION, configuration, Collections.emptySet(), Collections.emptyList()));
             }
         };
     }
@@ -114,7 +127,7 @@ public class LobbyActorTest {
     public void testJoinFull() {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyActor.props(new LobbyConfiguration(0, Duration.ZERO));
+                final Props props = LobbyActor.props(new LobbyConfiguration(0, Duration.ofMinutes(5), Duration.ofMinutes(5), factory));
                 final ActorRef subject = system.actorOf(props, id.toString());
                 final Join req = new Join(user, getRef());
 
@@ -244,4 +257,60 @@ public class LobbyActorTest {
         };
     }
 
+    @Test
+    public void testSubmitConfiguration() {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyActor.props(configuration);
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Leave req = new Leave(user);
+                final JavaTestKit probe = new JavaTestKit(system);
+                final User user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
+
+                final TeamConfigurationSubmission msg = new TeamConfigurationSubmission(user, new HashSet<CarConfiguration>() {{
+                    add(new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null));
+                }});
+
+                subject.tell(new Subscribe(probe.getRef()), probe.getRef());
+                subject.tell(new Join(user, getRef()), getRef());
+                expectMsgClass(duration("1 second"),  JoinSuccess.class);
+                probe.expectMsgClass(duration("1 second"), UserJoined.class);
+
+                subject.tell(msg, getRef());
+                probe.expectMsgClass(duration("1 second"), TeamConfigurationSubmitted.class);
+            }
+        };
+    }
+
+    @Test
+    public void testTransitToPreparationEnough() throws Exception {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ofMillis(500), Duration.ofMinutes(5), factory));
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Subscribe req = new Subscribe(getRef());
+
+                subject.tell(new Join(new User(UUID.randomUUID(), null), getRef()), getRef());
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+                expectNoMsg(duration("1 second"));
+                Lobby info = (Lobby) Await.result(Patterns.ask(subject, RequestInformation.INSTANCE, 1000), FiniteDuration.create(1000, TimeUnit.MILLISECONDS));
+                assertEquals(LobbyStatus.PREPARATION, info.getStatus());
+            }
+        };
+    }
+
+    @Test
+    public void testTransitToPreparationNotEnough() throws Exception {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ZERO, Duration.ofMinutes(5), factory));
+                final ActorRef subject = system.actorOf(props, id.toString());
+                final Subscribe req = new Subscribe(getRef());
+
+                subject.tell(req, getRef());
+                Lobby info = (Lobby) Await.result(Patterns.ask(subject, RequestInformation.INSTANCE, 1000), FiniteDuration.create(1000, TimeUnit.MILLISECONDS));
+                assertEquals(LobbyStatus.INTERMISSION, info.getStatus());
+            }
+        };
+    }
 }

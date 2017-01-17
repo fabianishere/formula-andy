@@ -13,6 +13,7 @@ import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.lobby.message.*;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,6 +21,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -48,7 +50,7 @@ public class LobbyStageTest {
 
     @Before
     public void setUp() {
-        configuration = new LobbyConfiguration(11, Duration.ZERO);
+        configuration = new LobbyConfiguration(11, Duration.ofMinutes(3), Duration.ZERO, new StaticLobbyScheduleFactory(Collections.emptyList()));
         lobby = system.actorOf(LobbyActor.props(configuration));
         user = new User(UUID.randomUUID(), null);
         stage = new LobbyStage(lobby);
