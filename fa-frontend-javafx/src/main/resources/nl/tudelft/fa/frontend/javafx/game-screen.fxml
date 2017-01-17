@@ -32,14 +32,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" id="game-screen" xmlns="http://javafx.com/javafx/8"
       fx:controller="nl.tudelft.fa.frontend.javafx.controller.GameScreenController">
-    <GridPane gridLinesVisible="true">
+    <GridPane styleClass="basic" gridLinesVisible="false">
+        <stylesheets >
+            <URL value="@css/style.css" />
+        </stylesheets>
         <columnConstraints>
-            <ColumnConstraints prefWidth="192"/>
-            <ColumnConstraints prefWidth="192"/>
-            <ColumnConstraints prefWidth="192"/>
-            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="92"/>
+            <ColumnConstraints prefWidth="100"/>
+            <ColumnConstraints prefWidth="40"/>
+            <ColumnConstraints prefWidth="344"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
@@ -49,16 +53,76 @@
         </columnConstraints>
 
         <rowConstraints>
-            <RowConstraints prefHeight="108"/>
-            <RowConstraints prefHeight="108"/>
-            <RowConstraints prefHeight="108"/>
-            <RowConstraints prefHeight="108"/>
-            <RowConstraints prefHeight="108"/>
-            <RowConstraints prefHeight="108"/>
-            <RowConstraints prefHeight="108"/>
-            <RowConstraints prefHeight="108"/>
-            <RowConstraints prefHeight="108"/>
-            <RowConstraints prefHeight="108"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
+            <RowConstraints prefHeight="45"/>
         </rowConstraints>
+
+        <Label textFill="red" text="1" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.halignment="RIGHT" />
+        <Label text="2" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="RIGHT" />
+        <Label text="3" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.halignment="RIGHT" />
+        <Label text="4" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.halignment="RIGHT" />
+        <Label text="5" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.halignment="RIGHT" />
+        <Label text="6" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="RIGHT" />
+        <Label text="7" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="RIGHT" />
+        <Label text="8" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.halignment="RIGHT" />
+        <Label text="9" GridPane.columnIndex="1" GridPane.rowIndex="9" GridPane.halignment="RIGHT" />
+        <Label text="10" GridPane.columnIndex="1" GridPane.rowIndex="10" GridPane.halignment="RIGHT" />
+        <Label text="11" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.halignment="RIGHT" />
+        <Label text="12" GridPane.columnIndex="1" GridPane.rowIndex="12" GridPane.halignment="RIGHT" />
+        <Label text="13" GridPane.columnIndex="1" GridPane.rowIndex="13" GridPane.halignment="RIGHT" />
+        <Label text="14" GridPane.columnIndex="1" GridPane.rowIndex="14" GridPane.halignment="RIGHT" />
+        <Label text="15" GridPane.columnIndex="1" GridPane.rowIndex="15" GridPane.halignment="RIGHT" />
+        <Label text="16" GridPane.columnIndex="1" GridPane.rowIndex="16" GridPane.halignment="RIGHT" />
+        <Label text="17" GridPane.columnIndex="1" GridPane.rowIndex="17" GridPane.halignment="RIGHT" />
+        <Label text="18" GridPane.columnIndex="1" GridPane.rowIndex="18" GridPane.halignment="RIGHT" />
+        <Label text="OUT" GridPane.columnIndex="1" GridPane.rowIndex="19" GridPane.halignment="RIGHT" />
+        <Label text="OUT" GridPane.columnIndex="1" GridPane.rowIndex="20" GridPane.halignment="RIGHT" />
+        <Label text="OUT" GridPane.columnIndex="1" GridPane.rowIndex="21" GridPane.halignment="RIGHT" />
+        <Label text="OUT" GridPane.columnIndex="1" GridPane.rowIndex="22" GridPane.halignment="RIGHT" />
+
+        <Label textFill="red" text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="5" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="6" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="7" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="8" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="9" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="10" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="11" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="12" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="13" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="14" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="15" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="16" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="17" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="18" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="19" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="20" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="21" GridPane.halignment="LEFT" />
+        <Label text="Max Verstappen" GridPane.columnIndex="3" GridPane.rowIndex="22" GridPane.halignment="LEFT" />
     </GridPane>
 </VBox>
