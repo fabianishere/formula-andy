@@ -25,6 +25,7 @@
 
 package nl.tudelft.fa.frontend.javafx;
 
+import com.gluonhq.ignite.guice.GuiceContext;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +33,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nl.tudelft.fa.frontend.javafx.inject.UIModule;
+
+import javax.inject.Inject;
+import java.util.Arrays;
 
 /**
  * The main JavaFX {@link Application} class.
@@ -40,13 +45,27 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
     /**
+     * The {@link com.gluonhq.ignite.guice.GuiceContext} to use.
+     */
+    private GuiceContext context = new GuiceContext(this, () ->
+        Arrays.asList(new UIModule()));
+
+    /**
+     * The {@link FXMLLoader} to load the views with.
+     */
+    @Inject
+    private FXMLLoader loader;
+
+    /**
      * This method is called when the application is started.
      *
      * {@inheritDoc}
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("login-screen.fxml"));
+        context.init();
+        loader.setLocation(getClass().getResource("login-screen.fxml"));
+        Parent root = loader.load();
 
         Scene scene = new Scene(root);
         stage.setTitle("Formula Andy!");
