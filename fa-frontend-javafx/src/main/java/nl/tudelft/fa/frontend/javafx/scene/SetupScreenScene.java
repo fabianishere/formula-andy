@@ -40,13 +40,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
 import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.client.race.CarConfiguration;
-import nl.tudelft.fa.client.team.inventory.Car;
-import nl.tudelft.fa.frontend.javafx.controller.TeamSettings;
 import javafx.stage.Stage;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 public class SetupScreenScene extends Scene {
 
