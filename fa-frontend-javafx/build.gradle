@@ -33,6 +33,7 @@ repositories {
 
 dependencies {
     compile project(':fa-client')
+    compile 'org.slf4j:slf4j-api:1.7.22'
     compile 'org.slf4j:slf4j-jdk14:1.7.22'
     compile 'com.gluonhq:ignite-guice:1.0.0'
 
