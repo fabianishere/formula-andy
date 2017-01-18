@@ -75,6 +75,13 @@ public class Main extends Application {
         stage.show();
     }
 
+    /**
+     *
+     * When this method is invoked it shows the screen with the provided resource.
+     *
+     * @param event The event that occurred.
+     * @param resourceURL The URL to the resource that needs to be shown.
+     */
     public static void launchScreen(Event event, String resourceURL) {
         try {
             Parent root = FXMLLoader.load(Main.class.getResource(resourceURL));
