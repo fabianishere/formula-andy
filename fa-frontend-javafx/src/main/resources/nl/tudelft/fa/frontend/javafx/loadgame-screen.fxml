@@ -34,7 +34,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="nl.tudelft.fa.frontend.javafx.controller.LoadgameController">
+      fx:controller="nl.tudelft.fa.frontend.javafx.controller.GameLoaderController">
     <GridPane styleClass="basic" gridLinesVisible="false">
         <stylesheets>
             <URL value="@css/style.css" />

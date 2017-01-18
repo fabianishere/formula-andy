@@ -31,37 +31,29 @@ import javafx.fxml.FXML;
 import java.net.URL;
 
 /**
- * The controller for the start screen.
+ * The controller for the team creation screen.
  *
- * @author Fabian Mastenbroek
- * @author Christian Slothouber
  * @author Laetitia Molkenboer
+ * @author Fabian Mastenbroek
  */
-public class StartScreenController extends AbstractController {
+public class TeamCreationController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = StartScreenController.class.getResource("../start-screen.fxml");
+    public static final URL VIEW = TeamCreationController.class.getResource("../teanname-screen.fxml");
 
     /**
-     * This method is invoked when the show game button is pressed and the user wants to start a
-     * saved game.
+     * This method is invoked when the signup game button is pressed and the user has created a new account
      *
      * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
-    protected void load(ActionEvent event) throws Exception {
-        show(event, GameLoaderController.VIEW);
+    protected void next(ActionEvent event) throws Exception {
+        show(event, SetupScreenController.VIEW);
     }
 
-    /**
-     * This method is invoked when the new game button is pressed and the user wants to start a
-     * new game.
-     *
-     * @param event The {@link ActionEvent} that occurred.
-     */
     @FXML
-    protected void create(ActionEvent event) throws Exception {
-        show(event, GameLoaderController.VIEW); // TODO create create-game screen
+    protected void back(ActionEvent event) throws Exception {
+        show(event, StartScreenController.VIEW);
     }
 }

@@ -83,6 +83,6 @@
         <Button onAction="#login" text="Log in" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
 
         <Label text="Not a member yet?" GridPane.columnIndex="7" GridPane.rowIndex="9" GridPane.halignment="RIGHT" />
-        <Button onAction="#signupnow" text="Sign up" GridPane.columnIndex="9" GridPane.rowIndex="9" />
+        <Button onAction="#signup" text="Sign up" GridPane.columnIndex="9" GridPane.rowIndex="9" />
     </GridPane>
 </VBox>

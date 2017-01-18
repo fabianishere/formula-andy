@@ -34,7 +34,7 @@
 <?import java.net.URL?>
 <VBox id="teamname-screen" xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="nl.tudelft.fa.frontend.javafx.controller.TeamnameController">
+      fx:controller="nl.tudelft.fa.frontend.javafx.controller.TeamCreationController">
     <GridPane styleClass="basic" gridLinesVisible="false">
         <stylesheets>
             <URL value="@css/style.css" />
@@ -74,7 +74,7 @@
 
         <Label text="Team name:" GridPane.columnIndex="4" GridPane.rowIndex="4" />
         <TextField GridPane.columnIndex="5" GridPane.rowIndex="4" />
-        <Button onAction="#nextpage" text="Next" GridPane.columnIndex="5" GridPane.rowIndex="5" GridPane.halignment="RIGHT" />
+        <Button onAction="#next" text="Next" GridPane.columnIndex="5" GridPane.rowIndex="5" GridPane.halignment="RIGHT" />
 
     </GridPane>
 </VBox>

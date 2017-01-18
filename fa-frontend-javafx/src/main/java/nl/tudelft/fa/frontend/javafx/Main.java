@@ -27,16 +27,15 @@ package nl.tudelft.fa.frontend.javafx;
 
 import com.gluonhq.ignite.guice.GuiceContext;
 import javafx.application.Application;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.tudelft.fa.frontend.javafx.inject.UIModule;
+import nl.tudelft.fa.frontend.javafx.inject.ClientModule;
+
+import java.util.Collections;
 
 import javax.inject.Inject;
-import java.util.Arrays;
 
 /**
  * The main JavaFX {@link Application} class.
@@ -48,10 +47,10 @@ public class Main extends Application {
      * The {@link com.gluonhq.ignite.guice.GuiceContext} to use.
      */
     private GuiceContext context = new GuiceContext(this, () ->
-        Arrays.asList(new UIModule()));
+        Collections.singletonList(new ClientModule()));
 
     /**
-     * The {@link FXMLLoader} to load the views with.
+     * The {@link FXMLLoader} to show the views with.
      */
     @Inject
     private FXMLLoader loader;
@@ -74,24 +73,5 @@ public class Main extends Application {
         stage.setFullScreen(true);
 
         stage.show();
-    }
-
-    public static void launchScreen(Event event, String resourceURL) {
-        try {
-            Parent root = FXMLLoader.load(Main.class.getResource(resourceURL));
-
-            Scene scene = new Scene(root);
-            Node source = (Node) event.getSource();
-            Stage stage = (Stage) source.getScene().getWindow();
-
-            stage.setTitle("Formula Andy!");
-            stage.setScene(scene);
-            stage.setFullScreenExitHint("");
-            stage.setFullScreen(true);
-            stage.show();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

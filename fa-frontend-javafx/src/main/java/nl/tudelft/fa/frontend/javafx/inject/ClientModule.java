@@ -32,7 +32,7 @@ import com.google.inject.AbstractModule;
  *
  * @author Fabian Mastenbroek
  */
-public class UIModule extends AbstractModule {
+public class ClientModule extends AbstractModule {
     @Override
     protected void configure() {}
 }

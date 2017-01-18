@@ -27,6 +27,7 @@ package nl.tudelft.fa.frontend.javafx.service;
 
 import akka.actor.ActorSystem;
 import akka.http.javadsl.model.Uri;
+import nl.tudelft.fa.client.AuthorizedClient;
 import nl.tudelft.fa.client.Client;
 
 /**

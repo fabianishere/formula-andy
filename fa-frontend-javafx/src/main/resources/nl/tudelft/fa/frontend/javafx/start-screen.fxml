@@ -67,8 +67,8 @@
             <Image url="@images/formula1logo.jpeg" />
         </ImageView>
 
-        <Button styleClass="startScreenButton" onAction="#newGame" text="New Game" GridPane.columnIndex="4" GridPane.rowIndex="4"/>
-        <Button styleClass="startScreenButton" onAction="#loadGame" text="Load Game" GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+        <Button styleClass="startScreenButton" onAction="#create" text="New Game" GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+        <Button styleClass="startScreenButton" onAction="#load" text="Load Game" GridPane.columnIndex="4" GridPane.rowIndex="5"/>
 
     </GridPane>
 </VBox>
