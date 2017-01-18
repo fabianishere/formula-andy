@@ -69,7 +69,7 @@
         <Label text="Setup car 1:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <ToggleButton styleClass="lowRisk" text="L" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="LEFT">
             <toggleGroup>
-                <ToggleGroup fx:id="mechanic1" />
+                <ToggleGroup fx:id="mechanicRisk1" />
             </toggleGroup>
         </ToggleButton>
         <ToggleButton styleClass="mediumRisk" toggleGroup="$mechanic1" text="M" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="CENTER" />
@@ -91,11 +91,11 @@
         <ToggleButton styleClass="mediumRisk" toggleGroup="$strategist1" text="M" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.halignment="CENTER" />
         <ToggleButton styleClass="highRisk" toggleGroup="$strategist1" text="H" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.halignment="RIGHT"/>
 
-        <ComboBox promptText="Mechanic" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+        <ComboBox fx:id="mechanic1" promptText="Mechanic" GridPane.columnIndex="4" GridPane.rowIndex="2" />
         <ComboBox promptText="Aerodynamicist" GridPane.columnIndex="4" GridPane.rowIndex="3" />
         <ComboBox promptText="Strategist" GridPane.columnIndex="4" GridPane.rowIndex="4" />
 
-        <ComboBox promptText="Driver" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+        <ComboBox fx:id="driver1" promptText="Driver" GridPane.columnIndex="6" GridPane.rowIndex="2" />
         <ComboBox promptText="Engine" GridPane.columnIndex="6" GridPane.rowIndex="3" />
         <ComboBox promptText="Tire type" GridPane.columnIndex="6" GridPane.rowIndex="4" />
 
@@ -103,7 +103,7 @@
 
         <ToggleButton styleClass="lowRisk" text="L" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="LEFT" >
             <toggleGroup>
-                <ToggleGroup fx:id="mechanic2" />
+                <ToggleGroup fx:id="mechanicRisk2" />
             </toggleGroup>
         </ToggleButton>
         <ToggleButton styleClass="mediumRisk" toggleGroup="$mechanic2" text="M" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="CENTER" />
@@ -125,11 +125,11 @@
         <ToggleButton styleClass="mediumRisk" toggleGroup="$strategist2" text="M" GridPane.columnIndex="1" GridPane.rowIndex="9" GridPane.halignment="CENTER" />
         <ToggleButton styleClass="highRisk" toggleGroup="$strategist2" text="H" GridPane.columnIndex="1" GridPane.rowIndex="9" GridPane.halignment="RIGHT" />
 
-        <ComboBox promptText="Mechanic" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+        <ComboBox fx:id="mechanic2" promptText="Mechanic" GridPane.columnIndex="4" GridPane.rowIndex="7" />
         <ComboBox promptText="Aerodynamicist" GridPane.columnIndex="4" GridPane.rowIndex="8" />
         <ComboBox promptText="Strategist" GridPane.columnIndex="4" GridPane.rowIndex="9" />
 
-        <ComboBox promptText="Driver" GridPane.columnIndex="6" GridPane.rowIndex="7" />
+        <ComboBox fx:id="driver2" promptText="Driver" GridPane.columnIndex="6" GridPane.rowIndex="7" />
         <ComboBox promptText="Engine" GridPane.columnIndex="6" GridPane.rowIndex="8" />
         <ComboBox promptText="Tire type" GridPane.columnIndex="6" GridPane.rowIndex="9" />
 
