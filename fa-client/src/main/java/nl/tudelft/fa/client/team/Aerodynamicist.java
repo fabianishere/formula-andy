@@ -57,7 +57,6 @@ public class Aerodynamicist extends Specialist {
      */
     @Override
     public String toString() {
-        return String.format("Aerodynamicist(id=%s, name=%s, salary=%d, level=%f)",
-            getId(), getName(), getSalary(), getLevel());
+        return getName();
     }
 }

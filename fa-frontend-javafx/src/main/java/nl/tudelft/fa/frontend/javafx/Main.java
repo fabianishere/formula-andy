@@ -33,6 +33,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.frontend.javafx.inject.UIModule;
 import javax.inject.Inject;
 import java.util.Arrays;
@@ -43,6 +44,13 @@ import java.util.Arrays;
  * @author Fabian Mastenbroek
  */
 public class Main extends Application {
+
+    /**
+     *
+     * The current played Team.
+     */
+    private static Team currentTeam;
+
     /**
      * The {@link com.gluonhq.ignite.guice.GuiceContext} to use.
      */
@@ -99,5 +107,25 @@ public class Main extends Application {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     *
+     * Get the currently played Team.
+     *
+     * @return The currently played Team.
+     */
+    public static Team getCurrentTeam() {
+        return currentTeam;
+    }
+
+    /**
+     *
+     * Set the currently played Team.
+     *
+     * @param currentTeam The currently played Team.
+     */
+    public static void setCurrentTeam(Team currentTeam) {
+        Main.currentTeam = currentTeam;
     }
 }

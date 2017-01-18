@@ -5,10 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.client.lobby.message.CarParametersSubmission;
 import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.client.race.CarConfiguration;
+import nl.tudelft.fa.client.race.CarParameters;
 import nl.tudelft.fa.client.team.*;
+import nl.tudelft.fa.client.team.inventory.Car;
 import nl.tudelft.fa.client.team.inventory.Engine;
+import nl.tudelft.fa.client.team.inventory.InventoryItem;
 import nl.tudelft.fa.client.team.inventory.Tire;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
@@ -20,23 +24,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- *
  * @author Laetititia Molkenboer & Christian Slothouber
  */
 public class SetupScreenController {
-    @Inject
-    private Team currentTeam;
-
-    @Inject
-    private ClientService service;
 
     public ToggleGroup toggleGroupMechanic1;
     public ToggleButton mechanic1L;
     public ToggleButton mechanic1M;
     public ToggleButton mechanic1H;
 
-    @FXML
-    public ComboBox<Mechanic> mechanic1 = new ComboBox<Mechanic>(FXCollections.observableList(getMechanics()));
+    public ComboBox<Mechanic> mechanic1;
 
     public ToggleGroup toggleGroupAero1;
     public ToggleButton aero1L;
@@ -76,16 +73,76 @@ public class SetupScreenController {
     public ToggleButton strategist2H;
 
     public ComboBox<Strategist> strategist2;
-    
+
     public ComboBox<Driver> driver2;
     public ComboBox<Engine> engine2;
     public ComboBox<Tire> tire2;
 
+    @FXML
+    private void initialize() {
+        setUpComboBoxes();
+    }
+
+    private void setUpComboBoxes() {
+        mechanic1.setItems(FXCollections.observableArrayList(getMechanics()));
+        mechanic2.setItems(FXCollections.observableArrayList(getMechanics()));
+        strategist1.setItems(FXCollections.observableArrayList(getStrategist()));
+        strategist2.setItems(FXCollections.observableArrayList(getStrategist()));
+        aero1.setItems(FXCollections.observableArrayList(getAero()));
+        aero2.setItems(FXCollections.observableArrayList(getAero()));
+        driver1.setItems(FXCollections.observableArrayList(getDrivers()));
+        driver2.setItems(FXCollections.observableArrayList(getDrivers()));
+        engine1.setItems(FXCollections.observableArrayList(getEngines()));
+        engine2.setItems(FXCollections.observableArrayList(getEngines()));
+        tire1.setItems(FXCollections.observableArrayList(getTireTypes()));
+        tire2.setItems(FXCollections.observableArrayList(getTireTypes()));
+    }
+
+    private List<Tire> getTireTypes() {
+        return Main.getCurrentTeam().getInventory()
+                .stream()
+                .filter(product -> product instanceof Tire)
+                .map(product -> (Tire) product)
+                .collect(Collectors.toList());
+    }
+
+    private List<Engine> getEngines() {
+        return Main.getCurrentTeam().getInventory()
+                .stream()
+                .filter(product -> product instanceof Engine)
+                .map(product -> (Engine) product)
+                .collect(Collectors.toList());
+    }
+
+    private List<Driver> getDrivers() {
+        return Main.getCurrentTeam().getStaff()
+                .stream()
+                .filter(member -> member instanceof Driver)
+                .map(member -> (Driver) member)
+                .collect(Collectors.toList());
+    }
+
     private List<Mechanic> getMechanics() {
-        return currentTeam.getStaff()
+        return Main.getCurrentTeam().getStaff()
                 .stream()
                 .filter(member -> member instanceof Mechanic)
                 .map(member -> (Mechanic) member)
+                .collect(Collectors.toList());
+    }
+
+    private List<Strategist> getStrategist() {
+        return Main.getCurrentTeam().getStaff()
+                .stream()
+                .filter(member -> member instanceof Strategist)
+                .map(member -> (Strategist) member)
+                .collect(Collectors.toList());
+    }
+
+    private List<Aerodynamicist> getAero() {
+        return Main.getCurrentTeam().getStaff()
+                .stream()
+                .filter(member -> member instanceof Aerodynamicist)
+                .map(member -> (Aerodynamicist) member)
                 .collect(Collectors.toList());
     }
 
@@ -109,22 +166,67 @@ public class SetupScreenController {
 
     @FXML
     protected void next(ActionEvent event) throws Exception {
-        final Set<CarConfiguration> cars = new HashSet<>();
-        final TeamConfigurationSubmission submission = new TeamConfigurationSubmission(null, cars);
-        final List<Team> teams = service.getClient().authorize(new Credentials("", ""))
-                .teams()
-                .list()
-                .toCompletableFuture()
-                .get();
+        Set<CarConfiguration> cars = new HashSet<>();
+        TeamConfigurationSubmission teamConfigurationSubmission =
+                new TeamConfigurationSubmission(Main.getCurrentTeam().getOwner(), cars);
+        cars.add(setUpCarConfiguration1());
+        //cars.add(setUpCarConfiguration2());
 
-        final List<Driver> drivers = teams.get(0).getStaff()
+        CarParametersSubmission carParametersSubmission1 = new CarParametersSubmission(
+                Main.getCurrentTeam().getOwner(),
+                getCar(1),
+                getCarParameters1());
+
+        //CarParametersSubmission carParametersSubmission2 = new CarParametersSubmission(
+//                Main.getCurrentTeam().getOwner(),
+//                getCar(2),
+//                getCarParameters2());
+
+        System.out.println(getCarParameters1());
+        //System.out.println(getCarParameters2());
+
+        //Main.launchScreen(event, "game-screen.fxml");
+    }
+
+    private CarParameters getCarParameters1() {
+        return new CarParameters(getSelectedRisk(toggleGroupMechanic1),
+                getSelectedRisk(toggleGroupAero1),
+                getSelectedRisk(toggleGroupStrategist1),
+                tire1.getValue());
+    }
+
+    private CarParameters getCarParameters2() {
+        return new CarParameters(getSelectedRisk(toggleGroupMechanic2),
+                getSelectedRisk(toggleGroupAero2),
+                getSelectedRisk(toggleGroupStrategist2),
+                tire2.getValue());
+    }
+
+    private Car getCar(int carnumber) {
+        return Main.getCurrentTeam()
+                .getInventory()
                 .stream()
-                .filter(member -> member instanceof Driver)
-                .map(member -> (Driver) member)
-                .collect(Collectors.toList());
+                .filter(part -> part instanceof Car)
+                .map(part -> (Car) part)
+                .collect(Collectors.toList())
+                .get(carnumber - 1);
+    }
 
-        ComboBox<Driver> combo = new ComboBox<>(FXCollections.observableList(drivers));
-        // session.tell(submission, ActorRef.noSender());
-        // Main.launchScreen(event, "game-screen.fxml");
+    private CarConfiguration setUpCarConfiguration1() {
+        return new CarConfiguration(getCar(1),
+                engine1.getValue(),
+                driver1.getValue(),
+                mechanic1.getValue(),
+                aero1.getValue(),
+                strategist1.getValue());
+    }
+
+    private CarConfiguration setUpCarConfiguration2() {
+        return new CarConfiguration(getCar(2),
+                engine2.getValue(),
+                driver2.getValue(),
+                mechanic2.getValue(),
+                aero2.getValue(),
+                strategist2.getValue());
     }
 }

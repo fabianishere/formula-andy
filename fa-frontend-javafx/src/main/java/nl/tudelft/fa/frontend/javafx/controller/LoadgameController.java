@@ -8,6 +8,7 @@ import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
+
 import javax.inject.Inject;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class LoadgameController {
      */
     @FXML
     protected void next(ActionEvent event) throws Exception {
-        //currentTeam = saves.getValue();
+        Main.setCurrentTeam(saves.getValue());
         Main.launchScreen(event, "setup-screen.fxml");
     }
 }
