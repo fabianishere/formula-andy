@@ -39,6 +39,13 @@ public class LoginController {
         Main.launchScreen(event, "start-screen.fxml");
     }
 
+    /**
+     *
+     * This method is called when the sign-up button is pressed.
+     *
+     * @param event The event that occurred.
+     * @throws Exception When failed this Exception is thrown.
+     */
     @FXML
     protected void signupnow(ActionEvent event) throws Exception {
         Main.launchScreen(event, "signup-screen.fxml");

@@ -76,7 +76,7 @@ public class SetupScreenController {
     public ToggleButton strategist2H;
 
     public ComboBox<Strategist> strategist2;
-
+    
     public ComboBox<Driver> driver2;
     public ComboBox<Engine> engine2;
     public ComboBox<Tire> tire2;
