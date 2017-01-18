@@ -23,20 +23,37 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.controller;
+package nl.tudelft.fa.frontend.javafx.controller.game;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
+import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
 
 import java.net.URL;
 
 /**
- * The controller for the game screen.
+ * The controller for the show game view.
  *
- * @author Christian Slothouber
  * @author Fabian Mastenbroek
+ * @author Christian Slothouber
+ * @author Laetitia Molkenboer
  */
-public class GameScreenController extends AbstractController {
+public class GameLoaderController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = GameScreenController.class.getResource(
-        "../game-screen.fxml");
+    public static final URL VIEW = Main.class.getResource("view/game/load.fxml");
+
+    @FXML
+    protected void back(ActionEvent event) throws Exception {
+        show(event, StartScreenController.VIEW);
+    }
+
+    @FXML
+    protected void next(ActionEvent event) throws Exception {
+        //client.authorize(credentials).teams().list().toCompletableFuture().get();
+        show(event, SetupScreenController.VIEW);
+    }
 }

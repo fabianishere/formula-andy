@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.controller;
+package nl.tudelft.fa.frontend.javafx.controller.game;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -35,6 +35,9 @@ import nl.tudelft.fa.client.team.Mechanic;
 import nl.tudelft.fa.client.team.Member;
 import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.client.team.inventory.InventoryItem;
+import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
+import nl.tudelft.fa.frontend.javafx.controller.StoreController;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
@@ -55,7 +58,7 @@ public class SetupScreenController extends AbstractController implements Initial
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = SetupScreenController.class.getResource("../setup-screen.fxml");
+    public static final URL VIEW = Main.class.getResource("view/game/setup.fxml");
 
     /**
      * The {@link ClientService} that provides the connection with the server.

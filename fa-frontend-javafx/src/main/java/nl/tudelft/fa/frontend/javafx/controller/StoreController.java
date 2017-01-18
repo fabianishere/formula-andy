@@ -27,6 +27,8 @@ package nl.tudelft.fa.frontend.javafx.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController;
 
 import java.net.URL;
 
@@ -40,7 +42,7 @@ public class StoreController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = StoreController.class.getResource("../store-screen.fxml");
+    public static final URL VIEW = Main.class.getResource("view/store.fxml");
 
     @FXML
     protected void back(ActionEvent event) throws Exception {

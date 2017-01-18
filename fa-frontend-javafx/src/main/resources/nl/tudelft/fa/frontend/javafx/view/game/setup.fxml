@@ -31,10 +31,10 @@
 
 <VBox id="setup-screen" xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="nl.tudelft.fa.frontend.javafx.controller.SetupScreenController">
+      fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController">
     <GridPane styleClass="basic" gridLinesVisible="false">
         <stylesheets>
-            <URL value="@css/style.css" />
+            <URL value="@../../css/style.css" />
         </stylesheets>
         <columnConstraints>
             <ColumnConstraints prefWidth="72"/>
@@ -72,8 +72,8 @@
                 <ToggleGroup fx:id="mechanicRisk1" />
             </toggleGroup>
         </ToggleButton>
-        <ToggleButton styleClass="mediumRisk" toggleGroup="$mechanic1" text="M" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="CENTER" />
-        <ToggleButton styleClass="highRisk" toggleGroup="$mechanic1" text="H" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="RIGHT" />
+        <ToggleButton styleClass="mediumRisk" toggleGroup="$mechanicRisk1" text="M" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="CENTER" />
+        <ToggleButton styleClass="highRisk" toggleGroup="$mechanicRisk1" text="H" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="RIGHT" />
 
         <ToggleButton styleClass="lowRisk" text="L" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.halignment="LEFT">
             <toggleGroup>
@@ -106,8 +106,8 @@
                 <ToggleGroup fx:id="mechanicRisk2" />
             </toggleGroup>
         </ToggleButton>
-        <ToggleButton styleClass="mediumRisk" toggleGroup="$mechanic2" text="M" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="CENTER" />
-        <ToggleButton styleClass="highRisk" toggleGroup="$mechanic2" text="H" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="RIGHT" />
+        <ToggleButton styleClass="mediumRisk" toggleGroup="$mechanicRisk2" text="M" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="CENTER" />
+        <ToggleButton styleClass="highRisk" toggleGroup="$mechanicRisk2" text="H" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="RIGHT" />
 
         <ToggleButton styleClass="lowRisk" text="L" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.halignment="LEFT" >
             <toggleGroup>

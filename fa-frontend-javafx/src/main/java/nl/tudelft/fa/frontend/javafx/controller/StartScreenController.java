@@ -27,6 +27,8 @@ package nl.tudelft.fa.frontend.javafx.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.controller.game.GameLoaderController;
 
 import java.net.URL;
 
@@ -41,7 +43,7 @@ public class StartScreenController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = StartScreenController.class.getResource("../start-screen.fxml");
+    public static final URL VIEW = Main.class.getResource("view/start.fxml");
 
     /**
      * This method is invoked when the show game button is pressed and the user wants to start a

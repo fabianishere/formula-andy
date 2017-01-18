@@ -63,7 +63,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         context.init();
-        loader.setLocation(getClass().getResource("login-screen.fxml"));
+        loader.setLocation(getClass().getResource("view/user/login.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);

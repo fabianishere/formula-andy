@@ -23,34 +23,48 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.controller;
+package nl.tudelft.fa.frontend.javafx.controller.user;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
+import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
 
 import java.net.URL;
 
 /**
- * The controller for the show game view.
+ * The controller for the sign-up screen.
  *
  * @author Fabian Mastenbroek
  * @author Christian Slothouber
  * @author Laetitia Molkenboer
  */
-public class GameLoaderController extends AbstractController {
+public class SignupController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = GameLoaderController.class.getResource("../loadgame-screen.fxml");
+    public static final URL VIEW = Main.class.getResource("view/user/signup.fxml");
 
+    /**
+     * This method is invoked when the signup game button is pressed and the user wants to create a
+     * new account
+     *
+     * @param event The {@link ActionEvent} that occurred.
+     */
     @FXML
-    protected void back(ActionEvent event) throws Exception {
+    private void signup(ActionEvent event) throws Exception {
         show(event, StartScreenController.VIEW);
     }
 
+    /**
+     * This method is invoked when the back button is pressed and the user wants to go back to
+     * the login screen.
+     *
+     * @param event The {@link ActionEvent} that occurred.
+     */
     @FXML
-    protected void next(ActionEvent event) throws Exception {
-        //client.authorize(credentials).teams().list().toCompletableFuture().get();
-        show(event, SetupScreenController.VIEW);
+    protected void back(ActionEvent event) throws Exception {
+        show(event, LoginController.VIEW);
     }
 }

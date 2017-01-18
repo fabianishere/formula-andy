@@ -32,10 +32,10 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<VBox id="results-screen" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.ResultScreenController">
+<VBox id="results-screen" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.ResultScreenController">
         <GridPane styleClass="basic" gridLinesVisible="false" >
             <stylesheets>
-                <URL value="@css/style.css" />
+                <URL value="@../../css/style.css" />
             </stylesheets>
             <columnConstraints>
                 <ColumnConstraints prefWidth="0"/>
@@ -83,7 +83,7 @@
             </rowConstraints>
 
             <ImageView fitHeight="400.0" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                <Image url="@images/formula1logo.jpeg" />
+                <Image url="@../../images/formula1logo.jpeg" />
             </ImageView>
 
             <Button onAction="#next" text="Continue" GridPane.columnIndex="11" GridPane.rowIndex="21" GridPane.valignment="BOTTOM" GridPane.halignment="RIGHT" />

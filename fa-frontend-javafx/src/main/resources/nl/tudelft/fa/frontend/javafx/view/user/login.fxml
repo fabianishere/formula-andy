@@ -39,9 +39,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="login-screen" styleClass="basic" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.LoginController">
+<VBox id="login-screen" styleClass="basic" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.user.LoginController">
     <stylesheets>
-        <URL value="@css/style.css" />
+        <URL value="@../../css/style.css" />
     </stylesheets>
     <GridPane gridLinesVisible="false">
         <columnConstraints>
@@ -71,7 +71,7 @@
         </rowConstraints>
 
         <ImageView fitHeight="600.0" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
-            <Image url="@images/formula1logo.jpeg" />
+            <Image url="@../../images/formula1logo.jpeg" />
         </ImageView>
 
         <Label text="Username" GridPane.columnIndex="4" GridPane.rowIndex="4" />

@@ -23,13 +23,16 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.controller;
+package nl.tudelft.fa.frontend.javafx.controller.user;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
+import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
@@ -47,7 +50,7 @@ public class LoginController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = LoginController.class.getResource("../login-screen.fxml");
+    public static final URL VIEW = Main.class.getResource("view/user/login.fxml");
 
     /**
      * The username field of the view.

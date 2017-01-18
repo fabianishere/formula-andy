@@ -30,19 +30,21 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import java.net.URL?>
-<VBox id="signup-screen" fx:controller="nl.tudelft.fa.frontend.javafx.controller.SignupController" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox id="start-screen" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="nl.tudelft.fa.frontend.javafx.controller.StartScreenController">
     <GridPane styleClass="basic" gridLinesVisible="false">
-        <stylesheets >
-            <URL value="@css/style.css" />
+        <stylesheets>
+            <URL value="@../css/style.css" />
         </stylesheets>
         <columnConstraints>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
-            <ColumnConstraints prefWidth="114"/>
-            <ColumnConstraints prefWidth="270"/>
-            <ColumnConstraints prefWidth="344"/>
-            <ColumnConstraints prefWidth="40"/>
+            <ColumnConstraints prefWidth="192"/>
+            <ColumnConstraints prefWidth="384"/>
+            <ColumnConstraints prefWidth="0"/>
+            <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
             <ColumnConstraints prefWidth="192"/>
@@ -62,21 +64,11 @@
         </rowConstraints>
 
         <ImageView fitHeight="600.0" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
-            <Image url="@images/formula1logo.jpeg" />
+            <Image url="@../images/formula1logo.jpeg" />
         </ImageView>
 
-        <Button onAction="#back" text="Back" GridPane.columnIndex="9"
-                GridPane.rowIndex="0" GridPane.valignment="BOTTOM" GridPane.halignment="LEFT" />
+        <Button styleClass="startScreenButton" onAction="#create" text="New Game" GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+        <Button styleClass="startScreenButton" onAction="#load" text="Load Game" GridPane.columnIndex="4" GridPane.rowIndex="5"/>
 
-        <Label text="Username" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-        <TextField GridPane.columnIndex="5" GridPane.rowIndex="4" />
-        <Label text="Password" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-        <PasswordField GridPane.columnIndex="5" GridPane.rowIndex="5"/>
-        <Label text="Repeat password" GridPane.columnIndex="4" GridPane.rowIndex="6" />
-        <PasswordField GridPane.columnIndex="5" GridPane.rowIndex="6"/>
-
-        <Button onAction="#signup" text="Sign up" GridPane.columnIndex="5"
-
-                GridPane.rowIndex="7" GridPane.halignment="RIGHT" />
     </GridPane>
 </VBox>

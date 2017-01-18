@@ -23,45 +23,42 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.controller;
+package nl.tudelft.fa.frontend.javafx.controller.team;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
+import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
+import nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController;
 
 import java.net.URL;
 
 /**
- * The controller for the sign-up screen.
+ * The controller for the team creation screen.
  *
- * @author Fabian Mastenbroek
- * @author Christian Slothouber
  * @author Laetitia Molkenboer
+ * @author Fabian Mastenbroek
  */
-public class SignupController extends AbstractController {
+public class TeamCreationController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = SignupController.class.getResource("../signup-screen.fxml");
+    public static final URL VIEW = Main.class.getResource("view/team/create.fxml");
 
     /**
-     * This method is invoked when the signup game button is pressed and the user wants to create a
-     * new account
+     * This method is invoked when the signup game button is pressed and the user has created a new
+     * account.
      *
      * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
-    private void signup(ActionEvent event) throws Exception {
-        show(event, StartScreenController.VIEW);
+    protected void next(ActionEvent event) throws Exception {
+        show(event, SetupScreenController.VIEW);
     }
 
-    /**
-     * This method is invoked when the back button is pressed and the user wants to go back to
-     * the login screen.
-     *
-     * @param event The {@link ActionEvent} that occurred.
-     */
     @FXML
     protected void back(ActionEvent event) throws Exception {
-        show(event, LoginController.VIEW);
+        show(event, StartScreenController.VIEW);
     }
 }

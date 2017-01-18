@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   The MIT License (MIT)
 
@@ -26,18 +25,19 @@
 -->
 
 <?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-
 <?import java.net.URL?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="nl.tudelft.fa.frontend.javafx.controller.GameLoaderController">
+<VBox id="teamname-screen" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="nl.tudelft.fa.frontend.javafx.controller.team.TeamCreationController">
     <GridPane styleClass="basic" gridLinesVisible="false">
         <stylesheets>
-            <URL value="@css/style.css" />
+            <URL value="@../../css/style.css" />
         </stylesheets>
         <columnConstraints>
             <ColumnConstraints prefWidth="192"/>
@@ -66,16 +66,15 @@
         </rowConstraints>
 
         <ImageView fitHeight="600.0" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
-            <Image url="@images/formula1logo.jpeg" />
+            <Image url="@../../images/formula1logo.jpeg" />
         </ImageView>
 
         <Button onAction="#back" text="Back" GridPane.columnIndex="9"
                 GridPane.rowIndex="0" GridPane.valignment="BOTTOM" GridPane.halignment="LEFT" />
 
-        <Label text="Choose save" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-        <ComboBox GridPane.columnIndex="5" GridPane.rowIndex="4" />
+        <Label text="Team name:" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+        <TextField GridPane.columnIndex="5" GridPane.rowIndex="4" />
         <Button onAction="#next" text="Next" GridPane.columnIndex="5" GridPane.rowIndex="5" GridPane.halignment="RIGHT" />
 
     </GridPane>
-
 </VBox>

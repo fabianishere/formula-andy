@@ -23,37 +23,29 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.controller;
+package nl.tudelft.fa.frontend.javafx.controller.game;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 
 import java.net.URL;
 
 /**
- * The controller for the team creation screen.
+ * The controller for the results screen.
  *
- * @author Laetitia Molkenboer
+ * @author Christian Slothouber
  * @author Fabian Mastenbroek
  */
-public class TeamCreationController extends AbstractController {
+public class ResultScreenController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = TeamCreationController.class.getResource("../teanname-screen.fxml");
+    public static final URL VIEW = Main.class.getResource("view/game/results.fxml");
 
-    /**
-     * This method is invoked when the signup game button is pressed and the user has created a new account
-     *
-     * @param event The {@link ActionEvent} that occurred.
-     */
     @FXML
     protected void next(ActionEvent event) throws Exception {
         show(event, SetupScreenController.VIEW);
-    }
-
-    @FXML
-    protected void back(ActionEvent event) throws Exception {
-        show(event, StartScreenController.VIEW);
     }
 }
