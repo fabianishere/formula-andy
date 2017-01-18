@@ -34,7 +34,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.tudelft.fa.frontend.javafx.inject.UIModule;
-
 import javax.inject.Inject;
 import java.util.Arrays;
 
@@ -64,7 +63,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         context.init();
-        loader.setLocation(getClass().getResource("login-screen.fxml"));
+        loader.setLocation(getClass().getResource("loadgame-screen.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);

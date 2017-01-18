@@ -1,75 +1,93 @@
 package nl.tudelft.fa.frontend.javafx.controller;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.client.race.CarConfiguration;
-import nl.tudelft.fa.client.team.Team;
+import nl.tudelft.fa.client.team.*;
+import nl.tudelft.fa.client.team.inventory.Engine;
+import nl.tudelft.fa.client.team.inventory.Tire;
 import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
+import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
- * Created by laeti on 9-1-2017.
+ *
+ * @author Laetititia Molkenboer & Christian Slothouber
  */
 public class SetupScreenController {
+    @Inject
+    private Team currentTeam;
+
+    @Inject
+    private ClientService service;
+
     public ToggleGroup toggleGroupMechanic1;
     public ToggleButton mechanic1L;
     public ToggleButton mechanic1M;
     public ToggleButton mechanic1H;
 
-    public ComboBox mechanic1;
+    @FXML
+    public ComboBox<Mechanic> mechanic1 = new ComboBox<Mechanic>(FXCollections.observableList(getMechanics()));
 
     public ToggleGroup toggleGroupAero1;
     public ToggleButton aero1L;
     public ToggleButton aero1M;
     public ToggleButton aero1H;
 
-    public ComboBox aero1;
+    public ComboBox<Aerodynamicist> aero1;
 
     public ToggleGroup toggleGroupStrategist1;
     public ToggleButton strategist1L;
     public ToggleButton strategist1M;
     public ToggleButton strategist1H;
 
-    public ComboBox strategist1;
+    public ComboBox<Strategist> strategist1;
 
-    public ComboBox driver1;
-    public ComboBox engine1;
-    public ComboBox tire1;
+    public ComboBox<Driver> driver1;
+    public ComboBox<Engine> engine1;
+    public ComboBox<Tire> tire1;
 
     public ToggleGroup toggleGroupMechanic2;
     public ToggleButton mechanic2L;
     public ToggleButton mechanic2M;
     public ToggleButton mechanic2H;
 
-    public ComboBox mechanic2;
+    public ComboBox<Mechanic> mechanic2;
 
     public ToggleGroup toggleGroupAero2;
     public ToggleButton aero2L;
     public ToggleButton aero2M;
     public ToggleButton aero2H;
 
-    public ComboBox aero2;
+    public ComboBox<Aerodynamicist> aero2;
 
     public ToggleGroup toggleGroupStrategist2;
     public ToggleButton strategist2L;
     public ToggleButton strategist2M;
     public ToggleButton strategist2H;
 
-    public ComboBox strategist2;
+    public ComboBox<Strategist> strategist2;
 
-    public ComboBox driver2;
-    public ComboBox engine2;
-    public ComboBox tire2;
+    public ComboBox<Driver> driver2;
+    public ComboBox<Engine> engine2;
+    public ComboBox<Tire> tire2;
+
+    private List<Mechanic> getMechanics() {
+        return currentTeam.getStaff()
+                .stream()
+                .filter(member -> member instanceof Mechanic)
+                .map(member -> (Mechanic) member)
+                .collect(Collectors.toList());
+    }
 
     private int getSelectedRisk(ToggleGroup group) {
         try {
@@ -93,10 +111,19 @@ public class SetupScreenController {
     protected void next(ActionEvent event) throws Exception {
         final Set<CarConfiguration> cars = new HashSet<>();
         final TeamConfigurationSubmission submission = new TeamConfigurationSubmission(null, cars);
-        cars.add(new CarConfiguration(
-                null, null, null, null, null, null
-        ));
+        final List<Team> teams = service.getClient().authorize(new Credentials("", ""))
+                .teams()
+                .list()
+                .toCompletableFuture()
+                .get();
 
+        final List<Driver> drivers = teams.get(0).getStaff()
+                .stream()
+                .filter(member -> member instanceof Driver)
+                .map(member -> (Driver) member)
+                .collect(Collectors.toList());
+
+        ComboBox<Driver> combo = new ComboBox<>(FXCollections.observableList(drivers));
         // session.tell(submission, ActorRef.noSender());
         // Main.launchScreen(event, "game-screen.fxml");
     }

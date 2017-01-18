@@ -2,19 +2,16 @@ package nl.tudelft.fa.frontend.javafx.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 import javax.inject.Inject;
 
 /**
- * Created by laeti on 9-1-2017.
+ *
+ *@author Laetitia Molkenboer & Fabian Mastenbroek & Christian Slothouber.
  */
 public class LoginController {
     @FXML

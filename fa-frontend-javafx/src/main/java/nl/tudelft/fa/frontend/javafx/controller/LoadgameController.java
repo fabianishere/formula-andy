@@ -1,20 +1,38 @@
 package nl.tudelft.fa.frontend.javafx.controller;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import nl.tudelft.fa.client.Client;
+import javafx.scene.control.ComboBox;
+import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.service.ClientService;
+import javax.inject.Inject;
+import java.util.List;
 
 /**
- * Created by laeti on 9-1-2017.
+ *
+ * @author Laetitia Molkenboer & Christian Slothouber.
  */
 public class LoadgameController {
-    private Client client;
+    @FXML
+    private ComboBox<Team> saves;
+
+    private List<Team> teams;
+
+    @Inject
+    private ClientService service;
+
+    @FXML
+    private void initialize() {
+        try {
+            teams = service.getClient().authorize(new Credentials("fabianishere", "test")).teams().list().toCompletableFuture().get();
+            saves.setItems(FXCollections.observableArrayList(teams));
+        } catch (Exception e) {
+            System.out.println("Failed to load teams");
+        }
+    }
 
     @FXML
     protected void back(ActionEvent event) throws Exception {
@@ -23,7 +41,7 @@ public class LoadgameController {
 
     @FXML
     protected void next(ActionEvent event) throws Exception {
-        //client.authorize(credentials).teams().list().toCompletableFuture().get();
+        //currentTeam = saves.getValue();
         Main.launchScreen(event, "setup-screen.fxml");
     }
 }
