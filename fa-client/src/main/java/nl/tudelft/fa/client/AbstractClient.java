@@ -23,21 +23,54 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.inject;
-
-import com.google.inject.AbstractModule;
+package nl.tudelft.fa.client;
 
 import akka.http.javadsl.model.Uri;
-import nl.tudelft.fa.frontend.javafx.service.ClientService;
+import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
+import nl.tudelft.fa.client.net.message.NotAuthorizedException;
+import nl.tudelft.fa.client.team.controller.TeamController;
 
 /**
- * Guice module for the user interface.
+ * This class represents the contract a client adheres to.
  *
  * @author Fabian Mastenbroek
  */
-public class ClientModule extends AbstractModule {
-    @Override
-    protected void configure() {
-        bind(ClientService.class).toInstance(new ClientService(Uri.create("http://localhost:8080")));
+public abstract class AbstractClient {
+    /**
+     * The base uri of the server.
+     */
+    private final Uri baseUri;
+
+    /**
+     * Construct a {@link AbstractClient} instance.
+     *
+     * @param baseUri The base uri of the server.
+     */
+    public AbstractClient(Uri baseUri) {
+        this.baseUri = baseUri;
+    }
+
+    /**
+     * Return the {@link LobbyBalancerController} instance of the client.
+     *
+     * @return A {@link LobbyBalancerController} instance.
+     */
+    public abstract LobbyBalancerController balancer();
+
+    /**
+     * Return the {@link TeamController} for the user that manages the teams of the user.
+     *
+     * @return The team controller for the user.
+     * @throws NotAuthorizedException if the user is not authorized.
+     */
+    public abstract TeamController teams() throws NotAuthorizedException;
+
+    /**
+     * Return the base uri of the server.
+     *
+     * @return The base uri of the server.
+     */
+    public Uri getBaseUri() {
+        return baseUri;
     }
 }

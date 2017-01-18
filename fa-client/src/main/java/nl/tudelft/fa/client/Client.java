@@ -31,14 +31,16 @@ import akka.http.javadsl.model.Uri;
 import akka.stream.ActorMaterializer;
 import akka.stream.Materializer;
 import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.client.lobby.controller.AuthorizedLobbyBalancerController;
 import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
+import nl.tudelft.fa.client.team.controller.TeamController;
 
 /**
  * This class provides the HTTP connection between client and server.
  *
  * @author Fabian Mastenbroek
  */
-public class Client {
+public class Client extends AbstractClient {
     /**
      * The {@link Http} instance of this client.
      */
@@ -50,9 +52,9 @@ public class Client {
     private final Materializer materializer;
 
     /**
-     * The base {@link Uri} to use.
+     * The credentials the user to authenticate with.
      */
-    private final Uri baseUri;
+    private final Credentials credentials;
 
     /**
      * Construct a {@link Client} instance.
@@ -60,11 +62,13 @@ public class Client {
      * @param http The {@link Http} instance to use.
      * @param materializer The {@link Materializer} to use.
      * @param baseUri The base uri of the server.
+     * @param credentials The credentials to authorize with.
      */
-    public Client(Http http, Materializer materializer, Uri baseUri) {
+    public Client(Http http, Materializer materializer, Uri baseUri, Credentials credentials) {
+        super(baseUri);
         this.http = http;
         this.materializer = materializer;
-        this.baseUri = baseUri;
+        this.credentials = credentials;
     }
 
     /**
@@ -72,9 +76,10 @@ public class Client {
      *
      * @param system The {@link ActorSystem} to use.
      * @param baseUri The base uri of the server.
+     * @param credentials The credentials to authorize with.
      */
-    public Client(ActorSystem system, Uri baseUri) {
-        this(Http.get(system), ActorMaterializer.create(system), baseUri);
+    public Client(ActorSystem system, Uri baseUri, Credentials credentials) {
+        this(Http.get(system), ActorMaterializer.create(system), baseUri, credentials);
     }
 
     /**
@@ -96,30 +101,32 @@ public class Client {
     }
 
     /**
-     * Return the base {@link Uri} of the client.
-     *
-     * @return The base uri of the client.
-     */
-    public Uri baseUri() {
-        return baseUri;
-    }
-
-    /**
-     * Authorize this {@link Client} instance.
-     *
-     * @param credentials The credentials to authorize with.
-     * @return The authorized client.
-     */
-    public AuthorizedClient authorize(Credentials credentials) {
-        return new AuthorizedClient(http, materializer, baseUri, credentials);
-    }
-
-    /**
      * Return the {@link LobbyBalancerController} instance of the client.
      *
      * @return A {@link LobbyBalancerController} instance.
      */
+    @Override
     public LobbyBalancerController balancer() {
-        return new LobbyBalancerController(this);
+        return new AuthorizedLobbyBalancerController(this, credentials);
+    }
+
+    /**
+     * Return the {@link TeamController} for the user.
+     *
+     * @return The team controller for the user.
+     */
+    @Override
+    public TeamController teams() {
+        return new TeamController(this, credentials);
+    }
+
+    /**
+     * Create a {@link Client} instance.
+     *
+     * @param baseUri The base uri of the server.
+     * @param credentials The credentials to authorize with.
+     */
+    public static Client create(Uri baseUri, Credentials credentials) {
+        return new Client(ActorSystem.create(), baseUri, credentials);
     }
 }

@@ -76,14 +76,8 @@ public class LoginController extends AbstractController {
     @FXML
     protected void login(ActionEvent event) throws Exception {
         Credentials credentials = new Credentials(username.getText(), password.getText());
-
         logger.info("User logging in with credentials {}", credentials);
-        /*service.getClient().authorize(credentials)
-            .balancer()
-            .find()
-            .toCompletableFuture()
-            .get()
-            .feed();*/
+        service.authorize(credentials);
         show(event, StartScreenController.VIEW);
     }
 

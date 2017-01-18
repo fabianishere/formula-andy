@@ -85,8 +85,8 @@ public class TeamControllerTest {
         credentials = new nl.tudelft.fa.client.auth.Credentials("fabianishere", "test");
         final RestService app = new RestService(system, authenticator, balancer, manager);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = app.createRoute().flow(system, materializer);
-        client = new Client(new HttpMock(routeFlow), materializer, Uri.create("http://localhost:8080"));
-        controller = client.authorize(credentials).teams();
+        client = new Client(new HttpMock(routeFlow), materializer, Uri.create("http://localhost:8080"), credentials);
+        controller = client.teams();
     }
 
     @AfterClass

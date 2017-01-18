@@ -75,7 +75,7 @@ public class LobbyBalancerController {
      */
     public CompletionStage<Set<Lobby>> lobbies() {
         final HttpRequest request = HttpRequest.create()
-            .withUri(client.baseUri().addPathSegment("lobbies"))
+            .withUri(client.getBaseUri().addPathSegment("lobbies"))
             .withMethod(HttpMethods.GET);
 
         return client.http().singleRequest(request, client.materializer())
@@ -108,7 +108,7 @@ public class LobbyBalancerController {
      */
     public CompletionStage<Lobby> lobby(String id) {
         final HttpRequest request = HttpRequest.create()
-            .withUri(client.baseUri().addPathSegment("lobbies").addPathSegment(id))
+            .withUri(client.getBaseUri().addPathSegment("lobbies").addPathSegment(id))
             .withMethod(HttpMethods.GET);
 
         return client.http().singleRequest(request, client.materializer())

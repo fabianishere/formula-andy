@@ -11,6 +11,8 @@ import akka.http.javadsl.model.Uri;
 import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
+import nl.tudelft.fa.client.AbstractClient;
+import nl.tudelft.fa.client.AnonymousClient;
 import nl.tudelft.fa.client.Client;
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.auth.actor.Authenticator;
@@ -44,7 +46,7 @@ public class LobbyBalancerControllerTest {
     private static ActorRef authenticator;
     private static ActorRef balancer;
 
-    private Client client;
+    private AbstractClient client;
     private LobbyBalancerController controller;
 
     @BeforeClass
@@ -67,7 +69,7 @@ public class LobbyBalancerControllerTest {
     public void setUp() {
         final RestService app = new RestService(system, authenticator, balancer, null);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = app.createRoute().flow(system, materializer);
-        client = new Client(new HttpMock(routeFlow), materializer, Uri.create("http://localhost:8080"));
+        client = new AnonymousClient(new HttpMock(routeFlow), materializer, Uri.create("http://localhost:8080"));
         controller = client.balancer();
     }
 
