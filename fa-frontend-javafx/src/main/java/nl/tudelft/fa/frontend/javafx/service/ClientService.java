@@ -25,14 +25,26 @@
 
 package nl.tudelft.fa.frontend.javafx.service;
 
+import akka.Done;
+import akka.NotUsed;
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
 import akka.http.javadsl.model.Uri;
+import akka.stream.javadsl.Flow;
 import nl.tudelft.fa.client.AbstractClient;
 import nl.tudelft.fa.client.AnonymousClient;
 import nl.tudelft.fa.client.Client;
 import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
+import nl.tudelft.fa.client.lobby.controller.LobbyController;
+import nl.tudelft.fa.client.lobby.message.LobbyInboundMessage;
+import nl.tudelft.fa.client.lobby.message.LobbyOutboundMessage;
 import nl.tudelft.fa.client.net.message.NotAuthorizedException;
 import nl.tudelft.fa.client.team.controller.TeamController;
+import nl.tudelft.fa.frontend.javafx.net.SessionActor;
+import nl.tudelft.fa.frontend.javafx.net.SessionStage;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
  * This service provides the {@link Client} instance for the controllers.
@@ -46,13 +58,24 @@ public class ClientService extends AbstractClient {
     private AbstractClient client;
 
     /**
+     * The reference to the {@link SessionActor} handling the session with a lobby.
+     */
+    private ActorRef session;
+
+    /**
+     * The {@link ActorSystem} to use.
+     */
+    private ActorSystem system;
+
+    /**
      * Construct a {@link ClientService} instance.
      *
      * @param baseUri The base uri of the server.
      */
     public ClientService(Uri baseUri) {
         super(baseUri);
-        client = AnonymousClient.create(baseUri);
+        this.system = ActorSystem.create();
+        this.client = new AnonymousClient(system, baseUri);
     }
 
     /**
@@ -61,8 +84,32 @@ public class ClientService extends AbstractClient {
      * @param credentials The credentials to authorize with.
      */
     public void authorize(Credentials credentials) {
-        client = Client.create(getBaseUri(), credentials);
+        client = new Client(system, getBaseUri(), credentials);
         // TODO throw on invalid credentials
+    }
+
+    /**
+     * Open a session for the given {@link LobbyController} instance.
+     *
+     * @param controller The controller of the lobby to open a session for.
+     * @return The reference to the lobby session actor.
+     */
+    public ActorRef open(LobbyController controller) {
+        ActorRef ref = system.actorOf(SessionActor.props());
+        Flow<LobbyOutboundMessage, LobbyInboundMessage, NotUsed> flow =
+            Flow.fromGraph(new SessionStage(ref));
+        controller.feed(flow
+            .mapMaterializedValue(mat -> CompletableFuture.completedFuture(Done.getInstance())));
+        return session = ref;
+    }
+
+    /**
+     * Return the current active session with a lobby.
+     *
+     * @return The current active session with a lobby.
+     */
+    public ActorRef session() {
+        return session;
     }
 
     @Override

@@ -27,6 +27,7 @@ package nl.tudelft.fa.frontend.javafx.net;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
+import akka.actor.Props;
 import akka.actor.Terminated;
 import akka.japi.pf.ReceiveBuilder;
 import nl.tudelft.fa.client.lobby.message.LobbyInboundMessage;
@@ -91,5 +92,15 @@ public class SessionActor extends AbstractActor {
     private void unsubscribe(ActorRef ref) {
         subscribers.remove(ref);
         context().unwatch(ref);
+    }
+
+    /**
+     * Create {@link Props} instance for an actor of this type.
+     *
+     * @return A Props for creating this actor, which can then be further configured
+     *         (e.g. calling `.withDispatcher()` on it)
+     */
+    public static Props props() {
+        return Props.create(SessionActor.class);
     }
 }
