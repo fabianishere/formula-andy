@@ -31,7 +31,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
 import nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController;
+import nl.tudelft.fa.frontend.javafx.controller.user.LoginController;
 import nl.tudelft.fa.frontend.javafx.inject.ClientModule;
 
 import java.util.Collections;
@@ -64,7 +66,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         context.init();
-        loader.setLocation(SetupScreenController.VIEW);
+        loader.setLocation(LoginController.VIEW);
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
