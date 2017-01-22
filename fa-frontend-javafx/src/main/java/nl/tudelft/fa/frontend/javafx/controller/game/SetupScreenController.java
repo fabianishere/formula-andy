@@ -25,19 +25,34 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.game;
 
+import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
-import javafx.event.ActionEvent;
+import akka.actor.Props;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
+import akka.japi.pf.ReceiveBuilder;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import nl.tudelft.fa.client.lobby.LobbyStatus;
+import nl.tudelft.fa.client.lobby.message.CarParametersSubmission;
+import nl.tudelft.fa.client.lobby.message.LobbyStatusChanged;
+import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
+import nl.tudelft.fa.client.race.CarConfiguration;
 import nl.tudelft.fa.client.team.Team;
+import nl.tudelft.fa.client.team.inventory.Car;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StoreController;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
+import scala.PartialFunction;
+import scala.runtime.BoxedUnit;
+
+import java.net.URL;
+import java.util.HashSet;
+import java.util.ResourceBundle;
 
 import javax.inject.Inject;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * The controller for the setup screen.
@@ -59,11 +74,6 @@ public class SetupScreenController extends AbstractController implements Initial
     private ClientService service;
 
     /**
-     * The actor of this controller.
-     */
-    private ActorRef actor;
-
-    /**
      * The controller for the first car configuration.
      */
     @FXML
@@ -75,9 +85,15 @@ public class SetupScreenController extends AbstractController implements Initial
     @FXML
     private CarConfigurationController secondController;
 
+    /**
+     * The status of the lobby.
+     */
     @FXML
-    protected void store(ActionEvent event) throws Exception {
-        show(event, StoreController.VIEW);
+    private Label status;
+
+    @FXML
+    protected void store() throws Exception {
+        show(StoreController.VIEW);
     }
 
     /**
@@ -91,12 +107,69 @@ public class SetupScreenController extends AbstractController implements Initial
     }
 
     /**
+     * Return the configuration of the team.
+     *
+     * @return The configuration of the team.
+     */
+    public TeamConfigurationSubmission getConfiguration() {
+        return new TeamConfigurationSubmission(null, new HashSet<CarConfiguration>() {
+            {
+                add(firstController.getConfiguration());
+                add(secondController.getConfiguration());
+            }
+        });
+    }
+
+    /**
+     * Return the parameters for a car.
+     *
+     * @param car The car to get the parameters of.
+     * @param controller The controller to use.
+     * @return The parameters for a car.
+     */
+    public CarParametersSubmission getParameters(Car car,
+                                                 CarConfigurationController controller) {
+        return new CarParametersSubmission(null, controller.getConfiguration().getCar(),
+            controller.getParameters());
+    }
+
+    /**
      * This method is called when the screen is loaded.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        actor = service.system().actorOf(SetupActor.props(this)
-            .withDispatcher("javafx-dispatcher"));
-        service.session().tell(actor, actor);
+        ActorRef ref = service.system().actorOf(Props.create(SetupScreenActor.class,
+            SetupScreenActor::new).withDispatcher("javafx-dispatcher"));
+        service.session().tell(ref, ref);
+    }
+
+    /**
+     * The actor that handles the logic for the setup screen.
+     *
+     * @author Fabian Mastenbroek
+     */
+    public class SetupScreenActor extends AbstractActor {
+        /**
+         * The {@link LoggingAdapter} of this class.
+         */
+        private final LoggingAdapter log = Logging.getLogger(context().system(), this);
+
+        /**
+         * This method defines the initial actor behavior, it must return a partial function with
+         * the actor logic.
+         *
+         * @return The initial actor behavior as a partial function.
+         */
+        @Override
+        public PartialFunction<Object, BoxedUnit> receive() {
+            return ReceiveBuilder
+                .match(LobbyStatusChanged.class,
+                    msg -> msg.getStatus().equals(LobbyStatus.PREPARATION),
+                    msg -> {
+                        log.info("Lobby is going in preparation!");
+                        status.setText(msg.getStatus().toString());
+                    })
+                .build();
+        }
     }
 }

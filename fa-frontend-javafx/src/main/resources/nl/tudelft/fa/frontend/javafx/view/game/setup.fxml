@@ -67,18 +67,17 @@
 
         <Button prefWidth="Infinity" onAction="#store" text="Go to store" GridPane.columnIndex="9" GridPane.rowIndex="1" />
 
-        <Label text="Setup car 1:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <fx:include source="setup-car.fxml" fx:id="first"
-                    GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.columnSpan="10" GridPane.rowSpan="2" />
-
-        <Label text="Setup car 2:" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                    GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="10" GridPane.rowSpan="2" />
         <fx:include source="setup-car.fxml" fx:id="second"
-                    GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.columnSpan="10" GridPane.rowSpan="2" />
+                    GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.columnSpan="10" GridPane.rowSpan="2" />
 
-        <Label text="Remainig budget:" GridPane.columnIndex="8" GridPane.rowIndex="8" prefWidth="Infinity" GridPane.valignment="TOP" />
+        <Label text="Remaining budget:" GridPane.columnIndex="8" GridPane.rowIndex="8" prefWidth="Infinity" GridPane.valignment="TOP" />
         <Label text="100.000.000" GridPane.columnIndex="9" GridPane.rowIndex="8" prefWidth="Infinity" GridPane.valignment="TOP" />
         <Label text="Total cost:" GridPane.columnIndex="8" GridPane.rowIndex="8" prefWidth="Infinity" GridPane.valignment="BOTTOM" />
         <Label text="1.000.000" GridPane.columnIndex="9" GridPane.rowIndex="8" prefWidth="Infinity" GridPane.valignment="BOTTOM" />
+        <Label text="Status:" GridPane.columnIndex="8" GridPane.rowIndex="9" prefWidth="Infinity" GridPane.valignment="BOTTOM" />
+        <Label text="INTERMISSION" fx:id="status" GridPane.columnIndex="9" GridPane.rowIndex="9" prefWidth="Infinity" GridPane.valignment="BOTTOM" />
     </GridPane>
 </VBox>
 

@@ -27,7 +27,6 @@ package nl.tudelft.fa.frontend.javafx.controller.game;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleGroup;
 import nl.tudelft.fa.client.race.CarConfiguration;
@@ -39,9 +38,7 @@ import nl.tudelft.fa.client.team.inventory.InventoryItem;
 import nl.tudelft.fa.client.team.inventory.Tire;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 /**
@@ -107,13 +104,18 @@ public class CarConfigurationController extends AbstractController {
     private ComboBox<Tire> tire;
 
     /**
-     * Return the {@link CarConfiguration} the user has created for the given car.
+     * The car of the configuration.
+     */
+    @FXML
+    private ComboBox<Car> car;
+
+    /**
+     * Return the {@link CarConfiguration} the user has created.
      *
-     * @param car The {@link Car} to create the configuration for.
      * @return The {@link CarConfiguration} the user has created.
      */
-    public CarConfiguration getConfigurationForCar(Car car) {
-        return new CarConfiguration(car, engine.getValue(), driver.getValue(),
+    public CarConfiguration getConfiguration() {
+        return new CarConfiguration(car.getValue(), engine.getValue(), driver.getValue(),
             mechanic.getValue(), aerodynamicist.getValue(), strategist.getValue());
     }
 
@@ -126,7 +128,6 @@ public class CarConfigurationController extends AbstractController {
         return new CarParameters(getRiskFor(mechanicRisk), getRiskFor(aeroRisk),
             getRiskFor(strategicRisk), tire.getValue());
     }
-
 
     /**
      * This method return the selected risk of a particular specialist.
@@ -162,6 +163,7 @@ public class CarConfigurationController extends AbstractController {
         initializeStaff(strategist, Strategist.class, team);
         initializeStaff(driver, Driver.class, team);
 
+        initializeInventory(car, Car.class, team);
         initializeInventory(engine, Engine.class, team);
         initializeInventory(tire, Tire.class, team);
     }
