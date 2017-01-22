@@ -138,7 +138,8 @@ public class SessionStage  extends GraphStage<FlowShape<LobbyOutboundMessage, Lo
          */
         @Override
         public void preStart() {
-            StageActor self = getStageActor(func(tuple -> receive.apply(tuple._2)));
+            StageActor self = getStageActor(func(
+                tuple -> receive.isDefinedAt(tuple._2) ? receive.apply(tuple._2) : BoxedUnit.UNIT));
             ActorRef ref = self.ref();
 
             // request first message
@@ -174,6 +175,13 @@ public class SessionStage  extends GraphStage<FlowShape<LobbyOutboundMessage, Lo
                 @Override
                 public void onPull() throws Exception {
                     // just wait for messages to be published in the event bus
+                }
+
+                @Override
+                public void onDownstreamFinish() {
+                    // prevent completing the stage if the downstream has finished
+                    // because we will still receive messages from the lobby's event bus
+                    // to send downstream.
                 }
             });
         }

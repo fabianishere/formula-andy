@@ -45,6 +45,7 @@ import nl.tudelft.fa.frontend.javafx.net.SessionActor;
 import nl.tudelft.fa.frontend.javafx.net.SessionStage;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 /**
  * This service provides the {@link Client} instance for the controllers.
@@ -94,13 +95,15 @@ public class ClientService extends AbstractClient {
      * @param controller The controller of the lobby to open a session for.
      * @return The reference to the lobby session actor.
      */
-    public ActorRef open(LobbyController controller) {
-        ActorRef ref = system.actorOf(SessionActor.props());
-        Flow<LobbyOutboundMessage, LobbyInboundMessage, NotUsed> flow =
-            Flow.fromGraph(new SessionStage(ref));
-        controller.feed(flow
-            .mapMaterializedValue(mat -> CompletableFuture.completedFuture(Done.getInstance())));
-        return session = ref;
+    public CompletionStage<ActorRef> open(LobbyController controller) {
+        session = system.actorOf(SessionActor.props());
+
+        Flow<LobbyOutboundMessage, LobbyInboundMessage, CompletionStage<Done>> flow = Flow
+            .fromGraph(new SessionStage(session))
+            .mapMaterializedValue(mat -> CompletableFuture.completedFuture(Done.getInstance()));
+        return controller.feed(flow)
+            .first()
+            .thenApply(done -> session);
     }
 
     /**
@@ -110,6 +113,15 @@ public class ClientService extends AbstractClient {
      */
     public ActorRef session() {
         return session;
+    }
+
+    /**
+     * Return the {@link ActorSystem} of this instance.
+     *
+     * @return The {@link ActorSystem} of this instance.
+     */
+    public ActorSystem system() {
+        return system;
     }
 
     @Override

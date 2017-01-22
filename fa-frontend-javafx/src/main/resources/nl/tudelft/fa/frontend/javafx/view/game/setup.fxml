@@ -79,8 +79,6 @@
         <Label text="100.000.000" GridPane.columnIndex="9" GridPane.rowIndex="8" prefWidth="Infinity" GridPane.valignment="TOP" />
         <Label text="Total cost:" GridPane.columnIndex="8" GridPane.rowIndex="8" prefWidth="Infinity" GridPane.valignment="BOTTOM" />
         <Label text="1.000.000" GridPane.columnIndex="9" GridPane.rowIndex="8" prefWidth="Infinity" GridPane.valignment="BOTTOM" />
-        <Button prefWidth="Infinity" onAction="#next" text="Continue" GridPane.columnIndex="9" GridPane.rowIndex="9" />
-
     </GridPane>
 </VBox>
 

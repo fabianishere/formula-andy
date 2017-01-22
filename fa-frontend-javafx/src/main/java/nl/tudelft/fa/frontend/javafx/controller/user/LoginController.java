@@ -25,14 +25,17 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.user;
 
+import akka.actor.ActorRef;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.client.lobby.message.Join;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
+import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
@@ -81,6 +84,16 @@ public class LoginController extends AbstractController {
         Credentials credentials = new Credentials(username.getText(), password.getText());
         logger.info("User logging in with credentials {}", credentials);
         service.authorize(credentials);
+        logger.info("Looking for available lobby for user");
+        service.balancer().find().whenCompleteAsync((lobby, exc) -> {
+            if (exc != null) {
+                logger.error("Failed to find lobby for the user", exc);
+                return;
+            }
+            logger.info("Opening session for found lobby");
+            service.open(lobby)
+                .thenAccept(session -> session.tell(Join.INSTANCE, ActorRef.noSender()));
+        }, JavaFxExecutorService.INSTANCE);
         show(event, StartScreenController.VIEW);
     }
 

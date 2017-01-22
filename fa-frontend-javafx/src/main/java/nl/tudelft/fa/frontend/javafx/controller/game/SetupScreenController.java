@@ -25,14 +25,19 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.game;
 
+import akka.actor.ActorRef;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StoreController;
+import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
+import javax.inject.Inject;
 import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * The controller for the setup screen.
@@ -41,11 +46,22 @@ import java.net.URL;
  * @author Christian Slothouber
  * @author Laetitia Molkenboer
  */
-public class SetupScreenController extends AbstractController {
+public class SetupScreenController extends AbstractController implements Initializable {
     /**
      * The reference to the location of the view of this controller.
      */
     public static final URL VIEW = Main.class.getResource("view/game/setup.fxml");
+
+    /**
+     * The injected client service.
+     */
+    @Inject
+    private ClientService service;
+
+    /**
+     * The actor of this controller.
+     */
+    private ActorRef actor;
 
     /**
      * The controller for the first car configuration.
@@ -64,11 +80,6 @@ public class SetupScreenController extends AbstractController {
         show(event, StoreController.VIEW);
     }
 
-    @FXML
-    protected void next(ActionEvent event) throws Exception {
-        show(event, GameScreenController.VIEW);
-    }
-
     /**
      * Set the team for this controller.
      *
@@ -77,5 +88,15 @@ public class SetupScreenController extends AbstractController {
     public void setTeam(Team team) {
         firstController.setTeam(team);
         secondController.setTeam(team);
+    }
+
+    /**
+     * This method is called when the screen is loaded.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        actor = service.system().actorOf(SetupActor.props(this)
+            .withDispatcher("javafx-dispatcher"));
+        service.session().tell(actor, actor);
     }
 }
