@@ -38,7 +38,12 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Fabian Mastenbroek
  */
-public class JavaFXExecutorService extends AbstractExecutorService {
+public class JavaFxExecutorService extends AbstractExecutorService {
+    /**
+     * The static instance of this class.
+     */
+    public static final JavaFxExecutorService INSTANCE = new JavaFxExecutorService();
+
     /**
      * Initiates an orderly shutdown in which previously submitted tasks are executed, but no new
      * tasks will be accepted.

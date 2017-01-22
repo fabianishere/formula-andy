@@ -34,23 +34,23 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * A {@link ExecutorServiceConfigurator} for the {@link JavaFXExecutorService} class.
+ * A {@link ExecutorServiceConfigurator} for the {@link JavaFxExecutorService} class.
  *
  * @author Fabian Mastenbroek
  */
-public class JavaFXEventThreadExecutorServiceConfigurator extends ExecutorServiceConfigurator {
+public class JavaFxEventThreadExecutorServiceConfigurator extends ExecutorServiceConfigurator {
     /**
      * The {@link ExecutorServiceFactory} for this class.
      */
-    private final ExecutorServiceFactory factory = JavaFXExecutorService::new;
+    private final ExecutorServiceFactory factory = JavaFxExecutorService::new;
 
     /**
-     * Construct a {@link JavaFXEventThreadExecutorServiceConfigurator} instance.
+     * Construct a {@link JavaFxEventThreadExecutorServiceConfigurator} instance.
      *
      * @param config The configuration to use.
      * @param prerequisites The prerequisites of the dispatcher.
      */
-    public JavaFXEventThreadExecutorServiceConfigurator(Config config,
+    public JavaFxEventThreadExecutorServiceConfigurator(Config config,
                                                         DispatcherPrerequisites prerequisites) {
         super(config, prerequisites);
     }
