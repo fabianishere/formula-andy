@@ -48,7 +48,7 @@ public abstract class AbstractController {
      * The {@link FXMLLoader} that loads the views.
      */
     @Inject
-    private FXMLLoader loader;
+    protected FXMLLoader loader;
 
     /**
      * The {@link Logger} instance to use.
@@ -60,12 +60,13 @@ public abstract class AbstractController {
      *
      * @param stage The stage to show the view into.
      * @param location The relative location of the view.
+     * @param controller The controller of the view.
      * @throws IOException if the view fails to show.
      */
-    public void show(Stage stage, URL location) throws IOException {
+    public void show(Stage stage, URL location, Object controller) throws IOException {
         loader.setLocation(location);
         loader.setRoot(null);
-        loader.setController(null);
+        loader.setController(controller);
 
         stage.setScene(new Scene(loader.load()));
     }
@@ -75,11 +76,34 @@ public abstract class AbstractController {
      *
      * @param event The event that has occurred.
      * @param location The relative location of the view.
+     * @param controller The controller of the view.
      */
-    public void show(Event event, URL location) throws IOException {
+    public void show(Event event, URL location, Object controller) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        show(stage, location);
+        show(stage, location, controller);
+    }
+
+    /**
+     * Load the view located at the given url given an {@link Event} disregarding the view stack.
+     *
+     * @param event The event that has occurred.
+     * @param location The relative location of the view.
+     */
+    public void show(Event event, URL location) throws IOException {
+        show(event, location, null);
+    }
+
+    /**
+     * Load the view located at the given url disregarding the view stack.
+     *
+     * @param location The relative location of the view.
+     * @param controller The controller of the view.
+     * @throws IOException if the view fails to show.
+     */
+    public void show(URL location, Object controller) throws IOException {
+        Node node = loader.getRoot();
+        show((Stage) node.getScene().getWindow(), location, controller);
     }
 
     /**
@@ -89,7 +113,6 @@ public abstract class AbstractController {
      * @throws IOException if the view fails to show.
      */
     public void show(URL location) throws IOException {
-        Node node = loader.getRoot();
-        show((Stage) node.getScene().getWindow(), location);
+        show(location, null);
     }
 }

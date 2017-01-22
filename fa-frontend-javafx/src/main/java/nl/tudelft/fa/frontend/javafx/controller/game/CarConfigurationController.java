@@ -30,7 +30,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleGroup;
-import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.client.race.CarConfiguration;
 import nl.tudelft.fa.client.race.CarParameters;
 import nl.tudelft.fa.client.team.*;
@@ -39,14 +38,11 @@ import nl.tudelft.fa.client.team.inventory.Engine;
 import nl.tudelft.fa.client.team.inventory.InventoryItem;
 import nl.tudelft.fa.client.team.inventory.Tire;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
-import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
-import javax.inject.Inject;
 
 /**
  * The controller for the setup of a car.
@@ -55,13 +51,7 @@ import javax.inject.Inject;
  * @author Christian Slothouber
  * @author Laetitia Molkenboer
  */
-public class CarConfigurationController extends AbstractController implements Initializable {
-    /**
-     * The {@link ClientService} that provides the connection with the server.
-     */
-    @Inject
-    private ClientService client;
-
+public class CarConfigurationController extends AbstractController {
     /**
      * The mechanic risk of the configuration.
      */
@@ -162,27 +152,18 @@ public class CarConfigurationController extends AbstractController implements In
     }
 
     /**
-     * Initialize this controller.
+     * Set the team for this controller.
      *
-     * @param location The location of the view.
-     * @param resources The resources associated with the view.
+     * @param team The team to set.
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        client.authorize(new Credentials("fabianishere", "test"));
-        try {
-            Team team = client.teams().list().toCompletableFuture().get().get(0);
+    public void setTeam(Team team) {
+        initializeStaff(mechanic, Mechanic.class, team);
+        initializeStaff(aerodynamicist, Aerodynamicist.class, team);
+        initializeStaff(strategist, Strategist.class, team);
+        initializeStaff(driver, Driver.class, team);
 
-            initializeStaff(mechanic, Mechanic.class, team);
-            initializeStaff(aerodynamicist, Aerodynamicist.class, team);
-            initializeStaff(strategist, Strategist.class, team);
-            initializeStaff(driver, Driver.class, team);
-
-            initializeInventory(engine, Engine.class, team);
-            initializeInventory(tire, Tire.class, team);
-        } catch (Exception e) {
-            logger.error("Failed to fetch teams from the server", e);
-        }
+        initializeInventory(engine, Engine.class, team);
+        initializeInventory(tire, Tire.class, team);
     }
 
     private <T extends Member> void initializeStaff(ComboBox<T> box, Class<T> target, Team team) {

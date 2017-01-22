@@ -27,14 +27,12 @@ package nl.tudelft.fa.frontend.javafx.controller.game;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StoreController;
-import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
-
-import javax.inject.Inject;
 
 /**
  * The controller for the setup screen.
@@ -48,12 +46,6 @@ public class SetupScreenController extends AbstractController {
      * The reference to the location of the view of this controller.
      */
     public static final URL VIEW = Main.class.getResource("view/game/setup.fxml");
-
-    /**
-     * The {@link ClientService} that provides the connection with the server.
-     */
-    @Inject
-    private ClientService client;
 
     /**
      * The controller for the first car configuration.
@@ -75,5 +67,15 @@ public class SetupScreenController extends AbstractController {
     @FXML
     protected void next(ActionEvent event) throws Exception {
         show(event, GameScreenController.VIEW);
+    }
+
+    /**
+     * Set the team for this controller.
+     *
+     * @param team The team to set.
+     */
+    public void setTeam(Team team) {
+        firstController.setTeam(team);
+        secondController.setTeam(team);
     }
 }

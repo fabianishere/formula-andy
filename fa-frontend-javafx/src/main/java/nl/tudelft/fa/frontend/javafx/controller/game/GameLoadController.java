@@ -30,21 +30,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.client.net.message.NotAuthorizedException;
 import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
+import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 
 /**
- * The controller for the view where the team is selected..
+ * The controller for the view where the team is selected.
  *
  * @author Fabian Mastenbroek
  * @author Christian Slothouber
@@ -57,16 +57,16 @@ public class GameLoadController extends AbstractController implements Initializa
     public static final URL VIEW = Main.class.getResource("view/game/load.fxml");
 
     /**
-     * The ComboBox where the saves will be displayed and will be chosen to play.
-     */
-    @FXML
-    private ComboBox<Team> saves;
-
-    /**
      * The current connection with the server.
      */
     @Inject
     private ClientService service;
+
+    /**
+     * The teams the user can choose.
+     */
+    @FXML
+    private ComboBox<Team> team;
 
     /**
      * This method is called when the back-button is pressed.
@@ -88,6 +88,8 @@ public class GameLoadController extends AbstractController implements Initializa
     @FXML
     protected void next(ActionEvent event) throws Exception {
         show(event, SetupScreenController.VIEW);
+        SetupScreenController controller = loader.getController();
+        controller.setTeam(team.getValue());
     }
 
     /**
@@ -96,10 +98,15 @@ public class GameLoadController extends AbstractController implements Initializa
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            List<Team> teams = service.teams().list().toCompletableFuture().get();
-            saves.setItems(FXCollections.observableArrayList(teams));
-        } catch (Exception e) {
-            logger.error("Failed to initialize view", e);
+            service.teams().list().whenCompleteAsync((teams, throwable) -> {
+                team.setItems(FXCollections.observableList(teams));
+
+                if (throwable != null) {
+                    logger.error("Failed to retrieve user's teams from the server", throwable);
+                }
+            }, JavaFxExecutorService.INSTANCE);
+        } catch (NotAuthorizedException e) {
+            logger.error("The user was not authorized to load this view", e);
         }
     }
 }
