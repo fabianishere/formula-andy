@@ -6,6 +6,7 @@ import akka.actor.ActorSystem;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.BidiFlow;
 import akka.stream.javadsl.Flow;
+import akka.stream.javadsl.Keep;
 import akka.stream.javadsl.Source;
 import akka.stream.testkit.javadsl.TestSink;
 import akka.testkit.JavaTestKit;
@@ -58,7 +59,8 @@ public class LobbyStageTest {
 
     @Test
     public void acceptMessage() {
-        final Source<LobbyInboundMessage, NotUsed> source = Source.single(new Join(user, null));
+        final Source<LobbyInboundMessage, NotUsed> source =
+            Source.maybe().mergeMat(Source.single(new Join(user, null)), Keep.right());
         final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> flow = Flow.fromGraph(stage);
 
         LobbyOutboundMessage msg = source
