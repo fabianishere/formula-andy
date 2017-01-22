@@ -25,25 +25,14 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.game;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import nl.tudelft.fa.client.team.Driver;
-import nl.tudelft.fa.client.team.Mechanic;
-import nl.tudelft.fa.client.team.Member;
-import nl.tudelft.fa.client.team.Team;
-import nl.tudelft.fa.client.team.inventory.InventoryItem;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StoreController;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -54,7 +43,7 @@ import javax.inject.Inject;
  * @author Christian Slothouber
  * @author Laetitia Molkenboer
  */
-public class SetupScreenController extends AbstractController implements Initializable {
+public class SetupScreenController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
@@ -66,17 +55,17 @@ public class SetupScreenController extends AbstractController implements Initial
     @Inject
     private ClientService client;
 
+    /**
+     * The controller for the first car configuration.
+     */
     @FXML
-    private ComboBox<Mechanic> mechanic1;
+    private CarConfigurationController firstController;
 
+    /**
+     * The controller for the second car configuration.
+     */
     @FXML
-    private ComboBox<Mechanic> mechanic2;
-
-    @FXML
-    private ComboBox<Driver> driver1;
-
-    @FXML
-    private ComboBox<Driver> driver2;
+    private CarConfigurationController secondController;
 
     @FXML
     protected void store(ActionEvent event) throws Exception {
@@ -86,41 +75,5 @@ public class SetupScreenController extends AbstractController implements Initial
     @FXML
     protected void next(ActionEvent event) throws Exception {
         show(event, GameScreenController.VIEW);
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        final Team team;
-        try {
-            team = client.teams().list().toCompletableFuture().get().get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
-        initializeStaff(mechanic1, Mechanic.class, team);
-        initializeStaff(mechanic2, Mechanic.class, team);
-
-        initializeStaff(driver1, Driver.class, team);
-        initializeStaff(driver2, Driver.class, team);
-    }
-
-    private <T extends Member> void initializeStaff(ComboBox<T> box, Class<T> target, Team team) {
-        List<T> items = team.getStaff().stream()
-            .filter(target::isInstance)
-            .map(target::cast)
-            .collect(Collectors.toList());
-
-        box.setItems(FXCollections.observableList(items));
-    }
-
-    private <T extends InventoryItem> void initializeInventory(ComboBox<T> box, Class<T> target,
-                                                               Team team) {
-        List<T> items = team.getInventory().stream()
-            .filter(target::isInstance)
-            .map(target::cast)
-            .collect(Collectors.toList());
-
-        box.setItems(FXCollections.observableList(items));
     }
 }

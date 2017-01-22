@@ -31,6 +31,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController;
 import nl.tudelft.fa.frontend.javafx.inject.ClientModule;
 
 import java.util.Collections;
@@ -44,7 +45,7 @@ import javax.inject.Inject;
  */
 public class Main extends Application {
     /**
-     * The {@link com.gluonhq.ignite.guice.GuiceContext} to use.
+     * The {@link GuiceContext} to use.
      */
     private GuiceContext context = new GuiceContext(this, () ->
         Collections.singletonList(new ClientModule()));
@@ -63,7 +64,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         context.init();
-        loader.setLocation(getClass().getResource("view/user/login.fxml"));
+        loader.setLocation(SetupScreenController.VIEW);
         Parent root = loader.load();
 
         Scene scene = new Scene(root);

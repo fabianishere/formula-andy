@@ -28,7 +28,7 @@ package nl.tudelft.fa.frontend.javafx.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import nl.tudelft.fa.frontend.javafx.Main;
-import nl.tudelft.fa.frontend.javafx.controller.game.GameLoaderController;
+import nl.tudelft.fa.frontend.javafx.controller.game.GameLoadController;
 
 import java.net.URL;
 
@@ -53,7 +53,7 @@ public class StartScreenController extends AbstractController {
      */
     @FXML
     protected void load(ActionEvent event) throws Exception {
-        show(event, GameLoaderController.VIEW);
+        show(event, GameLoadController.VIEW);
     }
 
     /**
@@ -64,6 +64,6 @@ public class StartScreenController extends AbstractController {
      */
     @FXML
     protected void create(ActionEvent event) throws Exception {
-        show(event, GameLoaderController.VIEW); // TODO create create-game screen
+        show(event, GameLoadController.VIEW); // TODO create create-game screen
     }
 }

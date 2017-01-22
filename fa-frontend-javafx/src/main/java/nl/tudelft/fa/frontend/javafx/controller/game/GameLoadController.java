@@ -25,35 +25,81 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.game;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
+import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
+import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import javax.inject.Inject;
 
 /**
- * The controller for the show game view.
+ * The controller for the view where the team is selected..
  *
  * @author Fabian Mastenbroek
  * @author Christian Slothouber
  * @author Laetitia Molkenboer
  */
-public class GameLoaderController extends AbstractController {
+public class GameLoadController extends AbstractController implements Initializable {
     /**
      * The reference to the location of the view of this controller.
      */
     public static final URL VIEW = Main.class.getResource("view/game/load.fxml");
 
+    /**
+     * The ComboBox where the saves will be displayed and will be chosen to play.
+     */
+    @FXML
+    private ComboBox<Team> saves;
+
+    /**
+     * The current connection with the server.
+     */
+    @Inject
+    private ClientService service;
+
+    /**
+     * This method is called when the back-button is pressed.
+     *
+     * @param event The event
+     * @throws Exception If it fails the method throws an Exception.
+     */
     @FXML
     protected void back(ActionEvent event) throws Exception {
         show(event, StartScreenController.VIEW);
     }
 
+    /**
+     * This method is called when the next-button is pressed.
+     *
+     * @param event The event
+     * @throws Exception If it fails the method throws an Exception.
+     */
     @FXML
     protected void next(ActionEvent event) throws Exception {
-        //client.authorize(credentials).teams().list().toCompletableFuture().get();
         show(event, SetupScreenController.VIEW);
+    }
+
+    /**
+     * This method is called when the screen is loaded.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            List<Team> teams = service.teams().list().toCompletableFuture().get();
+            saves.setItems(FXCollections.observableArrayList(teams));
+        } catch (Exception e) {
+            logger.error("Failed to initialize view", e);
+        }
     }
 }

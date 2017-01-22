@@ -34,7 +34,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.GameLoaderController">
+      fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.GameLoadController">
     <GridPane styleClass="basic" gridLinesVisible="false">
         <stylesheets>
             <URL value="@../../css/style.css" />
@@ -73,7 +73,7 @@
                 GridPane.rowIndex="0" GridPane.valignment="BOTTOM" GridPane.halignment="LEFT" />
 
         <Label text="Choose save" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-        <ComboBox GridPane.columnIndex="5" GridPane.rowIndex="4" />
+        <ComboBox fx:id="saves" GridPane.columnIndex="5" GridPane.rowIndex="4" />
         <Button onAction="#next" text="Next" GridPane.columnIndex="5" GridPane.rowIndex="5" GridPane.halignment="RIGHT" />
 
     </GridPane>
