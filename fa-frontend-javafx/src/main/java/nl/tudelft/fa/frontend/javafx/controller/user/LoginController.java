@@ -23,47 +23,69 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.controller;
+package nl.tudelft.fa.frontend.javafx.controller.user;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.frontend.javafx.Main;
-import nl.tudelft.fa.frontend.javafx.controller.game.GameLoadController;
+import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
+import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
+import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
 
+import javax.inject.Inject;
+
 /**
- * The controller for the start screen.
+ * A controller for the login screen of the game.
  *
  * @author Fabian Mastenbroek
  * @author Christian Slothouber
  * @author Laetitia Molkenboer
  */
-public class StartScreenController extends AbstractController {
+public class LoginController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = Main.class.getResource("view/start.fxml");
+    public static final URL VIEW = Main.class.getResource("view/user/login.fxml");
 
     /**
-     * This method is invoked when the show game button is pressed and the user wants to start a
-     * saved game.
+     * The username field of the view.
+     */
+    @FXML
+    private TextField username;
+
+    /**
+     * The password field of the view.
+     */
+    @FXML
+    private PasswordField password;
+
+    /**
+     * The injected client service.
+     */
+    @Inject
+    private ClientService service;
+
+    /**
+     * This method is invoked when the login game button is pressed and the user wants to start
+     * playing the game.
      *
      * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
-    protected void load(ActionEvent event) throws Exception {
-        show(event, GameLoadController.VIEW);
+    protected void login(ActionEvent event) throws Exception {
+        Credentials credentials = new Credentials(username.getText(), password.getText());
+        logger.info("User logging in with credentials {}", credentials);
+        service.authorize(credentials);
+        show(event, StartScreenController.VIEW);
     }
 
-    /**
-     * This method is invoked when the new game button is pressed and the user wants to start a
-     * new game.
-     *
-     * @param event The {@link ActionEvent} that occurred.
-     */
     @FXML
-    protected void create(ActionEvent event) throws Exception {
-        show(event, GameLoadController.VIEW); // TODO create create-game screen
+    protected void signup(ActionEvent event) throws Exception {
+        show(event, SignupController.VIEW);
     }
 }

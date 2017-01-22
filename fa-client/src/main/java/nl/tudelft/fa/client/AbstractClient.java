@@ -23,47 +23,54 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.controller;
+package nl.tudelft.fa.client;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import nl.tudelft.fa.frontend.javafx.Main;
-import nl.tudelft.fa.frontend.javafx.controller.game.GameLoadController;
-
-import java.net.URL;
+import akka.http.javadsl.model.Uri;
+import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
+import nl.tudelft.fa.client.net.message.NotAuthorizedException;
+import nl.tudelft.fa.client.team.controller.TeamController;
 
 /**
- * The controller for the start screen.
+ * This class represents the contract a client adheres to.
  *
  * @author Fabian Mastenbroek
- * @author Christian Slothouber
- * @author Laetitia Molkenboer
  */
-public class StartScreenController extends AbstractController {
+public abstract class AbstractClient {
     /**
-     * The reference to the location of the view of this controller.
+     * The base uri of the server.
      */
-    public static final URL VIEW = Main.class.getResource("view/start.fxml");
+    private final Uri baseUri;
 
     /**
-     * This method is invoked when the show game button is pressed and the user wants to start a
-     * saved game.
+     * Construct a {@link AbstractClient} instance.
      *
-     * @param event The {@link ActionEvent} that occurred.
+     * @param baseUri The base uri of the server.
      */
-    @FXML
-    protected void load(ActionEvent event) throws Exception {
-        show(event, GameLoadController.VIEW);
+    public AbstractClient(Uri baseUri) {
+        this.baseUri = baseUri;
     }
 
     /**
-     * This method is invoked when the new game button is pressed and the user wants to start a
-     * new game.
+     * Return the {@link LobbyBalancerController} instance of the client.
      *
-     * @param event The {@link ActionEvent} that occurred.
+     * @return A {@link LobbyBalancerController} instance.
      */
-    @FXML
-    protected void create(ActionEvent event) throws Exception {
-        show(event, GameLoadController.VIEW); // TODO create create-game screen
+    public abstract LobbyBalancerController balancer();
+
+    /**
+     * Return the {@link TeamController} for the user that manages the teams of the user.
+     *
+     * @return The team controller for the user.
+     * @throws NotAuthorizedException if the user is not authorized.
+     */
+    public abstract TeamController teams() throws NotAuthorizedException;
+
+    /**
+     * Return the base uri of the server.
+     *
+     * @return The base uri of the server.
+     */
+    public Uri getBaseUri() {
+        return baseUri;
     }
 }

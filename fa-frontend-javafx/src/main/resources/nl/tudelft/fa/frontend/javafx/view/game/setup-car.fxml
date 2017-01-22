@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  The MIT License (MIT)
+
+  Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
+  Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+-->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.CarConfigurationController">
+
+    <GridPane gridLinesVisible="false">
+        <stylesheets>
+            <URL value="@../../css/style.css"/>
+        </stylesheets>
+        <columnConstraints>
+            <ColumnConstraints prefWidth="10"/>
+            <ColumnConstraints prefWidth="244"/>
+            <ColumnConstraints prefWidth="20"/>
+            <ColumnConstraints prefWidth="20"/>
+            <ColumnConstraints prefWidth="30"/>
+            <ColumnConstraints prefWidth="344"/>
+            <ColumnConstraints prefWidth="20"/>
+            <ColumnConstraints prefWidth="344"/>
+        </columnConstraints>
+
+        <rowConstraints>
+            <RowConstraints prefHeight="10"/>
+            <RowConstraints prefHeight="120"/>
+            <RowConstraints prefHeight="120"/>
+            <RowConstraints prefHeight="120"/>
+        </rowConstraints>
+
+        <fx:define>
+            <ToggleGroup fx:id="mechanicRisk"/>
+            <ToggleGroup fx:id="aeroRisk"/>
+            <ToggleGroup fx:id="strategicRisk"/>
+        </fx:define>
+
+        <!-- Mechanic Risk -->
+        <ToggleButton styleClass="lowRisk" toggleGroup="$mechanicRisk" text="L" GridPane.columnIndex="1"
+                      GridPane.rowIndex="1" GridPane.halignment="LEFT"/>
+        <ToggleButton styleClass="mediumRisk" toggleGroup="$mechanicRisk" text="M" GridPane.columnIndex="1"
+                      GridPane.rowIndex="1" GridPane.halignment="CENTER"/>
+        <ToggleButton styleClass="highRisk" toggleGroup="$mechanicRisk" text="H" GridPane.columnIndex="1"
+                      GridPane.rowIndex="1" GridPane.halignment="RIGHT"/>
+
+        <!-- Aerodynamic Risk -->
+        <ToggleButton styleClass="lowRisk" toggleGroup="$aeroRisk" text="L" GridPane.columnIndex="1"
+                      GridPane.rowIndex="2" GridPane.halignment="LEFT"/>
+        <ToggleButton styleClass="mediumRisk" toggleGroup="$aeroRisk" text="M" GridPane.columnIndex="1"
+                      GridPane.rowIndex="2" GridPane.halignment="CENTER"/>
+        <ToggleButton styleClass="highRisk" toggleGroup="$aeroRisk" text="H" GridPane.columnIndex="1"
+                      GridPane.rowIndex="2" GridPane.halignment="RIGHT"/>
+
+        <!-- Strategic Risk -->
+        <ToggleButton styleClass="lowRisk" toggleGroup="$strategicRisk" text="L" GridPane.columnIndex="1"
+                      GridPane.rowIndex="3" GridPane.halignment="LEFT"/>
+        <ToggleButton styleClass="mediumRisk" toggleGroup="$strategicRisk" text="M" GridPane.columnIndex="1"
+                      GridPane.rowIndex="3" GridPane.halignment="CENTER"/>
+        <ToggleButton styleClass="highRisk" toggleGroup="$strategicRisk" text="H" GridPane.columnIndex="1"
+                      GridPane.rowIndex="3" GridPane.halignment="RIGHT"/>
+
+
+        <ComboBox fx:id="mechanic" promptText="Mechanic" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+        <ComboBox fx:id="aerodynamicist" promptText="Aerodynamicist" GridPane.columnIndex="5" GridPane.rowIndex="2"/>
+        <ComboBox fx:id="strategist" promptText="Strategist" GridPane.columnIndex="5" GridPane.rowIndex="3"/>
+
+        <ComboBox fx:id="driver" promptText="Driver" GridPane.columnIndex="7" GridPane.rowIndex="1"/>
+        <ComboBox fx:id="engine" promptText="Engine" GridPane.columnIndex="7" GridPane.rowIndex="2"/>
+        <ComboBox fx:id="tire" promptText="Tire type" GridPane.columnIndex="7" GridPane.rowIndex="3"/>
+    </GridPane>
+</VBox>
+

@@ -23,47 +23,57 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.controller;
+package nl.tudelft.fa.frontend.javafx.controller.game;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import nl.tudelft.fa.frontend.javafx.Main;
-import nl.tudelft.fa.frontend.javafx.controller.game.GameLoadController;
+import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
+import nl.tudelft.fa.frontend.javafx.controller.StoreController;
+import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
 
+import javax.inject.Inject;
+
 /**
- * The controller for the start screen.
+ * The controller for the setup screen.
  *
  * @author Fabian Mastenbroek
  * @author Christian Slothouber
  * @author Laetitia Molkenboer
  */
-public class StartScreenController extends AbstractController {
+public class SetupScreenController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = Main.class.getResource("view/start.fxml");
+    public static final URL VIEW = Main.class.getResource("view/game/setup.fxml");
 
     /**
-     * This method is invoked when the show game button is pressed and the user wants to start a
-     * saved game.
-     *
-     * @param event The {@link ActionEvent} that occurred.
+     * The {@link ClientService} that provides the connection with the server.
+     */
+    @Inject
+    private ClientService client;
+
+    /**
+     * The controller for the first car configuration.
      */
     @FXML
-    protected void load(ActionEvent event) throws Exception {
-        show(event, GameLoadController.VIEW);
+    private CarConfigurationController firstController;
+
+    /**
+     * The controller for the second car configuration.
+     */
+    @FXML
+    private CarConfigurationController secondController;
+
+    @FXML
+    protected void store(ActionEvent event) throws Exception {
+        show(event, StoreController.VIEW);
     }
 
-    /**
-     * This method is invoked when the new game button is pressed and the user wants to start a
-     * new game.
-     *
-     * @param event The {@link ActionEvent} that occurred.
-     */
     @FXML
-    protected void create(ActionEvent event) throws Exception {
-        show(event, GameLoadController.VIEW); // TODO create create-game screen
+    protected void next(ActionEvent event) throws Exception {
+        show(event, GameScreenController.VIEW);
     }
 }

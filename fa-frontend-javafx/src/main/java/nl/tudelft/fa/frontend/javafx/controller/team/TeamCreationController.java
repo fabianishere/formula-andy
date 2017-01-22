@@ -22,20 +22,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
+package nl.tudelft.fa.frontend.javafx.controller.team;
 
-repositories {
-    mavenCentral()
-}
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
+import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
+import nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController;
 
-dependencies {
-    compile project(':fa-client')
-    compile 'org.slf4j:slf4j-api:1.7.22'
-    compile 'org.slf4j:slf4j-jdk14:1.7.22'
-    compile 'com.gluonhq:ignite-guice:1.0.0'
+import java.net.URL;
 
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+/**
+ * The controller for the team creation screen.
+ *
+ * @author Laetitia Molkenboer
+ * @author Fabian Mastenbroek
+ */
+public class TeamCreationController extends AbstractController {
+    /**
+     * The reference to the location of the view of this controller.
+     */
+    public static final URL VIEW = Main.class.getResource("view/team/create.fxml");
+
+    /**
+     * This method is invoked when the signup game button is pressed and the user has created a new
+     * account.
+     *
+     * @param event The {@link ActionEvent} that occurred.
+     */
+    @FXML
+    protected void next(ActionEvent event) throws Exception {
+        show(event, SetupScreenController.VIEW);
+    }
+
+    @FXML
+    protected void back(ActionEvent event) throws Exception {
+        show(event, StartScreenController.VIEW);
+    }
 }

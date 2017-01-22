@@ -27,12 +27,17 @@ package nl.tudelft.fa.frontend.javafx.inject;
 
 import com.google.inject.AbstractModule;
 
+import akka.http.javadsl.model.Uri;
+import nl.tudelft.fa.frontend.javafx.service.ClientService;
+
 /**
  * Guice module for the user interface.
  *
  * @author Fabian Mastenbroek
  */
-public class UIModule extends AbstractModule {
+public class ClientModule extends AbstractModule {
     @Override
-    protected void configure() {}
+    protected void configure() {
+        bind(ClientService.class).toInstance(new ClientService(Uri.create("http://localhost:8080")));
+    }
 }

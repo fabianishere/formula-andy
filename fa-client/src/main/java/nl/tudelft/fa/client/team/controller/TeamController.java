@@ -80,7 +80,7 @@ public class TeamController {
      */
     public CompletionStage<List<Team>> list() {
         return client.http().singleRequest(HttpRequest.create()
-                .withUri(client.baseUri().addPathSegment("teams"))
+                .withUri(client.getBaseUri().addPathSegment("teams"))
                 .withMethod(HttpMethods.GET)
                 .addHeader(Authorization.basic(credentials.getUsername(),
                     credentials.getPassword())), client.materializer())

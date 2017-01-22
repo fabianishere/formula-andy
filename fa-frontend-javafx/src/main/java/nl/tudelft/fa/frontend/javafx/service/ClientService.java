@@ -25,22 +25,53 @@
 
 package nl.tudelft.fa.frontend.javafx.service;
 
-import akka.actor.ActorSystem;
 import akka.http.javadsl.model.Uri;
+import nl.tudelft.fa.client.AbstractClient;
+import nl.tudelft.fa.client.AnonymousClient;
 import nl.tudelft.fa.client.Client;
+import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
+import nl.tudelft.fa.client.net.message.NotAuthorizedException;
+import nl.tudelft.fa.client.team.controller.TeamController;
 
 /**
  * This service provides the {@link Client} instance for the controllers.
  *
  * @author Fabian Mastenbroek
  */
-public class ClientService {
+public class ClientService extends AbstractClient {
     /**
-     * Return the {@link Client} instance of the service.
-     *
-     * @return The {@link Client} instance of the service.
+     * The underlying {@link Client} instance to do the operations.
      */
-    public Client getClient() {
-        return new Client(ActorSystem.create(), Uri.create("http://localhost:8080"));
+    private AbstractClient client;
+
+    /**
+     * Construct a {@link ClientService} instance.
+     *
+     * @param baseUri The base uri of the server.
+     */
+    public ClientService(Uri baseUri) {
+        super(baseUri);
+        client = AnonymousClient.create(baseUri);
+    }
+
+    /**
+     * Authorize the user with the given credentials.
+     *
+     * @param credentials The credentials to authorize with.
+     */
+    public void authorize(Credentials credentials) {
+        client = Client.create(getBaseUri(), credentials);
+        // TODO throw on invalid credentials
+    }
+
+    @Override
+    public LobbyBalancerController balancer() {
+        return client.balancer();
+    }
+
+    @Override
+    public TeamController teams() throws NotAuthorizedException {
+        return client.teams();
     }
 }

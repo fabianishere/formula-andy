@@ -92,7 +92,8 @@ public class LobbyControllerTest {
     public void setUp() throws Exception {
         final RestService app = new RestService(system, authenticator, balancer, manager);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = app.createRoute().flow(system, materializer);
-        client = new Client(new HttpMock(routeFlow), materializer, Uri.create("http://localhost:8080"));
+        credentials = new nl.tudelft.fa.client.auth.Credentials("fabianishere", "test");
+        client = new Client(new HttpMock(routeFlow), materializer, Uri.create("http://localhost:8080"), credentials);
         lobby = client.balancer()
             .lobbies()
             .thenApply(controllers -> controllers.iterator().next())
@@ -102,8 +103,6 @@ public class LobbyControllerTest {
             .controller(lobby.getId())
             .toCompletableFuture()
             .get();
-
-        credentials = new nl.tudelft.fa.client.auth.Credentials("fabianishere", "test");
     }
 
     @AfterClass
@@ -119,13 +118,13 @@ public class LobbyControllerTest {
 
     public void feed() throws Exception {
         // TODO mock WebSockets
-        client = new Client(Http.get(system), materializer, Uri.create("http://localhost:8080"));
+        client = new Client(Http.get(system), materializer, Uri.create("http://localhost:8080"), credentials);
         controller = client.balancer()
             .find()
             .toCompletableFuture()
             .get();
 
-        Team team = client.authorize(credentials).teams().list().toCompletableFuture().get().get(0);
+        Team team = client.teams().list().toCompletableFuture().get().get(0);
         TeamConfigurationSubmission submission = new TeamConfigurationSubmission(team.getOwner(), new HashSet<CarConfiguration>() {{
         }});
         final Source<LobbyInboundMessage, Cancellable> source = Source.tick(FiniteDuration.Zero(),
