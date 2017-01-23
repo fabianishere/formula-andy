@@ -61,7 +61,7 @@
             <RowConstraints prefHeight="100" />
             <RowConstraints prefHeight="350" />
             <RowConstraints prefHeight="100" />
-            <RowConstraints prefHeight="100" />
+            <RowConstraints prefHeight="140" />
             <RowConstraints prefHeight="100" />
             <RowConstraints prefHeight="95" />
         </rowConstraints>
