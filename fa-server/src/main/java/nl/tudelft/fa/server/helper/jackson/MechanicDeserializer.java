@@ -27,10 +27,13 @@ package nl.tudelft.fa.server.helper.jackson;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import nl.tudelft.fa.core.team.Mechanic;
+import nl.tudelft.fa.core.team.inventory.Car;
 
 import java.io.IOException;
+import java.util.UUID;
 import javax.persistence.EntityManager;
 
 /**
@@ -64,6 +67,7 @@ public class MechanicDeserializer extends StdDeserializer<Mechanic> {
      */
     @Override
     public Mechanic deserialize(JsonParser parser, DeserializationContext ctx) throws IOException {
-        return entityManager.find(Mechanic.class, parser.getValueAsString());
+        JsonNode node = parser.getCodec().readTree(parser);
+        return entityManager.find(Mechanic.class, UUID.fromString(node.get("id").asText()));
     }
 }

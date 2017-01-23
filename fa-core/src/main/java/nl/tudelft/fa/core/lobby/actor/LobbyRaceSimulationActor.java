@@ -32,6 +32,7 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
 import nl.tudelft.fa.core.lobby.message.CarParametersSubmission;
+import nl.tudelft.fa.core.lobby.message.RaceSimulationStarted;
 import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmitted;
 import nl.tudelft.fa.core.race.*;
@@ -46,6 +47,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * The {@link LobbyRaceSimulationActor} class is in charge of running the {@link RaceSimulator}.
@@ -116,8 +118,12 @@ public class LobbyRaceSimulationActor extends AbstractActor {
             FiniteDuration.create(1, TimeUnit.SECONDS), self(), "tick",
             context().dispatcher(), self());
 
+        // tell the bus the simulation is going to start
+        bus.tell(new RaceSimulationStarted(cars.values().stream()
+            .map(CarSimulator::getConfiguration).collect(Collectors.toSet())), self());
+
         // setup the car simulator
-        final Iterator<Map<Car, CarSimulationResult>> simulator = simulator().iterator();
+        final Iterator<RaceSimulationResult> simulator = simulator().iterator();
 
         return ReceiveBuilder
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),

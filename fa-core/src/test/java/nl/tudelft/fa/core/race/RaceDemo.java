@@ -76,12 +76,12 @@ public class RaceDemo {
         setUpCarSimulators();
 
         rs = new RaceSimulator(simulators.values(), gp);
-        final Iterator<Map<Car, CarSimulationResult>> iterator = rs.iterator();
+        final Iterator<RaceSimulationResult> iterator = rs.iterator();
 
         boolean racing = true;
         int cycles = 0;
         while(racing) {
-            results = iterator.next();
+            results = iterator.next().getCars();
             racing = false;
             for (CarSimulationResult result : results.values()) {
                 if (!result.hasCrashed()) {

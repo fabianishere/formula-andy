@@ -142,7 +142,6 @@ public class CarSimulatorTest {
         int temp = 0;
         Random random = new Random(1);
         setUp();
-        cs.getParameters().increaseTraveledDistance(1000);
         for (int i = 0; i < testAmount; i++) {
             if (cs.hasCrashed(true, cs.isNearby(results.get(car), results, 50), random)) {
                 temp++;
@@ -157,7 +156,6 @@ public class CarSimulatorTest {
         int temp = 0;
         Random random = new Random(2);
         setUp();
-        cs.getParameters().increaseTraveledDistance(1000);
         for (int i = 0; i < testAmount; i++) {
             if (cs.hasCrashed(false, cs.isNearby(results.get(car), results, 50), random)) {
                 temp++;

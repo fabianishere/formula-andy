@@ -27,11 +27,13 @@ package nl.tudelft.fa.server.helper.jackson;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Engine;
 
 import java.io.IOException;
+import java.util.UUID;
 import javax.persistence.EntityManager;
 
 /**
@@ -65,6 +67,7 @@ public class EngineDeserializer extends StdDeserializer<Engine> {
      */
     @Override
     public Engine deserialize(JsonParser parser, DeserializationContext ctx) throws IOException {
-        return entityManager.find(Engine.class, parser.getValueAsString());
+        JsonNode node = parser.getCodec().readTree(parser);
+        return entityManager.find(Engine.class, UUID.fromString(node.get("id").asText()));
     }
 }
