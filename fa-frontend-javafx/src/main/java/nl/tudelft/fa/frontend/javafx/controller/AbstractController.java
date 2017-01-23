@@ -68,7 +68,8 @@ public abstract class AbstractController {
         loader.setRoot(null);
         loader.setController(controller);
 
-        stage.setScene(new Scene(loader.load()));
+        // replace root of scene so the window does not resize
+        stage.getScene().setRoot(loader.load());
     }
 
     /**
