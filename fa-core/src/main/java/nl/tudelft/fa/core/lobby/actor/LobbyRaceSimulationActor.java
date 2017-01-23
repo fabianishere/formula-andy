@@ -38,6 +38,7 @@ import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmitted;
 import nl.tudelft.fa.core.race.*;
 import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.manager.ComputerControllerManager;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.concurrent.duration.FiniteDuration;
@@ -113,11 +114,11 @@ public class LobbyRaceSimulationActor extends AbstractActor {
      */
     private PartialFunction<Object, BoxedUnit> running() {
         log.info("Starting race simulation");
+        FiniteDuration interval =  FiniteDuration.create(1, TimeUnit.SECONDS);
 
         // schedule the tick
-        Cancellable tick = context().system().scheduler().schedule(FiniteDuration.Zero(),
-            FiniteDuration.create(1, TimeUnit.SECONDS), self(), "tick",
-            context().dispatcher(), self());
+        Cancellable tick = context().system().scheduler().schedule(interval, interval, self(),
+            "tick", context().dispatcher(), self());
 
         // tell the bus the simulation is going to start
         bus.tell(new RaceSimulationStarted(cars.values().stream()

@@ -184,6 +184,13 @@ public class SetupScreenController extends AbstractController implements Initial
                         log.info("Lobby is going in preparation!");
                         status.setText(msg.getStatus().toString());
                     })
+                .match(LobbyStatusChanged.class,
+                    msg -> msg.getStatus().equals(LobbyStatus.PROGRESSION),
+                    msg -> {
+                        log.info("Race is starting in lobby!");
+                        show(GameScreenController.VIEW);
+                        context().stop(self());
+                    })
                 .build();
         }
     }

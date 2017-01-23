@@ -25,10 +25,31 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.game;
 
+import akka.actor.AbstractActor;
+import akka.actor.ActorRef;
+import akka.actor.Props;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
+import akka.japi.pf.ReceiveBuilder;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TableView;
+import nl.tudelft.fa.client.lobby.message.LobbyEvent;
+import nl.tudelft.fa.client.lobby.message.LobbyStatusChanged;
+import nl.tudelft.fa.client.race.CarSimulationResult;
+import nl.tudelft.fa.client.race.RaceSimulationResult;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
+import nl.tudelft.fa.frontend.javafx.service.ClientService;
+import scala.PartialFunction;
+import scala.runtime.BoxedUnit;
 
+import javax.inject.Inject;
 import java.net.URL;
+import java.util.Comparator;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * The controller for the game screen.
@@ -36,9 +57,64 @@ import java.net.URL;
  * @author Christian Slothouber
  * @author Fabian Mastenbroek
  */
-public class GameScreenController extends AbstractController {
+public class GameScreenController extends AbstractController implements Initializable {
     /**
      * The reference to the location of the view of this controller.
      */
     public static final URL VIEW = Main.class.getResource("view/game/game.fxml");
+
+    /**
+     * The injected client service.
+     */
+    @Inject
+    private ClientService service;
+
+    /**
+     * The table where the results are showed.
+     */
+    @FXML
+    private TableView<CarSimulationResult> table;
+
+    /**
+     * This method is called when the screen is loaded.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ActorRef ref = service.system().actorOf(Props.create(GameActor.class,
+            GameActor::new).withDispatcher("javafx-dispatcher"));
+        service.session().tell(ref, ref);
+    }
+
+    /**
+     * The actor that handles the logic for the setup screen.
+     *
+     * @author Fabian Mastenbroek
+     */
+    public class GameActor extends AbstractActor {
+        /**
+         * The {@link LoggingAdapter} of this class.
+         */
+        private final LoggingAdapter log = Logging.getLogger(context().system(), this);
+
+        /**
+         * This method defines the initial actor behavior, it must return a partial function with
+         * the actor logic.
+         *
+         * @return The initial actor behavior as a partial function.
+         */
+        @Override
+        public PartialFunction<Object, BoxedUnit> receive() {
+            return ReceiveBuilder
+                .match(RaceSimulationResult.class, msg -> {
+                    table.setItems(FXCollections.observableList(msg.getResults().stream().sorted(
+                        Comparator.comparingDouble(CarSimulationResult::getDistanceTraveled))
+                        .collect(Collectors.toList())));
+                })
+                .match(LobbyStatusChanged.class, msg -> {
+                    log.info("Game is over. Going back to setup!");
+                    show(SetupScreenController.VIEW);
+                })
+                .build();
+        }
+    }
 }
