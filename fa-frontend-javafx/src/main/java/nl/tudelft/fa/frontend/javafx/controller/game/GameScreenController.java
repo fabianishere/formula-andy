@@ -107,7 +107,8 @@ public class GameScreenController extends AbstractController implements Initiali
             return ReceiveBuilder
                 .match(RaceSimulationResult.class, msg -> {
                     table.setItems(FXCollections.observableList(msg.getResults().stream().sorted(
-                        Comparator.comparingDouble(CarSimulationResult::getDistanceTraveled))
+                        Comparator.comparingDouble(CarSimulationResult::getDistanceTraveled)
+                            .reversed())
                         .collect(Collectors.toList())));
                 })
                 .match(LobbyStatusChanged.class, msg -> {
