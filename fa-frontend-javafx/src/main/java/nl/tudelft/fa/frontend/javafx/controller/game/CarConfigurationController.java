@@ -140,6 +140,8 @@ public class CarConfigurationController extends AbstractController {
      * @return An integer which represents a particular risk.
      */
     private int getRiskFor(ToggleGroup group) {
+        if (group.getSelectedToggle() == null)
+            return 2;
         switch (group.getSelectedToggle().toString()) {
             case "L":
                 return 1;

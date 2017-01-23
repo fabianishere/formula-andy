@@ -29,6 +29,7 @@
     -fx-font-style: oblique;
     -fx-font-weight: bold;
     -fx-background-image: url("../images/setupscreenbackground.jpg");
+    -fx-background-size: cover, auto;
 }
 
 .button {

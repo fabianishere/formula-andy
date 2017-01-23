@@ -91,9 +91,26 @@ public class SetupScreenController extends AbstractController implements Initial
     @FXML
     private Label status;
 
+    /**
+     * This method is invoked when the store button is pressed.
+     *
+     * @throws Exception if the controller failed to load the store view.
+     */
     @FXML
     protected void store() throws Exception {
         show(StoreController.VIEW);
+    }
+
+    /**
+     * This method is invoked when the submit button is pressed.
+     */
+    @FXML
+    private void submit() {
+        logger.info("Submitting configuration and parameters");
+
+        service.session().tell(getConfiguration(), ActorRef.noSender());
+        service.session().tell(getParameters(firstController), ActorRef.noSender());
+        service.session().tell(getParameters(secondController), ActorRef.noSender());
     }
 
     /**
@@ -123,12 +140,10 @@ public class SetupScreenController extends AbstractController implements Initial
     /**
      * Return the parameters for a car.
      *
-     * @param car The car to get the parameters of.
      * @param controller The controller to use.
      * @return The parameters for a car.
      */
-    public CarParametersSubmission getParameters(Car car,
-                                                 CarConfigurationController controller) {
+    public CarParametersSubmission getParameters(CarConfigurationController controller) {
         return new CarParametersSubmission(null, controller.getConfiguration().getCar(),
             controller.getParameters());
     }

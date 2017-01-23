@@ -47,12 +47,12 @@
         </columnConstraints>
 
         <rowConstraints>
-            <RowConstraints prefHeight="300"/>
-            <RowConstraints prefHeight="120"/>
-            <RowConstraints prefHeight="120"/>
-            <RowConstraints prefHeight="120"/>
-            <RowConstraints prefHeight="120"/>
-            <RowConstraints prefHeight="120"/>
+            <RowConstraints prefHeight="50"/>
+            <RowConstraints prefHeight="150"/>
+            <RowConstraints prefHeight="150"/>
+            <RowConstraints prefHeight="150"/>
+            <RowConstraints prefHeight="150"/>
+            <RowConstraints prefHeight="150"/>
         </rowConstraints>
 
         <fx:define>
