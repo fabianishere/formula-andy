@@ -49,6 +49,15 @@ public class ServerTest {
         final Aerodynamicist aerodynamicist = new Aerodynamicist(UUID.randomUUID(), "Fred", 100, 80);
         final Mechanic mechanic = new Mechanic(UUID.randomUUID(), "Harry", 35, 80);
         final Strategist strategist = new Strategist(UUID.randomUUID(),"Louis", 100, 80);
+
+        final Car car2 = new Car(UUID.randomUUID());
+        final Engine engine2 = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
+        final Tire tire2 = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 7, 1);
+        final Driver driver2 = new Driver(UUID.randomUUID(), "Sonic BOOM", 1000, 80, 90, 70);
+        final Aerodynamicist aerodynamicist2 = new Aerodynamicist(UUID.randomUUID(), "Fred", 100, 80);
+        final Mechanic mechanic2 = new Mechanic(UUID.randomUUID(), "Harry", 35, 80);
+        final Strategist strategist2 = new Strategist(UUID.randomUUID(),"Louis", 100, 80);
+
         inventory.add(car);
         inventory.add(engine);
         inventory.add(tire);
@@ -56,6 +65,15 @@ public class ServerTest {
         staff.add(aerodynamicist);
         staff.add(mechanic);
         staff.add(strategist);
+
+        inventory.add(car2);
+        inventory.add(engine2);
+        inventory.add(tire2);
+        staff.add(driver2);
+        staff.add(aerodynamicist2);
+        staff.add(mechanic2);
+        staff.add(strategist2);
+
         manager.getTransaction().begin();
         manager.persist(user);
         manager.persist(team);
@@ -66,6 +84,14 @@ public class ServerTest {
         manager.persist(car);
         manager.persist(engine);
         manager.persist(tire);
+
+        manager.persist(driver2);
+        manager.persist(aerodynamicist2);
+        manager.persist(mechanic2);
+        manager.persist(strategist2);
+        manager.persist(car2);
+        manager.persist(engine2);
+        manager.persist(tire2);
         manager.getTransaction().commit();
 
         final ActorRef authenticator = system.actorOf(Authenticator.props(manager));
