@@ -27,6 +27,7 @@ package nl.tudelft.fa.core.lobby.actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
+import akka.actor.Cancellable;
 import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
@@ -114,7 +115,7 @@ public class LobbyRaceSimulationActor extends AbstractActor {
         log.info("Starting race simulation");
 
         // schedule the tick
-        context().system().scheduler().schedule(FiniteDuration.Zero(),
+        Cancellable tick = context().system().scheduler().schedule(FiniteDuration.Zero(),
             FiniteDuration.create(1, TimeUnit.SECONDS), self(), "tick",
             context().dispatcher(), self());
 
@@ -128,7 +129,16 @@ public class LobbyRaceSimulationActor extends AbstractActor {
         return ReceiveBuilder
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),
                 msg.getParameters()))
-            .matchEquals("tick", msg -> bus.tell(simulator.next(), self()))
+            .matchEquals("tick", msg -> {
+                if (simulator.hasNext()) {
+                    bus.tell(simulator.next(), self());
+                    return;
+                }
+
+                log.info("Racing simulation has been finished");
+                tick.cancel();
+                context().stop(self());
+            })
             .build();
     }
 
@@ -149,7 +159,9 @@ public class LobbyRaceSimulationActor extends AbstractActor {
      */
     private void submitConfiguration(User user, Set<CarConfiguration> cars) {
         cars.forEach(conf -> {
-            this.cars.put(conf.getCar(), new CarSimulator(conf, null));
+            if (conf.getCar() != null) {
+                this.cars.put(conf.getCar(), new CarSimulator(conf, null));
+            }
         });
         bus.tell(new TeamConfigurationSubmitted(user, cars), sender());
         log.info("User {} has submitted its team configuration", user);
@@ -162,10 +174,12 @@ public class LobbyRaceSimulationActor extends AbstractActor {
      * @param parameters The parameters to use.
      */
     private void submitParameters(Car car, CarParameters parameters) {
-        CarSimulator simulator = cars.getOrDefault(car, new CarSimulator(null, null));
-        simulator.setParameters(parameters);
-        cars.put(car, simulator);
-        log.info("Parameters submitted for car {}", car);
+        if (car != null) {
+            CarSimulator simulator = cars.getOrDefault(car, new CarSimulator(null, null));
+            simulator.setParameters(parameters);
+            cars.put(car, simulator);
+            log.info("Parameters submitted for car {}", car);
+        }
     }
 
     /**

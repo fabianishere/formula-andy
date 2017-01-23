@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.core.race;
 
+import nl.tudelft.fa.core.team.inventory.Car;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -101,13 +103,14 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
      * @return A map containing the result of the first cycle.
      */
     public RaceSimulationResult start() {
-        return new RaceSimulationResult(simulators.stream()
+        return createResults(simulators.stream()
             .collect(Collectors.toMap(cs -> cs.getConfiguration().getCar(), cs -> {
                 if (cs.hasCrashed(raining, true, random)) {
-                    return new CarSimulationResult(0, true);
+                    return new CarSimulationResult(cs.getConfiguration().getCar(), 0, true);
                 }
-                return new CarSimulationResult(cs.calculateDelta(random), false);
-            })), false);
+                return new CarSimulationResult(cs.getConfiguration().getCar(),
+                    cs.calculateDelta(random), false);
+            })));
     }
 
     /**
@@ -117,7 +120,7 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
      * @return A map containing the result of the next cycle.
      */
     public RaceSimulationResult next(RaceSimulationResult previous) {
-        return new RaceSimulationResult(simulators.stream()
+        return createResults(simulators.stream()
             .collect(Collectors.toMap(cs -> cs.getConfiguration().getCar(), cs -> {
                 final CarSimulationResult result = previous.getCars()
                     .get(cs.getConfiguration().getCar());
@@ -125,7 +128,24 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
                     return result.crash();
                 }
                 return result.increaseDistance(cs.calculateDelta(random));
-            })), false);
+            })));
+    }
+
+
+    /**
+     * Determine whether the race is finished by the given results and return
+     * a {@link RaceSimulationResult} instance.
+     *
+     * @param results The results to wrap.
+     * @return The results of the simulation.
+     */
+    private RaceSimulationResult createResults(Map<Car, CarSimulationResult> results) {
+        int distance = grandPrix.getLaps() * grandPrix.getCircuit().getLength();
+        boolean finished = results.values().stream()
+            .map(result -> result.hasCrashed() || result.getDistanceTraveled() > distance)
+            .reduce(Boolean::logicalAnd)
+            .orElse(true);
+        return new RaceSimulationResult(results, finished);
     }
 
     /**
@@ -150,7 +170,7 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
              */
             @Override
             public boolean hasNext() {
-                return !previous.isFinished();
+                return previous == null || !previous.isFinished();
             }
 
             /**

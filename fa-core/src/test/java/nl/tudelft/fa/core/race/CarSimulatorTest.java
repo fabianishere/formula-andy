@@ -72,8 +72,9 @@ public class CarSimulatorTest {
         cs2 = new CarSimulator(configuration2, parameters2);
 
         results = new HashMap<>();
-        results.put(car, new CarSimulationResult(0, false));
-        results.put(new Car(UUID.randomUUID()), new CarSimulationResult(0, false));
+        results.put(car, new CarSimulationResult(car, 0, false));
+        Car car2 = new Car(UUID.randomUUID());
+        results.put(car2, new CarSimulationResult(car2, 0, false));
     }
 
     @Test
@@ -94,8 +95,9 @@ public class CarSimulatorTest {
     @Test
     public void TestCloseDriver2() {
         results = new HashMap<>();
-        results.put(car, new CarSimulationResult(0, false));
-        results.put(new Car(UUID.randomUUID()), new CarSimulationResult(200, false));
+        results.put(car, new CarSimulationResult(car, 0, false));
+        Car car2 = new Car(UUID.randomUUID());
+        results.put(car2, new CarSimulationResult(car2, 200, false));
 
         assertFalse(cs.isNearby(results.get(car), results, 50));
     }

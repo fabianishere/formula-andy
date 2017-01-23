@@ -1,25 +1,29 @@
 package nl.tudelft.fa.core.race;
 
 import nl.tudelft.fa.core.race.CarSimulationResult;
+import nl.tudelft.fa.core.team.inventory.Car;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 public class CarSimulationResultTest {
+    private Car car;
     private double distance;
     private boolean crashed;
     private CarSimulationResult result;
 
     @Before
     public void setUp() {
+        car = new Car(UUID.randomUUID());
         distance = 1.0;
         crashed = false;
-        result = new CarSimulationResult(distance, crashed);
+        result = new CarSimulationResult(car, distance, crashed);
     }
 
     @Test
@@ -67,26 +71,26 @@ public class CarSimulationResultTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new CarSimulationResult(distance, crashed), result);
+        assertEquals(new CarSimulationResult(car, distance, crashed), result);
     }
 
     @Test
     public void equalsDifferentDistance() {
-        assertNotEquals(new CarSimulationResult(distance + 4.0, crashed), result);
+        assertNotEquals(new CarSimulationResult(car, distance + 4.0, crashed), result);
     }
 
     @Test
     public void equalsDifferentCrashed() {
-        assertNotEquals(new CarSimulationResult(distance, !crashed), result);
+        assertNotEquals(new CarSimulationResult(car, distance, !crashed), result);
     }
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(distance, crashed), result.hashCode());
+        assertEquals(Objects.hash(distance, crashed, car), result.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("CarSimulationResult(distanceTraveled=%f, crashed=%s)", distance, crashed), result.toString());
+        assertEquals(String.format("CarSimulationResult(car=%s, distanceTraveled=%f, crashed=%s)", car, distance, crashed), result.toString());
     }
 }

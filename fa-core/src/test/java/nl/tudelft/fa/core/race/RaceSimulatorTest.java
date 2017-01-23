@@ -63,7 +63,7 @@ public class RaceSimulatorTest {
     @Test
     public void getNextCycle() {
         Map<Car, CarSimulationResult> results = new HashMap<>();
-        results.put(car, new CarSimulationResult(0, true));
+        results.put(car, new CarSimulationResult(car,0, true));
         results = rs.next(new RaceSimulationResult(results, false)).getCars();
         assertEquals(0, results.get(car).getDistanceTraveled(), 0.01);
     }
@@ -71,7 +71,7 @@ public class RaceSimulatorTest {
     @Test
     public void getNextCycle2() {
         Map<Car, CarSimulationResult> results = new HashMap<>();
-        results.put(car, new CarSimulationResult(0, false));
+        results.put(car, new CarSimulationResult(car, 0, false));
         results = rs.next(new RaceSimulationResult(results, false)).getCars();
         assertNotEquals(0, results.get(car).getDistanceTraveled(), 0.01);
     }
@@ -79,7 +79,7 @@ public class RaceSimulatorTest {
     @Test
     public void getNextCycle3() {
         Map<Car, CarSimulationResult> results = new HashMap<>();
-        results.put(car, new CarSimulationResult(0, false));
+        results.put(car, new CarSimulationResult(car, 0, false));
         results = rs.next(new RaceSimulationResult(results, false)).getCars();
 
         if (results.get(car).hasCrashed()) {
@@ -93,7 +93,7 @@ public class RaceSimulatorTest {
     public void getNextCycle4() {
         double distance = 0.0;
         Map<Car, CarSimulationResult> results = new HashMap<>();
-        results.put(car, new CarSimulationResult(0, false));
+        results.put(car, new CarSimulationResult(car, 0, false));
 
         while(!results.get(car).hasCrashed()) {
             distance = results.get(car).getDistanceTraveled();
