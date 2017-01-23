@@ -37,31 +37,6 @@ public class CarParametersTest {
     }
 
     @Test
-    public void increaseDistance() {
-        double testDistance = 200.456;
-        double tempDistance = parameters.getTraveledDistance();
-        parameters.increaseTraveledDistance(testDistance);
-        assertEquals(parameters.getTraveledDistance() - tempDistance, testDistance, delta);
-    }
-
-    @Test
-    public void getTraveledDistance() {
-        CarParameters tempParameters = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
-        assertEquals(0, tempParameters.getTraveledDistance(), delta);
-    }
-
-    @Test
-    public void getCrashed() {
-        assertFalse(parameters.getCrashed());
-    }
-
-    @Test
-    public void setCrashed() {
-        parameters.setCrashed(true);
-        assertTrue(parameters.getCrashed());
-    }
-
-    @Test
     public void getMechanicalRisk() throws Exception {
         assertEquals(mechanicalRisk, parameters.getMechanicalRisk());
     }
@@ -73,7 +48,7 @@ public class CarParametersTest {
 
     @Test
     public void getStrategistRisk() throws Exception {
-        assertEquals(strategicRisk, parameters.getStrategistRisk());
+        assertEquals(strategicRisk, parameters.getStrategicRisk());
     }
 
     @Test

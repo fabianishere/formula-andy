@@ -120,7 +120,7 @@ public class LobbyController {
      */
     public CompletionStage<Lobby> get() {
         final HttpRequest request = HttpRequest.create()
-            .withUri(client.baseUri().addPathSegment("lobbies").addPathSegment(id))
+            .withUri(client.getBaseUri().addPathSegment("lobbies").addPathSegment(id))
             .withMethod(HttpMethods.GET);
         return client.http().singleRequest(request, client.materializer())
             .thenCompose(res ->
@@ -136,7 +136,7 @@ public class LobbyController {
      * @return The {@link WebSocketRequest} instance to retrieve the lobby's feed.
      */
     protected WebSocketRequest feedRequest() {
-        final Uri uri = client.baseUri()
+        final Uri uri = client.getBaseUri()
             .scheme("ws")
             .addPathSegment("lobbies")
             .addPathSegment(id)

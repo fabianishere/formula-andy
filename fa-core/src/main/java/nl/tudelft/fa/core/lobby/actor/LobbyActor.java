@@ -184,10 +184,13 @@ public class LobbyActor extends AbstractActor {
      * @return The progressing actor behavior as a partial function.
      */
     private PartialFunction<Object, BoxedUnit> progression() {
+        context().watch(simulator);
         simulator.tell("start", self()); // start the simulation
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform(LobbyStatus.PROGRESSION))
             .match(LobbyStatusChanged.class, this::transitToIntermission)
+            .match(Terminated.class, msg -> self().tell(
+                new LobbyStatusChanged(LobbyStatus.PROGRESSION, LobbyStatus.INTERMISSION), self()))
             .build()
             .orElse(base());
     }
@@ -239,7 +242,16 @@ public class LobbyActor extends AbstractActor {
      */
     private void leave(User user) {
         ActorRef ref = users.remove(user);
+        leave(user, ref);
+    }
 
+    /**
+     * Leave the lobby.
+     *
+     * @param user The user that wants to leave the lobby.
+     * @param ref The reference to the handler of the user.
+     */
+    private void leave(User user, ActorRef ref) {
         // Determine whether the user was in the lobby
         if (ref == null) {
             log.warning("The user {} tried to leave the lobby, but is not in the lobby",
@@ -266,11 +278,14 @@ public class LobbyActor extends AbstractActor {
      * @param handler The handler that has been terminated.
      */
     private void handleTermination(ActorRef handler) {
-        users.entrySet()
-            .stream()
-            .filter(entry -> handler.equals(entry.getValue()))
-            .iterator()
-            .forEachRemaining(entry -> leave(entry.getKey()));
+        users.entrySet().removeIf(entry -> {
+            if (entry.getValue().equals(handler)) {
+                leave(entry.getKey(), entry.getValue());
+                return true;
+            }
+
+            return false;
+        });
     }
 
     /**

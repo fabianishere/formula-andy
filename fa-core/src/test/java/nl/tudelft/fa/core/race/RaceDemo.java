@@ -76,12 +76,12 @@ public class RaceDemo {
         setUpCarSimulators();
 
         rs = new RaceSimulator(simulators.values(), gp);
-        final Iterator<Map<Car, CarSimulationResult>> iterator = rs.iterator();
+        final Iterator<RaceSimulationResult> iterator = rs.iterator();
 
         boolean racing = true;
         int cycles = 0;
         while(racing) {
-            results = iterator.next();
+            results = iterator.next().getCars();
             racing = false;
             for (CarSimulationResult result : results.values()) {
                 if (!result.hasCrashed()) {
@@ -127,15 +127,15 @@ public class RaceDemo {
 
         car = new Car(UUID.randomUUID());
 
-        driver1 = new Driver(UUID.randomUUID(), null, "Racer 1", 3, 80, 90, 70);
-        driver2 = new Driver(UUID.randomUUID(), null, "Racer 2", 3, 80, 90, 70);
-        driver3 = new Driver(UUID.randomUUID(), null, "Racer 3", 3, 80, 90, 70);
-        driver4 = new Driver(UUID.randomUUID(), null, "Racer 4", 3, 80, 90, 70);
-        driver5 = new Driver(UUID.randomUUID(), null, "Racer 5", 3, 80, 90, 70);
-        driver6 = new Driver(UUID.randomUUID(), null, "Racer 6", 3, 80, 90, 70);
-        driver7 = new Driver(UUID.randomUUID(), null, "Racer 7", 3, 80, 90, 70);
-        driver8 = new Driver(UUID.randomUUID(), null, "Sonic", 3, 100, 100, 100);
-        driver9 = new Driver(UUID.randomUUID(), null, "Max", 3, 90, 90, 90);
+        driver1 = new Driver(UUID.randomUUID(), "Racer 1", 3, 80, 90, 70);
+        driver2 = new Driver(UUID.randomUUID(), "Racer 2", 3, 80, 90, 70);
+        driver3 = new Driver(UUID.randomUUID(), "Racer 3", 3, 80, 90, 70);
+        driver4 = new Driver(UUID.randomUUID(), "Racer 4", 3, 80, 90, 70);
+        driver5 = new Driver(UUID.randomUUID(), "Racer 5", 3, 80, 90, 70);
+        driver6 = new Driver(UUID.randomUUID(), "Racer 6", 3, 80, 90, 70);
+        driver7 = new Driver(UUID.randomUUID(), "Racer 7", 3, 80, 90, 70);
+        driver8 = new Driver(UUID.randomUUID(), "Sonic", 3, 100, 100, 100);
+        driver9 = new Driver(UUID.randomUUID(), "Max", 3, 90, 90, 90);
 
         engine = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
         mechanic = new Mechanic(UUID.randomUUID(), "Harry", 35, 80);

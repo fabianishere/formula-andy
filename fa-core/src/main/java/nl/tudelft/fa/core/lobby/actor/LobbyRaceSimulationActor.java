@@ -27,30 +27,27 @@ package nl.tudelft.fa.core.lobby.actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
+import akka.actor.Cancellable;
 import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
-import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmitted;
-import nl.tudelft.fa.core.race.CarSimulationResult;
-import nl.tudelft.fa.core.race.CarSimulator;
-import nl.tudelft.fa.core.race.RaceSimulator;
 import nl.tudelft.fa.core.lobby.message.CarParametersSubmission;
+import nl.tudelft.fa.core.lobby.message.RaceSimulationStarted;
 import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmission;
-import nl.tudelft.fa.core.race.CarConfiguration;
-import nl.tudelft.fa.core.race.CarParameters;
-import nl.tudelft.fa.core.race.GrandPrix;
+import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmitted;
+import nl.tudelft.fa.core.race.*;
 import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.manager.ComputerControllerManager;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.concurrent.duration.FiniteDuration;
 import scala.runtime.BoxedUnit;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The {@link LobbyRaceSimulationActor} class is in charge of running the {@link RaceSimulator}.
@@ -115,29 +112,51 @@ public class LobbyRaceSimulationActor extends AbstractActor {
      */
     private PartialFunction<Object, BoxedUnit> running() {
         log.info("Starting race simulation");
+        FiniteDuration interval =  FiniteDuration.create(1, TimeUnit.SECONDS);
 
         // schedule the tick
-        context().system().scheduler().schedule(FiniteDuration.Zero(),
-            FiniteDuration.create(1, TimeUnit.SECONDS), self(), "tick",
-            context().dispatcher(), self());
+        Cancellable tick = context().system().scheduler().schedule(interval, interval, self(),
+            "tick", context().dispatcher(), self());
+
+        // tell the bus the simulation is going to start
+        bus.tell(new RaceSimulationStarted(cars.values().stream()
+            .map(CarSimulator::getConfiguration).collect(Collectors.toSet())), self());
+
+        // setup the simulator
+        int amount = Math.max(22 - cars.size(), 0);
+        ComputerControllerManager manager = new ComputerControllerManager();
+        List<CarSimulator> bots = Stream
+            .generate(manager::createConfiguration)
+            .map(conf -> new CarSimulator(conf, null))
+            .limit(amount)
+            .collect(Collectors.toList());
+
+        List<CarSimulator> simulators = new ArrayList<>();
+        simulators.addAll(cars.values());
+        simulators.addAll(bots);
+
+        RaceSimulator simulator = new RaceSimulator(simulators, grandPrix);
+
+        // submit the parameters for the bots
+        bots.forEach(bot -> bot.setParameters(manager.createParameters(simulator.isRaining())));
 
         // setup the car simulator
-        final Iterator<Map<Car, CarSimulationResult>> simulator = simulator().iterator();
+        final Iterator<RaceSimulationResult> results = simulator.iterator();
 
         return ReceiveBuilder
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),
                 msg.getParameters()))
-            .matchEquals("tick", msg -> bus.tell(simulator.next(), self()))
-            .build();
-    }
+            .matchEquals("tick", msg -> {
+                if (results.hasNext()) {
+                    bus.tell(results.next(), self());
+                    return;
+                }
 
-    /**
-     * Create a {@link RaceSimulator} from the given state.
-     *
-     * @return A {@link RaceSimulator} created from the given state.
-     */
-    private RaceSimulator simulator() {
-        return new RaceSimulator(cars.values(), grandPrix);
+                log.info("Racing simulation has been finished");
+                tick.cancel();
+                context().stop(self());
+            })
+            .build();
     }
 
     /**
@@ -148,7 +167,9 @@ public class LobbyRaceSimulationActor extends AbstractActor {
      */
     private void submitConfiguration(User user, Set<CarConfiguration> cars) {
         cars.forEach(conf -> {
-            this.cars.put(conf.getCar(), new CarSimulator(conf, null));
+            if (conf.getCar() != null) {
+                this.cars.put(conf.getCar(), new CarSimulator(conf, null));
+            }
         });
         bus.tell(new TeamConfigurationSubmitted(user, cars), sender());
         log.info("User {} has submitted its team configuration", user);
@@ -161,10 +182,12 @@ public class LobbyRaceSimulationActor extends AbstractActor {
      * @param parameters The parameters to use.
      */
     private void submitParameters(Car car, CarParameters parameters) {
-        CarSimulator simulator = cars.getOrDefault(car, new CarSimulator(null, null));
-        simulator.setParameters(parameters);
-        cars.put(car, simulator);
-        log.info("Parameters submitted for car {}", car);
+        if (car != null) {
+            CarSimulator simulator = cars.getOrDefault(car, new CarSimulator(null, null));
+            simulator.setParameters(parameters);
+            cars.put(car, simulator);
+            log.info("Parameters submitted for car {}", car);
+        }
     }
 
     /**

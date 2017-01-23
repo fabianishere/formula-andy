@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * @author Christian Slothouber
  * @author Fabian Mastenbroek
  */
-public class RaceSimulator implements Iterable<Map<Car, CarSimulationResult>> {
+public class RaceSimulator implements Iterable<RaceSimulationResult> {
     /**
      * The grand prix that is simulated.
      */
@@ -102,14 +102,15 @@ public class RaceSimulator implements Iterable<Map<Car, CarSimulationResult>> {
      *
      * @return A map containing the result of the first cycle.
      */
-    public Map<Car, CarSimulationResult> start() {
-        return simulators.stream()
+    public RaceSimulationResult start() {
+        return createResults(simulators.stream()
             .collect(Collectors.toMap(cs -> cs.getConfiguration().getCar(), cs -> {
                 if (cs.hasCrashed(raining, true, random)) {
-                    return new CarSimulationResult(0, true);
+                    return new CarSimulationResult(cs.getConfiguration().getCar(), 0, true);
                 }
-                return new CarSimulationResult(cs.calculateDelta(random), false);
-            }));
+                return new CarSimulationResult(cs.getConfiguration().getCar(),
+                    cs.calculateDelta(random), false);
+            })));
     }
 
     /**
@@ -118,15 +119,33 @@ public class RaceSimulator implements Iterable<Map<Car, CarSimulationResult>> {
      * @param previous The previous results of the simulation.
      * @return A map containing the result of the next cycle.
      */
-    public Map<Car, CarSimulationResult> next(Map<Car, CarSimulationResult> previous) {
-        return simulators.stream()
+    public RaceSimulationResult next(RaceSimulationResult previous) {
+        return createResults(simulators.stream()
             .collect(Collectors.toMap(cs -> cs.getConfiguration().getCar(), cs -> {
-                final CarSimulationResult result = previous.get(cs.getConfiguration().getCar());
-                if (cs.hasCrashed(raining, cs.isNearby(result, previous, 100), random)) {
+                final CarSimulationResult result = previous.getCars()
+                    .get(cs.getConfiguration().getCar());
+                if (cs.hasCrashed(raining, cs.isNearby(result, previous.getCars(), 100), random)) {
                     return result.crash();
                 }
                 return result.increaseDistance(cs.calculateDelta(random));
-            }));
+            })));
+    }
+
+
+    /**
+     * Determine whether the race is finished by the given results and return
+     * a {@link RaceSimulationResult} instance.
+     *
+     * @param results The results to wrap.
+     * @return The results of the simulation.
+     */
+    private RaceSimulationResult createResults(Map<Car, CarSimulationResult> results) {
+        int distance = grandPrix.getLaps() * grandPrix.getCircuit().getLength();
+        boolean finished = results.values().stream()
+            .map(result -> result.hasCrashed() || result.getDistanceTraveled() > distance)
+            .reduce(Boolean::logicalAnd)
+            .orElse(true);
+        return new RaceSimulationResult(results, finished);
     }
 
     /**
@@ -135,12 +154,12 @@ public class RaceSimulator implements Iterable<Map<Car, CarSimulationResult>> {
      * @return An iterator returning the results of each car per race cycle.
      */
     @Override
-    public Iterator<Map<Car, CarSimulationResult>> iterator() {
-        return new Iterator<Map<Car, CarSimulationResult>>() {
+    public Iterator<RaceSimulationResult> iterator() {
+        return new Iterator<RaceSimulationResult>() {
             /**
              * A map containing the previous simulation results.
              */
-            private Map<Car, CarSimulationResult> previous;
+            private RaceSimulationResult previous;
 
             /**
              * Determine whether the iterator has more elements.
@@ -151,7 +170,7 @@ public class RaceSimulator implements Iterable<Map<Car, CarSimulationResult>> {
              */
             @Override
             public boolean hasNext() {
-                return true;
+                return previous == null || !previous.isFinished();
             }
 
             /**
@@ -160,7 +179,7 @@ public class RaceSimulator implements Iterable<Map<Car, CarSimulationResult>> {
              * @return The results of the next race cycle.
              */
             @Override
-            public Map<Car, CarSimulationResult> next() {
+            public RaceSimulationResult next() {
                 previous = previous == null ? start() : RaceSimulator.this.next(previous);
                 return previous;
             }

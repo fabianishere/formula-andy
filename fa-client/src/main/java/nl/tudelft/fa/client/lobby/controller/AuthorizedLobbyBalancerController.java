@@ -92,7 +92,7 @@ public class AuthorizedLobbyBalancerController extends LobbyBalancerController {
      */
     public CompletionStage<LobbyController> find() {
         return lobbies().thenApply(lobbies -> lobbies.stream()
-            .filter(lobby -> lobby.getStatus().equals(LobbyStatus.PREPARATION))
+            .filter(lobby -> lobby.getStatus().equals(LobbyStatus.INTERMISSION))
             .filter(lobby -> lobby.getUsers().size() < lobby.getConfiguration()
                 .getUserMaximum())
             .findFirst()

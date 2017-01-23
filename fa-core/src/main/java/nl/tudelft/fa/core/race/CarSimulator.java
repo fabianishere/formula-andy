@@ -123,7 +123,7 @@ public class CarSimulator {
         double aeroFactor = configuration.getAerodynamicist()
             .getSpecialistFactor(parameters.getAerodynamicRisk());
         double stratFactor = configuration.getStrategist()
-            .getSpecialistFactor(parameters.getStrategistRisk())
+            .getSpecialistFactor(parameters.getStrategicRisk())
                 * configuration.getDriver().getStrategy();
         double driverFactor = configuration.getDriver().getDriverFactor();
         double maxDistance = configuration.getEngine().getMaxDistance(parameters.getTire());

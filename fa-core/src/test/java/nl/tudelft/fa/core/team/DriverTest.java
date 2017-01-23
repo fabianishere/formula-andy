@@ -29,7 +29,7 @@ public class DriverTest {
         speed = 0.5;
         racecraft = 1.2;
         strategy = 56;
-        driver = new Driver(id, null, name, salary, speed, racecraft, strategy);
+        driver = new Driver(id, name, salary, speed, racecraft, strategy);
     }
     @Test
     public void getDriverFactor() {

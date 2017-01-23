@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  The MIT License (MIT)
+
+  Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
+  Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+-->
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="setup-screen" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController">
+
+    <GridPane gridLinesVisible="false" styleClass="basic">
+        <stylesheets>
+            <URL value="@../../css/style.css" />
+        </stylesheets>
+        <columnConstraints>
+            <ColumnConstraints prefWidth="72" />
+            <ColumnConstraints prefWidth="344" />
+            <ColumnConstraints prefWidth="20" />
+            <ColumnConstraints prefWidth="20" />
+            <ColumnConstraints prefWidth="344" />
+            <ColumnConstraints prefWidth="40" />
+            <ColumnConstraints prefWidth="344" />
+            <ColumnConstraints prefWidth="180" />
+            <ColumnConstraints prefWidth="292" />
+            <ColumnConstraints prefWidth="300" />
+            <ColumnConstraints prefWidth="80" />
+        </columnConstraints>
+
+        <rowConstraints>
+            <RowConstraints prefHeight="95" />
+            <RowConstraints prefHeight="100" />
+            <RowConstraints prefHeight="350" />
+            <RowConstraints prefHeight="100" />
+            <RowConstraints prefHeight="100" />
+            <RowConstraints prefHeight="350" />
+            <RowConstraints prefHeight="100" />
+            <RowConstraints prefHeight="140" />
+            <RowConstraints prefHeight="100" />
+            <RowConstraints prefHeight="95" />
+        </rowConstraints>
+
+        <Button onAction="#store" prefWidth="Infinity" text="Go to store" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+
+        <fx:include fx:id="first" source="setup-car.fxml" GridPane.columnIndex="1" GridPane.columnSpan="10" GridPane.rowIndex="2" />
+        <fx:include fx:id="second" source="setup-car.fxml" GridPane.columnIndex="1" GridPane.columnSpan="10" GridPane.rowIndex="5" />
+
+        <Label prefWidth="Infinity" text="Remaining budget:" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.valignment="TOP" />
+        <Label prefWidth="Infinity" text="100.000.000" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="TOP" />
+        <Label prefWidth="Infinity" text="Total cost:" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+        <Label prefWidth="Infinity" text="1.000.000" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+        <Label prefWidth="Infinity" text="Status:" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
+        <Label fx:id="status" prefWidth="Infinity" text="INTERMISSION" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
+
+        <Button onAction="#submit" text="Submit" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+    </GridPane>
+</VBox>

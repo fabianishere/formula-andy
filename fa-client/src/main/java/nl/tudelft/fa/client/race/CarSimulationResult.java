@@ -25,6 +25,8 @@
 
 package nl.tudelft.fa.client.race;
 
+import nl.tudelft.fa.client.team.inventory.Car;
+
 import java.util.Objects;
 
 /**
@@ -33,6 +35,11 @@ import java.util.Objects;
  * @author Fabian Mastenbroek
  */
 public class CarSimulationResult {
+    /**
+     * The car that produced this result.
+     */
+    private final Car car;
+
     /**
      * The distance the car has traveled.
      */
@@ -46,12 +53,23 @@ public class CarSimulationResult {
     /**
      * Construct a {@link CarSimulationResult} instance.
      *
+     * @param car The car that produced this result.
      * @param distanceTraveled The total distance the car has traveled.
      * @param crashed A flag to indicate whether the car crashed.
      */
-    public CarSimulationResult(double distanceTraveled, boolean crashed) {
+    public CarSimulationResult(Car car, double distanceTraveled, boolean crashed) {
+        this.car = car;
         this.distanceTraveled = distanceTraveled;
         this.crashed = crashed;
+    }
+
+    /**
+     * Return the car that produced this result.
+     *
+     * @return The car that produced this result.
+     */
+    public Car getCar() {
+        return car;
     }
 
     /**
@@ -79,7 +97,7 @@ public class CarSimulationResult {
      * @return A new {@link CarSimulationResult} instance with the same distance, but crashed.
      */
     public CarSimulationResult crash() {
-        return new CarSimulationResult(distanceTraveled, true);
+        return new CarSimulationResult(car,distanceTraveled, true);
     }
 
     /**
@@ -90,7 +108,7 @@ public class CarSimulationResult {
      * @return A new {@link CarSimulationResult} instance with the increased distance.
      */
     public CarSimulationResult increaseDistance(double delta) {
-        return crashed ? this : new CarSimulationResult(distanceTraveled + delta, false);
+        return crashed ? this : new CarSimulationResult(car,distanceTraveled + delta, false);
     }
 
     /**
@@ -108,7 +126,8 @@ public class CarSimulationResult {
         }
         CarSimulationResult that = (CarSimulationResult) other;
         return Math.abs(distanceTraveled - that.distanceTraveled) < 0.001
-            && Objects.equals(crashed, that.crashed);
+            && Objects.equals(crashed, that.crashed)
+            && Objects.equals(car, that.car);
     }
 
     /**
@@ -118,7 +137,7 @@ public class CarSimulationResult {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(distanceTraveled, crashed);
+        return Objects.hash(distanceTraveled, crashed, car);
     }
 
     /**
@@ -128,7 +147,7 @@ public class CarSimulationResult {
      */
     @Override
     public String toString() {
-        return String.format("CarSimulationResult(distanceTraveled=%f, crashed=%s)",
-            distanceTraveled, crashed);
+        return String.format("CarSimulationResult(car=%s, distanceTraveled=%f, crashed=%s)",
+            car, distanceTraveled, crashed);
     }
 }

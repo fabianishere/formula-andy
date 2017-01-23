@@ -27,11 +27,14 @@ package nl.tudelft.fa.server.helper.jackson;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import nl.tudelft.fa.core.team.Mechanic;
 import nl.tudelft.fa.core.team.Strategist;
+import nl.tudelft.fa.core.team.inventory.Car;
 
 import java.io.IOException;
+import java.util.UUID;
 import javax.persistence.EntityManager;
 
 /**
@@ -66,6 +69,7 @@ public class StrategistDeserializer extends StdDeserializer<Strategist> {
     @Override
     public Strategist deserialize(JsonParser parser, DeserializationContext ctx)
             throws IOException {
-        return entityManager.find(Strategist.class, parser.getValueAsString());
+        JsonNode node = parser.getCodec().readTree(parser);
+        return entityManager.find(Strategist.class, UUID.fromString(node.get("id").asText()));
     }
 }

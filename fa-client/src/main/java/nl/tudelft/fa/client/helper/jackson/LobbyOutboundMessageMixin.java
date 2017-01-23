@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import nl.tudelft.fa.client.lobby.Lobby;
 import nl.tudelft.fa.client.lobby.message.*;
 import nl.tudelft.fa.client.net.message.NotAuthorizedException;
+import nl.tudelft.fa.client.race.RaceSimulationResult;
 
 /**
  * This mixin creates an envelope around the outbound messages received from the lobby.
@@ -46,6 +47,8 @@ import nl.tudelft.fa.client.net.message.NotAuthorizedException;
         @JsonSubTypes.Type(value = UserLeft.class, name = "leave.event"),
         @JsonSubTypes.Type(value = LobbyStatusChanged.class, name = "status.event"),
         @JsonSubTypes.Type(value = TeamConfigurationSubmitted.class, name = "team.event"),
+        @JsonSubTypes.Type(value = RaceSimulationStarted.class, name = "race.start"),
+        @JsonSubTypes.Type(value = RaceSimulationResult.class, name = "race.event"),
 
         /* Error types */
         @JsonSubTypes.Type(value = LobbyFullException.class, name = "join.full"),

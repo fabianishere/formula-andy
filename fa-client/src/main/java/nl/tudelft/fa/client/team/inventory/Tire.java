@@ -129,6 +129,6 @@ public class Tire extends InventoryItem {
      */
     @Override
     public String toString() {
-        return String.format("Tire(id=%s, brand=%s, type=%s)", getId(), brand, type);
+        return getType().toString();
     }
 }

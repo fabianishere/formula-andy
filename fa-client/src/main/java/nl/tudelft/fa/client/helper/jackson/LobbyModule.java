@@ -30,18 +30,9 @@ import nl.tudelft.fa.client.lobby.Lobby;
 import nl.tudelft.fa.client.lobby.LobbyBalancer;
 import nl.tudelft.fa.client.lobby.LobbyConfiguration;
 import nl.tudelft.fa.client.lobby.message.*;
-import nl.tudelft.fa.client.race.CarConfiguration;
-import nl.tudelft.fa.client.race.CarParameters;
-import nl.tudelft.fa.client.race.Circuit;
-import nl.tudelft.fa.client.race.GrandPrix;
-import nl.tudelft.fa.client.team.Driver;
+import nl.tudelft.fa.client.race.*;
 import nl.tudelft.fa.client.team.Member;
-import nl.tudelft.fa.client.team.Specialist;
-import nl.tudelft.fa.client.team.Team;
-import nl.tudelft.fa.client.team.inventory.Car;
-import nl.tudelft.fa.client.team.inventory.Engine;
 import nl.tudelft.fa.client.team.inventory.InventoryItem;
-import nl.tudelft.fa.client.team.inventory.Tire;
 import nl.tudelft.fa.client.user.User;
 
 /**
@@ -78,10 +69,6 @@ public class LobbyModule extends SimpleModule {
 
         context.setMixInAnnotations(Member.class, MemberMixin.class);
         context.setMixInAnnotations(InventoryItem.class, InventoryItemMixin.class);
-        //context.setMixInAnnotations(Driver.class, DriverMixin.class);
-        //context.setMixInAnnotations(Engine.class, EngineMixin.class);
-        //context.setMixInAnnotations(Car.class, CarMixin.class);
-        //context.setMixInAnnotations(Tire.class, TireMixin.class);
 
         context.setMixInAnnotations(TeamConfigurationSubmission.class,
             TeamConfigurationSubmissionMixin.class);
@@ -91,6 +78,10 @@ public class LobbyModule extends SimpleModule {
         context.setMixInAnnotations(CarParametersSubmission.class,
             CarParametersSubmissionMixin.class);
         context.setMixInAnnotations(CarParameters.class, CarParametersMixin.class);
+
+        context.setMixInAnnotations(RaceSimulationStarted.class, RaceSimulationStartedMixin.class);
+        context.setMixInAnnotations(RaceSimulationResult.class, RaceSimulationResultMixin.class);
+        context.setMixInAnnotations(CarSimulationResult.class, CarSimulationResultMixin.class);
 
         context.setMixInAnnotations(GrandPrix.class, GrandPrixMixin.class);
         context.setMixInAnnotations(Circuit.class, CircuitMixin.class);

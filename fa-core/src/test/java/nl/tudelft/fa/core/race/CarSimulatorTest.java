@@ -57,8 +57,8 @@ public class CarSimulatorTest {
 
         car = new Car(UUID.randomUUID());
 
-        driver = new Driver(UUID.randomUUID(), null, "Henry",  3, 80, 90, 70);
-        driver2 = new Driver(UUID.randomUUID(), null, "Max", 3, 70, 80, 30);
+        driver = new Driver(UUID.randomUUID(), "Henry",  3, 80, 90, 70);
+        driver2 = new Driver(UUID.randomUUID(), "Max", 3, 70, 80, 30);
 
         engine = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
         mechanic = new Mechanic(UUID.randomUUID(), "Harry", 35, 80);
@@ -72,8 +72,9 @@ public class CarSimulatorTest {
         cs2 = new CarSimulator(configuration2, parameters2);
 
         results = new HashMap<>();
-        results.put(car, new CarSimulationResult(0, false));
-        results.put(new Car(UUID.randomUUID()), new CarSimulationResult(0, false));
+        results.put(car, new CarSimulationResult(car, 0, false));
+        Car car2 = new Car(UUID.randomUUID());
+        results.put(car2, new CarSimulationResult(car2, 0, false));
     }
 
     @Test
@@ -94,8 +95,9 @@ public class CarSimulatorTest {
     @Test
     public void TestCloseDriver2() {
         results = new HashMap<>();
-        results.put(car, new CarSimulationResult(0, false));
-        results.put(new Car(UUID.randomUUID()), new CarSimulationResult(200, false));
+        results.put(car, new CarSimulationResult(car, 0, false));
+        Car car2 = new Car(UUID.randomUUID());
+        results.put(car2, new CarSimulationResult(car2, 200, false));
 
         assertFalse(cs.isNearby(results.get(car), results, 50));
     }
@@ -142,7 +144,6 @@ public class CarSimulatorTest {
         int temp = 0;
         Random random = new Random(1);
         setUp();
-        cs.getParameters().increaseTraveledDistance(1000);
         for (int i = 0; i < testAmount; i++) {
             if (cs.hasCrashed(true, cs.isNearby(results.get(car), results, 50), random)) {
                 temp++;
@@ -157,7 +158,6 @@ public class CarSimulatorTest {
         int temp = 0;
         Random random = new Random(2);
         setUp();
-        cs.getParameters().increaseTraveledDistance(1000);
         for (int i = 0; i < testAmount; i++) {
             if (cs.hasCrashed(false, cs.isNearby(results.get(car), results, 50), random)) {
                 temp++;

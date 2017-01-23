@@ -55,7 +55,7 @@ public class TeamControllerTest {
         final Car car = new Car(UUID.randomUUID());
         final Engine engine = new Engine(UUID.randomUUID(), "Ferrari", "X", 1, 2, 3);
         final Tire tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.HARD, 1, 1);
-        final Driver driver = new Driver(UUID.randomUUID(), team,"Louis", 1000, 1, 1, 1);
+        final Driver driver = new Driver(UUID.randomUUID(), "Louis", 1000, 1, 1, 1);
         final Aerodynamicist aerodynamicist = new Aerodynamicist(UUID.randomUUID(), "A", 100, 1);
         final Mechanic mechanic = new Mechanic(UUID.randomUUID(), "B", 100, 1);
         final Strategist strategist = new Strategist(UUID.randomUUID(), "C", 100, 1);
@@ -85,8 +85,8 @@ public class TeamControllerTest {
         credentials = new nl.tudelft.fa.client.auth.Credentials("fabianishere", "test");
         final RestService app = new RestService(system, authenticator, balancer, manager);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = app.createRoute().flow(system, materializer);
-        client = new Client(new HttpMock(routeFlow), materializer, Uri.create("http://localhost:8080"));
-        controller = client.authorize(credentials).teams();
+        client = new Client(new HttpMock(routeFlow), materializer, Uri.create("http://localhost:8080"), credentials);
+        controller = client.teams();
     }
 
     @AfterClass
