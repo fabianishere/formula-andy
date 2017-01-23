@@ -41,7 +41,7 @@ public class RaceSimulatorTest {
         tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 7, 1);
         parameters = new CarParameters(mechanicalRisk, aerodynamicRisk, strategicRisk, tire);
         car = new Car(UUID.randomUUID());
-        driver = new Driver(UUID.randomUUID(), null, "Henry", 3, 80, 90, 70);
+        driver = new Driver(UUID.randomUUID(), "Henry", 3, 80, 90, 70);
         engine = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
         mechanic = new Mechanic(UUID.randomUUID(), "Harry", 35, 80);
         aerodynamicist = new Aerodynamicist(UUID.randomUUID(), "Fred", 100, 80);

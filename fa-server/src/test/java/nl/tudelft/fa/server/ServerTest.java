@@ -45,7 +45,7 @@ public class ServerTest {
         final Car car = new Car(UUID.randomUUID());
         final Engine engine = new Engine(UUID.randomUUID(), "Ferrari", "X", 1, 2, 3);
         final Tire tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.HARD, 1, 1);
-        final Driver driver = new Driver(UUID.randomUUID(), team,"Louis", 1000, 1, 1, 1);
+        final Driver driver = new Driver(UUID.randomUUID(), "Louis", 1000, 1, 1, 1);
         final Aerodynamicist aerodynamicist = new Aerodynamicist(UUID.randomUUID(), "A", 100, 1);
         final Mechanic mechanic = new Mechanic(UUID.randomUUID(), "B", 100, 1);
         final Strategist strategist = new Strategist(UUID.randomUUID(), "C", 100, 1);

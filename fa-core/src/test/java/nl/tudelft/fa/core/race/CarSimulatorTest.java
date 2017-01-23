@@ -57,8 +57,8 @@ public class CarSimulatorTest {
 
         car = new Car(UUID.randomUUID());
 
-        driver = new Driver(UUID.randomUUID(), null, "Henry",  3, 80, 90, 70);
-        driver2 = new Driver(UUID.randomUUID(), null, "Max", 3, 70, 80, 30);
+        driver = new Driver(UUID.randomUUID(), "Henry",  3, 80, 90, 70);
+        driver2 = new Driver(UUID.randomUUID(), "Max", 3, 70, 80, 30);
 
         engine = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
         mechanic = new Mechanic(UUID.randomUUID(), "Harry", 35, 80);

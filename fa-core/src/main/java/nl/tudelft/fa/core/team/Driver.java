@@ -54,14 +54,13 @@ public class Driver extends Member {
      * Construct a {@link Driver} instance.
      *
      * @param id The unique id of the driver.
-     * @param team The team of this driver.
      * @param name The name of the driver
      * @param salary The salary of the driver
      * @param speed A numeric representation of the speed of the driver.
      * @param racecraft A numeric representation of the race craft of the driver.
      * @param strategy A numeric representation of the strategy of the driver.
      */
-    public Driver(UUID id, Team team, String name, int salary, double speed, double racecraft,
+    public Driver(UUID id, String name, int salary, double speed, double racecraft,
                   double strategy) {
         super(id, name, salary);
         this.speed = speed;
