@@ -24,11 +24,6 @@ import java.util.UUID;
  */
 public class ComputerControllerManager extends Manager {
     /**
-     * The {@link RaceSimulator} the computer participates in.
-     */
-    private RaceSimulator simulator;
-
-    /**
      * The {@link Random} instance to use.
      */
     private Random random;
@@ -36,30 +31,26 @@ public class ComputerControllerManager extends Manager {
     /**
      * Construct a {@link ComputerControllerManager} instance.
      *
-     * @param simulator The {@link RaceSimulator} the computer participates in.
      * @param random The {@link Random} instance to use.
      */
-    public ComputerControllerManager(RaceSimulator simulator, Random random) {
-        this.simulator = simulator;
+    public ComputerControllerManager(Random random) {
         this.random = random;
     }
 
     /**
      * Construct a {@link ComputerControllerManager} instance.
-     *
-     * @param simulator The {@link RaceSimulator} the computer participates in.
      */
-    public ComputerControllerManager(RaceSimulator simulator) {
-        this(simulator, new Random());
+    public ComputerControllerManager() {
+        this(new Random());
     }
 
     /**
      * Computer chooses a random tire, depending on if it's raining or not.
      *
+     * @param raining A flag to indicate whether it is raining.
      * @return The tire that has been chosen.
      */
-    private Tire chooseTire() {
-        boolean raining = simulator.isRaining();
+    private Tire chooseTire(boolean raining) {
         int type = raining ? random.nextInt(1) + 1 : random.nextInt(4) + 3;
 
         switch (type) {
@@ -108,13 +99,14 @@ public class ComputerControllerManager extends Manager {
      * Method to choose random risks and create a new CarParameters with the risks and the chosen
      * tire in it.
      *
+     * @param raining A flag to indicate whether it is raining.
      * @return The {@link CarParameters} to use.
      */
-    public CarParameters createParameters() {
+    public CarParameters createParameters(boolean raining) {
         int mechanic = random.nextInt(2) + 1;
         int aerodynamic = random.nextInt(2) + 1;
         int strategic = random.nextInt(2) + 1;
-        return new CarParameters(mechanic, aerodynamic, strategic, chooseTire());
+        return new CarParameters(mechanic, aerodynamic, strategic, chooseTire(raining));
     }
 
     /**

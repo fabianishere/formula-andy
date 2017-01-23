@@ -44,12 +44,10 @@ import scala.PartialFunction;
 import scala.concurrent.duration.FiniteDuration;
 import scala.runtime.BoxedUnit;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The {@link LobbyRaceSimulationActor} class is in charge of running the {@link RaceSimulator}.
@@ -124,15 +122,33 @@ public class LobbyRaceSimulationActor extends AbstractActor {
         bus.tell(new RaceSimulationStarted(cars.values().stream()
             .map(CarSimulator::getConfiguration).collect(Collectors.toSet())), self());
 
+        // setup the simulator
+        int amount = Math.max(22 - cars.size(), 0);
+        ComputerControllerManager manager = new ComputerControllerManager();
+        List<CarSimulator> bots = Stream
+            .generate(manager::createConfiguration)
+            .map(conf -> new CarSimulator(conf, null))
+            .limit(amount)
+            .collect(Collectors.toList());
+
+        List<CarSimulator> simulators = new ArrayList<>();
+        simulators.addAll(cars.values());
+        simulators.addAll(bots);
+
+        RaceSimulator simulator = new RaceSimulator(simulators, grandPrix);
+
+        // submit the parameters for the bots
+        bots.forEach(bot -> bot.setParameters(manager.createParameters(simulator.isRaining())));
+
         // setup the car simulator
-        final Iterator<RaceSimulationResult> simulator = simulator().iterator();
+        final Iterator<RaceSimulationResult> results = simulator.iterator();
 
         return ReceiveBuilder
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),
                 msg.getParameters()))
             .matchEquals("tick", msg -> {
-                if (simulator.hasNext()) {
-                    bus.tell(simulator.next(), self());
+                if (results.hasNext()) {
+                    bus.tell(results.next(), self());
                     return;
                 }
 
@@ -141,15 +157,6 @@ public class LobbyRaceSimulationActor extends AbstractActor {
                 context().stop(self());
             })
             .build();
-    }
-
-    /**
-     * Create a {@link RaceSimulator} from the given state.
-     *
-     * @return A {@link RaceSimulator} created from the given state.
-     */
-    private RaceSimulator simulator() {
-        return new RaceSimulator(cars.values(), grandPrix);
     }
 
     /**
