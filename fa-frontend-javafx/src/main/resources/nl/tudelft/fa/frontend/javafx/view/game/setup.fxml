@@ -56,10 +56,10 @@
         <rowConstraints>
             <RowConstraints prefHeight="95" />
             <RowConstraints prefHeight="100" />
-            <RowConstraints prefHeight="300" />
+            <RowConstraints prefHeight="350" />
             <RowConstraints prefHeight="100" />
             <RowConstraints prefHeight="100" />
-            <RowConstraints prefHeight="300" />
+            <RowConstraints prefHeight="350" />
             <RowConstraints prefHeight="100" />
             <RowConstraints prefHeight="100" />
             <RowConstraints prefHeight="100" />
@@ -71,13 +71,13 @@
         <fx:include fx:id="first" source="setup-car.fxml" GridPane.columnIndex="1" GridPane.columnSpan="10" GridPane.rowIndex="2" />
         <fx:include fx:id="second" source="setup-car.fxml" GridPane.columnIndex="1" GridPane.columnSpan="10" GridPane.rowIndex="5" />
 
-        <Label prefWidth="Infinity" text="Remaining budget:" GridPane.columnIndex="8" GridPane.rowIndex="8" GridPane.valignment="TOP" />
-        <Label prefWidth="Infinity" text="100.000.000" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="TOP" />
-        <Label prefWidth="Infinity" text="Total cost:" GridPane.columnIndex="8" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-        <Label prefWidth="Infinity" text="1.000.000" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-        <Label prefWidth="Infinity" text="Status:" GridPane.columnIndex="8" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
-        <Label fx:id="status" prefWidth="Infinity" text="INTERMISSION" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
+        <Label prefWidth="Infinity" text="Remaining budget:" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.valignment="TOP" />
+        <Label prefWidth="Infinity" text="100.000.000" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="TOP" />
+        <Label prefWidth="Infinity" text="Total cost:" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+        <Label prefWidth="Infinity" text="1.000.000" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+        <Label prefWidth="Infinity" text="Status:" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
+        <Label fx:id="status" prefWidth="Infinity" text="INTERMISSION" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
 
-        <Button onAction="#submit" text="Submit" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+        <Button onAction="#submit" text="Submit" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
     </GridPane>
 </VBox>
