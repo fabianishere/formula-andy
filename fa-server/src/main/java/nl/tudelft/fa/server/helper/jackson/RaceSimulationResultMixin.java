@@ -23,14 +23,15 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.client.helper.jackson;
+package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.tudelft.fa.client.race.CarSimulationResult;
-import nl.tudelft.fa.client.race.RaceSimulationResult;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import nl.tudelft.fa.core.race.CarSimulationResult;
+import nl.tudelft.fa.core.race.RaceSimulationResult;
+import nl.tudelft.fa.core.team.inventory.Car;
 
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Mix-in for the {@link RaceSimulationResult} class.
@@ -39,12 +40,11 @@ import java.util.Set;
  */
 public abstract class RaceSimulationResultMixin {
     /**
-     * Construct a {@link RaceSimulationResultMixin} instance.
+     * Return the cars in the simulation with the results.
      *
-     * @param results The results of the simulation.
-     * @param finished A flag to indicate the simulation has finished.
+     * @return The cars in the simulation with the results.
      */
-    @JsonCreator
-    public RaceSimulationResultMixin(@JsonProperty("results") Set<CarSimulationResult> results,
-                                     @JsonProperty("finished") boolean finished) {}
+    @JsonProperty("results")
+    @JsonSerialize(using = RaceSimulationResultsSerializer.class)
+    public abstract Map<Car, CarSimulationResult> getCars();
 }

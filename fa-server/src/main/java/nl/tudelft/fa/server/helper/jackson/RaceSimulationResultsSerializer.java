@@ -23,28 +23,44 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.client.helper.jackson;
+package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.tudelft.fa.client.race.CarSimulationResult;
-import nl.tudelft.fa.client.race.RaceSimulationResult;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import nl.tudelft.fa.core.race.CarSimulationResult;
+import nl.tudelft.fa.core.team.inventory.Car;
 
-import java.util.Set;
+import java.io.IOException;
+import java.util.Map;
+
 
 /**
- * Mix-in for the {@link RaceSimulationResult} class.
+ * This class serializes the results of a simulation.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class RaceSimulationResultMixin {
+public class RaceSimulationResultsSerializer extends StdSerializer<Map<Car, CarSimulationResult>> {
+
     /**
-     * Construct a {@link RaceSimulationResultMixin} instance.
-     *
-     * @param results The results of the simulation.
-     * @param finished A flag to indicate the simulation has finished.
+     * Construct a {@link RaceSimulationResultsSerializer} instance.
      */
-    @JsonCreator
-    public RaceSimulationResultMixin(@JsonProperty("results") Set<CarSimulationResult> results,
-                                     @JsonProperty("finished") boolean finished) {}
+    public RaceSimulationResultsSerializer() {
+        this(null);
+    }
+
+    /**
+     * Construct a {@link RaceSimulationResultsSerializer} instance.
+     *
+     * @param cls The class to serialize.
+     */
+    public RaceSimulationResultsSerializer(Class<Map<Car, CarSimulationResult>> cls) {
+        super(cls);
+    }
+
+    @Override
+    public void serialize(Map<Car, CarSimulationResult> value, JsonGenerator gen,
+                          SerializerProvider provider) throws IOException {
+        gen.writeObject(value.values());
+    }
 }
