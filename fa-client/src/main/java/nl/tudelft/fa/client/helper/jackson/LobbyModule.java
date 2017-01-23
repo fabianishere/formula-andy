@@ -30,10 +30,7 @@ import nl.tudelft.fa.client.lobby.Lobby;
 import nl.tudelft.fa.client.lobby.LobbyBalancer;
 import nl.tudelft.fa.client.lobby.LobbyConfiguration;
 import nl.tudelft.fa.client.lobby.message.*;
-import nl.tudelft.fa.client.race.CarConfiguration;
-import nl.tudelft.fa.client.race.CarParameters;
-import nl.tudelft.fa.client.race.Circuit;
-import nl.tudelft.fa.client.race.GrandPrix;
+import nl.tudelft.fa.client.race.*;
 import nl.tudelft.fa.client.team.Driver;
 import nl.tudelft.fa.client.team.Member;
 import nl.tudelft.fa.client.team.Specialist;
@@ -91,6 +88,9 @@ public class LobbyModule extends SimpleModule {
         context.setMixInAnnotations(CarParametersSubmission.class,
             CarParametersSubmissionMixin.class);
         context.setMixInAnnotations(CarParameters.class, CarParametersMixin.class);
+
+        context.setMixInAnnotations(RaceSimulationStarted.class, RaceSimulationStartedMixin.class);
+        context.setMixInAnnotations(RaceSimulationResult.class, RaceSimulationResult.class);
 
         context.setMixInAnnotations(GrandPrix.class, GrandPrixMixin.class);
         context.setMixInAnnotations(Circuit.class, CircuitMixin.class);
