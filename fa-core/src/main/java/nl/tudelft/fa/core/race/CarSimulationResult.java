@@ -122,7 +122,7 @@ public class CarSimulationResult {
      * @return A new {@link CarSimulationResult} instance that is finished.
      */
     public CarSimulationResult finish() {
-        return new CarSimulationResult(car, distanceTraveled, crashed, finished);
+        return new CarSimulationResult(car, distanceTraveled, crashed, true);
     }
 
     /**
@@ -132,7 +132,7 @@ public class CarSimulationResult {
      * @param distance The distance needed to finish the simulation.
      * @return A new {@link CarSimulationResult} instance that is either finished or the same.
      */
-    public CarSimulationResult finishOn(int distance) {
+    public CarSimulationResult finishOn(double distance) {
         return distance > distanceTraveled ? this : finish();
     }
 

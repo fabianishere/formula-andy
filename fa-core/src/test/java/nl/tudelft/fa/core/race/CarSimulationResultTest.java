@@ -66,6 +66,16 @@ public class CarSimulationResultTest {
     }
 
     @Test
+    public void testFinishOnFinished() {
+        assertTrue(result.finishOn(0.7).hasFinished());
+    }
+
+    @Test
+    public void testFinishOnFinishedFailure() {
+        assertFalse(result.finishOn(2).hasFinished());
+    }
+
+    @Test
     public void equalsNull() {
         assertThat(result, not(equalTo(null)));
     }
