@@ -42,9 +42,11 @@ public abstract class CarSimulationResultMixin {
      * @param car The car that produced this result.
      * @param distanceTraveled The total distance the car has traveled.
      * @param crashed A flag to indicate whether the car crashed.
+     * @param finished A flag to indicate whether the car has finished the race.
      */
     @JsonCreator
     public CarSimulationResultMixin(@JsonProperty("car") Car car,
                                     @JsonProperty("distanceTraveled") double distanceTraveled,
-                                    @JsonProperty("crashed") boolean crashed) {}
+                                    @JsonProperty("crashed") boolean crashed,
+                                    @JsonProperty("finished") boolean finished) {}
 }

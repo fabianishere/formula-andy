@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.tudelft.fa.client.race.CarSimulationResult;
 import nl.tudelft.fa.client.race.RaceSimulationResult;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Mix-in for the {@link RaceSimulationResult} class.
@@ -45,6 +45,6 @@ public abstract class RaceSimulationResultMixin {
      * @param finished A flag to indicate the simulation has finished.
      */
     @JsonCreator
-    public RaceSimulationResultMixin(@JsonProperty("results") Set<CarSimulationResult> results,
+    public RaceSimulationResultMixin(@JsonProperty("results") List<CarSimulationResult> results,
                                      @JsonProperty("finished") boolean finished) {}
 }

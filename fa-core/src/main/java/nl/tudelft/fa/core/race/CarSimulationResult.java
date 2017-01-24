@@ -185,7 +185,7 @@ public class CarSimulationResult {
      */
     @Override
     public String toString() {
-        return String.format("CarSimulationResult(car=%s, distanceTraveled=%f, crashed=%s" +
-                ", finished=%s)", car, distanceTraveled, crashed, finished);
+        return String.format("CarSimulationResult(car=%s, distanceTraveled=%f, crashed=%s"
+            + ", finished=%s)", car, distanceTraveled, crashed, finished);
     }
 }

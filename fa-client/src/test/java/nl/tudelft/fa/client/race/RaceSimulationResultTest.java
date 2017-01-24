@@ -4,10 +4,7 @@ import nl.tudelft.fa.client.team.inventory.Car;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
@@ -15,13 +12,16 @@ import static org.junit.Assert.*;
 
 public class RaceSimulationResultTest {
 
-    private Set<CarSimulationResult> cars;
+    private List<CarSimulationResult> cars;
     private boolean finished;
     private RaceSimulationResult result;
 
     @Before
     public void setUp() {
-        cars = Collections.singleton(new CarSimulationResult(new Car(UUID.randomUUID()), 100, true));
+        cars = new ArrayList<CarSimulationResult>() {{
+            Car car = new Car(UUID.randomUUID());
+            add(new CarSimulationResult(car, 100, true, false));
+        }};
         finished = false;
         result = new RaceSimulationResult(cars, finished);
     }
@@ -59,7 +59,7 @@ public class RaceSimulationResultTest {
 
     @Test
     public void equalsDifferentCars() {
-        assertNotEquals(new RaceSimulationResult(Collections.emptySet(), finished), result);
+        assertNotEquals(new RaceSimulationResult(Collections.emptyList(), finished), result);
     }
 
     @Test
