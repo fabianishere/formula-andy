@@ -25,12 +25,8 @@
 
 package nl.tudelft.fa.client.lobby.controller;
 
-import akka.http.javadsl.marshallers.jackson.Jackson;
-import akka.http.javadsl.model.HttpMethods;
-import akka.http.javadsl.model.HttpRequest;
 import nl.tudelft.fa.client.Client;
 import nl.tudelft.fa.client.auth.Credentials;
-import nl.tudelft.fa.client.lobby.Lobby;
 import nl.tudelft.fa.client.lobby.LobbyStatus;
 
 import java.util.Set;

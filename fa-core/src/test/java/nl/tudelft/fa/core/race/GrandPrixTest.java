@@ -85,7 +85,7 @@ public class GrandPrixTest {
 
     @Test
     public void equalsDifferentType() {
-        assertThat(circuit, not(equalTo("")));
+        assertThat(grandPrix, not(equalTo("")));
     }
 
     @Test

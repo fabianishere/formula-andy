@@ -40,7 +40,6 @@ import nl.tudelft.fa.client.lobby.message.LobbyStatusChanged;
 import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.client.race.CarConfiguration;
 import nl.tudelft.fa.client.team.Team;
-import nl.tudelft.fa.client.team.inventory.Car;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StoreController;
@@ -51,7 +50,6 @@ import scala.runtime.BoxedUnit;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
-
 import javax.inject.Inject;
 
 /**

@@ -101,6 +101,11 @@ public class LobbyTest {
     }
 
     @Test
+    public void equalsDifferentSchedule() {
+        assertNotEquals(new Lobby(id, status, configuration, users, Collections.emptyList()), information);
+    }
+
+    @Test
     public void testHashCode() throws Exception {
         assertEquals(Objects.hash(id, status, configuration, users, schedule), information.hashCode());
     }

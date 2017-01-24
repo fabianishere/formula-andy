@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.util.UUID;
 import javax.persistence.EntityManager;
 
-
 /**
  * A deserializer for the {@link Car} class.
  *

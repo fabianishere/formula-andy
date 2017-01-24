@@ -31,7 +31,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import nl.tudelft.fa.core.team.Mechanic;
 import nl.tudelft.fa.core.team.Strategist;
-import nl.tudelft.fa.core.team.inventory.Car;
 
 import java.io.IOException;
 import java.util.UUID;

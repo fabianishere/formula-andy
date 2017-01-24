@@ -39,7 +39,6 @@ import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
-
 import javax.inject.Inject;
 
 /**

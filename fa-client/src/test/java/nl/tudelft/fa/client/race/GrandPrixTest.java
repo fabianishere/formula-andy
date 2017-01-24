@@ -12,6 +12,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
+/**
+ * @author Fabian Mastenbroek <mail.fabianm@gmail.com>
+ */
 public class GrandPrixTest {
     UUID id;
     Circuit circuit;
@@ -82,7 +85,7 @@ public class GrandPrixTest {
 
     @Test
     public void equalsDifferentType() {
-        assertThat(circuit, not(equalTo("")));
+        assertThat(grandPrix, not(equalTo("")));
     }
 
     @Test
@@ -111,4 +114,5 @@ public class GrandPrixTest {
         assertEquals(String.format("GrandPrix(id=%s, circuit=%s, date=%s, laps=%d)", id, circuit,
             date, laps), grandPrix.toString());
     }
+
 }

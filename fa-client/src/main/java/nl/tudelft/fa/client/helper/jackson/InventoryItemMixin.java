@@ -25,8 +25,8 @@
 
 package nl.tudelft.fa.client.helper.jackson;
 
-import com.fasterxml.jackson.annotation.*;
-import nl.tudelft.fa.client.team.Team;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import nl.tudelft.fa.client.team.inventory.Car;
 import nl.tudelft.fa.client.team.inventory.Engine;
 import nl.tudelft.fa.client.team.inventory.InventoryItem;

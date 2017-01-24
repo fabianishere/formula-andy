@@ -1,13 +1,20 @@
 package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.team.*;
+import nl.tudelft.fa.core.team.Aerodynamicist;
+import nl.tudelft.fa.core.team.Driver;
+import nl.tudelft.fa.core.team.Mechanic;
+import nl.tudelft.fa.core.team.Strategist;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Engine;
 import nl.tudelft.fa.core.team.inventory.Tire;
 import nl.tudelft.fa.core.team.inventory.TireType;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 

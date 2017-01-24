@@ -1,6 +1,5 @@
 package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.race.CarSimulationResult;
 import nl.tudelft.fa.core.team.inventory.Car;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +33,11 @@ public class CarSimulationResultTest {
     @Test
     public void testCrashed() {
         assertEquals(crashed, result.hasCrashed());
+    }
+
+    @Test
+    public void testCar() {
+        assertEquals(car, result.getCar());
     }
 
     @Test
@@ -72,6 +76,11 @@ public class CarSimulationResultTest {
     @Test
     public void equalsData() {
         assertEquals(new CarSimulationResult(car, distance, crashed), result);
+    }
+
+    @Test
+    public void equalsDifferentCar() {
+        assertNotEquals(new CarSimulationResult(new Car(UUID.randomUUID()), distance, crashed), result);
     }
 
     @Test

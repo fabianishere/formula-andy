@@ -1,7 +1,5 @@
 package nl.tudelft.fa.client.lobby.controller;
 
-import static org.junit.Assert.*;
-
 import akka.NotUsed;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -13,7 +11,6 @@ import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 import nl.tudelft.fa.client.AbstractClient;
 import nl.tudelft.fa.client.AnonymousClient;
-import nl.tudelft.fa.client.Client;
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.auth.actor.Authenticator;
 import nl.tudelft.fa.core.lobby.Lobby;
@@ -38,6 +35,8 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
 
 public class LobbyBalancerControllerTest {
     private static ActorSystem system;

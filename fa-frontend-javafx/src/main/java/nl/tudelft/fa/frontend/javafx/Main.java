@@ -31,13 +31,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
-import nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController;
 import nl.tudelft.fa.frontend.javafx.controller.user.LoginController;
 import nl.tudelft.fa.frontend.javafx.inject.ClientModule;
 
 import java.util.Collections;
-
 import javax.inject.Inject;
 
 /**

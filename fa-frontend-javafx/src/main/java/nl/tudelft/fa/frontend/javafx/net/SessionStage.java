@@ -43,7 +43,7 @@ import scala.runtime.BoxedUnit;
  *
  * @author Fabian Mastenbroek
  */
-public class SessionStage  extends GraphStage<FlowShape<LobbyOutboundMessage, LobbyInboundMessage>> {
+public class SessionStage extends GraphStage<FlowShape<LobbyOutboundMessage, LobbyInboundMessage>> {
     /**
      * The inlet of this graph stage.
      */

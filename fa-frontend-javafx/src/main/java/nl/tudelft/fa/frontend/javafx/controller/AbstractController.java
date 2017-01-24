@@ -28,15 +28,14 @@ package nl.tudelft.fa.frontend.javafx.controller;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
-
 import javax.inject.Inject;
+
 
 /**
  * This class implemented by all controllers in this package.

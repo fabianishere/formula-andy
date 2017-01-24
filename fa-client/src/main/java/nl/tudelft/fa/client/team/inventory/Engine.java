@@ -146,6 +146,6 @@ public class Engine extends InventoryItem {
      */
     @Override
     public String toString() {
-        return getBrand();
+        return String.format("Engine(id=%s, brand=%s, name=%s)", getId(), brand, name);
     }
 }

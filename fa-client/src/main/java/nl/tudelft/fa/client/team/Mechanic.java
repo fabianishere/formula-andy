@@ -57,6 +57,7 @@ public class Mechanic extends Specialist {
      */
     @Override
     public String toString() {
-        return getName();
+        return String.format("Mechanic(id=%s, name=%s, salary=%d, level=%f)",
+            getId(), getName(), getSalary(), getLevel());
     }
 }

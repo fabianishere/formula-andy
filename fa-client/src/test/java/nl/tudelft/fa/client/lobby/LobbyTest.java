@@ -1,6 +1,5 @@
 package nl.tudelft.fa.client.lobby;
 
-import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.client.race.GrandPrix;
 import nl.tudelft.fa.client.user.User;
 import org.junit.Before;
@@ -97,6 +96,11 @@ public class LobbyTest {
     @Test
     public void equalsDifferentUsers() {
         assertNotEquals(new Lobby(id, status, configuration, Collections.emptySet(), schedule), information);
+    }
+
+    @Test
+    public void equalsDifferentSchedule() {
+        assertNotEquals(new Lobby(id, status, configuration, users, Collections.emptyList()), information);
     }
 
     @Test
