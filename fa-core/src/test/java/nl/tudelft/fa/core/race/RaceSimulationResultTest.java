@@ -12,15 +12,15 @@ import static org.junit.Assert.*;
 
 public class RaceSimulationResultTest {
 
-    private Map<Car, CarSimulationResult> cars;
+    private List<CarSimulationResult> cars;
     private boolean finished;
     private RaceSimulationResult result;
 
     @Before
     public void setUp() {
-        cars = new HashMap<Car, CarSimulationResult>() {{
+        cars = new ArrayList<CarSimulationResult>() {{
             Car car = new Car(UUID.randomUUID());
-            put(car, new CarSimulationResult(car, 100, true));
+            add(new CarSimulationResult(car, 100, true, false));
         }};
         finished = false;
         result = new RaceSimulationResult(cars, finished);
@@ -28,7 +28,7 @@ public class RaceSimulationResultTest {
 
     @Test
     public void testCars() {
-        assertEquals(cars, result.getCars());
+        assertEquals(cars, result.getResults());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class RaceSimulationResultTest {
 
     @Test
     public void equalsDifferentCars() {
-        assertNotEquals(new RaceSimulationResult(Collections.emptyMap(), finished), result);
+        assertNotEquals(new RaceSimulationResult(Collections.emptyList(), finished), result);
     }
 
     @Test
@@ -74,6 +74,6 @@ public class RaceSimulationResultTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("RaceSimulationResult(cars=%s, finished=%s)", cars, finished), result.toString());
+        assertEquals(String.format("RaceSimulationResult(results=%s, finished=%s)", cars, finished), result.toString());
     }
 }

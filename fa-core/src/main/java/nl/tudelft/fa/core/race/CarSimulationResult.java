@@ -51,16 +51,23 @@ public class CarSimulationResult {
     private final boolean crashed;
 
     /**
+     * A flag to indicate whether the car has finished.
+     */
+    private final boolean finished;
+
+    /**
      * Construct a {@link CarSimulationResult} instance.
      *
      * @param car The car that produced this result.
      * @param distanceTraveled The total distance the car has traveled.
      * @param crashed A flag to indicate whether the car crashed.
      */
-    public CarSimulationResult(Car car, double distanceTraveled, boolean crashed) {
+    public CarSimulationResult(Car car, double distanceTraveled, boolean crashed,
+                               boolean finished) {
         this.car = car;
         this.distanceTraveled = distanceTraveled;
         this.crashed = crashed;
+        this.finished = finished;
     }
 
     /**
@@ -91,13 +98,42 @@ public class CarSimulationResult {
     }
 
     /**
+     * Determine whether the car has finished.
+     *
+     * @return <code>true</code> if the car has finished, <code>false</code> otherwise.
+     */
+    public boolean hasFinished() {
+        return finished;
+    }
+
+    /**
      * Return a new {@link CarSimulationResult} instance with the same distance traveled, but has
      * crashed.
      *
      * @return A new {@link CarSimulationResult} instance with the same distance, but crashed.
      */
     public CarSimulationResult crash() {
-        return new CarSimulationResult(car,distanceTraveled, true);
+        return new CarSimulationResult(car, distanceTraveled, true, finished);
+    }
+
+    /**
+     * Return a new {@link CarSimulationResult} instance from this instance that is finished.
+     *
+     * @return A new {@link CarSimulationResult} instance that is finished.
+     */
+    public CarSimulationResult finish() {
+        return new CarSimulationResult(car, distanceTraveled, crashed, finished);
+    }
+
+    /**
+     * Return a new {@link CarSimulationResult} instance from this instance if the distance
+     * that has been traveled is larger or equal to the given distance.
+     *
+     * @param distance The distance needed to finish the simulation.
+     * @return A new {@link CarSimulationResult} instance that is either finished or the same.
+     */
+    public CarSimulationResult finishOn(int distance) {
+        return distance > distanceTraveled ? this : finish();
     }
 
     /**
@@ -108,7 +144,8 @@ public class CarSimulationResult {
      * @return A new {@link CarSimulationResult} instance with the increased distance.
      */
     public CarSimulationResult increaseDistance(double delta) {
-        return crashed ? this : new CarSimulationResult(car,distanceTraveled + delta, false);
+        return crashed ? this : new CarSimulationResult(car,distanceTraveled + delta, false,
+            finished);
     }
 
     /**
@@ -127,7 +164,8 @@ public class CarSimulationResult {
         CarSimulationResult that = (CarSimulationResult) other;
         return Math.abs(distanceTraveled - that.distanceTraveled) < 0.001
             && Objects.equals(crashed, that.crashed)
-            && Objects.equals(car, that.car);
+            && Objects.equals(car, that.car)
+            && Objects.equals(finished, that.finished);
     }
 
     /**
@@ -137,7 +175,7 @@ public class CarSimulationResult {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(distanceTraveled, crashed, car);
+        return Objects.hash(distanceTraveled, crashed, car, finished);
     }
 
     /**
@@ -147,7 +185,7 @@ public class CarSimulationResult {
      */
     @Override
     public String toString() {
-        return String.format("CarSimulationResult(car=%s, distanceTraveled=%f, crashed=%s)",
-            car, distanceTraveled, crashed);
+        return String.format("CarSimulationResult(car=%s, distanceTraveled=%f, crashed=%s" +
+                ", finished=%s)", car, distanceTraveled, crashed, finished);
     }
 }
