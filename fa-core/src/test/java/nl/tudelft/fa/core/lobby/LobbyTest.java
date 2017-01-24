@@ -1,126 +1,118 @@
 package nl.tudelft.fa.core.lobby;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
-import akka.testkit.JavaTestKit;
-
 import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
+import nl.tudelft.fa.core.race.GrandPrix;
 import nl.tudelft.fa.core.user.User;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.Duration;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.*;
 
 public class LobbyTest {
-    private static ActorSystem system;
-    private UUID id;
+    private String id;
+    private LobbyStatus status;
     private LobbyConfiguration configuration;
-    private User user;
-
-    @BeforeClass
-    public static void setUpClass() {
-        system = ActorSystem.create();
-    }
+    private Set<User> users;
+    private List<GrandPrix> schedule;
+    private Lobby information;
 
     @Before
     public void setUp() {
-        id = UUID.randomUUID();
-        configuration = new LobbyConfiguration(2, Duration.ofMinutes(2));
-        user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
-    }
-
-
-    @AfterClass
-    public static void tearDownClass() {
-        JavaTestKit.shutdownActorSystem(system);
-    }
-
-    @Test
-    public void testInform() {
-        new JavaTestKit(system) {
-            {
-                final Props props = Lobby.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Inform req = new Inform();
-
-                subject.tell(req, getRef());
-
-                // await the correct response
-                expectMsgEquals(duration("1 second"), new LobbyInformation(id,
-                    LobbyStatus.PREPARATION, configuration, Collections.emptySet()));
-            }
-        };
+        id = UUID.randomUUID().toString();
+        status = LobbyStatus.PREPARATION;
+        configuration = new LobbyConfiguration(11, Duration.ofMinutes(5), Duration.ZERO, new StaticLobbyScheduleFactory(Collections.emptyList()));
+        users = new HashSet<>();
+        users.add(new User(UUID.randomUUID(), new Credentials("fabianishere", "test")));
+        schedule = new ArrayList<>();
+        schedule.add(new GrandPrix(UUID.randomUUID(), null, null, 0, 0));
+        information = new Lobby(id, status, configuration, users, schedule);
     }
 
     @Test
-    public void testJoinSuccess() {
-        new JavaTestKit(system) {
-            {
-                final Props props = Lobby.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Join req = new Join(user);
-
-                subject.tell(req, getRef());
-
-                // await the correct response
-                expectMsgEquals(duration("1 second"), new Joined(new LobbyInformation(id,
-                    LobbyStatus.PREPARATION, configuration, Collections.singleton(user))));
-            }
-        };
+    public void testId() {
+        assertEquals(id, information.getId());
     }
 
     @Test
-    public void testJoinFull() {
-        new JavaTestKit(system) {
-            {
-                final Props props = Lobby.props(new LobbyConfiguration(0, Duration.ZERO));
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Join req = new Join(user);
-
-                subject.tell(req, getRef());
-
-                // await the correct response
-                expectMsgEquals(duration("1 second"), new LobbyFull(0));
-            }
-        };
+    public void testStatus() {
+        assertEquals(status, information.getStatus());
     }
 
     @Test
-    public void testLeaveSuccess() {
-        new JavaTestKit(system) {
-            {
-                final Props props = Lobby.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave(user);
-
-                subject.tell(new Join(new User(UUID.randomUUID(), new Credentials("test", "Test"))), ActorRef.noSender());
-
-                subject.tell(new Join(user), getRef());
-                expectMsgClass(duration("1 second"), Joined.class);
-
-                subject.tell(req, getRef());
-                expectMsgEquals(duration("1 second"), new Left(user, subject));
-            }
-        };
+    public void testConfiguration() {
+        assertEquals(configuration, information.getConfiguration());
     }
 
     @Test
-    public void testLeaveNotInLobby() {
-        new JavaTestKit(system) {
-            {
-                final Props props = Lobby.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave(user);
-
-                subject.tell(req, getRef());
-                expectMsgClass(duration("1 second"), NotInLobby.class);
-            }
-        };
+    public void testUsers() {
+        assertEquals(users, information.getUsers());
     }
 
+    @Test
+    public void testSchedule() {
+        assertEquals(schedule, information.getSchedule());
+    }
+
+    @Test
+    public void equalsNull() {
+        assertThat(information, not(equalTo(null)));
+    }
+
+    @Test
+    public void equalsDifferentType() {
+        assertThat(information, not(equalTo("")));
+    }
+
+    @Test
+    public void equalsReference() {
+        assertEquals(information, information);
+    }
+
+    @Test
+    public void equalsData() {
+        assertEquals(new Lobby(id, status, configuration, users, schedule), information);
+    }
+
+    @Test
+    public void equalsDifferentId() {
+        assertNotEquals(new Lobby(UUID.randomUUID().toString(), status, configuration, users, schedule), information);
+    }
+
+
+    @Test
+    public void equalsDifferentStatus() {
+        assertNotEquals(new Lobby(id, LobbyStatus.PROGRESSION, configuration, users, schedule), information);
+    }
+
+    @Test
+    public void equalsDifferentConfiguration() {
+        assertNotEquals(new Lobby(id, status, new LobbyConfiguration(0, Duration.ZERO, Duration.ZERO, null), users, schedule), information);
+    }
+
+    @Test
+    public void equalsDifferentUsers() {
+        assertNotEquals(new Lobby(id, status, configuration, Collections.emptySet(), schedule), information);
+    }
+
+    @Test
+    public void equalsDifferentSchedule() {
+        assertNotEquals(new Lobby(id, status, configuration, users, Collections.emptyList()), information);
+    }
+
+    @Test
+    public void testHashCode() throws Exception {
+        assertEquals(Objects.hash(id, status, configuration, users, schedule), information.hashCode());
+    }
+
+    @Test
+    public void testToString() throws Exception {
+        assertEquals(String.format("Lobby(id=%s, status=%s, configuration=%s, users=%s, schedule=%s)",
+            id, status, configuration, users, schedule), information.toString());
+    }
 }

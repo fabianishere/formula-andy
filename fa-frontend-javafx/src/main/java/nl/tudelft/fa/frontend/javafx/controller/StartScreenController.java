@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,43 +27,43 @@ package nl.tudelft.fa.frontend.javafx.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import nl.tudelft.fa.frontend.javafx.Main;
+import nl.tudelft.fa.frontend.javafx.controller.game.GameLoadController;
+
+import java.net.URL;
 
 /**
  * The controller for the start screen.
  *
- * @author Nikki Bouman
+ * @author Fabian Mastenbroek
+ * @author Christian Slothouber
+ * @author Laetitia Molkenboer
  */
-public class StartScreenController {
+public class StartScreenController extends AbstractController {
     /**
-     * This method is invoked when the new game button is pressed and the user wants to start
-     * a new game.
+     * The reference to the location of the view of this controller.
+     */
+    public static final URL VIEW = Main.class.getResource("view/start.fxml");
+
+    /**
+     * This method is invoked when the show game button is pressed and the user wants to start a
+     * saved game.
      *
      * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
-    protected void newGame(ActionEvent event) {
-        System.out.println("NEW GAME!!");
+    protected void load(ActionEvent event) throws Exception {
+        show(event, GameLoadController.VIEW);
     }
 
     /**
-     * This method is invoked when the load game button is pressed and the user wants to load
-     * an existing game.
+     * This method is invoked when the new game button is pressed and the user wants to start a
+     * new game.
      *
      * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
-    protected void loadGame(ActionEvent event) {
-        System.out.println("Loading.....");
-    }
-
-    /**
-     * This method is invoked when the settings button is pressed and the user wants to open
-     * the game settings screen.
-     *
-     * @param event The {@link ActionEvent} that occurred.
-     */
-    @FXML
-    protected void openSettings(ActionEvent event) {
-        System.out.println("SETTINGS yeey");
+    protected void create(ActionEvent event) throws Exception {
+        show(event, GameLoadController.VIEW); // TODO create create-game screen
     }
 }

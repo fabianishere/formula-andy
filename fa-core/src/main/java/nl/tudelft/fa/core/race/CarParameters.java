@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -58,16 +58,6 @@ public class CarParameters {
     private final Tire tire;
 
     /**
-     * The total distance this car has traveled during this race.
-     */
-    private double traveledDistance;
-
-    /**
-     * True if the car has crashed this race.
-     */
-    private boolean crashed;
-
-    /**
      * Construct a {@link CarParameters} instance.
      *
      * @param mechanicalRisk The risk of the car setup.
@@ -80,40 +70,6 @@ public class CarParameters {
         this.aerodynamicRisk = aerodynamicRisk;
         this.strategicRisk = strategicRisk;
         this.tire = tire;
-        this.traveledDistance = 0;
-        this.crashed = false;
-    }
-
-    /**
-     * Return the total traveled distance this race.
-     * @return The total traveled distance.
-     */
-    public double getTraveledDistance() {
-        return traveledDistance;
-    }
-
-    /**
-     * Increase the total traveled distance of this race.
-     * @param distance The distance to increase the total distance with.
-     */
-    public void increaseTraveledDistance(double distance) {
-        traveledDistance = traveledDistance + distance;
-    }
-
-    /**
-     * Set the crash state of the car.
-     * @param bool The new crash state of the car. True is crashed. False is not crashed.
-     */
-    public void setCrashed(boolean bool) {
-        crashed = bool;
-    }
-
-    /**
-     * Return the crash state of the car.
-     * @return The crash state of the car. True if crashed. False if not crashed.
-     */
-    public boolean getCrashed() {
-        return this.crashed;
     }
 
     /**
@@ -139,7 +95,7 @@ public class CarParameters {
      *
      * @return A numerical representation of the strategic risk.
      */
-    public int getStrategistRisk() {
+    public int getStrategicRisk() {
         return strategicRisk;
     }
 
@@ -159,15 +115,17 @@ public class CarParameters {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (other instanceof CarParameters) {
-            CarParameters that = (CarParameters) other;
-
-            return this.mechanicalRisk == that.mechanicalRisk
-                && this.aerodynamicRisk == that.aerodynamicRisk
-                && this.strategicRisk == that.strategicRisk
-                && this.tire.equals(that.tire);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        CarParameters that = (CarParameters) other;
+        return Objects.equals(mechanicalRisk, that.mechanicalRisk)
+            && Objects.equals(aerodynamicRisk, that.aerodynamicRisk)
+            && Objects.equals(strategicRisk, that.strategicRisk)
+            && Objects.equals(tire, that.tire);
     }
 
     /**

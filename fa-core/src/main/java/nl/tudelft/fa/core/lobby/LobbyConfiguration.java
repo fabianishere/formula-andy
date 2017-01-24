@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,52 +25,89 @@
 
 package nl.tudelft.fa.core.lobby;
 
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
+import nl.tudelft.fa.core.lobby.schedule.LobbyScheduleFactory;
+
 import java.time.Duration;
 import java.util.Objects;
 
 /**
- * This class contains the configuration of a {@link Lobby} actor.
+ * This class contains the configuration of a {@link LobbyActor} actor.
  *
  * @author Fabian Mastenbroek
  */
 public class LobbyConfiguration {
     /**
-     * The maximum amount of players in this lobby.
+     * The maximum amount of users in this lobby.
      */
-    private int maxPlayers;
+    private final int maxUsers;
 
     /**
-     * The preparation time players have before the game.
+     * The duration of the intermission.
      */
-    private Duration preparationTime;
+    private final Duration intermission;
+
+    /**
+     * The preparation duration players have before the game.
+     */
+    private final Duration preparation;
+
+    /**
+     * The {@link LobbyScheduleFactory} to use.
+     */
+    private final LobbyScheduleFactory scheduleFactory;
 
     /**
      * Construct a {@link LobbyConfiguration} instance.
      *
-     * @param maxPlayers The maximum amount of players in this lobby.
-     * @param preparationTime The preparation time players have before the game.
+     * @param maxUsers The maximum amount of users in this lobby.
+     * @param intermission The duration of the intermission.
+     * @param preparation The preparation time players have before the game.
+     * @param scheduleFactory The {@link LobbyScheduleFactory} to use.
      */
-    public LobbyConfiguration(int maxPlayers, Duration preparationTime) {
-        this.maxPlayers = maxPlayers;
-        this.preparationTime = preparationTime;
+    public LobbyConfiguration(int maxUsers, Duration intermission, Duration preparation,
+                              LobbyScheduleFactory scheduleFactory) {
+        this.maxUsers = maxUsers;
+        this.intermission = intermission;
+        this.preparation = preparation;
+        this.scheduleFactory = scheduleFactory;
     }
 
     /**
-     * Return the maximum amount of players allowed in the lobby.
+     * Return the maximum amount of users allowed in the lobby.
      *
-     * @return An integer representing the maximum amount of players allowed in the lobby.
+     * @return An integer representing the maximum amount of users allowed in the lobby.
      */
-    public int getPlayerMaximum() {
-        return maxPlayers;
+    public int getUserMaximum() {
+        return maxUsers;
     }
 
     /**
-     * Return the preparation time players have before the game.
+     * Return the preparation time users have before the game.
      *
-     * @return The preparation time players have before the game.
+     * @return The preparation time users have before the game.
      */
-    public Duration getPreparationTime() {
-        return preparationTime;
+    public Duration getIntermission() {
+        return intermission;
+    }
+
+
+    /**
+     * Return the preparation time users have before the game.
+     *
+     * @return The preparation time users have before the game.
+     */
+    public Duration getPreparation() {
+        return preparation;
+    }
+
+    /**
+     * Return the {@link LobbyScheduleFactory} to generate the schedule.
+     *
+     * @return The {@link LobbyScheduleFactory} instance.
+     */
+    public LobbyScheduleFactory getScheduleFactory() {
+        return scheduleFactory;
     }
 
     /**
@@ -80,12 +117,16 @@ public class LobbyConfiguration {
      * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
      */
     public boolean equals(Object other) {
-        if (other instanceof LobbyConfiguration) {
-            LobbyConfiguration that = (LobbyConfiguration) other;
-            return this.maxPlayers == that.maxPlayers
-                && this.preparationTime.equals(that.preparationTime);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        LobbyConfiguration that = (LobbyConfiguration) other;
+        return Objects.equals(maxUsers, that.maxUsers)
+            && Objects.equals(intermission, that.intermission)
+            && Objects.equals(preparation, that.preparation);
     }
 
     /**
@@ -95,7 +136,7 @@ public class LobbyConfiguration {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(maxPlayers, preparationTime);
+        return Objects.hash(maxUsers, intermission, preparation);
     }
 
     /**
@@ -105,7 +146,7 @@ public class LobbyConfiguration {
      */
     @Override
     public String toString() {
-        return String.format("LobbyConfiguration(maxPlayers=%d, preparationTime=%s)",
-            maxPlayers, preparationTime);
+        return String.format("LobbyConfiguration(userMaximum=%d, intermission=%s, preparation=%s, "
+            + "scheduleFactory=%s)", maxUsers, intermission, preparation, scheduleFactory);
     }
 }

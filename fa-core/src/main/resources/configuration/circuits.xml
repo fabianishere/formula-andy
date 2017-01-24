@@ -1,128 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The MIT License (MIT)
+
+  Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
+  Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+-->
+
 <circuits>
     <circuit>
         <id>2ca3297c-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>Australia</name>
-        <date>26-3-2016</date>
-        <weather>50</weather>
+        <length>5303</length>
     </circuit>
     <circuit>
         <id>2ca32bc0-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>China</name>
-        <date>9-4-2016</date>
-        <weather>14</weather>
+        <length>5451</length>
     </circuit>
     <circuit>
         <id>2ca32cba-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>Bahrain</name>
-        <date>16-4-2016</date>
-        <weather>3</weather>
+        <length>5412</length>
     </circuit>
     <circuit>
         <id>2ca32d96-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>Russia</name>
-        <date>30-4-2016</date>
-        <weather>33</weather>
+        <length>5848</length>
     </circuit>
     <circuit>
         <id>2ca32e72-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>Spain</name>
-        <date>14-5-2016</date>
-        <weather>10</weather>
+        <length>4655</length>
     </circuit>
     <circuit>
         <id>2ca32f44-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>Monaco</name>
-        <date>28-5-2016</date>
-        <weather>14</weather>
+        <length>3337</length>
     </circuit>
     <circuit>
         <id>2ca330ca-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>Canada</name>
-        <date>11-6-2016</date>
-        <weather>23</weather>
+        <length>4361</length>
     </circuit>
     <circuit>
         <id>2ca334d0-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>Europe</name>
-        <date>18-6-2016</date>
-        <weather>40</weather>
+        <length>6003</length>
     </circuit>
     <circuit>
         <id>2ca335ac-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>Austria</name>
-        <date>2-7-2016</date>
-        <weather>47</weather>
+        <length>4326</length>
     </circuit>
     <circuit>
         <id>2ca33688-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>United Kingdom</name>
-        <date>9-7-2016</date>
-        <weather>65</weather>
+        <length>5891</length>
     </circuit>
     <circuit>
         <id>2ca33750-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>Hungary</name>
-        <date>23-7-2016</date>
-        <weather>29</weather>
+        <length>4381</length>
     </circuit>
     <circuit>
         <id>2ca33818-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>Germany</name>
-        <date>30-7-2016</date>
-        <weather>38</weather>
+        <length>4574</length>
     </circuit>
     <circuit>
         <id>2ca338e0-bd3a-11e6-a4a6-cec0c932ce01</id>
         <name>Belgium</name>
         <date>27-8-2016</date>
-        <weather>43</weather>
+        <length>7004</length>
     </circuit>
     <circuit>
         <id>58914f36-bd5e-11e6-a4a6-cec0c932ce01</id>
         <name>Italy</name>
-        <date>3-9-2016</date>
-        <weather>34</weather>
+        <length>5793</length>
     </circuit>
     <circuit>
         <id>589151c0-bd5e-11e6-a4a6-cec0c932ce01</id>
         <name>Malaysia</name>
-        <date>17-9-2016</date>
-        <weather>78</weather>
+        <length>5543</length>
     </circuit>
     <circuit>
         <id>5891530a-bd5e-11e6-a4a6-cec0c932ce01</id>
         <name>Singapore</name>
-        <date>1-10-2016</date>
-        <weather>46</weather>
+        <length>5065</length>
     </circuit>
     <circuit>
         <id>589153e6-bd5e-11e6-a4a6-cec0c932ce01</id>
         <name>Japan</name>
-        <date>8-10-2016</date>
-        <weather>47</weather>
+        <length>5807</length>
     </circuit>
     <circuit>
         <id>589154b8-bd5e-11e6-a4a6-cec0c932ce01</id>
         <name>United States</name>
-        <date>22-10-2016</date>
-        <weather>23</weather>
+        <length>5516</length>
     </circuit>
     <circuit>
         <id>58915580-bd5e-11e6-a4a6-cec0c932ce01</id>
         <name>Mexico</name>
-        <date>5-11-2016</date>
-        <weather>18</weather>
+        <length>4304</length>
     </circuit>
     <circuit>
         <id>58915954-bd5e-11e6-a4a6-cec0c932ce01</id>
         <name>Brazil</name>
-        <date>12-11-2016</date>
-        <weather>16</weather>
+        <length>4309</length>
     </circuit>
     <circuit>
         <id>58915a30-bd5e-11e6-a4a6-cec0c932ce01</id>
         <name>Abu Dhabi</name>
-        <date>26-11-2016</date>
-        <weather>0</weather>
+        <length>5554</length>
     </circuit>
 </circuits>

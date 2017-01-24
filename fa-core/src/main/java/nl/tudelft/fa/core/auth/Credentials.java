@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -85,11 +85,14 @@ public final class Credentials {
      */
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Credentials) {
-            Credentials that = (Credentials) other;
-            return this.username.equals(that.username) && this.password.equals(that.password);
+        if (this == other) {
+            return true;
         }
-        return false;
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Credentials that = (Credentials) other;
+        return Objects.equals(username, that.username) && Objects.equals(password, that.password);
     }
 
     /**

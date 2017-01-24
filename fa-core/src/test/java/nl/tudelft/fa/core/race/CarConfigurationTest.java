@@ -1,6 +1,9 @@
 package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.team.*;
+import nl.tudelft.fa.core.team.Aerodynamicist;
+import nl.tudelft.fa.core.team.Driver;
+import nl.tudelft.fa.core.team.Mechanic;
+import nl.tudelft.fa.core.team.Strategist;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Engine;
 import org.junit.Before;
@@ -69,6 +72,11 @@ public class CarConfigurationTest {
     @Test
     public void equalsNull() {
         assertThat(configuration, not(equalTo(null)));
+    }
+
+    @Test
+    public void equalsDifferentType() {
+        assertThat(configuration, not(equalTo("")));
     }
 
     @Test

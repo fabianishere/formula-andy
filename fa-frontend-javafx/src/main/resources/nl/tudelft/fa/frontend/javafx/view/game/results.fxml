@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  The MIT License (MIT)
+
+  Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
+  Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+-->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<VBox id="results-screen" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.ResultScreenController">
+        <GridPane styleClass="basic" gridLinesVisible="false" >
+            <stylesheets>
+                <URL value="@../../css/style.css" />
+            </stylesheets>
+            <columnConstraints>
+                <ColumnConstraints prefWidth="0"/>
+                <ColumnConstraints prefWidth="192"/>
+                <ColumnConstraints prefWidth="92"/>
+                <ColumnConstraints prefWidth="192"/>
+                <ColumnConstraints prefWidth="40"/>
+                <ColumnConstraints prefWidth="344"/>
+                <ColumnConstraints prefWidth="40"/>
+                <ColumnConstraints prefWidth="120"/>
+                <ColumnConstraints prefWidth="140"/>
+                <ColumnConstraints prefWidth="292"/>
+                <ColumnConstraints prefWidth="192"/>
+                <ColumnConstraints prefWidth="192"/>
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+                <RowConstraints prefHeight="45" />
+            </rowConstraints>
+
+            <ImageView fitHeight="400.0" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <Image url="@../../images/formula1logo.jpeg" />
+            </ImageView>
+
+            <Button onAction="#next" text="Continue" GridPane.columnIndex="11" GridPane.rowIndex="21" GridPane.valignment="BOTTOM" GridPane.halignment="RIGHT" />
+
+            <Label textFill="red" text="1" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.halignment="RIGHT" />
+            <Label text="2" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.halignment="RIGHT" />
+            <Label text="3" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.halignment="RIGHT" />
+            <Label text="4" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.halignment="RIGHT" />
+            <Label text="5" GridPane.columnIndex="3" GridPane.rowIndex="5" GridPane.halignment="RIGHT" />
+            <Label text="6" GridPane.columnIndex="3" GridPane.rowIndex="6" GridPane.halignment="RIGHT" />
+            <Label text="7" GridPane.columnIndex="3" GridPane.rowIndex="7" GridPane.halignment="RIGHT" />
+            <Label text="8" GridPane.columnIndex="3" GridPane.rowIndex="8" GridPane.halignment="RIGHT" />
+            <Label text="9" GridPane.columnIndex="3" GridPane.rowIndex="9" GridPane.halignment="RIGHT" />
+            <Label text="10" GridPane.columnIndex="3" GridPane.rowIndex="10" GridPane.halignment="RIGHT" />
+            <Label text="11" GridPane.columnIndex="3" GridPane.rowIndex="11" GridPane.halignment="RIGHT" />
+            <Label text="12" GridPane.columnIndex="3" GridPane.rowIndex="12" GridPane.halignment="RIGHT" />
+            <Label text="13" GridPane.columnIndex="3" GridPane.rowIndex="13" GridPane.halignment="RIGHT" />
+            <Label text="14" GridPane.columnIndex="3" GridPane.rowIndex="14" GridPane.halignment="RIGHT" />
+            <Label text="15" GridPane.columnIndex="3" GridPane.rowIndex="15" GridPane.halignment="RIGHT" />
+            <Label text="16" GridPane.columnIndex="3" GridPane.rowIndex="16" GridPane.halignment="RIGHT" />
+            <Label text="17" GridPane.columnIndex="3" GridPane.rowIndex="17" GridPane.halignment="RIGHT" />
+            <Label text="18" GridPane.columnIndex="3" GridPane.rowIndex="18" GridPane.halignment="RIGHT" />
+            <Label text="OUT" GridPane.columnIndex="3" GridPane.rowIndex="19" GridPane.halignment="RIGHT" />
+            <Label text="OUT" GridPane.columnIndex="3" GridPane.rowIndex="20" GridPane.halignment="RIGHT" />
+            <Label text="OUT" GridPane.columnIndex="3" GridPane.rowIndex="21" GridPane.halignment="RIGHT" />
+            <Label text="OUT" GridPane.columnIndex="3" GridPane.rowIndex="22" GridPane.halignment="RIGHT" />
+
+            <Label textFill="red" text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="1" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="2" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="3" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="4" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="5" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="6" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="7" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="8" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="9" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="10" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="11" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="12" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="13" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="14" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="15" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="16" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="17" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="18" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="19" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="20" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="21" GridPane.halignment="LEFT" />
+            <Label text="Max Verstappen" GridPane.columnIndex="5" GridPane.rowIndex="22" GridPane.halignment="LEFT" />
+
+            <Label textFill="red" text="+ 25 Pts" GridPane.columnIndex="7" GridPane.rowIndex="1" GridPane.halignment="LEFT" />
+            <Label text="+ 18 Pts" GridPane.columnIndex="7" GridPane.rowIndex="2" GridPane.halignment="LEFT" />
+            <Label text="+ 15 Pts" GridPane.columnIndex="7" GridPane.rowIndex="3" GridPane.halignment="LEFT" />
+            <Label text="+ 12 Pts" GridPane.columnIndex="7" GridPane.rowIndex="4" GridPane.halignment="LEFT" />
+            <Label text="+ 10 Pts" GridPane.columnIndex="7" GridPane.rowIndex="5" GridPane.halignment="LEFT" />
+            <Label text="+ 8 Pts" GridPane.columnIndex="7" GridPane.rowIndex="6" GridPane.halignment="LEFT" />
+            <Label text="+ 6 Pts" GridPane.columnIndex="7" GridPane.rowIndex="7" GridPane.halignment="LEFT" />
+            <Label text="+ 4 Pts" GridPane.columnIndex="7" GridPane.rowIndex="8" GridPane.halignment="LEFT" />
+            <Label text="+ 2 Pts" GridPane.columnIndex="7" GridPane.rowIndex="9" GridPane.halignment="LEFT" />
+            <Label text="+ 1 Pts" GridPane.columnIndex="7" GridPane.rowIndex="10" GridPane.halignment="LEFT" />
+
+            <Label text="Season ranks" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+
+            <Label textFill="red" text="Ferrari" GridPane.columnIndex="9" GridPane.rowIndex="3" />
+            <Label text="Red Bull" GridPane.columnIndex="9" GridPane.rowIndex="4" />
+            <Label text="dhegdjhbg" GridPane.columnIndex="9" GridPane.rowIndex="5" />
+            <Label text="shgsjhc" GridPane.columnIndex="9" GridPane.rowIndex="6" />
+            <Label text="sbhdbd hgd " GridPane.columnIndex="9" GridPane.rowIndex="7" />
+            <Label text="hdj" GridPane.columnIndex="9" GridPane.rowIndex="8" />
+            <Label text="edjehfj" GridPane.columnIndex="9" GridPane.rowIndex="9" />
+            <Label text="bdjfk" GridPane.columnIndex="9" GridPane.rowIndex="10" />
+            <Label text="bgdjhedj" GridPane.columnIndex="9" GridPane.rowIndex="11" />
+            <Label text="sjdhkd" GridPane.columnIndex="9" GridPane.rowIndex="12" />
+            <Label text="bejdhjdh" GridPane.columnIndex="9" GridPane.rowIndex="13" />
+
+            <Label textFill="red" text="325 Pts" GridPane.columnIndex="10" GridPane.rowIndex="3" />
+            <Label text="234 Pts" GridPane.columnIndex="10" GridPane.rowIndex="4" />
+            <Label text="dcdc" GridPane.columnIndex="10" GridPane.rowIndex="5" />
+            <Label text="shgsjhc" GridPane.columnIndex="10" GridPane.rowIndex="6" />
+            <Label text="sbhdb " GridPane.columnIndex="10" GridPane.rowIndex="7" />
+            <Label text="hdj" GridPane.columnIndex="10" GridPane.rowIndex="8" />
+            <Label text="edjeh" GridPane.columnIndex="10" GridPane.rowIndex="9" />
+            <Label text="bdjfk" GridPane.columnIndex="10" GridPane.rowIndex="10" />
+            <Label text="bgdjh" GridPane.columnIndex="10" GridPane.rowIndex="11" />
+            <Label text="sjdhkd" GridPane.columnIndex="10" GridPane.rowIndex="12" />
+            <Label text="bejdhj" GridPane.columnIndex="10" GridPane.rowIndex="13" />
+
+        </GridPane>
+</VBox>

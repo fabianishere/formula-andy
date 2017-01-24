@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,12 +25,17 @@
 
 package nl.tudelft.fa.frontend.javafx;
 
+import com.gluonhq.ignite.guice.GuiceContext;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.tudelft.fa.frontend.javafx.scene.SetupScreenScene;
+import nl.tudelft.fa.frontend.javafx.controller.user.LoginController;
+import nl.tudelft.fa.frontend.javafx.inject.ClientModule;
+
+import java.util.Collections;
+import javax.inject.Inject;
 
 /**
  * The main JavaFX {@link Application} class.
@@ -39,19 +44,34 @@ import nl.tudelft.fa.frontend.javafx.scene.SetupScreenScene;
  */
 public class Main extends Application {
     /**
+     * The {@link GuiceContext} to use.
+     */
+    private GuiceContext context = new GuiceContext(this, () ->
+        Collections.singletonList(new ClientModule()));
+
+    /**
+     * The {@link FXMLLoader} to show the views with.
+     */
+    @Inject
+    private FXMLLoader loader;
+
+    /**
      * This method is called when the application is started.
      *
      * {@inheritDoc}
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("setup-screen.fxml"));
+        context.init();
+        loader.setLocation(LoginController.VIEW);
+        Parent root = loader.load();
 
-        Scene scene = new SetupScreenScene(root);
-
+        Scene scene = new Scene(root);
         stage.setTitle("Formula Andy!");
         stage.setScene(scene);
-        stage.sizeToScene();
+        stage.setFullScreenExitHint("");
+        stage.setFullScreen(true);
+
         stage.show();
     }
 }

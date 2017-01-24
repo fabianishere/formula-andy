@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -74,12 +75,17 @@ public class GrandPrixTest {
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(id.hashCode(), grandPrix.hashCode());
+        assertEquals(Objects.hash(id), grandPrix.hashCode());
     }
 
     @Test
     public void equalsNull() {
         assertThat(grandPrix, not(equalTo(null)));
+    }
+
+    @Test
+    public void equalsDifferentType() {
+        assertThat(grandPrix, not(equalTo("")));
     }
 
     @Test

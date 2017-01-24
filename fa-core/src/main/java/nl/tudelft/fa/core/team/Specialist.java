@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -55,8 +55,7 @@ public abstract class Specialist extends Member {
 
     /**
      * Construct a {@link Specialist} instance.
-     *
-     * @param id The unique id of the specialist.
+     *  @param id The unique id of the specialist.
      * @param name The name of the specialist.
      * @param salary The salary of the specialist.
      * @param level The level of the specialist.
@@ -96,10 +95,8 @@ public abstract class Specialist extends Member {
                 return lowRisk * level / 100;
             case 2:
                 return mediumRisk * level / 100;
-            case 3:
-                return highRisk * level / 100;
             default:
-                return 5.0;
+                return highRisk * level / 100;
         }
     }
 }

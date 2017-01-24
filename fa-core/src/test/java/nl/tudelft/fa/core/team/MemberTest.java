@@ -3,11 +3,13 @@ package nl.tudelft.fa.core.team;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Fabian Mastenbroek <mail.fabianm@gmail.com>
@@ -54,6 +56,11 @@ public class MemberTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(member, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(member, member);
     }
@@ -75,6 +82,6 @@ public class MemberTest {
 
     @Test
     public void testHashCode() {
-        assertEquals(id.hashCode(), member.hashCode());
+        assertEquals(Objects.hash(id), member.hashCode());
     }
 }

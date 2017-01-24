@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,11 +25,26 @@
 
 package nl.tudelft.fa.core.lobby;
 
+import nl.tudelft.fa.core.lobby.actor.LobbyActor;
+
 /**
- * This enumeration defines the states a {@link Lobby} can be in.
+ * This enumeration defines the states a {@link LobbyActor} can be in.
  *
  * @author Fabian Mastenbroek
  */
 public enum LobbyStatus {
-    PREPARATION, IN_PROGRESS
+    /**
+     * The lobby is receiving new users.
+     */
+    INTERMISSION,
+
+    /**
+     * The lobby is in preparation for a game.
+     */
+    PREPARATION,
+
+    /**
+     * A game is in progress in the lobby.
+     */
+    PROGRESSION
 }

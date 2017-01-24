@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -35,8 +35,7 @@ import java.util.UUID;
 public class Mechanic extends Specialist {
     /**
      * Construct a {@link Mechanic} instance.
-     *
-     * @param id The unique id of this mechanic.
+     *  @param id The unique id of this mechanic.
      * @param name name of mechanic
      * @param salary salary of mechanic
      * @param level level of mechanic

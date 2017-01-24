@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,12 +32,7 @@ import java.util.UUID;
  *
  * @author Christian Slothouber
  */
-public class Engine {
-    /**
-     * The unique id of this engine.
-     */
-    private UUID id;
-
+public class Engine extends InventoryItem {
     /**
      * The name of the brand of this engine.
      */
@@ -75,7 +70,7 @@ public class Engine {
      */
     public Engine(UUID id, String brand, String name, double power, double driveability,
                   double fuelConsumption) {
-        this.id = id;
+        super(id);
         this.brand = brand;
         this.name = name;
         this.power = power;
@@ -84,12 +79,10 @@ public class Engine {
     }
 
     /**
-     * Return the unique id of this engine.
-     *
-     * @return The unique id of this engine.
+     * Construct a {@link Engine} instance.
      */
-    public UUID getId() {
-        return id;
+    protected Engine() {
+        super(null);
     }
 
     /**
@@ -138,20 +131,6 @@ public class Engine {
     }
 
     /**
-     * Test whether this {@link Engine} is equal to the given object.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    public boolean equals(Object other) {
-        if (other instanceof Engine) {
-            Engine that = (Engine) other;
-            return this.id.equals(that.id);
-        }
-        return false;
-    }
-
-    /**
      * Determines the maximum distance the car can potentially travel.
      * @param tire The tire type currently used by the car.
      * @return The maximum distance.
@@ -161,22 +140,12 @@ public class Engine {
     }
 
     /**
-     * Return the hash code of this object.
-     *
-     * @return The hash code of this object as integer.
-     */
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
-
-    /**
      * Return a string representation of this engine.
      *
      * @return A string representation of this engine.
      */
     @Override
     public String toString() {
-        return String.format("Engine(id=%s, brand=%s, name=%s)", id, brand, name);
+        return String.format("Engine(id=%s, brand=%s, name=%s)", getId(), brand, name);
     }
 }

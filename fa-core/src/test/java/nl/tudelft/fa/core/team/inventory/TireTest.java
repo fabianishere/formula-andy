@@ -3,10 +3,13 @@ package nl.tudelft.fa.core.team.inventory;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Objects;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class TireTest {
 
@@ -65,6 +68,11 @@ public class TireTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(tireA, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(tireA, tireA);
     }
@@ -81,7 +89,7 @@ public class TireTest {
 
     @Test
     public void testHashCode() {
-        assertEquals(id.hashCode(), tireA.hashCode());
+        assertEquals(Objects.hash(id), tireA.hashCode());
     }
 
     @Test

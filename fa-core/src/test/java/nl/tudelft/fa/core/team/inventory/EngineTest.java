@@ -1,14 +1,15 @@
 package nl.tudelft.fa.core.team.inventory;
 
-import nl.tudelft.fa.core.team.inventory.Engine;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class EngineTest {
     UUID id;
@@ -79,6 +80,11 @@ public class EngineTest {
     }
 
     @Test
+    public void equalsDifferentType() {
+        assertThat(engine, not(equalTo("")));
+    }
+
+    @Test
     public void equalsReference() {
         assertEquals(engine, engine);
     }
@@ -100,7 +106,7 @@ public class EngineTest {
 
     @Test
     public void testHashCode() {
-        assertEquals(id.hashCode(), engine.hashCode());
+        assertEquals(Objects.hash(id), engine.hashCode());
     }
 
     @Test

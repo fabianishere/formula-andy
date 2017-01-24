@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -35,10 +35,13 @@ dependencies {
     compile 'com.typesafe.akka:akka-slf4j_2.11:2.4.14'
     compile 'com.typesafe.akka:akka-http_2.11:10.0.0'
     compile 'com.typesafe.akka:akka-http-jackson_2.11:10.0.0'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.6'
 
     testCompile 'com.typesafe.akka:akka-testkit_2.11:2.4.14'
     testCompile 'com.typesafe.akka:akka-http-testkit_2.11:10.0.0'
     testCompile 'org.scalatest:scalatest_2.11:3.0.1'
     testCompile 'junit:junit:4.11'
     testRuntime 'org.slf4j:slf4j-simple:1.7.22'
+    testRuntime 'org.hibernate:hibernate-core:5.2.5.Final'
+    testRuntime 'com.h2database:h2:1.4.193'
 }

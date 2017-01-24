@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Fabian Mastenbroek, Christian Slothouber,
+ * Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
  * Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,12 +32,7 @@ import java.util.UUID;
  *
  * @author Christian Slothouber
  */
-public class Tire {
-    /**
-     * The unique identifier of this tire.
-     */
-    private UUID id;
-
+public class Tire extends InventoryItem {
     /**
      * The name of the brand of this tire.
      */
@@ -68,11 +63,18 @@ public class Tire {
      * @param grip A numeric representation of grip
      */
     public Tire(UUID id, String brand, TireType type, double durability, double grip) {
-        this.id = id;
+        super(id);
         this.brand = brand;
         this.type = type;
         this.durability = durability;
         this.grip = grip;
+    }
+
+    /**
+     * Construct a {@link Tire} instance.
+     */
+    protected Tire() {
+        super(null);
     }
 
     /**
@@ -82,15 +84,6 @@ public class Tire {
      */
     public double getResistanceFactor() {
         return 1 - this.grip * this.grip / 250;
-    }
-
-    /**
-     * Return the unique id of this tire.
-     *
-     * @return The unique id of the tire.
-     */
-    public UUID getId() {
-        return id;
     }
 
     /**
@@ -130,37 +123,12 @@ public class Tire {
     }
 
     /**
-     * Test whether this {@link Tire} is equal to the given object.
-     *
-     * @param other The object to be tested for equality
-     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
-     */
-    @Override
-    public boolean equals(Object other) {
-        if (other instanceof Tire) {
-            Tire that = (Tire) other;
-            return this.id.equals(that.id);
-        }
-        return false;
-    }
-
-    /**
-     * Return the hash code of this object.
-     *
-     * @return The hash code of this object as integer.
-     */
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
-
-    /**
      * Return a textual representation of this tire.
      *
      * @return A textual representation of this tire.
      */
     @Override
     public String toString() {
-        return String.format("Tire(id=%s, brand=%s, type=%s)", id, brand, type);
+        return String.format("Tire(id=%s, brand=%s, type=%s)", getId(), brand, type);
     }
 }
