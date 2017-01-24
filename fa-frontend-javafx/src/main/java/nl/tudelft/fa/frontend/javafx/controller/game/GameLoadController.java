@@ -41,6 +41,7 @@ import nl.tudelft.fa.frontend.javafx.service.ClientService;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javax.inject.Inject;
+
 /**
  * The controller for the view where the team is selected.
  *
