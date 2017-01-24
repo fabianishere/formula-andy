@@ -11,10 +11,7 @@ import nl.tudelft.fa.core.team.inventory.TireType;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -47,7 +44,8 @@ public class CarSimulatorTest {
     CarSimulator cs;
     CarSimulator cs2;
 
-    Map<Car, CarSimulationResult> results;
+    List<CarSimulationResult> results;
+    RaceSimulationResult result;
 
     @Before
     public void setUp() {
@@ -78,10 +76,11 @@ public class CarSimulatorTest {
         cs = new CarSimulator(configuration, parameters);
         cs2 = new CarSimulator(configuration2, parameters2);
 
-        results = new HashMap<>();
-        results.put(car, new CarSimulationResult(car, 0, false));
+        results = new ArrayList<>();
+        results.add(new CarSimulationResult(car, 0, false, false));
         Car car2 = new Car(UUID.randomUUID());
-        results.put(car2, new CarSimulationResult(car2, 0, false));
+        results.add(new CarSimulationResult(car2, 0, false, false));
+        result = new RaceSimulationResult(results, false);
     }
 
     @Test
@@ -96,17 +95,17 @@ public class CarSimulatorTest {
 
     @Test
     public void TestCloseDriver() {
-        assertTrue(cs.isNearby(results.get(car), results, 50));
+        assertTrue(cs.isNearby(results.get(0), new RaceSimulationResult(results, false), 50));
     }
 
     @Test
     public void TestCloseDriver2() {
-        results = new HashMap<>();
-        results.put(car, new CarSimulationResult(car, 0, false));
+        results = new ArrayList<>();
+        results.add(new CarSimulationResult(car, 0, false, false));
         Car car2 = new Car(UUID.randomUUID());
-        results.put(car2, new CarSimulationResult(car2, 200, false));
+        results.add(new CarSimulationResult(car2, 200, false, false));
 
-        assertFalse(cs.isNearby(results.get(car), results, 50));
+        assertFalse(cs.isNearby(results.get(0), new RaceSimulationResult(results, false), 50));
     }
 
     @Test
@@ -125,7 +124,7 @@ public class CarSimulatorTest {
         int temp = 0;
         Random random = new Random(1);
         for (int i = 0; i < testAmount; i++) {
-            if (cs.hasCrashed(true, cs.isNearby(results.get(car), results, 50), random)) {
+            if (cs.hasCrashed(true, cs.isNearby(results.get(0), result, 50), random)) {
                 temp++;
             }
         }
@@ -138,7 +137,7 @@ public class CarSimulatorTest {
         int temp = 0;
         Random random = new Random(1);
         for (int i = 0; i < testAmount; i++) {
-            if (cs.hasCrashed(false, cs.isNearby(results.get(car), results, 50), random)) {
+            if (cs.hasCrashed(false, cs.isNearby(results.get(0), result, 50), random)) {
                 temp++;
             }
         }
@@ -152,7 +151,7 @@ public class CarSimulatorTest {
         Random random = new Random(1);
         setUp();
         for (int i = 0; i < testAmount; i++) {
-            if (cs.hasCrashed(true, cs.isNearby(results.get(car), results, 50), random)) {
+            if (cs.hasCrashed(true, cs.isNearby(results.get(0), result, 50), random)) {
                 temp++;
             }
         }
@@ -166,7 +165,7 @@ public class CarSimulatorTest {
         Random random = new Random(2);
         setUp();
         for (int i = 0; i < testAmount; i++) {
-            if (cs.hasCrashed(false, cs.isNearby(results.get(car), results, 50), random)) {
+            if (cs.hasCrashed(false, cs.isNearby(results.get(0), result, 50), random)) {
                 temp++;
             }
         }

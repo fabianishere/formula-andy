@@ -28,6 +28,7 @@ package nl.tudelft.fa.core.race;
 import nl.tudelft.fa.core.team.inventory.Car;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +46,7 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
     /**
      * The car simulators that simulate each car.
      */
-    private final Collection<CarSimulator> simulators;
+    private final Map<Car, CarSimulator> simulators;
 
     /**
      * A flag that indicates whether it is raining.
@@ -62,12 +63,35 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
      *
      * @param simulators The car simulators that simulate each car.
      * @param grandPrix The grand prix to simulate.
+     * @param random The {@link Random} instance to use.
+     */
+    public RaceSimulator(Map<Car, CarSimulator> simulators, GrandPrix grandPrix, Random random) {
+        this.simulators = simulators;
+        this.random = random;
+        this.grandPrix = grandPrix;
+        this.raining = grandPrix != null && grandPrix.isItRaining(random);
+    }
+
+    /**
+     * Construct a {@link RaceSimulator} instance.
+     *
+     * @param simulators The car simulators that simulate each car.
+     * @param grandPrix The grand prix to simulate.
+     */
+    public RaceSimulator(Map<Car, CarSimulator> simulators, GrandPrix grandPrix) {
+       this(simulators, grandPrix, new Random());
+    }
+
+    /**
+     * Construct a {@link RaceSimulator} instance.
+     *
+     * @param simulators The car simulators that simulate each car.
+     * @param grandPrix The grand prix to simulate.
      */
     public RaceSimulator(Collection<CarSimulator> simulators, GrandPrix grandPrix) {
-        this.simulators = simulators;
-        this.random = new Random();
-        this.grandPrix = grandPrix;
-        this.raining = grandPrix.isItRaining(random);
+        this(simulators.stream()
+                .collect(Collectors.toMap(cs -> cs.getConfiguration().getCar(),
+                    Function.identity())), grandPrix, new Random());
     }
 
     /**
@@ -76,7 +100,7 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
      * @return The cars that participate in the simulation with their respective simulator.
      */
     public Collection<CarSimulator> getSimulators() {
-        return Collections.unmodifiableCollection(simulators);
+        return simulators.values();
     }
 
     /**
@@ -103,14 +127,19 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
      * @return A map containing the result of the first cycle.
      */
     public RaceSimulationResult start() {
-        return createResults(simulators.stream()
-            .collect(Collectors.toMap(cs -> cs.getConfiguration().getCar(), cs -> {
+        List<CarSimulationResult> results = simulators.values()
+            .stream()
+            .map(cs -> {
+                boolean finished = 0 >= grandPrix.getCircuit().getLength();
                 if (cs.hasCrashed(raining, true, random)) {
-                    return new CarSimulationResult(cs.getConfiguration().getCar(), 0, true);
+                    return new CarSimulationResult(cs.getConfiguration().getCar(), 0,
+                        true, finished);
                 }
                 return new CarSimulationResult(cs.getConfiguration().getCar(),
-                    cs.calculateDelta(random), false);
-            })));
+                    cs.calculateDelta(random), false, finished);
+            })
+            .collect(Collectors.toList());
+        return createResult(results);
     }
 
     /**
@@ -120,17 +149,33 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
      * @return A map containing the result of the next cycle.
      */
     public RaceSimulationResult next(RaceSimulationResult previous) {
-        return createResults(simulators.stream()
-            .collect(Collectors.toMap(cs -> cs.getConfiguration().getCar(), cs -> {
-                final CarSimulationResult result = previous.getCars()
-                    .get(cs.getConfiguration().getCar());
-                if (cs.hasCrashed(raining, cs.isNearby(result, previous.getCars(), 100), random)) {
+        final List<CarSimulationResult> results = new ArrayList<>();
+
+        // split the results in finished cars and racing cars
+        final Map<Boolean, List<CarSimulationResult>> split = previous.getResults()
+            .stream()
+            .collect(Collectors.partitioningBy(CarSimulationResult::hasFinished));
+
+        // add the finished users to the results
+        results.addAll(split.get(true));
+
+        // calculate the results of the racing cars
+        split.get(false)
+            .stream()
+            .map(result -> {
+                final CarSimulator cs = simulators.get(result.getCar());
+                if (cs.hasCrashed(raining, cs.isNearby(result, previous, 100), random)) {
                     return result.crash();
                 }
-                return result.increaseDistance(cs.calculateDelta(random));
-            })));
-    }
+                return result
+                    .increaseDistance(cs.calculateDelta(random))
+                    .finishOn(grandPrix.getCircuit().getLength());
+            })
+            .sorted(Comparator.comparingDouble(CarSimulationResult::getDistanceTraveled).reversed())
+            .forEachOrdered(results::add);
 
+        return createResult(results);
+    }
 
     /**
      * Determine whether the race is finished by the given results and return
@@ -139,10 +184,9 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
      * @param results The results to wrap.
      * @return The results of the simulation.
      */
-    private RaceSimulationResult createResults(Map<Car, CarSimulationResult> results) {
-        int distance = grandPrix.getLaps() * grandPrix.getCircuit().getLength();
-        boolean finished = results.values().stream()
-            .map(result -> result.hasCrashed() || result.getDistanceTraveled() > distance)
+    private RaceSimulationResult createResult(List<CarSimulationResult> results) {
+        boolean finished = results.stream()
+            .map(result -> result.hasCrashed() || result.hasFinished())
             .reduce(Boolean::logicalAnd)
             .orElse(true);
         return new RaceSimulationResult(results, finished);
