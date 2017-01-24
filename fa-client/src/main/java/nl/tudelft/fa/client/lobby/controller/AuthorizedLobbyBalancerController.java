@@ -54,6 +54,7 @@ public class AuthorizedLobbyBalancerController extends LobbyBalancerController {
         super(client);
         this.credentials = credentials;
     }
+    
     /**
      * Return the controllers of the lobbies running on the server.
      *
