@@ -4,8 +4,8 @@ import akka.NotUsed;
 import akka.actor.ActorSystem;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.BidiFlow;
-import akka.stream.javadsl.Source;
 import akka.stream.javadsl.Flow;
+import akka.stream.javadsl.Source;
 import akka.stream.testkit.javadsl.TestSink;
 import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.lobby.message.*;
@@ -17,7 +17,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class UnauthorizedSessionStageTest {
     private static ActorSystem system;

@@ -35,7 +35,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
-import nl.tudelft.fa.client.lobby.message.LobbyEvent;
 import nl.tudelft.fa.client.lobby.message.LobbyStatusChanged;
 import nl.tudelft.fa.client.race.CarSimulationResult;
 import nl.tudelft.fa.client.race.RaceSimulationResult;
@@ -45,11 +44,11 @@ import nl.tudelft.fa.frontend.javafx.service.ClientService;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
-import javax.inject.Inject;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
 
 /**
  * The controller for the game screen.

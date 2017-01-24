@@ -4,16 +4,17 @@ import akka.NotUsed;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.stream.ActorMaterializer;
-import akka.stream.javadsl.BidiFlow;
 import akka.stream.javadsl.Flow;
 import akka.stream.javadsl.Keep;
 import akka.stream.javadsl.Source;
 import akka.stream.testkit.javadsl.TestSink;
 import akka.testkit.JavaTestKit;
-import nl.tudelft.fa.core.lobby.Lobby;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
-import nl.tudelft.fa.core.lobby.message.*;
+import nl.tudelft.fa.core.lobby.message.Join;
+import nl.tudelft.fa.core.lobby.message.JoinSuccess;
+import nl.tudelft.fa.core.lobby.message.LobbyInboundMessage;
+import nl.tudelft.fa.core.lobby.message.LobbyOutboundMessage;
 import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
@@ -25,7 +26,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Fabian Mastenbroek <mail.fabianm@gmail.com>

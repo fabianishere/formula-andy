@@ -4,14 +4,13 @@ import nl.tudelft.fa.core.race.CarConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.Instant;
-import java.util.*;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class RaceSimulationStartedTest {
     private Set<CarConfiguration> cars;

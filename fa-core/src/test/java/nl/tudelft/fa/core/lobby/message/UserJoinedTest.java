@@ -1,12 +1,8 @@
 package nl.tudelft.fa.core.lobby.message;
 
-import akka.actor.ActorSystem;
-import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.user.User;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Objects;

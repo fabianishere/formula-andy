@@ -1,9 +1,6 @@
 package nl.tudelft.fa.server;
 
-import static org.junit.Assert.*;
-
 import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
 import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.model.ContentTypes;
 import akka.http.javadsl.model.HttpRequest;
@@ -13,7 +10,6 @@ import akka.http.javadsl.model.headers.HttpCredentials;
 import akka.http.javadsl.testkit.JUnitRouteTest;
 import akka.http.javadsl.testkit.TestRoute;
 import akka.pattern.Patterns;
-import akka.testkit.JavaTestKit;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -40,6 +36,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.Collections;
 import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
 
 
 public class LobbyControllerTest extends JUnitRouteTest {

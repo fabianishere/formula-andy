@@ -5,17 +5,14 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.auth.Credentials;
-import nl.tudelft.fa.core.lobby.Lobby;
-import nl.tudelft.fa.core.lobby.LobbyConfiguration;
-import nl.tudelft.fa.core.lobby.LobbyStatus;
-import nl.tudelft.fa.core.lobby.message.*;
-import nl.tudelft.fa.core.lobby.schedule.LobbyScheduleFactory;
-import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
+import nl.tudelft.fa.core.lobby.message.CarParametersSubmission;
+import nl.tudelft.fa.core.lobby.message.RequestInformation;
+import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmission;
+import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmitted;
 import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.race.CarParameters;
 import nl.tudelft.fa.core.race.Circuit;
 import nl.tudelft.fa.core.race.GrandPrix;
-import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Tire;
 import nl.tudelft.fa.core.team.inventory.TireType;
 import nl.tudelft.fa.core.user.User;
@@ -24,14 +21,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.time.Duration;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.UUID;
-
-import static org.junit.Assert.*;
 
 public class LobbyRaceSimulationActorTest {
     private static ActorSystem system;

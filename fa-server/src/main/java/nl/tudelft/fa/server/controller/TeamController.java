@@ -26,17 +26,13 @@
 package nl.tudelft.fa.server.controller;
 
 import static akka.http.javadsl.server.Directives.*;
-import static akka.http.javadsl.server.Directives.completeOKWithFuture;
 import static akka.http.javadsl.server.PathMatchers.uuidSegment;
 import static akka.pattern.PatternsCS.ask;
-import static scala.compat.java8.JFunction.func;
 
-import akka.actor.ActorNotFound;
 import akka.actor.ActorRef;
 import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.server.Route;
 import akka.http.javadsl.server.directives.SecurityDirectives;
-import akka.japi.pf.PFBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.tudelft.fa.core.auth.actor.Authenticator;
 import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
@@ -44,7 +40,6 @@ import nl.tudelft.fa.core.auth.message.AuthenticationSuccess;
 import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.user.User;
 import nl.tudelft.fa.server.helper.jackson.LobbyModule;
-import scala.concurrent.duration.FiniteDuration;
 
 import java.util.Optional;
 import java.util.UUID;

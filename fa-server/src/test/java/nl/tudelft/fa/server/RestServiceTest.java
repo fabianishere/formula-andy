@@ -1,7 +1,5 @@
 package nl.tudelft.fa.server;
 
-import static org.junit.Assert.*;
-
 import akka.actor.ActorRef;
 import akka.http.javadsl.model.ContentTypes;
 import akka.http.javadsl.model.HttpRequest;
@@ -16,6 +14,8 @@ import org.junit.Test;
 
 import java.time.Duration;
 import java.util.Collections;
+
+import static org.junit.Assert.assertTrue;
 
 public class RestServiceTest extends JUnitRouteTest {
     private LobbyConfiguration configuration;

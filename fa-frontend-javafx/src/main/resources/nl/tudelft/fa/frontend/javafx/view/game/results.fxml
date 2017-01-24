@@ -25,13 +25,11 @@
   THE SOFTWARE.
 -->
 
-<?import java.net.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
 <VBox id="results-screen" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.ResultScreenController">
         <GridPane styleClass="basic" gridLinesVisible="false" >
             <stylesheets>

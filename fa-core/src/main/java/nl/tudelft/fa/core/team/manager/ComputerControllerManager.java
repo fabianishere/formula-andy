@@ -2,7 +2,6 @@ package nl.tudelft.fa.core.team.manager;
 
 import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.race.CarParameters;
-import nl.tudelft.fa.core.race.RaceSimulator;
 import nl.tudelft.fa.core.team.Aerodynamicist;
 import nl.tudelft.fa.core.team.Driver;
 import nl.tudelft.fa.core.team.Mechanic;

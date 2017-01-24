@@ -1,12 +1,10 @@
 package nl.tudelft.fa.core.auth.message;
 
 import nl.tudelft.fa.core.auth.Credentials;
-import nl.tudelft.fa.core.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Objects;
-import java.util.function.Predicate;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;

@@ -1,7 +1,5 @@
 package nl.tudelft.fa.core.lobby.actor;
 
-import static org.junit.Assert.*;
-
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
@@ -12,7 +10,6 @@ import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.message.*;
-
 import nl.tudelft.fa.core.lobby.schedule.LobbyScheduleFactory;
 import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
 import nl.tudelft.fa.core.user.User;
@@ -25,6 +22,8 @@ import scala.concurrent.Await;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
 
 public class LobbyBalancerActorTest {
     private static ActorSystem system;

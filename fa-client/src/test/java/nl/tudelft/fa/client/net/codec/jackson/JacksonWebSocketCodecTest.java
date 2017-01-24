@@ -15,9 +15,11 @@ import akka.testkit.JavaTestKit;
 import akka.util.ByteString;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.tudelft.fa.client.lobby.Lobby;
-import nl.tudelft.fa.client.lobby.message.*;
 import nl.tudelft.fa.client.helper.jackson.LobbyModule;
+import nl.tudelft.fa.client.lobby.Lobby;
+import nl.tudelft.fa.client.lobby.message.Join;
+import nl.tudelft.fa.client.lobby.message.LobbyInboundMessage;
+import nl.tudelft.fa.client.lobby.message.LobbyOutboundMessage;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -25,7 +27,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class JacksonWebSocketCodecTest {
     private static ActorSystem system;

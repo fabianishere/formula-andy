@@ -25,7 +25,8 @@
 
 package nl.tudelft.fa.client.helper.jackson;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import nl.tudelft.fa.client.team.*;
 
 /**
