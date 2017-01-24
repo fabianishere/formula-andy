@@ -54,7 +54,7 @@ public class SignupController extends AbstractController {
      */
     @FXML
     private void signup(ActionEvent event) throws Exception {
-        show(event, StartScreenController.VIEW);
+        show(StartScreenController.VIEW);
     }
 
     /**
@@ -65,6 +65,6 @@ public class SignupController extends AbstractController {
      */
     @FXML
     protected void back(ActionEvent event) throws Exception {
-        show(event, LoginController.VIEW);
+        pop();
     }
 }

@@ -25,15 +25,19 @@
 
 package nl.tudelft.fa.frontend.javafx.controller;
 
-import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ResourceBundle;
 import javax.inject.Inject;
 
 
@@ -42,7 +46,7 @@ import javax.inject.Inject;
  *
  * @author Fabian Mastenbroek
  */
-public abstract class AbstractController {
+public abstract class AbstractController implements Initializable {
     /**
      * The {@link FXMLLoader} that loads the views.
      */
@@ -55,55 +59,28 @@ public abstract class AbstractController {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
+     * The root node of the view.
+     */
+    @FXML
+    protected Parent root;
+
+    /**
      * Load the view located at the given url into the given stage disregarding the view stack.
      *
      * @param stage The stage to show the view into.
      * @param location The relative location of the view.
-     * @param controller The controller of the view.
      * @throws IOException if the view fails to show.
      */
-    public void show(Stage stage, URL location, Object controller) throws IOException {
+    public void show(Stage stage, URL location) throws IOException {
         loader.setLocation(location);
         loader.setRoot(null);
-        loader.setController(controller);
+        loader.setController(null);
+
+        StackPane stack = new StackPane();
+        stack.getChildren().add(loader.load());
 
         // replace root of scene so the window does not resize
-        stage.getScene().setRoot(loader.load());
-    }
-
-    /**
-     * Load the view located at the given url given an {@link Event} disregarding the view stack.
-     *
-     * @param event The event that has occurred.
-     * @param location The relative location of the view.
-     * @param controller The controller of the view.
-     */
-    public void show(Event event, URL location, Object controller) throws IOException {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        show(stage, location, controller);
-    }
-
-    /**
-     * Load the view located at the given url given an {@link Event} disregarding the view stack.
-     *
-     * @param event The event that has occurred.
-     * @param location The relative location of the view.
-     */
-    public void show(Event event, URL location) throws IOException {
-        show(event, location, null);
-    }
-
-    /**
-     * Load the view located at the given url disregarding the view stack.
-     *
-     * @param location The relative location of the view.
-     * @param controller The controller of the view.
-     * @throws IOException if the view fails to show.
-     */
-    public void show(URL location, Object controller) throws IOException {
-        Node node = loader.getRoot();
-        show((Stage) node.getScene().getWindow(), location, controller);
+        stage.getScene().setRoot(stack);
     }
 
     /**
@@ -113,6 +90,72 @@ public abstract class AbstractController {
      * @throws IOException if the view fails to show.
      */
     public void show(URL location) throws IOException {
-        show(location, null);
+        Node node = loader.getRoot();
+        show((Stage) node.getScene().getWindow(), location);
+    }
+
+    /**
+     * Push the view located at the given url to the view stack.
+     *
+     * @param stage The stage to show the view into.
+     * @param location The relative location of the view.
+     * @throws IOException if the view fails to show.
+     */
+    public void push(Stage stage, URL location) throws IOException {
+        loader.setLocation(location);
+        loader.setRoot(null);
+        loader.setController(null);
+
+        Parent root = stage.getScene().getRoot();
+        StackPane stack;
+
+        if (root instanceof StackPane)  {
+            stack = (StackPane) root;
+        } else {
+            stack = new StackPane();
+            stage.getScene().setRoot(stack);
+            stack.getChildren().add(root);
+        }
+
+        stack.getChildren().add(loader.load());
+    }
+
+    /**
+     * Push the view located at the given url to the view stack.
+     *
+     * @param location The relative location of the view.
+     * @throws IOException if the view fails to show.
+     */
+    public void push(URL location) throws IOException {
+        Node node = loader.getRoot();
+        push((Stage) root.getScene().getWindow(), location);
+    }
+
+    /**
+     * Pop the top view in the view stack.
+     *
+     * @param stage The stage to pop the view of.
+     */
+    public void pop(Stage stage) {
+        StackPane root = (StackPane) stage.getScene().getRoot();
+        int index = root.getChildren().size() - 1;
+        if (index >= 0) {
+            root.getChildren().remove(index);
+        }
+    }
+
+    /**
+     * Pop the view located at the given url to the view stack.
+     */
+    public void pop() {
+        pop((Stage) root.getScene().getWindow());
+    }
+
+    /**
+     * This method is called when the screen is loaded.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        root = loader.getRoot();
     }
 }

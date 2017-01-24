@@ -46,7 +46,7 @@ public class StoreController extends AbstractController {
 
     @FXML
     protected void back(ActionEvent event) throws Exception {
-        show(event, SetupScreenController.VIEW);
+        show(SetupScreenController.VIEW);
     }
 }
 

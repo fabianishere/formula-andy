@@ -93,11 +93,11 @@ public class LoginController extends AbstractController {
             service.open(lobby)
                 .thenAccept(session -> session.tell(Join.INSTANCE, ActorRef.noSender()));
         }, JavaFxExecutorService.INSTANCE);
-        show(event, StartScreenController.VIEW);
+        show(StartScreenController.VIEW);
     }
 
     @FXML
     protected void signup(ActionEvent event) throws Exception {
-        show(event, SignupController.VIEW);
+        push(SignupController.VIEW);
     }
 }

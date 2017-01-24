@@ -79,6 +79,8 @@ public class GameScreenController extends AbstractController implements Initiali
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
         ActorRef ref = service.system().actorOf(Props.create(GameActor.class,
             GameActor::new).withDispatcher("javafx-dispatcher"));
         service.session().tell(ref, ref);

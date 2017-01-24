@@ -151,6 +151,8 @@ public class SetupScreenController extends AbstractController implements Initial
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
         ActorRef ref = service.system().actorOf(Props.create(SetupScreenActor.class,
             SetupScreenActor::new).withDispatcher("javafx-dispatcher"));
         service.session().tell(ref, ref);
