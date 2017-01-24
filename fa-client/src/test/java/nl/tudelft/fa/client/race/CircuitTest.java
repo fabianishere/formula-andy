@@ -8,7 +8,8 @@ import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class CircuitTest {
     UUID id;
@@ -84,4 +85,5 @@ public class CircuitTest {
     public void testToString() throws Exception {
         assertEquals(String.format("Circuit(id=%s, name=%s, country=%s, length=%d)", id, name, country, length), circuit.toString());
     }
+
 }

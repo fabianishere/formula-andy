@@ -1,7 +1,6 @@
-package nl.tudelft.fa.core.race;
+package nl.tudelft.fa.client.race;
 
-import nl.tudelft.fa.core.race.CarSimulationResult;
-import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.client.team.inventory.Car;
 import org.junit.Before;
 import org.junit.Test;
 

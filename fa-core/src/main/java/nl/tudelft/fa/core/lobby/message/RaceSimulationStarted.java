@@ -26,7 +26,6 @@
 package nl.tudelft.fa.core.lobby.message;
 
 import nl.tudelft.fa.core.race.CarConfiguration;
-import nl.tudelft.fa.core.race.RaceSimulationResult;
 
 import java.util.Objects;
 import java.util.Set;
