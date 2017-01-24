@@ -102,13 +102,12 @@ public class RaceSimulatorTest {
     public void getNextCycle4() {
         double distance = 0.0;
         List<CarSimulationResult> initial = new ArrayList<>();
-        initial.add(new CarSimulationResult(car, 0, false, false));
+        initial.add(new CarSimulationResult(car, 10, true, false));
         RaceSimulationResult result = new RaceSimulationResult(initial, false);
 
-        while(!result.isFinished()) {
-            distance = result.getResults().get(0).getDistanceTraveled();
-            result = rs.next(result);
-        }
+        distance = result.getResults().get(0).getDistanceTraveled();
+        result = rs.next(result);
+
         assertEquals(distance, result.getResults().get(0).getDistanceTraveled(), 0.01);
     }
 

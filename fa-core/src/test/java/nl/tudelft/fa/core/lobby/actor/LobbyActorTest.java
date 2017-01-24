@@ -392,7 +392,7 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final JavaTestKit probe = new JavaTestKit(system);
-                final LobbyScheduleFactory factory = new StaticLobbyScheduleFactory(Collections.singletonList(new GrandPrix(UUID.randomUUID(), new Circuit(UUID.randomUUID(), "Monza", "Italy", 700), Instant.now(), 0, 1)));
+                final LobbyScheduleFactory factory = new StaticLobbyScheduleFactory(Collections.singletonList(new GrandPrix(UUID.randomUUID(), new Circuit(UUID.randomUUID(), "Monza", "Italy", 0), Instant.now(), 0, 1)));
                 final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ofMillis(250), Duration.ZERO, factory));
                 final ActorRef subject = system.actorOf(props);
                 final Subscribe req = new Subscribe(probe.getRef());
@@ -406,7 +406,7 @@ public class LobbyActorTest {
                 probe.expectMsgEquals(duration("1 second"), new LobbyStatusChanged(LobbyStatus.PREPARATION, LobbyStatus.PROGRESSION));
                 probe.expectMsgClass(duration("1 second"), RaceSimulationStarted.class);
                 probe.expectMsgClass(duration("3 second"), RaceSimulationResult.class);
-                probe.expectMsgEquals(duration("1 second"), new LobbyStatusChanged(LobbyStatus.PROGRESSION, LobbyStatus.INTERMISSION));
+                probe.expectMsgEquals(duration("2 second"), new LobbyStatusChanged(LobbyStatus.PROGRESSION, LobbyStatus.INTERMISSION));
 
                 system.stop(subject);
             }
