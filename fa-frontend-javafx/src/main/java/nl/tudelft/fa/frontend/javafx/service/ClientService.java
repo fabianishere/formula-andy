@@ -132,4 +132,9 @@ public class ClientService extends AbstractClient {
     public TeamController teams() throws NotAuthorizedException {
         return client.teams();
     }
+
+    @Override
+    public CompletionStage<Done> test() {
+        return client.test();
+    }
 }

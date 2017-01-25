@@ -82,7 +82,7 @@
                         <Insets bottom="25" top="25" />
                     </padding>
 
-                    <HBox fx:id="alert" alignment="CENTER" styleClass="alert" GridPane.columnSpan="2147483647">
+                    <HBox fx:id="alert" styleClass="alert" GridPane.columnSpan="2147483647">
                         <Label fx:id="alertLabel" text="The entered credentials are invalid" />
 
                         <padding>

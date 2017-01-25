@@ -25,7 +25,9 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.user;
 
+import akka.Done;
 import akka.actor.ActorRef;
+import akka.stream.StreamTcpException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -40,8 +42,10 @@ import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
 import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 
 /**
@@ -97,7 +101,32 @@ public class LoginController extends AbstractController {
     protected void login(ActionEvent event) throws Exception {
         Credentials credentials = new Credentials(username.getText(), password.getText());
         logger.info("User logging in with credentials {}", credentials);
+
+        // Authorize the user
         service.authorize(credentials);
+        service.test().whenCompleteAsync(this::login, JavaFxExecutorService.INSTANCE);
+    }
+
+    /**
+     * Handle the login event of a user.
+     *
+     * @param done A parameter to indicate the user successfully logged in.
+     * @param throwable An exception that occurred when authenticating.
+     */
+    private void login(Done done, Throwable throwable) {
+        if (throwable != null) {
+            String msg = throwable.getCause().getMessage();
+
+            if (throwable.getCause() instanceof StreamTcpException) {
+                msg = "The server is currently not available";
+            }
+
+            alert.setVisible(true);
+            alertLabel.setText(msg);
+            return;
+        }
+
+        // Find a lobby
         logger.info("Looking for available lobby for user");
         service.balancer().find().whenCompleteAsync((lobby, exc) -> {
             if (exc != null) {
@@ -108,7 +137,17 @@ public class LoginController extends AbstractController {
             service.open(lobby)
                 .thenAccept(session -> session.tell(Join.INSTANCE, ActorRef.noSender()));
         }, JavaFxExecutorService.INSTANCE);
-        show(StartScreenController.VIEW);
+
+
+        // Show the start screen
+        try {
+            show(StartScreenController.VIEW);
+        } catch (IOException exc) {
+            logger.error("Failed to load start screen for user", exc);
+
+            alert.setVisible(true);
+            alertLabel.setText(exc.getMessage());
+        }
     }
 
     @FXML
