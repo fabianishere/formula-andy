@@ -28,6 +28,8 @@ package nl.tudelft.fa.frontend.javafx.controller.user;
 import akka.actor.ActorRef;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import nl.tudelft.fa.client.auth.Credentials;
@@ -39,6 +41,7 @@ import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
 import java.net.URL;
+import java.util.ResourceBundle;
 import javax.inject.Inject;
 
 /**
@@ -65,6 +68,18 @@ public class LoginController extends AbstractController {
      */
     @FXML
     private PasswordField password;
+
+    /**
+     * The alert to show if the credentials are invalid.
+     */
+    @FXML
+    private Node alert;
+
+    /**
+     * The alert label where the error message is contained.
+     */
+    @FXML
+    private Label alertLabel;
 
     /**
      * The injected client service.
@@ -99,5 +114,16 @@ public class LoginController extends AbstractController {
     @FXML
     protected void signup(ActionEvent event) throws Exception {
         push(SignupController.VIEW);
+    }
+
+    /**
+     * This method is called when the screen is loaded.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
+        alert.setVisible(false);
+        alert.managedProperty().bind(alert.visibleProperty());
     }
 }

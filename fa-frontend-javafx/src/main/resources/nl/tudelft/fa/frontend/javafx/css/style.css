@@ -23,6 +23,98 @@
  * THE SOFTWARE.
  */
 
+.page-container {
+    -fx-fill-width: true;
+    -fx-fill-height: true;
+    -fx-background-color: black;
+    -fx-font-family: 'Open Sans';
+}
+
+.page-container .background-container {
+    -fx-fill-width: true;
+    -fx-fill-height: true;
+    -fx-background-image: url("../images/background.jpg");
+    -fx-background-size: cover, auto;
+}
+
+.page-container .background-container .background {
+    -fx-fill-width: true;
+    -fx-fill-height: true;
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+    -fx-background-size: cover, auto;
+}
+
+.login-container {
+    -fx-pref-height: 500px;
+    -fx-pref-width: 500px;
+}
+
+.login-container .title {
+    -fx-font-family: 'Open Sans';
+    -fx-font-weight: bolder;
+    -fx-font-size: 24px;
+    -fx-text-fill: rgb(37, 37, 37);
+    -fx-padding: 10 20 10 20;
+    -fx-background-color: rgb(226, 250, 29);
+    -fx-effect: dropshadow(three-pass-box, rgba(226, 250, 29, 0.5), 2, 0, 0, 0)
+                innershadow(three-pass-box, yellow, 10, 0, 0, 0);
+}
+.login-container .title .light {
+    -fx-text-fill: rgba(37, 37, 37, 0.5);
+}
+
+.login-container .content {
+    -fx-background-color: rgb(231, 231, 231);
+    -fx-effect: dropshadow(three-pass-box, rgba(231, 231, 231, 0.5), 10, 0, 0, 0)
+                innershadow(three-pass-box, white, 10, 0, 0, 0);
+    -fx-font-size: 18px;
+}
+
+.login-container .content .icon {
+    -fx-background-color: #ccc;
+    -fx-text-fill: #ccc;
+    -fx-fill: rgb(48, 54, 58);
+}
+.login-container .content .username {
+    -fx-label-float: true;
+    -fx-focus-color: rgb(30, 36, 5);
+    -fx-unfocus-color: rgb(155, 155, 155);
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+    -fx-min-width: 300px;
+}
+
+.login-container .content .password {
+    -fx-label-float: true;
+    -fx-focus-color: rgb(42, 47, 51);
+    -fx-unfocus-color: rgb(155, 155, 155);
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+.login-container .content .submit {
+    -fx-text-fill: white;
+    -fx-background-color: rgb(42, 47, 51);
+    -fx-background-radius: 0 0 0 0;
+    -fx-border-color: transparent;
+    -fx-border-radius: 0 0 0 0;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+}
+
+.alert {
+    -fx-background-color: #f2dede;
+    -fx-border-color: #ebcccc;
+    -fx-text-fill: #a94442;
+    -fx-font-size: 16px;
+}
+
+.alert Label {
+    -fx-text-fill: #a94442;
+}
+
+
+
 .basic {
     -fx-background-color: white;
     -fx-font-size: 2em;
