@@ -25,10 +25,13 @@
 
 package nl.tudelft.fa.client;
 
+import akka.Done;
 import akka.http.javadsl.model.Uri;
 import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
 import nl.tudelft.fa.client.net.message.NotAuthorizedException;
 import nl.tudelft.fa.client.team.controller.TeamController;
+
+import java.util.concurrent.CompletionStage;
 
 /**
  * This class represents the contract a client adheres to.
@@ -64,6 +67,13 @@ public abstract class AbstractClient {
      * @throws NotAuthorizedException if the user is not authorized.
      */
     public abstract TeamController teams() throws NotAuthorizedException;
+
+    /**
+     * Test whether the connection with the server is valid.
+     *
+     * @return A completion stage that completes if the connection is valid.
+     */
+    public abstract CompletionStage<Done> test();
 
     /**
      * Return the base uri of the server.

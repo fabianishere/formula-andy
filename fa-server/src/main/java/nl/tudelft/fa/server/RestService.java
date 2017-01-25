@@ -34,6 +34,7 @@ import akka.http.javadsl.model.StatusCodes;
 import akka.http.javadsl.server.Route;
 import nl.tudelft.fa.core.auth.actor.Authenticator;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
+import nl.tudelft.fa.server.controller.AuthorizationController;
 import nl.tudelft.fa.server.controller.LobbyController;
 import nl.tudelft.fa.server.controller.TeamController;
 import nl.tudelft.fa.server.model.Information;
@@ -73,6 +74,11 @@ public class RestService {
     private final TeamController teams;
 
     /**
+     * The {@link AuthorizationController} to use.
+     */
+    private final AuthorizationController auth;
+
+    /**
      * Construct a {@link RestService} instance.
      *
      * @param system The {@link ActorSystem} instance to use.
@@ -85,6 +91,7 @@ public class RestService {
         this.system = system;
         this.lobbies = new LobbyController(system, authenticator, balancer, entityManager);
         this.teams = new TeamController(authenticator, entityManager);
+        this.auth = new AuthorizationController(authenticator);
     }
 
     /**
@@ -96,7 +103,8 @@ public class RestService {
         return route(
             path("information", this::information),
             pathPrefix("lobbies", lobbies::createRoute),
-            pathPrefix("teams", teams::createRoute)
+            pathPrefix("teams", teams::createRoute),
+            pathPrefix("auth", auth::createRoute)
         );
     }
 
