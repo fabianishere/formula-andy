@@ -37,6 +37,7 @@ import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.server.controller.AuthorizationController;
 import nl.tudelft.fa.server.controller.LobbyController;
 import nl.tudelft.fa.server.controller.TeamController;
+import nl.tudelft.fa.server.controller.UserController;
 import nl.tudelft.fa.server.model.Information;
 
 import java.lang.management.ManagementFactory;
@@ -79,6 +80,11 @@ public class RestService {
     private final AuthorizationController auth;
 
     /**
+     * The {@link UserController} to manage the users.
+     */
+    private final UserController users;
+
+    /**
      * Construct a {@link RestService} instance.
      *
      * @param system The {@link ActorSystem} instance to use.
@@ -92,6 +98,7 @@ public class RestService {
         this.lobbies = new LobbyController(system, authenticator, balancer, entityManager);
         this.teams = new TeamController(authenticator, entityManager);
         this.auth = new AuthorizationController(authenticator);
+        this.users = new UserController(entityManager);
     }
 
     /**
@@ -104,7 +111,8 @@ public class RestService {
             path("information", this::information),
             pathPrefix("lobbies", lobbies::createRoute),
             pathPrefix("teams", teams::createRoute),
-            pathPrefix("auth", auth::createRoute)
+            pathPrefix("auth", auth::createRoute),
+            pathPrefix("users", users::createRoute)
         );
     }
 
