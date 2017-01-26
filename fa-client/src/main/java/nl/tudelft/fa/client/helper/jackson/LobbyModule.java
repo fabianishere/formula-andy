@@ -75,6 +75,7 @@ public class LobbyModule extends SimpleModule {
         context.setMixInAnnotations(Join.class, JoinMixin.class);
         context.setMixInAnnotations(Leave.class, LeaveMixin.class);
         context.setMixInAnnotations(TimeRemaining.class, TimeRemainingMixin.class);
+        context.setMixInAnnotations(ChatEvent.class, ChatEventMixin.class);
 
         context.setMixInAnnotations(Member.class, MemberMixin.class);
         context.setMixInAnnotations(InventoryItem.class, InventoryItemMixin.class);

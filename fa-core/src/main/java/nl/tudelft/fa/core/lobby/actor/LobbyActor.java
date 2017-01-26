@@ -38,7 +38,6 @@ import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.race.GrandPrix;
 import nl.tudelft.fa.core.team.Team;
-import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.concurrent.duration.FiniteDuration;
 import scala.runtime.BoxedUnit;
@@ -133,6 +132,8 @@ public class LobbyActor extends AbstractActor {
             .match(CarParametersSubmission.class,
                 msg -> sender().equals(teams.get(msg.getTeam())),
                 msg -> simulator.tell(msg, sender()))
+            .match(Chat.class, msg -> bus.tell(new ChatEvent(msg.getTeam(), msg.getMessage()),
+                sender()))
             .build();
     }
 
@@ -188,14 +189,6 @@ public class LobbyActor extends AbstractActor {
             .match(LobbyStatusChanged.class, this::transitToProgression)
             .build()
             .orElse(base());
-    }
-
-    /**
-     * A countdown method invoked every ten seconds to inform the lobby how much is remaining
-     * before the next stage.
-     */
-    private void countdown() {
-
     }
 
     /**
