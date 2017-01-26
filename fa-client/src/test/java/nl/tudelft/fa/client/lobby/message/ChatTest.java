@@ -67,11 +67,11 @@ public class ChatTest {
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(team, chat), chat.hashCode());
+        assertEquals(Objects.hash(team, message), chat.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("Chat(team=%s, message=%s)", team, chat), chat.toString());
+        assertEquals(String.format("Chat(team=%s, message=%s)", team, message), chat.toString());
     }
 }
