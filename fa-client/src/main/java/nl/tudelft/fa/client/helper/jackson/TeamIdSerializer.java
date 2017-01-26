@@ -25,21 +25,38 @@
 
 package nl.tudelft.fa.client.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.tudelft.fa.client.user.User;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import nl.tudelft.fa.client.team.Team;
+
+import java.io.IOException;
 
 /**
- * Mix-in for the {@link UserLeft} event class.
+ * A serializer that serializes only the id of a {@link Team} object.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class UserLeftMixin {
+public class TeamIdSerializer extends StdSerializer<Team> {
     /**
-     * Construct a {@link UserLeftMixin} instance.
-     *
-     * @param user The user that has left the lobby.
+     * Construct a {@link TeamIdSerializer} instance.
      */
-    @JsonCreator
-    public UserLeftMixin(@JsonProperty("user") User user) {}
+    public TeamIdSerializer() {
+        this(Team.class);
+    }
+
+    /**
+     * Construct a {@link TeamIdSerializer} instance.
+     *
+     * @param cls The class to serialize.
+     */
+    public TeamIdSerializer(Class<Team> cls) {
+        super(cls);
+    }
+
+    @Override
+    public void serialize(Team value, JsonGenerator gen,
+                          SerializerProvider provider) throws IOException {
+        gen.writeString(value.getId().toString());
+    }
 }

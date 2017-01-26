@@ -19,7 +19,7 @@ public class TeamTest {
     int budget;
     User manager;
     List<Member> staff;
-    Team team;
+    nl.tudelft.fa.core.team.Team team;
 
     @Before
     public void setUp() throws Exception {
@@ -29,7 +29,7 @@ public class TeamTest {
         manager = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
         staff = new ArrayList<>();
         staff.add(new Strategist(UUID.randomUUID(), "Barnes", 200, 100));
-        team = new Team(id, name, budget, manager, staff);
+        team = new nl.tudelft.fa.core.team.Team(id, name, budget, manager, staff);
     }
 
     @Test
@@ -74,17 +74,17 @@ public class TeamTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new Team(id, name, budget, manager, staff), team);
+        assertEquals(new nl.tudelft.fa.core.team.Team(id, name, budget, manager, staff), team);
     }
 
     @Test
     public void equalsDifferentId() {
-        assertThat(team, not(equalTo(new Team(UUID.randomUUID(), name, budget, manager, staff))));
+        assertThat(team, not(equalTo(new nl.tudelft.fa.core.team.Team(UUID.randomUUID(), name, budget, manager, staff))));
     }
 
     @Test
     public void equalsOtherPropertiesHaveNoEffect() {
-        assertEquals(new Team(id, "Test", budget + 1, null, Collections.emptyList()), team);
+        assertEquals(new nl.tudelft.fa.core.team.Team(id, "Test", budget + 1, null, Collections.emptyList()), team);
     }
 
     @Test

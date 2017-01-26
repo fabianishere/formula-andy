@@ -16,6 +16,7 @@ import nl.tudelft.fa.core.lobby.message.JoinSuccess;
 import nl.tudelft.fa.core.lobby.message.LobbyInboundMessage;
 import nl.tudelft.fa.core.lobby.message.LobbyOutboundMessage;
 import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -37,6 +38,7 @@ public class LobbyStageTest {
     private LobbyConfiguration configuration;
     private ActorRef lobby;
     private User user;
+    private Team team;
     private LobbyStage stage;
 
     @BeforeClass
@@ -55,13 +57,14 @@ public class LobbyStageTest {
         configuration = new LobbyConfiguration(11, Duration.ofMinutes(3), Duration.ZERO, new StaticLobbyScheduleFactory(Collections.emptyList()));
         lobby = system.actorOf(LobbyActor.props(configuration));
         user = new User(UUID.randomUUID(), null);
+        team = new Team(UUID.randomUUID(), "test", 0, user);
         stage = new LobbyStage(lobby);
     }
 
     @Test
     public void acceptMessage() {
         final Source<LobbyInboundMessage, NotUsed> source =
-            Source.maybe().mergeMat(Source.single(new Join(user, null)), Keep.right());
+            Source.maybe().mergeMat(Source.single(new Join(team, null)), Keep.right());
         final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> flow = Flow.fromGraph(stage);
 
         LobbyOutboundMessage msg = source

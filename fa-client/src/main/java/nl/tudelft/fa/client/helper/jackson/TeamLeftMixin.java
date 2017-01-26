@@ -27,26 +27,20 @@ package nl.tudelft.fa.client.helper.jackson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.tudelft.fa.client.lobby.message.CarParametersSubmission;
-import nl.tudelft.fa.client.race.CarParameters;
+import nl.tudelft.fa.client.lobby.message.TeamLeft;
 import nl.tudelft.fa.client.team.Team;
-import nl.tudelft.fa.client.team.inventory.Car;
 
 /**
- * Mix-in for the {@link CarParametersSubmission} class.
+ * Mix-in for the {@link TeamLeft} event class.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class CarParametersSubmissionMixin {
+public abstract class TeamLeftMixin {
     /**
-     * Construct a {@link CarParametersSubmissionMixin} instance.
+     * Construct a {@link TeamLeftMixin} instance.
      *
-     * @param team The {@link Team} that wants to submit the parameters.
-     * @param car The {@link Car} to apply the parameters to.
-     * @param parameters The parameters to apply
+     * @param team The team that has left the lobby.
      */
     @JsonCreator
-    public CarParametersSubmissionMixin(@JsonProperty("team") Team team,
-                                        @JsonProperty("car") Car car,
-                                        @JsonProperty("parameters") CarParameters parameters) {}
+    public TeamLeftMixin(@JsonProperty("team") Team team) {}
 }

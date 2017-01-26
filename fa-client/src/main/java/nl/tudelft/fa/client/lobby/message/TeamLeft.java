@@ -25,37 +25,37 @@
 
 package nl.tudelft.fa.client.lobby.message;
 
-import nl.tudelft.fa.client.user.User;
+import nl.tudelft.fa.client.team.Team;
 
 import java.util.Objects;
 
 /**
- * This event indicates that a {@link User} has joined the lobby.
+ * This event indicates that a {@link Team} has left the lobby.
  *
  * @author Fabian Mastenbroek
  */
-public final class UserJoined implements LobbyEvent {
+public final class TeamLeft implements LobbyEvent {
     /**
-     * The {@link User} that has joined the lobby.
+     * The {@link Team} that has left the lobby.
      */
-    private final User user;
+    private final Team team;
 
     /**
-     * Construct a {@link UserJoined} instance.
+     * Construct a {@link TeamLeft} instance.
      *
-     * @param user The user that has joined the lobby.
+     * @param team The team that has left the lobby.
      */
-    public UserJoined(User user) {
-        this.user = user;
+    public TeamLeft(Team team) {
+        this.team = team;
     }
 
     /**
-     * Return the user that has joined the lobby.
+     * Return the team that has left the lobby.
      *
-     * @return The user that has joined the lobby.
+     * @return The team that has left the lobby.
      */
-    public User getUser() {
-        return user;
+    public Team getTeam() {
+        return team;
     }
 
     /**
@@ -73,8 +73,8 @@ public final class UserJoined implements LobbyEvent {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        UserJoined that = (UserJoined) other;
-        return Objects.equals(user, that.user);
+        TeamLeft that = (TeamLeft) other;
+        return Objects.equals(team, that.team);
     }
 
     /**
@@ -84,7 +84,7 @@ public final class UserJoined implements LobbyEvent {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user);
+        return Objects.hash(team);
     }
 
     /**
@@ -94,6 +94,6 @@ public final class UserJoined implements LobbyEvent {
      */
     @Override
     public String toString() {
-        return String.format("UserJoined(user=%s)", user);
+        return String.format("TeamLeft(team=%s)", team);
     }
 }

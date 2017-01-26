@@ -1,7 +1,7 @@
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.client.lobby.message;
 
-import nl.tudelft.fa.core.auth.Credentials;
-import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.client.team.Team;
+import nl.tudelft.fa.client.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,19 +12,19 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-public class UserLeftTest {
-    private User user;
-    private UserLeft event;
+public class TeamLeftTest {
+    private Team team;
+    private TeamLeft event;
 
     @Before
     public void setUp() throws Exception {
-        user = new User(UUID.randomUUID(), new Credentials("a", "b"));
-        event = new UserLeft(user);
+        team = new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null));
+        event = new TeamLeft(team);
     }
 
     @Test
     public void getUser() throws Exception {
-        assertEquals(user, event.getUser());
+        assertEquals(team, event.getTeam());
     }
 
     @Test
@@ -44,22 +44,22 @@ public class UserLeftTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new UserLeft(user), event);
+        assertEquals(new TeamLeft(team), event);
     }
 
     @Test
     public void equalsDifferentUser() {
-        assertNotEquals(new UserLeft(new User(UUID.randomUUID(), new Credentials("b", "c"))),
+        assertNotEquals(new TeamLeft(new Team(UUID.randomUUID(), null, 1, null)),
             event);
     }
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(user), event.hashCode());
+        assertEquals(Objects.hash(team), event.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("UserLeft(user=%s)", user), event.toString());
+        assertEquals(String.format("TeamLeft(team=%s)", team), event.toString());
     }
 }

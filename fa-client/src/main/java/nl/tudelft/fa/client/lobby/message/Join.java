@@ -25,17 +25,75 @@
 
 package nl.tudelft.fa.client.lobby.message;
 
+import akka.actor.ActorRef;
+import nl.tudelft.fa.client.team.Team;
+
+import java.util.Objects;
+
 /**
- * This message is sent to a lobby to request to join it.
+ * This message is sent to a lobby to request to join the lobby.
  *
  * @author Fabian Mastenbroek
  */
 public final class Join implements LobbyRequest {
     /**
-     * The static instance of this class.
+     * The {@link Team} that wants to join the lobby.
      */
-    public static final Join INSTANCE = new Join();
+    private Team team;
 
+    /**
+     * Construct a {@link Join} message.
+     *
+     * @param team The team that wants to join the lobby.
+     */
+    public Join(Team team) {
+        this.team = team;
+    }
+
+    /**
+     * Construct a {@link Join} message.
+     */
+    protected Join() {
+        // Helper constructor for libraries that instantiate messages via reflection
+    }
+
+    /**
+     * Return the {@link Team} that wants to join the lobby.
+     *
+     * @return The team that wants to join the lobby.
+     */
+    public Team getTeam() {
+        return team;
+    }
+
+    /**
+     * Test whether this message is equal to the given object, which means that all properties of
+     * this message are equal to the properties of the other class.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Join that = (Join) other;
+        return Objects.equals(team, that.team);
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(team);
+    }
 
     /**
      * Return a string representation of this message.
@@ -44,6 +102,6 @@ public final class Join implements LobbyRequest {
      */
     @Override
     public String toString() {
-        return "Join";
+        return String.format("Join(team=%s)", team);
     }
 }

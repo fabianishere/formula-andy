@@ -25,21 +25,11 @@
 
 package nl.tudelft.fa.client.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
-import nl.tudelft.fa.client.user.User;
 
 /**
  * Mix-in for the {@link TeamConfigurationSubmission} class.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class TeamConfigurationSubmissionMixin {
-    /**
-     * Return the user that wants to submit this configuration.
-     *
-     * @return The user that wants to submit this configuration.
-     */
-    @JsonIgnore
-    public abstract User getUser();
-}
+public abstract class TeamConfigurationSubmissionMixin {}

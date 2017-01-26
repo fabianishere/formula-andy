@@ -25,26 +25,47 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import akka.actor.ActorRef;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.tudelft.fa.core.lobby.message.Join;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import nl.tudelft.fa.core.team.Team;
 
+import java.io.IOException;
+import java.util.UUID;
+
+import javax.persistence.EntityManager;
+
 /**
- * Mix-in for the {@link Join} class.
+ * A deserializer for the {@link Team} class.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class JoinMixin {
+public class TeamDeserializer extends StdDeserializer<Team> {
     /**
-     * Construct a {@link JoinMixin} instance.
-     *
-     * @param team The tea, to join the lobby.
-     * @param handler The handler of the user.
+     * The entity manager to use.
      */
-    @JsonCreator
-    public JoinMixin(@JsonProperty("team") Team team, @JsonProperty("handler") ActorRef handler) {
-        // no implementation. Jackson does the work
+    private final EntityManager entityManager;
+
+    /**
+     * Construct a {@link TeamDeserializer} instance.
+     *
+     * @param entityManager The {@link EntityManager} to deserialize the car with.
+     */
+    protected TeamDeserializer(EntityManager entityManager) {
+        super(Team.class);
+        this.entityManager = entityManager;
+    }
+
+    /**
+     * Deserialize the given JSON tree into a {@link Team} object.
+     * {@inheritDoc}
+     *
+     * @param parser The {@link JsonParser} to use.
+     * @param ctx The {@link DeserializationContext} to use.
+     * @throws IOException on failure.
+     */
+    @Override
+    public Team deserialize(JsonParser parser, DeserializationContext ctx) throws IOException {
+        return entityManager.find(Team.class, UUID.fromString(parser.getValueAsString()));
     }
 }

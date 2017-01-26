@@ -88,6 +88,7 @@ public class LobbyModule extends SimpleModule {
         deserializers.addDeserializer(Aerodynamicist.class,
             new AerodynamicistDeserializer(entityManager));
         deserializers.addDeserializer(Tire.class, new TireDeserializer(entityManager));
+        deserializers.addDeserializer(Team.class, new TeamDeserializer(entityManager));
         context.addDeserializers(deserializers);
 
         context.setMixInAnnotations(Driver.class, DriverMixin.class);
@@ -107,7 +108,7 @@ public class LobbyModule extends SimpleModule {
         context.setMixInAnnotations(TeamConfigurationSubmission.class,
             TeamConfigurationSubmissionMixin.class);
         context.setMixInAnnotations(CarConfiguration.class, CarConfigurationMixin.class);
-        context.setMixInAnnotations(Team.class, TeamMixin.class);
+        context.setMixInAnnotations(nl.tudelft.fa.core.team.Team.class, TeamMixin.class);
         context.setMixInAnnotations(Member.class, MemberMixin.class);
         context.setMixInAnnotations(InventoryItem.class, InventoryItemMixin.class);
         context.setMixInAnnotations(RaceSimulationResult.class, RaceSimulationResultMixin.class);

@@ -37,6 +37,7 @@ import nl.tudelft.fa.core.lobby.message.RaceSimulationStarted;
 import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmitted;
 import nl.tudelft.fa.core.race.*;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.manager.ComputerControllerManager;
 import nl.tudelft.fa.core.user.User;
@@ -96,7 +97,7 @@ public class LobbyRaceSimulationActor extends AbstractActor {
     @Override
     public PartialFunction<Object, BoxedUnit> receive() {
         return ReceiveBuilder
-            .match(TeamConfigurationSubmission.class, msg -> submitConfiguration(msg.getUser(),
+            .match(TeamConfigurationSubmission.class, msg -> submitConfiguration(msg.getTeam(),
                 msg.getCars()))
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),
                 msg.getParameters()))
@@ -162,17 +163,17 @@ public class LobbyRaceSimulationActor extends AbstractActor {
     /**
      * Submit the {@link CarConfiguration} of a user.
      *
-     * @param user The user that wants to submit the configuration.
+     * @param team The team that wants to submit the configuration.
      * @param cars The car configurations to use.
      */
-    private void submitConfiguration(User user, Set<CarConfiguration> cars) {
+    private void submitConfiguration(Team team, Set<CarConfiguration> cars) {
         cars.forEach(conf -> {
             if (conf.getCar() != null) {
                 this.cars.put(conf.getCar(), new CarSimulator(conf, null));
             }
         });
-        bus.tell(new TeamConfigurationSubmitted(user, cars), sender());
-        log.info("User {} has submitted its team configuration", user);
+        bus.tell(new TeamConfigurationSubmitted(team, cars), sender());
+        log.info("Team {} has submitted its team configuration", team);
     }
 
     /**

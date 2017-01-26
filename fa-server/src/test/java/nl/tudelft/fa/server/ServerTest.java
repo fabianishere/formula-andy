@@ -54,7 +54,7 @@ public class ServerTest {
         final ActorMaterializer materializer = ActorMaterializer.create(system);
 
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = app.createRoute().flow(system, materializer);
-        final CompletionStage<ServerBinding> binding = http.bindAndHandle(routeFlow, ConnectHttp.toHost("145.94.157.11", 8080), materializer);
+        final CompletionStage<ServerBinding> binding = http.bindAndHandle(routeFlow, ConnectHttp.toHost("localhost", 8080), materializer);
 
         System.out.println("Type RETURN to exit");
         System.in.read();
@@ -68,7 +68,7 @@ public class ServerTest {
         User user = new User(UUID.randomUUID(), credentials);
         List<InventoryItem> inventory = new ArrayList<InventoryItem>();
         List<Member> staff = new ArrayList<>();
-        final Team team = new Team(UUID.randomUUID(), "Redbull Racing", 30000, user, staff, inventory);
+        final nl.tudelft.fa.core.team.Team team = new nl.tudelft.fa.core.team.Team(UUID.randomUUID(), "Redbull Racing", 30000, user, staff, inventory);
         final Car car = new Car(UUID.randomUUID());
         final Engine engine = new Engine(UUID.randomUUID(), "Mercedes", "F1 W05 Hybrid", 100, 80, 85);
         final Tire tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.SUPER_SOFT, 7, 1);

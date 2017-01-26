@@ -25,22 +25,21 @@
 
 package nl.tudelft.fa.client.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.tudelft.fa.client.lobby.message.UserJoined;
-import nl.tudelft.fa.client.user.User;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import nl.tudelft.fa.client.lobby.message.Leave;
+import nl.tudelft.fa.client.team.Team;
 
 /**
- * Mix-in for the {@link UserJoined} event class.
+ * Mix-in for the {@link Leave} class.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class UserJoinedMixin {
+public abstract class LeaveMixin {
     /**
-     * Construct a {@link UserJoinedMixin} instance.
+     * Return the {@link Team} that wants to leave the lobby.
      *
-     * @param user The user that has joined the lobby.
+     * @return The team that wants to leave the lobby.
      */
-    @JsonCreator
-    public UserJoinedMixin(@JsonProperty("user") User user) {}
+    @JsonSerialize(using = TeamIdSerializer.class)
+    public abstract Team getTeam();
 }

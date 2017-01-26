@@ -25,37 +25,38 @@
 
 package nl.tudelft.fa.core.lobby.message;
 
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 
 /**
- * This event indicates that a {@link User} has left the lobby.
+ * This event indicates that a {@link Team} has left the lobby.
  *
  * @author Fabian Mastenbroek
  */
-public final class UserLeft implements LobbyEvent {
+public final class TeamLeft implements LobbyEvent {
     /**
-     * The {@link User} that has left the lobby.
+     * The {@link Team} that has left the lobby.
      */
-    private final User user;
+    private final Team team;
 
     /**
-     * Construct a {@link UserLeft} instance.
+     * Construct a {@link TeamLeft} instance.
      *
-     * @param user The user that has left the lobby.
+     * @param team The team that has left the lobby.
      */
-    public UserLeft(User user) {
-        this.user = user;
+    public TeamLeft(Team team) {
+        this.team = team;
     }
 
     /**
-     * Return the user that has left the lobby.
+     * Return the team that has left the lobby.
      *
-     * @return The user that has left the lobby.
+     * @return The team that has left the lobby.
      */
-    public User getUser() {
-        return user;
+    public Team getTeam() {
+        return team;
     }
 
     /**
@@ -73,8 +74,8 @@ public final class UserLeft implements LobbyEvent {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        UserLeft that = (UserLeft) other;
-        return Objects.equals(user, that.user);
+        TeamLeft that = (TeamLeft) other;
+        return Objects.equals(team, that.team);
     }
 
     /**
@@ -84,7 +85,7 @@ public final class UserLeft implements LobbyEvent {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user);
+        return Objects.hash(team);
     }
 
     /**
@@ -94,6 +95,6 @@ public final class UserLeft implements LobbyEvent {
      */
     @Override
     public String toString() {
-        return String.format("UserLeft(user=%s)", user);
+        return String.format("TeamLeft(team=%s)", team);
     }
 }

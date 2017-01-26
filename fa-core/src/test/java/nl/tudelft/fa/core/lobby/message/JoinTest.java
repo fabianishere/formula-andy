@@ -3,6 +3,7 @@ package nl.tudelft.fa.core.lobby.message;
 import akka.actor.ActorSystem;
 import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,7 +19,7 @@ import static org.junit.Assert.*;
 
 public class JoinTest {
     private static ActorSystem system;
-    private User user;
+    private Team team;
     private Join req;
     private JavaTestKit probe;
 
@@ -35,13 +36,13 @@ public class JoinTest {
     @Before
     public void setUp() throws Exception {
         probe = new JavaTestKit(system);
-        user = new User(UUID.randomUUID(), new Credentials("a", "b"));
-        req = new Join(user, probe.getRef());
+        team = new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null));
+        req = new Join(team, probe.getRef());
     }
 
     @Test
     public void getUser() throws Exception {
-        assertEquals(user, req.getUser());
+        assertEquals(team, req.getTeam());
     }
 
     @Test
@@ -61,28 +62,28 @@ public class JoinTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new Join(user, probe.getRef()), req);
+        assertEquals(new Join(team, probe.getRef()), req);
     }
 
     @Test
     public void equalsDifferentUser() {
-        assertNotEquals(new Join(new User(UUID.randomUUID(), new Credentials("b", "c")), probe.getRef()),
+        assertNotEquals(new Join(new Team(UUID.randomUUID(), null, 1, null), probe.getRef()),
             req);
     }
 
     @Test
     public void equalsDifferentHandler() {
-        assertNotEquals(new Join(user, new JavaTestKit(system).getRef()),
+        assertNotEquals(new Join(team, new JavaTestKit(system).getRef()),
             req);
     }
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(user, probe.getRef()), req.hashCode());
+        assertEquals(Objects.hash(team, probe.getRef()), req.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("Join(user=%s, handler=%s)", user, probe.getRef()), req.toString());
+        assertEquals(String.format("Join(team=%s, handler=%s)", team, probe.getRef()), req.toString());
     }
 }

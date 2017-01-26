@@ -37,6 +37,7 @@ import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.race.GrandPrix;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.concurrent.duration.FiniteDuration;
@@ -48,7 +49,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This actor represents a game lobby with multiple users.
+ * This actor represents a game lobby with multiple teams.
  *
  * @author Fabian Mastenbroek
  */
@@ -59,9 +60,9 @@ public class LobbyActor extends AbstractActor {
     private final LobbyConfiguration configuration;
 
     /**
-     * The users that have joined this lobby.
+     * The teams that have joined this lobby.
      */
-    private final Map<User, ActorRef> users;
+    private final Map<Team, ActorRef> teams;
 
     /**
      * The event bus this {@link LobbyActor} uses to publish updates.
@@ -95,7 +96,7 @@ public class LobbyActor extends AbstractActor {
      */
     private LobbyActor(LobbyConfiguration configuration) {
         this.configuration = configuration;
-        this.users = new HashMap<>(configuration.getUserMaximum());
+        this.teams = new HashMap<>(configuration.getTeamMaximum());
         this.bus = context().actorOf(LobbyEventBus.props(), "event-bus");
         this.id = self().path().name();
 
@@ -126,10 +127,10 @@ public class LobbyActor extends AbstractActor {
             .match(Unsubscribe.class, req -> bus.tell(req, sender()))
             .match(Terminated.class, msg -> handleTermination(msg.actor()))
             .match(TeamConfigurationSubmission.class,
-                msg -> sender().equals(users.get(msg.getUser())),
+                msg -> sender().equals(teams.get(msg.getTeam())),
                 msg -> simulator.tell(msg, sender()))
             .match(CarParametersSubmission.class,
-                msg -> sender().equals(users.get(msg.getUser())),
+                msg -> sender().equals(teams.get(msg.getTeam())),
                 msg -> simulator.tell(msg, sender()))
             .build();
     }
@@ -151,8 +152,8 @@ public class LobbyActor extends AbstractActor {
 
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform(LobbyStatus.INTERMISSION))
-            .match(Join.class, req -> join(req.getUser(), req.getHandler()))
-            .match(Leave.class, req -> leave(req.getUser()))
+            .match(Join.class, req -> join(req.getTeam(), req.getHandler()))
+            .match(Leave.class, req -> leave(req.getTeam()))
             .match(LobbyStatusChanged.class, this::transitToPreparation)
             .build()
             .orElse(base());
@@ -207,18 +208,18 @@ public class LobbyActor extends AbstractActor {
     }
 
     /**
-     * Let a {@link User} join this lobby by responding with either a {@link JoinException} message
+     * Let a {@link Team} join this lobby by responding with either a {@link JoinException} message
      * or a {@link JoinSuccess} message.
      *
-     * @param user The user that wants to join.
+     * @param team The team that wants to join.
      * @param handler The handler of the user.
      */
-    private void join(User user, ActorRef handler) {
-        if (users.size() >= configuration.getUserMaximum()) {
-            log.warning("The user {} failed to join because the lobby is full");
+    private void join(Team team, ActorRef handler) {
+        if (teams.size() >= configuration.getTeamMaximum()) {
+            log.warning("The team {} failed to join because the lobby is full");
 
             // The lobby has reached its maximum capacity
-            sender().tell(new LobbyFullException(self(), users.size()), self());
+            sender().tell(new LobbyFullException(self(), teams.size()), self());
             return;
         }
 
@@ -226,38 +227,38 @@ public class LobbyActor extends AbstractActor {
         context().watch(handler);
 
         // Put the user in the lobby
-        users.put(user, handler);
+        teams.put(team, handler);
 
         // Inform the requesting actor
         sender().tell(JoinSuccess.INSTANCE, self());
 
         // Tell all subscribers about the change
-        bus.tell(new UserJoined(user), self());
+        bus.tell(new TeamJoined(team), self());
 
-        log.debug("The user {} has joined the lobby", user);
+        log.debug("The team {} has joined the lobby", team);
     }
 
     /**
      * Leave the lobby.
      *
-     * @param user The user that wants to leave the lobby.
+     * @param team The team that wants to leave the lobby.
      */
-    private void leave(User user) {
-        ActorRef ref = users.remove(user);
-        leave(user, ref);
+    private void leave(Team team) {
+        ActorRef ref = teams.remove(team);
+        leave(team, ref);
     }
 
     /**
      * Leave the lobby.
      *
-     * @param user The user that wants to leave the lobby.
+     * @param team The team that wants to leave the lobby.
      * @param ref The reference to the handler of the user.
      */
-    private void leave(User user, ActorRef ref) {
+    private void leave(Team team, ActorRef ref) {
         // Determine whether the user was in the lobby
         if (ref == null) {
-            log.warning("The user {} tried to leave the lobby, but is not in the lobby",
-                user);
+            log.warning("The team {} tried to leave the lobby, but is not in the lobby",
+                team);
             sender().tell(new NotInLobbyException(self()), self());
             return;
         }
@@ -269,9 +270,9 @@ public class LobbyActor extends AbstractActor {
         sender().tell(LeaveSuccess.INSTANCE, self());
 
         // Tell all subscribers about the change
-        bus.tell(new UserLeft(user), self());
+        bus.tell(new TeamLeft(team), self());
 
-        log.debug("The user {} has left the lobby", user);
+        log.debug("The team {} has left the lobby", team);
     }
 
     /**
@@ -280,7 +281,7 @@ public class LobbyActor extends AbstractActor {
      * @param handler The handler that has been terminated.
      */
     private void handleTermination(ActorRef handler) {
-        users.entrySet().removeIf(entry -> {
+        teams.entrySet().removeIf(entry -> {
             if (entry.getValue().equals(handler)) {
                 leave(entry.getKey(), entry.getValue());
                 return true;
@@ -296,7 +297,7 @@ public class LobbyActor extends AbstractActor {
      * @param event The event that occurred.
      */
     private void transitToPreparation(LobbyStatusChanged event) {
-        if (users.size() > 0) {
+        if (teams.size() > 0) {
             log.info("Changing lobby status from {} to {}", event.getPrevious(),
                 event.getStatus());
             bus.tell(event, self());
@@ -304,7 +305,7 @@ public class LobbyActor extends AbstractActor {
             return;
         }
 
-        log.info("Lobby kept in intermission because not enough users");
+        log.info("Lobby kept in intermission because not enough teams");
         context().become(intermission());
     }
 
@@ -340,7 +341,7 @@ public class LobbyActor extends AbstractActor {
      * @return The information of this lobby.
      */
     private Lobby getInformation(LobbyStatus status) {
-        return new Lobby(id, status, configuration, users.keySet(), schedule);
+        return new Lobby(id, status, configuration, teams.keySet(), schedule);
     }
 
     /**

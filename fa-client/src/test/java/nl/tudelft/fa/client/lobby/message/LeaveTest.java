@@ -1,8 +1,7 @@
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.client.lobby.message;
 
-import nl.tudelft.fa.core.auth.Credentials;
-import nl.tudelft.fa.core.team.Team;
-import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.client.team.Team;
+import nl.tudelft.fa.client.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
