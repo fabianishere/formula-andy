@@ -90,8 +90,7 @@ public abstract class AbstractController implements Initializable {
      * @throws IOException if the view fails to show.
      */
     public void show(URL location) throws IOException {
-        Node node = loader.getRoot();
-        show((Stage) node.getScene().getWindow(), location);
+        show((Stage) root.getScene().getWindow(), location);
     }
 
     /**
@@ -127,7 +126,6 @@ public abstract class AbstractController implements Initializable {
      * @throws IOException if the view fails to show.
      */
     public void push(URL location) throws IOException {
-        Node node = loader.getRoot();
         push((Stage) root.getScene().getWindow(), location);
     }
 
