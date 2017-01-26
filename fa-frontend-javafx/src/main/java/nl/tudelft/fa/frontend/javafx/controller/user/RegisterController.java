@@ -36,29 +36,30 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.client.lobby.message.Join;
+import nl.tudelft.fa.client.user.User;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
 import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javax.inject.Inject;
 
 /**
- * A controller for the login screen of the game.
+ * The controller for the sign-up screen.
  *
  * @author Fabian Mastenbroek
  * @author Christian Slothouber
  * @author Laetitia Molkenboer
  */
-public class LoginController extends AbstractController {
+public class RegisterController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = Main.class.getResource("view/user/login.fxml");
+    public static final URL VIEW = Main.class.getResource("view/user/register.fxml");
 
     /**
      * The username field of the view.
@@ -71,6 +72,12 @@ public class LoginController extends AbstractController {
      */
     @FXML
     private PasswordField password;
+
+    /**
+     * The password repeat field of the view.
+     */
+    @FXML
+    private PasswordField passwordRepeat;
 
     /**
      * The alert to show if the credentials are invalid.
@@ -91,28 +98,36 @@ public class LoginController extends AbstractController {
     private ClientService service;
 
     /**
-     * This method is invoked when the login game button is pressed and the user wants to start
-     * playing the game.
+     * This method is invoked when the register game button is pressed and the user wants to create
+     * a new account
      *
      * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
-    protected void login(ActionEvent event) throws Exception {
-        Credentials credentials = new Credentials(username.getText(), password.getText());
-        logger.info("User logging in with credentials {}", credentials);
+    private void register(ActionEvent event) throws Exception {
+        if (!password.getText().equals(passwordRepeat.getText())) {
+            logger.warn("Failed to register, passwords do not match");
 
-        // Authorize the user
-        service.authorize(credentials);
-        service.test().whenCompleteAsync(this::login, JavaFxExecutorService.INSTANCE);
+            alert.setVisible(true);
+            alertLabel.setText("The two passwords you entered are not identical");
+            return;
+        }
+
+        Credentials credentials = new Credentials(username.getText(), password.getText());
+        logger.info("User registering credentials {}", credentials);
+
+        // Register the user
+        service.register(credentials).whenCompleteAsync(this::register,
+            JavaFxExecutorService.INSTANCE);
     }
 
     /**
-     * Handle the login event of a user.
+     * Handle the registration event of a user.
      *
-     * @param done A parameter to indicate the user successfully logged in.
+     * @param user The user that has just registered.
      * @param throwable An exception that occurred when authenticating.
      */
-    private void login(Done done, Throwable throwable) {
+    private void register(User user, Throwable throwable) {
         if (throwable != null) {
             String msg = throwable.getCause().getMessage();
 
@@ -125,40 +140,22 @@ public class LoginController extends AbstractController {
             return;
         }
 
-        // Find a lobby
-        logger.info("Looking for available lobby for user");
-        service.balancer().find().whenCompleteAsync((lobby, exc) -> {
-            if (exc != null) {
-                logger.error("Failed to find lobby for the user", exc);
-                return;
-            }
-            logger.info("Opening session for found lobby");
-            service.open(lobby)
-                .thenAccept(session -> session.tell(Join.INSTANCE, ActorRef.noSender()));
-        });
+        // Hide the alert
+        alert.setVisible(false);
 
-
-        // Show the start screen
-        try {
-            alert.setVisible(false);
-            show(StartScreenController.VIEW);
-        } catch (IOException exc) {
-            logger.error("Failed to load start screen for user", exc);
-
-            alert.setVisible(true);
-            alertLabel.setText(exc.getMessage());
-        }
+        // Show the login screen
+        pop();
     }
 
     /**
-     * This method is invoked when the register button is pressed.
+     * This method is invoked when the back button is pressed and the user wants to go back to
+     * the login screen.
      *
-     * @param event The event that occurred.
-     * @throws Exception if the view failed to load.
+     * @param event The {@link ActionEvent} that occurred.
      */
     @FXML
-    protected void register(ActionEvent event) throws Exception {
-        push(RegisterController.VIEW);
+    protected void back(ActionEvent event) throws Exception {
+        pop();
     }
 
     /**

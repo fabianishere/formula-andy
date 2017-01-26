@@ -44,12 +44,12 @@
     -fx-background-size: cover, auto;
 }
 
-.login-container {
+.user-container {
     -fx-pref-height: 500px;
     -fx-pref-width: 500px;
 }
 
-.login-container .title {
+.user-container .title {
     -fx-font-family: 'Open Sans';
     -fx-font-weight: bolder;
     -fx-font-size: 24px;
@@ -59,23 +59,25 @@
     -fx-effect: dropshadow(three-pass-box, rgba(226, 250, 29, 0.5), 2, 0, 0, 0)
                 innershadow(three-pass-box, yellow, 10, 0, 0, 0);
 }
-.login-container .title .light {
+
+.user-container .title .light {
     -fx-text-fill: rgba(37, 37, 37, 0.5);
 }
 
-.login-container .content {
+.user-container .content {
     -fx-background-color: rgb(231, 231, 231);
     -fx-effect: dropshadow(three-pass-box, rgba(231, 231, 231, 0.5), 10, 0, 0, 0)
                 innershadow(three-pass-box, white, 10, 0, 0, 0);
     -fx-font-size: 18px;
 }
 
-.login-container .content .icon {
+.user-container .content .icon {
     -fx-background-color: #ccc;
     -fx-text-fill: #ccc;
     -fx-fill: rgb(48, 54, 58);
 }
-.login-container .content .username {
+
+.user-container .content .username {
     -fx-label-float: true;
     -fx-focus-color: rgb(30, 36, 5);
     -fx-unfocus-color: rgb(155, 155, 155);
@@ -84,7 +86,7 @@
     -fx-min-width: 300px;
 }
 
-.login-container .content .password {
+.user-container .content .password {
     -fx-label-float: true;
     -fx-focus-color: rgb(42, 47, 51);
     -fx-unfocus-color: rgb(155, 155, 155);
@@ -92,7 +94,7 @@
     -fx-background-color: transparent;
 }
 
-.login-container .content .submit {
+.user-container .content .submit {
     -fx-text-fill: white;
     -fx-background-color: rgb(42, 47, 51);
     -fx-background-radius: 0 0 0 0;
@@ -102,17 +104,22 @@
     -fx-font-size: 18px;
 }
 
+.user-container .content .alternative {
+    -fx-text-fill: #aaa;
+    -fx-font-size: 12px;
+}
+
+/* Alerts */
 .alert {
     -fx-background-color: #f2dede;
     -fx-border-color: #ebcccc;
     -fx-text-fill: #a94442;
-    -fx-font-size: 16px;
+    -fx-font-size: 14px;
 }
 
 .alert Label {
     -fx-text-fill: #a94442;
 }
-
 
 
 .basic {

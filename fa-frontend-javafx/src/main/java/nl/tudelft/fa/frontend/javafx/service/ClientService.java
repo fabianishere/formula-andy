@@ -40,6 +40,7 @@ import nl.tudelft.fa.client.lobby.message.LobbyInboundMessage;
 import nl.tudelft.fa.client.lobby.message.LobbyOutboundMessage;
 import nl.tudelft.fa.client.net.message.NotAuthorizedException;
 import nl.tudelft.fa.client.team.controller.TeamController;
+import nl.tudelft.fa.client.user.User;
 import nl.tudelft.fa.frontend.javafx.net.SessionActor;
 import nl.tudelft.fa.frontend.javafx.net.SessionStage;
 
@@ -131,6 +132,11 @@ public class ClientService extends AbstractClient {
     @Override
     public TeamController teams() throws NotAuthorizedException {
         return client.teams();
+    }
+
+    @Override
+    public CompletionStage<User> register(Credentials credentials) {
+        return client.register(credentials);
     }
 
     @Override

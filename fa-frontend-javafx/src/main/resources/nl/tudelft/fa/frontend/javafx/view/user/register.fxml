@@ -43,7 +43,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Hyperlink?>
-<StackPane styleClass="page-container" fx:controller="nl.tudelft.fa.frontend.javafx.controller.user.LoginController"
+<StackPane styleClass="page-container" fx:controller="nl.tudelft.fa.frontend.javafx.controller.user.RegisterController"
            xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@../../css/style.css" />
@@ -58,12 +58,12 @@
                 <BoxBlur iterations="200" />
             </effect>
         </VBox>
-      <columnConstraints>
-         <ColumnConstraints />
-      </columnConstraints>
-      <rowConstraints>
-         <RowConstraints />
-      </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+        </rowConstraints>
     </GridPane>
 
     <!-- Page content -->
@@ -72,7 +72,7 @@
             <GridPane maxHeight="508.0" maxWidth="300.0" styleClass="user-container">
                 <HBox styleClass="title" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <Label styleClass="light" text="USER / " />
-                    <Label text="LOGIN" />
+                    <Label text="REGISTER" />
                     <GridPane.margin>
                         <Insets bottom="8" />
                     </GridPane.margin>
@@ -84,7 +84,7 @@
                     </padding>
 
                     <!-- Keeps the width correct -->
-                    <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="0">
+                    <VBox GridPane.columnSpan="2147483647" GridPane.rowIndex="0">
                         <padding>
                             <Insets left="15" right="15" />
                         </padding>
@@ -92,7 +92,7 @@
                         <GridPane.margin>
                             <Insets left="15" right="15" />
                         </GridPane.margin>
-                    </HBox>
+                    </VBox>
 
                     <HBox fx:id="alert" styleClass="alert" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
                         <Label fx:id="alertLabel" text="The entered credentials are invalid" />
@@ -104,7 +104,7 @@
 
                     <MaterialDesignIconView glyphName="ACCOUNT" glyphSize="18" styleClass="icon" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="2">
                         <GridPane.margin>
-                            <Insets bottom="15" left="0" right="15" top="35" />
+                            <Insets bottom="15" right="15" top="35" />
                         </GridPane.margin>
                     </MaterialDesignIconView>
                     <JFXTextField fx:id="username" promptText="Username" styleClass="username" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
@@ -115,7 +115,7 @@
 
                     <MaterialDesignIconView glyphName="LOCK" glyphSize="18" styleClass="icon" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="3">
                         <GridPane.margin>
-                            <Insets bottom="15" left="0" right="15" top="20" />
+                            <Insets bottom="15" right="15" top="20" />
                         </GridPane.margin>
                     </MaterialDesignIconView>
                     <JFXPasswordField fx:id="password" alignment="CENTER" promptText="Password" styleClass="password" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3">
@@ -129,12 +129,23 @@
                         </padding>
                     </JFXPasswordField>
 
-                    <Hyperlink styleClass="alternative" text="Register a free account" onAction="#register"
-                               GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                    <JFXPasswordField fx:id="passwordRepeat" alignment="CENTER" promptText="Repeat password" styleClass="password" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4">
+                        <validators>
+                            <RequiredFieldValidator message="Input Required!">
+                            </RequiredFieldValidator>
+                        </validators>
+
+                        <padding>
+                            <Insets bottom="25" top="25" />
+                        </padding>
+                    </JFXPasswordField>
+
+                    <Hyperlink styleClass="alternative" text="Or login with an existing account" onAction="#back"
+                               GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
                     </Hyperlink>
 
-                    <JFXButton prefWidth="100.0" styleClass="submit" text="Login" onAction="#login"
-                               GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                    <JFXButton prefWidth="150.0" styleClass="submit" text="Register" onAction="#register"
+                               GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
                         <GridPane.margin>
                             <Insets bottom="15" left="15" top="15" />
                         </GridPane.margin>
