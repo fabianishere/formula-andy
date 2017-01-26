@@ -31,12 +31,13 @@ import akka.http.javadsl.Http;
 import akka.http.javadsl.model.HttpMethods;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.Uri;
-import akka.http.javadsl.model.headers.Authorization;
 import akka.stream.ActorMaterializer;
 import akka.stream.Materializer;
+import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
 import nl.tudelft.fa.client.net.message.NotAuthorizedException;
 import nl.tudelft.fa.client.team.controller.TeamController;
+import nl.tudelft.fa.client.user.User;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -92,6 +93,16 @@ public class AnonymousClient extends AbstractClient {
     @Override
     public TeamController teams() throws NotAuthorizedException {
         throw new NotAuthorizedException();
+    }
+
+    /**
+     * Register a user with the given credentials.
+     *
+     * @param credentials The credentials to register the user with.
+     * @return A completion stage that completes with the registered user.
+     */
+    public CompletionStage<User> register(Credentials credentials) {
+        return client.register(credentials);
     }
 
     /**

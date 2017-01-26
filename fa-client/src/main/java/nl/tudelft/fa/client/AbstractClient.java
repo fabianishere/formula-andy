@@ -27,9 +27,11 @@ package nl.tudelft.fa.client;
 
 import akka.Done;
 import akka.http.javadsl.model.Uri;
+import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
 import nl.tudelft.fa.client.net.message.NotAuthorizedException;
 import nl.tudelft.fa.client.team.controller.TeamController;
+import nl.tudelft.fa.client.user.User;
 
 import java.util.concurrent.CompletionStage;
 
@@ -67,6 +69,14 @@ public abstract class AbstractClient {
      * @throws NotAuthorizedException if the user is not authorized.
      */
     public abstract TeamController teams() throws NotAuthorizedException;
+
+    /**
+     * Register a user with the given credentials.
+     *
+     * @param credentials The credentials to register the user with.
+     * @return A completion stage that completes with the registered user.
+     */
+    public abstract CompletionStage<User> register(Credentials credentials);
 
     /**
      * Test whether the connection with the server is valid.
