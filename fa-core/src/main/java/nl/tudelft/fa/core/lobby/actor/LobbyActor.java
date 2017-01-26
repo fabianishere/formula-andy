@@ -43,6 +43,7 @@ import scala.PartialFunction;
 import scala.concurrent.duration.FiniteDuration;
 import scala.runtime.BoxedUnit;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -150,6 +151,10 @@ public class LobbyActor extends AbstractActor {
             self()
         );
 
+        // Create a countdown for the users
+        context().system().actorOf(LobbyCountdownActor.props(bus, configuration.getIntermission(),
+            Duration.ofSeconds(10)));
+
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform(LobbyStatus.INTERMISSION))
             .match(Join.class, req -> join(req.getTeam(), req.getHandler()))
@@ -174,11 +179,23 @@ public class LobbyActor extends AbstractActor {
             self()
         );
 
+        // Create a countdown for the users
+        context().system().actorOf(LobbyCountdownActor.props(bus, configuration.getIntermission(),
+            Duration.ofSeconds(10)));
+
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform(LobbyStatus.PREPARATION))
             .match(LobbyStatusChanged.class, this::transitToProgression)
             .build()
             .orElse(base());
+    }
+
+    /**
+     * A countdown method invoked every ten seconds to inform the lobby how much is remaining
+     * before the next stage.
+     */
+    private void countdown() {
+
     }
 
     /**
