@@ -29,11 +29,9 @@ import akka.Done;
 import akka.actor.ActorSystem;
 import akka.http.javadsl.Http;
 import akka.http.javadsl.marshallers.jackson.Jackson;
-import akka.http.javadsl.model.ContentTypes;
-import akka.http.javadsl.model.HttpMethods;
-import akka.http.javadsl.model.HttpRequest;
-import akka.http.javadsl.model.Uri;
+import akka.http.javadsl.model.*;
 import akka.http.javadsl.model.headers.Authorization;
+import akka.http.javadsl.unmarshalling.Unmarshaller;
 import akka.stream.ActorMaterializer;
 import akka.stream.Materializer;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -161,10 +159,20 @@ public class Client extends AbstractClient {
         }
 
         return http.singleRequest(request, materializer)
-            .thenCompose(res ->
-                Jackson.unmarshaller(mapper, User.class)
-                    .unmarshall(res.entity(), materializer.executionContext(), materializer)
-            );
+            .thenCompose(res -> {
+                if (res.status().isFailure()) {
+                    return Unmarshaller.entityToString()
+                        .unmarshall(res.entity(), materializer.executionContext(), materializer)
+                        .thenCompose(msg -> {
+                            CompletableFuture<HttpResponse> future = new CompletableFuture<>();
+                            future.completeExceptionally(new Exception(msg));
+                            return future;
+                        });
+                }
+                return CompletableFuture.completedFuture(res);
+            })
+            .thenCompose(res -> Jackson.unmarshaller(mapper, User.class)
+                    .unmarshall(res.entity(), materializer.executionContext(), materializer));
     }
 
     /**
