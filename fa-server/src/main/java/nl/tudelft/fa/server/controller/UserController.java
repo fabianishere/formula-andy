@@ -34,7 +34,7 @@ import akka.http.javadsl.server.Route;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.user.User;
-import nl.tudelft.fa.server.helper.jackson.LobbyModule;
+import nl.tudelft.fa.server.helper.jackson.UserModule;
 
 import java.util.UUID;
 import javax.persistence.EntityManager;
@@ -64,7 +64,7 @@ public class UserController {
     public UserController(EntityManager entityManager) {
         this.entityManager = entityManager;
         this.mapper = new ObjectMapper();
-        this.mapper.registerModule(new LobbyModule(entityManager));
+        this.mapper.registerModule(new UserModule());
     }
 
     /**
