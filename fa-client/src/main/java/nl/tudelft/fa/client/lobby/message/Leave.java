@@ -25,17 +25,74 @@
 
 package nl.tudelft.fa.client.lobby.message;
 
+import nl.tudelft.fa.client.team.Team;
+
+import java.util.Objects;
+
 /**
- * This message is sent by to the lobby to request to leave the lobby.
+ * This message is sent by a {@link Team} to a lobby to ask to leave the lobby.
  *
  * @author Fabian Mastenbroek
  */
 public final class Leave implements LobbyRequest {
     /**
-     * The static instance of this class.
+     * The {@link Team} that wants to leave the lobby.
      */
-    public static final Leave INSTANCE = new Leave();
+    private Team team;
 
+    /**
+     * Construct a {@link Leave} message.
+     *
+     * @param team The team that wants to leave the lobby.
+     */
+    public Leave(Team team) {
+        this.team = team;
+    }
+
+    /**
+     * Construct a {@link Leave} message.
+     */
+    protected Leave() {
+        // Helper constructor for libraries that instantiate messages via reflection
+    }
+
+    /**
+     * Return the {@link Team} that wants to leave the lobby.
+     *
+     * @return The team that wants to leave the lobby.
+     */
+    public Team getTeam() {
+        return team;
+    }
+
+    /**
+     * Test whether this message is equal to the given object, which means that all properties of
+     * this message are equal to the properties of the other class.
+     *
+     * @param other The object to be tested for equality
+     * @return <code>true</code> if both objects are equal, <code>false</code> otherwise.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Leave that = (Leave) other;
+        return Objects.equals(team, that.team);
+    }
+
+    /**
+     * Return the hash code of this object.
+     *
+     * @return The hash code of this object as integer.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(team);
+    }
 
     /**
      * Return a string representation of this message.
@@ -44,6 +101,6 @@ public final class Leave implements LobbyRequest {
      */
     @Override
     public String toString() {
-        return "Leave";
+        return String.format("Leave(team=%s)", team);
     }
 }

@@ -1,9 +1,12 @@
-package nl.tudelft.fa.core.lobby.message;
+package nl.tudelft.fa.client.lobby.message;
 
-import nl.tudelft.fa.core.auth.Credentials;
-import nl.tudelft.fa.core.team.Team;
-import nl.tudelft.fa.core.user.User;
+import akka.actor.ActorSystem;
+import akka.testkit.JavaTestKit;
+import nl.tudelft.fa.client.team.Team;
+import nl.tudelft.fa.client.user.User;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Objects;
@@ -13,14 +16,14 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-public class LeaveTest {
-    Team team;
-    Leave req;
+public class JoinTest {
+    private Team team;
+    private Join req;
 
     @Before
     public void setUp() throws Exception {
         team = new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null));
-        req = new Leave(team);
+        req = new Join(team);
     }
 
     @Test
@@ -45,12 +48,12 @@ public class LeaveTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new Leave(team), req);
+        assertEquals(new Join(team), req);
     }
 
     @Test
-    public void equalsDifferentTeam() {
-        assertNotEquals(new Leave(new Team(UUID.randomUUID(), null, 0, null)),
+    public void equalsDifferentUser() {
+        assertNotEquals(new Join(new Team(UUID.randomUUID(), null, 1, null)),
             req);
     }
 
@@ -61,6 +64,6 @@ public class LeaveTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("Leave(team=%s)", team), req.toString());
+        assertEquals(String.format("Join(team=%s)", team), req.toString());
     }
 }

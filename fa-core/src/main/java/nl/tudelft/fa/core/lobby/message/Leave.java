@@ -26,28 +26,28 @@
 package nl.tudelft.fa.core.lobby.message;
 
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
-import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.core.team.Team;
 
 import java.util.Objects;
 
 /**
- * This message is sent by a {@link User} to a {@link LobbyActor} to ask to leave the lobby.
+ * This message is sent by a {@link Team} to a {@link LobbyActor} to ask to leave the lobby.
  *
  * @author Fabian Mastenbroek
  */
 public final class Leave implements LobbyRequest {
     /**
-     * The {@link User} that wants to leave the lobby.
+     * The {@link Team} that wants to leave the lobby.
      */
-    private User user;
+    private Team team;
 
     /**
      * Construct a {@link Leave} message.
      *
-     * @param user The user that wants to leave the lobby.
+     * @param team The team that wants to leave the lobby.
      */
-    public Leave(User user) {
-        this.user = user;
+    public Leave(Team team) {
+        this.team = team;
     }
 
     /**
@@ -58,12 +58,12 @@ public final class Leave implements LobbyRequest {
     }
 
     /**
-     * Return the {@link User} that wants to leave the lobby.
+     * Return the {@link Team} that wants to leave the lobby.
      *
-     * @return The user that wants to leave the lobby.
+     * @return The team that wants to leave the lobby.
      */
-    public User getUser() {
-        return user;
+    public Team getTeam() {
+        return team;
     }
 
     /**
@@ -82,7 +82,7 @@ public final class Leave implements LobbyRequest {
             return false;
         }
         Leave that = (Leave) other;
-        return Objects.equals(user, that.user);
+        return Objects.equals(team, that.team);
     }
 
     /**
@@ -92,7 +92,7 @@ public final class Leave implements LobbyRequest {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user);
+        return Objects.hash(team);
     }
 
     /**
@@ -102,6 +102,6 @@ public final class Leave implements LobbyRequest {
      */
     @Override
     public String toString() {
-        return String.format("Leave(user=%s)", user);
+        return String.format("Leave(team=%s)", team);
     }
 }

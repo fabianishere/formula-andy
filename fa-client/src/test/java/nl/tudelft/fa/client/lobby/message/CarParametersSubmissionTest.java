@@ -1,6 +1,7 @@
 package nl.tudelft.fa.client.lobby.message;
 
 import nl.tudelft.fa.client.race.CarParameters;
+import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.client.team.inventory.Car;
 import nl.tudelft.fa.client.user.User;
 import org.junit.Before;
@@ -14,22 +15,22 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 public class CarParametersSubmissionTest {
-    private User user;
+    private Team team;
     private Car car;
     private CarParameters parameters;
     private CarParametersSubmission msg;
 
     @Before
     public void setUp() throws Exception {
-        user = new User(UUID.randomUUID(), "fabianishere");
+        team = new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null));
         car = new Car(UUID.randomUUID());
         parameters = new CarParameters(0, 0, 0, null);
-        msg = new CarParametersSubmission(user, car, parameters);
+        msg = new CarParametersSubmission(team, car, parameters);
     }
 
     @Test
-    public void getUser() {
-        assertEquals(user, msg.getUser());
+    public void getTeam() {
+        assertEquals(team, msg.getTeam());
     }
 
     @Test
@@ -59,34 +60,34 @@ public class CarParametersSubmissionTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new CarParametersSubmission(user, car, parameters), msg);
+        assertEquals(new CarParametersSubmission(team, car, parameters), msg);
     }
 
     @Test
-    public void equalsDifferentUser() {
-        assertNotEquals(new CarParametersSubmission(new User(UUID.randomUUID(), null), car, parameters),
+    public void equalsDifferentTeam() {
+        assertNotEquals(new CarParametersSubmission(new Team(UUID.randomUUID(), null, 1, null), car, parameters),
             msg);
     }
 
     @Test
     public void equalsDifferentCar() {
-        assertNotEquals(new CarParametersSubmission(user, new Car(UUID.randomUUID()), parameters),
+        assertNotEquals(new CarParametersSubmission(team, new Car(UUID.randomUUID()), parameters),
             msg);
     }
 
     @Test
     public void equalsDifferentParameters() {
-        assertNotEquals(new CarParametersSubmission(user, car, new CarParameters(1, 0, 0, null)), msg);
+        assertNotEquals(new CarParametersSubmission(team, car, new CarParameters(1, 0, 0, null)), msg);
     }
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(user, car, parameters), msg.hashCode());
+        assertEquals(Objects.hash(team, car, parameters), msg.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("CarParametersSubmission(user=%s, car=%s, parameters=%s)", user,
+        assertEquals(String.format("CarParametersSubmission(team=%s, car=%s, parameters=%s)", team,
             car, parameters), msg.toString());
     }
 }

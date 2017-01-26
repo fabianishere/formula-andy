@@ -23,39 +23,39 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.client.lobby.message;
+package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.client.user.User;
+import nl.tudelft.fa.core.team.Team;
 
 import java.util.Objects;
 
 /**
- * This event indicates that a user has left the lobby.
+ * This event indicates that a {@link Team} has joined the lobby.
  *
  * @author Fabian Mastenbroek
  */
-public final class UserLeft implements LobbyEvent {
+public final class TeamJoined implements LobbyEvent {
     /**
-     * The {@link User} that has left the lobby.
+     * The {@link Team} that has joined the lobby.
      */
-    private final User user;
+    private final Team team;
 
     /**
-     * Construct a {@link UserLeft} instance.
+     * Construct a {@link TeamJoined} instance.
      *
-     * @param user The user that has left the lobby.
+     * @param team The team that has joined the lobby.
      */
-    public UserLeft(User user) {
-        this.user = user;
+    public TeamJoined(Team team) {
+        this.team = team;
     }
 
     /**
-     * Return the user that has left the lobby.
+     * Return the team that has joined the lobby.
      *
-     * @return The user that has left the lobby.
+     * @return The team that has joined the lobby.
      */
-    public User getUser() {
-        return user;
+    public Team getTeam() {
+        return team;
     }
 
     /**
@@ -73,8 +73,8 @@ public final class UserLeft implements LobbyEvent {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        UserLeft that = (UserLeft) other;
-        return Objects.equals(user, that.user);
+        TeamJoined that = (TeamJoined) other;
+        return Objects.equals(team, that.team);
     }
 
     /**
@@ -84,7 +84,7 @@ public final class UserLeft implements LobbyEvent {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user);
+        return Objects.hash(team);
     }
 
     /**
@@ -94,6 +94,6 @@ public final class UserLeft implements LobbyEvent {
      */
     @Override
     public String toString() {
-        return String.format("UserLeft(user=%s)", user);
+        return String.format("TeamJoined(team=%s)", team);
     }
 }

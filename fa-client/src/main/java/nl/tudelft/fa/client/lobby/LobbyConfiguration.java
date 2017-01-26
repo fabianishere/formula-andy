@@ -29,15 +29,15 @@ import java.time.Duration;
 import java.util.Objects;
 
 /**
- * This class contains the configuration of a lobby actor.
+ * This class contains the configuration of a lobby.
  *
  * @author Fabian Mastenbroek
  */
 public class LobbyConfiguration {
     /**
-     * The maximum amount of users in this lobby.
+     * The maximum amount of teams in this lobby.
      */
-    private final int maxUsers;
+    private final int maxTeams;
 
     /**
      * The duration of the intermission.
@@ -52,23 +52,23 @@ public class LobbyConfiguration {
     /**
      * Construct a {@link LobbyConfiguration} instance.
      *
-     * @param maxUsers The maximum amount of users in this lobby.
+     * @param maxTeams The maximum amount of teams in this lobby.
      * @param intermission The duration of the intermission.
      * @param preparation The preparation time players have before the game.
      */
-    public LobbyConfiguration(int maxUsers, Duration intermission, Duration preparation) {
-        this.maxUsers = maxUsers;
+    public LobbyConfiguration(int maxTeams, Duration intermission, Duration preparation) {
+        this.maxTeams = maxTeams;
         this.intermission = intermission;
         this.preparation = preparation;
     }
 
     /**
-     * Return the maximum amount of users allowed in the lobby.
+     * Return the maximum amount of teams allowed in the lobby.
      *
-     * @return An integer representing the maximum amount of users allowed in the lobby.
+     * @return An integer representing the maximum amount of teams allowed in the lobby.
      */
-    public int getUserMaximum() {
-        return maxUsers;
+    public int getTeamMaximum() {
+        return maxTeams;
     }
 
     /**
@@ -104,7 +104,7 @@ public class LobbyConfiguration {
             return false;
         }
         LobbyConfiguration that = (LobbyConfiguration) other;
-        return Objects.equals(maxUsers, that.maxUsers)
+        return Objects.equals(maxTeams, that.maxTeams)
             && Objects.equals(intermission, that.intermission)
             && Objects.equals(preparation, that.preparation);
     }
@@ -116,7 +116,7 @@ public class LobbyConfiguration {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(maxUsers, intermission, preparation);
+        return Objects.hash(maxTeams, intermission, preparation);
     }
 
     /**
@@ -126,7 +126,7 @@ public class LobbyConfiguration {
      */
     @Override
     public String toString() {
-        return String.format("LobbyConfiguration(userMaximum=%d, intermission=%s, preparation=%s)",
-            maxUsers, intermission, preparation);
+        return String.format("LobbyConfiguration(teamMaximum=%d, intermission=%s, preparation=%s)",
+            maxTeams, intermission, preparation);
     }
 }

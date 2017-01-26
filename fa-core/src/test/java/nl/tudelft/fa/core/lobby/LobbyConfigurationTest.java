@@ -31,8 +31,8 @@ public class LobbyConfigurationTest {
     }
 
     @Test
-    public void testMaxPlayers() {
-        assertEquals(maxUsers, configuration.getUserMaximum());
+    public void testMaxTeams() {
+        assertEquals(maxUsers, configuration.getTeamMaximum());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class LobbyConfigurationTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("LobbyConfiguration(userMaximum=%d, intermission=%s, preparation=%s, scheduleFactory=%s)",
+        assertEquals(String.format("LobbyConfiguration(teamMaximum=%d, intermission=%s, preparation=%s, scheduleFactory=%s)",
             maxUsers, intermission, preparation, factory), configuration.toString());
     }
 }

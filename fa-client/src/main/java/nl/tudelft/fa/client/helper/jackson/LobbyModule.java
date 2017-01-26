@@ -26,12 +26,14 @@
 package nl.tudelft.fa.client.helper.jackson;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.module.SimpleSerializers;
 import nl.tudelft.fa.client.lobby.Lobby;
 import nl.tudelft.fa.client.lobby.LobbyBalancer;
 import nl.tudelft.fa.client.lobby.LobbyConfiguration;
 import nl.tudelft.fa.client.lobby.message.*;
 import nl.tudelft.fa.client.race.*;
 import nl.tudelft.fa.client.team.Member;
+import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.client.team.inventory.InventoryItem;
 import nl.tudelft.fa.client.user.User;
 
@@ -57,15 +59,21 @@ public class LobbyModule extends SimpleModule {
      */
     @Override
     public void setupModule(SetupContext context) {
+        SimpleSerializers serializers = new SimpleSerializers();
+        serializers.addSerializer(Team.class, new TeamIdSerializer());
+        context.addSerializers(serializers);
+
         context.setMixInAnnotations(LobbyInboundMessage.class, LobbyInboundMessageMixin.class);
         context.setMixInAnnotations(LobbyOutboundMessage.class, LobbyOutboundMessageMixin.class);
         context.setMixInAnnotations(LobbyBalancer.class, LobbyBalancerMixin.class);
         context.setMixInAnnotations(Lobby.class, LobbyMixin.class);
         context.setMixInAnnotations(LobbyConfiguration.class, LobbyConfigurationMixin.class);
         context.setMixInAnnotations(User.class, UserMixin.class);
-        context.setMixInAnnotations(UserJoined.class, UserJoinedMixin.class);
-        context.setMixInAnnotations(UserLeft.class, UserLeftMixin.class);
+        context.setMixInAnnotations(TeamJoined.class, TeamJoinedMixin.class);
+        context.setMixInAnnotations(TeamLeft.class, TeamLeftMixin.class);
         context.setMixInAnnotations(LobbyStatusChanged.class, LobbyStatusChangedMixin.class);
+        context.setMixInAnnotations(Join.class, JoinMixin.class);
+        context.setMixInAnnotations(Leave.class, LeaveMixin.class);
 
         context.setMixInAnnotations(Member.class, MemberMixin.class);
         context.setMixInAnnotations(InventoryItem.class, InventoryItemMixin.class);

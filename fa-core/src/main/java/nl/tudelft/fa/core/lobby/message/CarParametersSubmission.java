@@ -26,8 +26,8 @@
 package nl.tudelft.fa.core.lobby.message;
 
 import nl.tudelft.fa.core.race.CarParameters;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.team.inventory.Car;
-import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 
@@ -38,9 +38,9 @@ import java.util.Objects;
  */
 public class CarParametersSubmission implements LobbyInboundMessage {
     /**
-     * The user that wants to submit this configuration.
+     * The team that wants to submit this configuration.
      */
-    private final User user;
+    private final Team team;
 
     /**
      * The {@link Car} to which the parameters should apply.
@@ -55,23 +55,23 @@ public class CarParametersSubmission implements LobbyInboundMessage {
     /**
      * Construct a {@link CarParametersSubmission} instance.
      *
-     * @param user The user that wants to submit this configuration.
+     * @param team The team that wants to submit this configuration.
      * @param car The car to which the parameters should apply.
      * @param parameters The parameters to submit.
      */
-    public CarParametersSubmission(User user, Car car, CarParameters parameters) {
-        this.user = user;
+    public CarParametersSubmission(Team team, Car car, CarParameters parameters) {
+        this.team = team;
         this.car = car;
         this.parameters = parameters;
     }
 
     /**
-     * Return the {@link User} that wants to submit this configuration.
+     * Return the {@link Team} that wants to submit this configuration.
      *
-     * @return The user that wants to submit the configuration.
+     * @return The team that wants to submit the configuration.
      */
-    public User getUser() {
-        return user;
+    public Team getTeam() {
+        return team;
     }
 
     /**
@@ -108,7 +108,7 @@ public class CarParametersSubmission implements LobbyInboundMessage {
             return false;
         }
         CarParametersSubmission that = (CarParametersSubmission) other;
-        return Objects.equals(user, that.user)
+        return Objects.equals(team, that.team)
             && Objects.equals(car, that.car)
             && Objects.equals(parameters, that.parameters);
     }
@@ -120,7 +120,7 @@ public class CarParametersSubmission implements LobbyInboundMessage {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user, car, parameters);
+        return Objects.hash(team, car, parameters);
     }
 
     /**
@@ -130,7 +130,7 @@ public class CarParametersSubmission implements LobbyInboundMessage {
      */
     @Override
     public String toString() {
-        return String.format("CarParametersSubmission(user=%s, car=%s, parameters=%s)", user, car,
+        return String.format("CarParametersSubmission(team=%s, car=%s, parameters=%s)", team, car,
             parameters);
     }
 }
