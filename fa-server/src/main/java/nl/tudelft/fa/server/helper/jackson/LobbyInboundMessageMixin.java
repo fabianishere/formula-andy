@@ -45,6 +45,7 @@ import nl.tudelft.fa.server.net.message.Ping;
         @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
         @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
         @JsonSubTypes.Type(value = Ping.class, name = "ping"),
+        @JsonSubTypes.Type(value = Chat.class, name = "chat"),
     }
 )
 public abstract class LobbyInboundMessageMixin {}

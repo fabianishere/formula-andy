@@ -23,30 +23,26 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.client.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import nl.tudelft.fa.client.lobby.message.*;
-import nl.tudelft.fa.client.net.message.Ping;
+package nl.tudelft.fa.server.helper.jackson;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.core.lobby.message.Chat;
+import nl.tudelft.fa.core.team.Team;
 
 /**
- * This mixin creates an envelope around the messages sent to the lobby.
+ * Mix-in for the {@link Chat} class.
  *
  * @author Fabian Mastenbroek
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes(
-    {
-        @JsonSubTypes.Type(value = RequestInformation.class, name = "info"),
-        @JsonSubTypes.Type(value = Join.class, name = "join"),
-        @JsonSubTypes.Type(value = Leave.class, name = "leave"),
-        @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
-        @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
-        @JsonSubTypes.Type(value = Chat.class, name = "chat"),
-
-        /* Miscellaneous */
-        @JsonSubTypes.Type(value = Ping.class, name = "ping"),
-    }
-)
-public abstract class LobbyInboundMessageMixin {}
+public abstract class ChatMixin {
+    /**
+     * Construct a {@link Chat} message.
+     *
+     * @param team The team that has sent this message.
+     * @param message The contents of this message.
+     */
+    @JsonCreator
+    public ChatMixin(@JsonProperty("team") Team team, @JsonProperty("message") String message) {}
+}

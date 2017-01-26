@@ -52,6 +52,7 @@ import nl.tudelft.fa.server.net.message.NotAuthorizedException;
         @JsonSubTypes.Type(value = RaceSimulationStarted.class, name = "race.start"),
         @JsonSubTypes.Type(value = RaceSimulationResult.class, name = "race.event"),
         @JsonSubTypes.Type(value = TimeRemaining.class, name = "countdown"),
+        @JsonSubTypes.Type(value = ChatEvent.class, name = "chat"),
 
         /* Error types */
         @JsonSubTypes.Type(value = LobbyFullException.class, name = "join.full"),
