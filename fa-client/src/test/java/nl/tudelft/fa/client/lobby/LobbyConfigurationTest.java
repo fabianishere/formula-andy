@@ -4,11 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.Objects;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
+
 
 public class LobbyConfigurationTest {
     private int maxUsers;
@@ -25,8 +27,8 @@ public class LobbyConfigurationTest {
     }
 
     @Test
-    public void testMaxPlayers() {
-        assertEquals(maxUsers, configuration.getUserMaximum());
+    public void testMaxTeams() {
+        assertEquals(maxUsers, configuration.getTeamMaximum());
     }
 
     @Test
@@ -81,7 +83,7 @@ public class LobbyConfigurationTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals( String.format("LobbyConfiguration(userMaximum=%d, intermission=%s, preparation=%s)",
+        assertEquals(String.format("LobbyConfiguration(teamMaximum=%d, intermission=%s, preparation=%s)",
             maxUsers, intermission, preparation), configuration.toString());
     }
 }

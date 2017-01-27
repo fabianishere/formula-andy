@@ -25,7 +25,7 @@
 
 package nl.tudelft.fa.server.net;
 
-import akka.japi.pf.PFBuilder;
+import akka.japi.pf.UnitPFBuilder;
 import akka.stream.Attributes;
 import akka.stream.Shape;
 import akka.stream.stage.AbstractInHandler;
@@ -35,6 +35,7 @@ import akka.stream.stage.GraphStageLogicWithLogging;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
+import scala.runtime.BoxedUnit;
 
 /**
  * An {@link AbstractSessionStage} where a user has been authorized and is allowed to receive/sent
@@ -87,17 +88,23 @@ public class AuthorizedSessionStage extends AbstractSessionStage {
      */
     public class AuthorizedSessionStageLogic extends GraphStageLogicWithLogging {
         /**
-         * This partial function attaches the session to messages.
+         * This partial function that handles the messages.
          */
-        private final PartialFunction<LobbyInboundMessage, LobbyInboundMessage> attach =
-            new PFBuilder<LobbyInboundMessage, LobbyInboundMessage>()
-                .match(Join.class, msg -> new Join(user, msg.getHandler()))
-                .match(Leave.class, msg -> new Leave(user))
-                .match(TeamConfigurationSubmission.class, msg -> new TeamConfigurationSubmission(
-                    user, msg.getCars()))
-                .match(CarParametersSubmission.class, msg -> new CarParametersSubmission(user,
-                    msg.getCar(), msg.getParameters()))
-                .matchAny(msg -> msg)
+        private final PartialFunction<LobbyInboundMessage, BoxedUnit> handler =
+            new UnitPFBuilder<LobbyInboundMessage>()
+                .match(Join.class,
+                    msg -> msg.getTeam() == null || !user.equals(msg.getTeam().getOwner()),
+                    msg -> { } )
+                .match(Leave.class,
+                    msg -> msg.getTeam() == null || !user.equals(msg.getTeam().getOwner()),
+                    msg -> { } )
+                .match(TeamConfigurationSubmission.class,
+                    msg -> msg.getTeam() == null || !user.equals(msg.getTeam().getOwner()),
+                    msg -> { } )
+                .match(CarParametersSubmission.class,
+                    msg -> msg.getTeam() == null || !user.equals(msg.getTeam().getOwner()),
+                    msg -> { } )
+                .match(LobbyInboundMessage.class, msg -> push(outA, msg))
                 .build();
 
         /**
@@ -113,7 +120,7 @@ public class AuthorizedSessionStage extends AbstractSessionStage {
             setHandler(inA, new AbstractInHandler() {
                 @Override
                 public void onPush() throws Exception {
-                    push(outA, attach.apply(grab(inA)));
+                    handler.apply(grab(inA));
                 }
             });
 

@@ -23,24 +23,26 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.client.helper.jackson;
+
+package nl.tudelft.fa.server.helper.jackson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.tudelft.fa.client.lobby.message.UserJoined;
-import nl.tudelft.fa.client.user.User;
+import nl.tudelft.fa.core.lobby.message.Chat;
+import nl.tudelft.fa.core.team.Team;
 
 /**
- * Mix-in for the {@link UserJoined} event class.
+ * Mix-in for the {@link Chat} class.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class UserJoinedMixin {
+public abstract class ChatMixin {
     /**
-     * Construct a {@link UserJoinedMixin} instance.
+     * Construct a {@link Chat} message.
      *
-     * @param user The user that has joined the lobby.
+     * @param team The team that has sent this message.
+     * @param message The contents of this message.
      */
     @JsonCreator
-    public UserJoinedMixin(@JsonProperty("user") User user) {}
+    public ChatMixin(@JsonProperty("team") Team team, @JsonProperty("message") String message) {}
 }

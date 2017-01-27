@@ -25,11 +25,13 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.game;
 
+import akka.actor.ActorRef;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import nl.tudelft.fa.client.lobby.message.Join;
 import nl.tudelft.fa.client.net.message.NotAuthorizedException;
 import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.frontend.javafx.Main;
@@ -38,6 +40,7 @@ import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
 import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javax.inject.Inject;

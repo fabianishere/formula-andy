@@ -35,7 +35,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import nl.tudelft.fa.client.auth.Credentials;
-import nl.tudelft.fa.client.lobby.message.Join;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
@@ -124,19 +123,6 @@ public class LoginController extends AbstractController {
             alertLabel.setText(msg);
             return;
         }
-
-        // Find a lobby
-        logger.info("Looking for available lobby for user");
-        service.balancer().find().whenCompleteAsync((lobby, exc) -> {
-            if (exc != null) {
-                logger.error("Failed to find lobby for the user", exc);
-                return;
-            }
-            logger.info("Opening session for found lobby");
-            service.open(lobby)
-                .thenAccept(session -> session.tell(Join.INSTANCE, ActorRef.noSender()));
-        });
-
 
         // Show the start screen
         try {

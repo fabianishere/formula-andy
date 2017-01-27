@@ -43,6 +43,7 @@ import nl.tudelft.fa.client.net.message.Ping;
         @JsonSubTypes.Type(value = Leave.class, name = "leave"),
         @JsonSubTypes.Type(value = TeamConfigurationSubmission.class, name = "team"),
         @JsonSubTypes.Type(value = CarParametersSubmission.class, name = "parameters"),
+        @JsonSubTypes.Type(value = Chat.class, name = "chat"),
 
         /* Miscellaneous */
         @JsonSubTypes.Type(value = Ping.class, name = "ping"),

@@ -72,6 +72,11 @@ public class SetupScreenController extends AbstractController implements Initial
     private ClientService service;
 
     /**
+     * The {@link Team} of this controller.
+     */
+    private Team team;
+
+    /**
      * The controller for the first car configuration.
      */
     @FXML
@@ -117,6 +122,7 @@ public class SetupScreenController extends AbstractController implements Initial
      * @param team The team to set.
      */
     public void setTeam(Team team) {
+        this.team = team;
         firstController.setTeam(team);
         secondController.setTeam(team);
     }
@@ -127,7 +133,7 @@ public class SetupScreenController extends AbstractController implements Initial
      * @return The configuration of the team.
      */
     public TeamConfigurationSubmission getConfiguration() {
-        return new TeamConfigurationSubmission(null, new HashSet<CarConfiguration>() {
+        return new TeamConfigurationSubmission(team, new HashSet<CarConfiguration>() {
             {
                 add(firstController.getConfiguration());
                 add(secondController.getConfiguration());
@@ -142,7 +148,7 @@ public class SetupScreenController extends AbstractController implements Initial
      * @return The parameters for a car.
      */
     public CarParametersSubmission getParameters(CarConfigurationController controller) {
-        return new CarParametersSubmission(null, controller.getConfiguration().getCar(),
+        return new CarParametersSubmission(team, controller.getConfiguration().getCar(),
             controller.getParameters());
     }
 

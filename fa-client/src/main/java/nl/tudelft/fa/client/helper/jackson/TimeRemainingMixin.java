@@ -27,19 +27,21 @@ package nl.tudelft.fa.client.helper.jackson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.tudelft.fa.client.user.User;
+import nl.tudelft.fa.client.lobby.message.TimeRemaining;
+
+import java.time.Duration;
 
 /**
- * Mix-in for the {@link UserLeft} event class.
+ * A mix-in for the {@link TimeRemaining} class.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class UserLeftMixin {
+public abstract  class TimeRemainingMixin {
     /**
-     * Construct a {@link UserLeftMixin} instance.
+     * Construct a {@link TimeRemainingMixin} instance.
      *
-     * @param user The user that has left the lobby.
+     * @param remaining The remaining time in the lobby.
      */
     @JsonCreator
-    public UserLeftMixin(@JsonProperty("user") User user) {}
+    public TimeRemainingMixin(@JsonProperty("remaining") Duration remaining) {}
 }

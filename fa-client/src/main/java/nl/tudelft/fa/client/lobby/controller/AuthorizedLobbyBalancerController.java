@@ -54,7 +54,7 @@ public class AuthorizedLobbyBalancerController extends LobbyBalancerController {
         super(client);
         this.credentials = credentials;
     }
-    
+
     /**
      * Return the controllers of the lobbies running on the server.
      *
@@ -90,8 +90,8 @@ public class AuthorizedLobbyBalancerController extends LobbyBalancerController {
     public CompletionStage<LobbyController> find() {
         return lobbies().thenApply(lobbies -> lobbies.stream()
             .filter(lobby -> lobby.getStatus().equals(LobbyStatus.INTERMISSION))
-            .filter(lobby -> lobby.getUsers().size() < lobby.getConfiguration()
-                .getUserMaximum())
+            .filter(lobby -> lobby.getTeams().size() < lobby.getConfiguration()
+                .getTeamMaximum())
             .findFirst()
             .get()
         )

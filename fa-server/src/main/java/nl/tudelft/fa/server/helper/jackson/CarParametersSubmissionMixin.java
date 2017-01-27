@@ -29,8 +29,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.tudelft.fa.core.lobby.message.CarParametersSubmission;
 import nl.tudelft.fa.core.race.CarParameters;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.team.inventory.Car;
-import nl.tudelft.fa.core.user.User;
 
 /**
  * Mix-in for the {@link CarParametersSubmission} class.
@@ -41,12 +41,12 @@ public abstract class CarParametersSubmissionMixin {
     /**
      * Construct a {@link CarParametersSubmissionMixin} instance.
      *
-     * @param user The {@link User} that wants to submit the parameters.
+     * @param team The {@link Team} that wants to submit the parameters.
      * @param car The {@link Car} to apply the parameters to.
      * @param parameters The parameters to apply
      */
     @JsonCreator
-    public CarParametersSubmissionMixin(@JsonProperty("user") User user,
+    public CarParametersSubmissionMixin(@JsonProperty("team") Team team,
                                         @JsonProperty("car") Car car,
                                         @JsonProperty("parameters") CarParameters parameters) {}
 }

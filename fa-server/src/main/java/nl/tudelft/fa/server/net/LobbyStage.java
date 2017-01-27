@@ -125,7 +125,7 @@ public class LobbyStage extends GraphStage<FlowShape<LobbyInboundMessage, LobbyO
          */
         private final PartialFunction<LobbyInboundMessage, LobbyInboundMessage> attach =
             new PFBuilder<LobbyInboundMessage, LobbyInboundMessage>()
-                .match(Join.class, msg -> new Join(msg.getUser(), stageActor().ref()))
+                .match(Join.class, msg -> new Join(msg.getTeam(), stageActor().ref()))
                 .matchAny(msg -> msg)
                 .build();
 
@@ -136,11 +136,6 @@ public class LobbyStage extends GraphStage<FlowShape<LobbyInboundMessage, LobbyO
             .match(Terminated.class, msg -> completeStage())
             .match(LobbyOutboundMessage.class, msg -> emit(out, msg))
             .build();
-
-        /**
-         * Indicates that the upstream has finished.
-         */
-        private boolean finished = false;
 
         /**
          * Construct a {@link LobbyStageLogic} instance.

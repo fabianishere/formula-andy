@@ -13,6 +13,7 @@ import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.race.CarParameters;
 import nl.tudelft.fa.core.race.Circuit;
 import nl.tudelft.fa.core.race.GrandPrix;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.team.inventory.Tire;
 import nl.tudelft.fa.core.team.inventory.TireType;
 import nl.tudelft.fa.core.user.User;
@@ -28,7 +29,7 @@ import java.util.UUID;
 public class LobbyRaceSimulationActorTest {
     private static ActorSystem system;
     private GrandPrix grandprix;
-    private User user;
+    private Team team;
 
     @BeforeClass
     public static void setUpClass() {
@@ -38,7 +39,7 @@ public class LobbyRaceSimulationActorTest {
     @Before
     public void setUp() {
         grandprix = new GrandPrix(UUID.randomUUID(), new Circuit(UUID.randomUUID(), "Monza", "Italy", 700), Instant.now(), 10, 1);
-        user = new User(UUID.randomUUID(), new Credentials("test", "test"));
+        team = new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null));
     }
 
 
@@ -57,7 +58,7 @@ public class LobbyRaceSimulationActorTest {
 
                 subject.tell(req, getRef());
 
-                final TeamConfigurationSubmission msg = new TeamConfigurationSubmission(user, new HashSet<CarConfiguration>() {{
+                final TeamConfigurationSubmission msg = new TeamConfigurationSubmission(team, new HashSet<CarConfiguration>() {{
                     add(new CarConfiguration(null, null, null, null, null, null));
                 }});
 
@@ -77,7 +78,7 @@ public class LobbyRaceSimulationActorTest {
 
                 subject.tell(req, getRef());
 
-                final CarParametersSubmission msg = new CarParametersSubmission(user, null,
+                final CarParametersSubmission msg = new CarParametersSubmission(team, null,
                     new CarParameters(1, 1, 1, new Tire(UUID.randomUUID(), "", TireType.HARD, 1, 1)));
 
 

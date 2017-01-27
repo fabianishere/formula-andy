@@ -23,39 +23,38 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.client.lobby.message;
+package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.client.user.User;
-
+import java.time.Duration;
 import java.util.Objects;
 
 /**
- * This event indicates that a {@link User} has joined the lobby.
+ * A {@link LobbyEvent} that indicates how much time is remaining in the lobby.
  *
  * @author Fabian Mastenbroek
  */
-public final class UserJoined implements LobbyEvent {
+public final class TimeRemaining implements LobbyEvent {
     /**
-     * The {@link User} that has joined the lobby.
+     * The remaining time in the lobby.
      */
-    private final User user;
+    private final Duration remaining;
 
     /**
-     * Construct a {@link UserJoined} instance.
+     * Construct a {@link TimeRemaining} event.
      *
-     * @param user The user that has joined the lobby.
+     * @param remaining The remaining time in the lobby.
      */
-    public UserJoined(User user) {
-        this.user = user;
+    public TimeRemaining(Duration remaining) {
+        this.remaining = remaining;
     }
 
     /**
-     * Return the user that has joined the lobby.
+     * Return the remaining time in the lobby.
      *
-     * @return The user that has joined the lobby.
+     * @return The remaining time in the lobby.
      */
-    public User getUser() {
-        return user;
+    public Duration getRemaining() {
+        return remaining;
     }
 
     /**
@@ -73,8 +72,8 @@ public final class UserJoined implements LobbyEvent {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        UserJoined that = (UserJoined) other;
-        return Objects.equals(user, that.user);
+        TimeRemaining that = (TimeRemaining) other;
+        return Objects.equals(remaining, that.remaining);
     }
 
     /**
@@ -84,7 +83,7 @@ public final class UserJoined implements LobbyEvent {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user);
+        return Objects.hash(remaining);
     }
 
     /**
@@ -94,6 +93,6 @@ public final class UserJoined implements LobbyEvent {
      */
     @Override
     public String toString() {
-        return String.format("UserJoined(user=%s)", user);
+        return String.format("TimeRemaining(remaining=%s)", remaining);
     }
 }
