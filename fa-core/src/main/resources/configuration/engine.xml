@@ -34,9 +34,9 @@
         <price>45000000</price>
 
         <!-- Parameters -->
-        <power>1</power>
-        <driveability>1</driveability>
-        <fuelConsumption>1</fuelConsumption>
+        <power>100</power>
+        <driveability>90</driveability>
+        <fuelConsumption>90</fuelConsumption>
     </engine>
 
     <!-- Ferrari -->
@@ -47,9 +47,9 @@
         <price>32000000</price>
 
         <!-- Parameters -->
-        <power>1</power>
-        <driveability>1</driveability>
-        <fuelConsumption>1</fuelConsumption>
+        <power>100</power>
+        <driveability>70</driveability>
+        <fuelConsumption>80</fuelConsumption>
     </engine>
 
     <!-- Renault -->
@@ -60,9 +60,9 @@
         <price>27000000</price>
 
         <!-- Parameters -->
-        <power>1</power>
-        <driveability>1</driveability>
-        <fuelConsumption>1</fuelConsumption>
+        <power>90</power>
+        <driveability>90</driveability>
+        <fuelConsumption>40</fuelConsumption>
     </engine>
 
     <!-- Honda -->
@@ -73,7 +73,7 @@
         <price>25000000</price>
 
         <!-- Parameters -->
-        <power>1</power>
+        <power>80</power>
         <driveability>1</driveability>
         <fuelConsumption>1</fuelConsumption>
     </engine>
