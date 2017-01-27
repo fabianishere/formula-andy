@@ -23,44 +23,40 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.server.helper.jackson;
+package nl.tudelft.fa.client.helper.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import nl.tudelft.fa.core.race.CarSimulationResult;
-import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.client.team.Team;
 
 import java.io.IOException;
-import java.util.Map;
-
 
 /**
- * This class serializes the results of a simulation.
+ * A serializer that serializes only the id of a {@link Team} object.
  *
  * @author Fabian Mastenbroek
  */
-public class RaceSimulationResultsSerializer extends StdSerializer<Map<Car, CarSimulationResult>> {
-
+public class TeamIdSerializer extends StdSerializer<Team> {
     /**
-     * Construct a {@link RaceSimulationResultsSerializer} instance.
+     * Construct a {@link TeamIdSerializer} instance.
      */
-    public RaceSimulationResultsSerializer() {
-        this(null);
+    public TeamIdSerializer() {
+        this(Team.class);
     }
 
     /**
-     * Construct a {@link RaceSimulationResultsSerializer} instance.
+     * Construct a {@link TeamIdSerializer} instance.
      *
      * @param cls The class to serialize.
      */
-    public RaceSimulationResultsSerializer(Class<Map<Car, CarSimulationResult>> cls) {
+    public TeamIdSerializer(Class<Team> cls) {
         super(cls);
     }
 
     @Override
-    public void serialize(Map<Car, CarSimulationResult> value, JsonGenerator gen,
+    public void serialize(Team value, JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
-        gen.writeObject(value.values());
+        gen.writeString(value.getId().toString());
     }
 }

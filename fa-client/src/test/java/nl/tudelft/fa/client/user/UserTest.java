@@ -1,7 +1,5 @@
 package nl.tudelft.fa.client.user;
 
-import nl.tudelft.fa.core.auth.Credentials;
-import nl.tudelft.fa.core.user.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +8,8 @@ import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class UserTest {
     UUID id;

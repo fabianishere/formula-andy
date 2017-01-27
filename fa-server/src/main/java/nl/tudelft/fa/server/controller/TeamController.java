@@ -26,25 +26,19 @@
 package nl.tudelft.fa.server.controller;
 
 import static akka.http.javadsl.server.Directives.*;
-import static akka.http.javadsl.server.Directives.completeOKWithFuture;
 import static akka.http.javadsl.server.PathMatchers.uuidSegment;
 import static akka.pattern.PatternsCS.ask;
-import static scala.compat.java8.JFunction.func;
 
-import akka.actor.ActorNotFound;
 import akka.actor.ActorRef;
 import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.server.Route;
 import akka.http.javadsl.server.directives.SecurityDirectives;
-import akka.japi.pf.PFBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.tudelft.fa.core.auth.actor.Authenticator;
 import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
 import nl.tudelft.fa.core.auth.message.AuthenticationSuccess;
-import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.user.User;
 import nl.tudelft.fa.server.helper.jackson.LobbyModule;
-import scala.concurrent.duration.FiniteDuration;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -139,10 +133,10 @@ public class TeamController {
      * @param id The unique identifier of the team.
      * @param producer A function that produces a route based on the resolved team.
      */
-    public Route middleware(UUID id, Function<Team, Route> producer) {
-        Optional<Team> team = entityManager
+    public Route middleware(UUID id, Function<nl.tudelft.fa.core.team.Team, Route> producer) {
+        Optional<nl.tudelft.fa.core.team.Team> team = entityManager
             .createQuery("SELECT t FROM Teams t where t.id = :id",
-                Team.class)
+                nl.tudelft.fa.core.team.Team.class)
             .setParameter("id", id)
             .getResultList()
             .stream()
@@ -152,9 +146,9 @@ public class TeamController {
     }
 
     /**
-     * Return the {@link Route} instance to list the {@link Team} instances of the user.
+     * Return the {@link Route} instance to list the {@link nl.tudelft.fa.core.team.Team} instances of the user.
      *
-     * @param user The user to list the {@link Team}s of.
+     * @param user The user to list the {@link nl.tudelft.fa.core.team.Team}s of.
      * @return The route that lists the teams.
      */
     public Route list(User user) {
@@ -162,7 +156,7 @@ public class TeamController {
             get(() ->
                 completeOK(entityManager
                     .createQuery("SELECT t FROM Teams t where t.owner = :owner",
-                        Team.class)
+                        nl.tudelft.fa.core.team.Team.class)
                     .setParameter("owner", user)
                     .getResultList(), Jackson.marshaller(mapper))
             )
@@ -175,7 +169,7 @@ public class TeamController {
      * @param team The team to show the information of.
      * @return The route that shows the information of a team.
      */
-    public Route information(Team team) {
+    public Route information(nl.tudelft.fa.core.team.Team team) {
         return completeOK(team, Jackson.marshaller(mapper));
     }
 }

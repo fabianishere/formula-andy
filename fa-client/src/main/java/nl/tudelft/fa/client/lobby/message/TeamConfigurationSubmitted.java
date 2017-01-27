@@ -26,7 +26,7 @@
 package nl.tudelft.fa.client.lobby.message;
 
 import nl.tudelft.fa.client.race.CarConfiguration;
-import nl.tudelft.fa.client.user.User;
+import nl.tudelft.fa.client.team.Team;
 
 import java.util.Objects;
 import java.util.Set;
@@ -38,9 +38,9 @@ import java.util.Set;
  */
 public final class TeamConfigurationSubmitted implements LobbyEvent {
     /**
-     * The user that wants to submit this configuration.
+     * The team that has submitted this configuration.
      */
-    private final User user;
+    private final Team team;
 
     /**
      * The configurations of the cars in the team.
@@ -50,21 +50,21 @@ public final class TeamConfigurationSubmitted implements LobbyEvent {
     /**
      * Construct a {@link TeamConfigurationSubmitted} message instance.
      *
-     * @param user The user that wants to submit this configuration.
+     * @param team The team that has submitted this configuration.
      * @param cars The configuration of the team to submit.
      */
-    public TeamConfigurationSubmitted(User user, Set<CarConfiguration> cars) {
-        this.user = user;
+    public TeamConfigurationSubmitted(Team team, Set<CarConfiguration> cars) {
+        this.team = team;
         this.cars = cars;
     }
 
     /**
-     * Return the {@link User} that wants to submit this configuration.
+     * Return the team that has submitted this configuration.
      *
-     * @return The user that wants to submit the configuration.
+     * @return The team that has submitted this configuration.
      */
-    public User getUser() {
-        return user;
+    public Team getTeam() {
+        return team;
     }
 
     /**
@@ -92,7 +92,7 @@ public final class TeamConfigurationSubmitted implements LobbyEvent {
             return false;
         }
         TeamConfigurationSubmitted that = (TeamConfigurationSubmitted) other;
-        return Objects.equals(user, that.user)
+        return Objects.equals(team, that.team)
             && Objects.equals(cars, that.cars);
     }
 
@@ -103,7 +103,7 @@ public final class TeamConfigurationSubmitted implements LobbyEvent {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user, cars);
+        return Objects.hash(team, cars);
     }
 
     /**
@@ -113,6 +113,6 @@ public final class TeamConfigurationSubmitted implements LobbyEvent {
      */
     @Override
     public String toString() {
-        return String.format("TeamConfigurationSubmitted(user=%s, cars=%s)", user, cars);
+        return String.format("TeamConfigurationSubmitted(team=%s, cars=%s)", team, cars);
     }
 }

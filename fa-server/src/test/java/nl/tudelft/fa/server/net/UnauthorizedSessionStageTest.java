@@ -4,8 +4,8 @@ import akka.NotUsed;
 import akka.actor.ActorSystem;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.BidiFlow;
-import akka.stream.javadsl.Source;
 import akka.stream.javadsl.Flow;
+import akka.stream.javadsl.Source;
 import akka.stream.testkit.javadsl.TestSink;
 import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.lobby.message.*;
@@ -17,7 +17,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class UnauthorizedSessionStageTest {
     private static ActorSystem system;
@@ -43,7 +43,7 @@ public class UnauthorizedSessionStageTest {
     @Test
     public void rejectMessage() {
         final Source<LobbyInboundMessage, NotUsed> source = Source.single(new Join(null, null));
-        final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> join = Flow.fromFunction(message -> new UserJoined(null));
+        final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> join = Flow.fromFunction(message -> new TeamJoined(null));
         final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> flow =
             BidiFlow.fromGraph(stage).join(join);
 
@@ -57,7 +57,7 @@ public class UnauthorizedSessionStageTest {
     @Test
     public void rejectMultiple() {
         final Source<LobbyInboundMessage, NotUsed> source = Source.from(Arrays.asList(new Join(null, null), new Join(null, null)));
-        final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> join = Flow.fromFunction(message -> new UserJoined(null));
+        final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> join = Flow.fromFunction(message -> new TeamJoined(null));
         final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> flow =
             BidiFlow.fromGraph(stage).join(join);
 
@@ -72,7 +72,7 @@ public class UnauthorizedSessionStageTest {
     @Test
     public void acceptMessage() {
         final Source<LobbyInboundMessage, NotUsed> source = Source.single(RequestInformation.INSTANCE);
-        final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> join = Flow.fromFunction(message -> new UserJoined(null));
+        final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> join = Flow.fromFunction(message -> new TeamJoined(null));
         final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> flow =
             BidiFlow.fromGraph(stage).join(join);
 
@@ -80,6 +80,6 @@ public class UnauthorizedSessionStageTest {
             .via(flow)
             .runWith(TestSink.probe(system), mat)
             .requestNext();
-        assertTrue(msg instanceof UserJoined);
+        assertTrue(msg instanceof TeamJoined);
     }
 }

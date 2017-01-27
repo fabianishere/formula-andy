@@ -27,8 +27,8 @@ package nl.tudelft.fa.client.race;
 
 import nl.tudelft.fa.client.lobby.message.LobbyEvent;
 
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * A {@link LobbyEvent} that represents the completion of one cycle of the race simulation.
@@ -37,9 +37,9 @@ import java.util.Set;
  */
 public class RaceSimulationResult implements LobbyEvent {
     /**
-     * The cars in the simulation with the results.
+     * The results in the simulation with the results.
      */
-    private final Set<CarSimulationResult> results;
+    private final List<CarSimulationResult> results;
 
     /**
      * A flag to indicate whether the race is finished.
@@ -49,20 +49,20 @@ public class RaceSimulationResult implements LobbyEvent {
     /**
      * Construct a {@link RaceSimulationResult} instance.
      *
-     * @param results The cars in the simulation with the results.
+     * @param results The results in the simulation with the results.
      * @param finished A flag to indicate whether the race is finished.
      */
-    public RaceSimulationResult(Set<CarSimulationResult> results, boolean finished) {
+    public RaceSimulationResult(List<CarSimulationResult> results, boolean finished) {
         this.results = results;
         this.finished = finished;
     }
 
     /**
-     * Return the cars in the simulation with the results.
+     * Return the results in the simulation with the results.
      *
-     * @return The cars in the simulation with the results.
+     * @return The results in the simulation with the results.
      */
-    public Set<CarSimulationResult> getResults() {
+    public List<CarSimulationResult> getResults() {
         return results;
     }
 

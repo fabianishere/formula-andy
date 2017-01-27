@@ -25,8 +25,6 @@
 
 package nl.tudelft.fa.core.team.inventory;
 
-import nl.tudelft.fa.core.team.Team;
-
 import java.util.Objects;
 import java.util.UUID;
 

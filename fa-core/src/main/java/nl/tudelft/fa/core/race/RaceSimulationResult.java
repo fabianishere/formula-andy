@@ -26,9 +26,8 @@
 package nl.tudelft.fa.core.race;
 
 import nl.tudelft.fa.core.lobby.message.LobbyEvent;
-import nl.tudelft.fa.core.team.inventory.Car;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -38,9 +37,9 @@ import java.util.Objects;
  */
 public class RaceSimulationResult implements LobbyEvent {
     /**
-     * The cars in the simulation with the results.
+     * The results in the simulation with the results.
      */
-    private final Map<Car, CarSimulationResult> cars;
+    private final List<CarSimulationResult> results;
 
     /**
      * A flag to indicate whether the race is finished.
@@ -50,21 +49,21 @@ public class RaceSimulationResult implements LobbyEvent {
     /**
      * Construct a {@link RaceSimulationResult} instance.
      *
-     * @param cars The cars in the simulation with the results.
+     * @param results The results in the simulation with the results.
      * @param finished A flag to indicate whether the race is finished.
      */
-    public RaceSimulationResult(Map<Car, CarSimulationResult> cars, boolean finished) {
-        this.cars = cars;
+    public RaceSimulationResult(List<CarSimulationResult> results, boolean finished) {
+        this.results = results;
         this.finished = finished;
     }
 
     /**
-     * Return the cars in the simulation with the results.
+     * Return the results in the simulation with the results.
      *
-     * @return The cars in the simulation with the results.
+     * @return The results in the simulation with the results.
      */
-    public Map<Car, CarSimulationResult> getCars() {
-        return cars;
+    public List<CarSimulationResult> getResults() {
+        return results;
     }
 
     /**
@@ -90,7 +89,7 @@ public class RaceSimulationResult implements LobbyEvent {
             return false;
         }
         RaceSimulationResult that = (RaceSimulationResult) other;
-        return Objects.equals(cars, that.cars)
+        return Objects.equals(results, that.results)
             && Objects.equals(finished, that.finished);
     }
 
@@ -101,7 +100,7 @@ public class RaceSimulationResult implements LobbyEvent {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(cars, finished);
+        return Objects.hash(results, finished);
     }
 
     /**
@@ -111,6 +110,6 @@ public class RaceSimulationResult implements LobbyEvent {
      */
     @Override
     public String toString() {
-        return String.format("RaceSimulationResult(cars=%s, finished=%s)", cars, finished);
+        return String.format("RaceSimulationResult(results=%s, finished=%s)", results, finished);
     }
 }

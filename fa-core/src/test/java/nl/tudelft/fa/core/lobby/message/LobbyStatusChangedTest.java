@@ -1,13 +1,10 @@
 package nl.tudelft.fa.core.lobby.message;
 
-import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
-import nl.tudelft.fa.core.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;

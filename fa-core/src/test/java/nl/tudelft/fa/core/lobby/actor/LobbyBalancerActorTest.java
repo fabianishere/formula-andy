@@ -1,7 +1,5 @@
 package nl.tudelft.fa.core.lobby.actor;
 
-import static org.junit.Assert.*;
-
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
@@ -12,9 +10,9 @@ import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.message.*;
-
 import nl.tudelft.fa.core.lobby.schedule.LobbyScheduleFactory;
 import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,10 +24,12 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.UUID;
 
+import static org.junit.Assert.assertEquals;
+
 public class LobbyBalancerActorTest {
     private static ActorSystem system;
     private LobbyConfiguration configuration;
-    private User user;
+    private Team team;
     private LobbyScheduleFactory factory;
 
     @BeforeClass
@@ -41,7 +41,7 @@ public class LobbyBalancerActorTest {
     public void setUp() {
         factory = new StaticLobbyScheduleFactory(Collections.emptyList());
         configuration = new LobbyConfiguration(1, Duration.ofMinutes(2), Duration.ZERO, factory);
-        user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
+        team = new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null));
     }
 
     @AfterClass
@@ -85,7 +85,7 @@ public class LobbyBalancerActorTest {
             {
                 final Props props = LobbyBalancerActor.props(configuration, 0, 5);
                 final ActorRef subject = system.actorOf(props);
-                final Join req = new Join(user, getRef());
+                final Join req = new Join(team, getRef());
 
                 watch(subject);
                 subject.tell(req, getRef());
@@ -100,7 +100,7 @@ public class LobbyBalancerActorTest {
             {
                 final Props props = LobbyBalancerActor.props(configuration);
                 final ActorRef subject = system.actorOf(props);
-                final Join req = new Join(user, getRef());
+                final Join req = new Join(team, getRef());
 
                 watch(subject);
                 subject.tell(req, getRef());
@@ -115,11 +115,10 @@ public class LobbyBalancerActorTest {
             {
                 final Props props = LobbyBalancerActor.props(configuration, 0, 5);
                 final ActorRef subject = system.actorOf(props);
-                final Join req = new Join(user, getRef());
+                final Join req = new Join(team, getRef());
                 final JavaTestKit probe = new JavaTestKit(system);
 
-                subject.tell(new Join(new User(UUID.randomUUID(), new Credentials("test", "test")), probe.getRef()),
-                    probe.getRef());
+                subject.tell(new Join(new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null)), probe.getRef()), probe.getRef());
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 subject.tell(req, getRef());
                 probe.expectNoMsg();
@@ -136,15 +135,15 @@ public class LobbyBalancerActorTest {
             {
                 final Props props = LobbyBalancerActor.props(new LobbyConfiguration(2, Duration.ofMinutes(5), Duration.ofMinutes(5), factory), 0, 1);
                 final ActorRef subject = system.actorOf(props);
-                final Join req = new Join(user, getRef());
+                final Join req = new Join(team, getRef());
                 final JavaTestKit probe = new JavaTestKit(system);
-                final User snd = new User(UUID.randomUUID(), new Credentials("test", "test"));
+                final Team snd = new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null));
 
                 subject.tell(new Join(snd, probe.getRef()), probe.getRef());
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
                 probe.reply(new Subscribe(probe.getRef()));
                 subject.tell(req, getRef());
-                probe.expectMsgClass(duration("1 second"), UserJoined.class);
+                probe.expectMsgClass(duration("1 second"), TeamJoined.class);
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
             }
         };
@@ -156,7 +155,7 @@ public class LobbyBalancerActorTest {
             {
                 final Props props = LobbyBalancerActor.props(configuration, 0, 0);
                 final ActorRef subject = system.actorOf(props);
-                final Join req = new Join(user, getRef());
+                final Join req = new Join(team, getRef());
 
                 subject.tell(req, getRef());
                 expectMsgClass(duration("1 second"), LobbyBalancerExhaustedException.class);
@@ -170,13 +169,13 @@ public class LobbyBalancerActorTest {
             {
                 final Props props = LobbyBalancerActor.props(configuration, 0, 2);
                 final TestActorRef<LobbyBalancerActor> subject = TestActorRef.create(system, props, "testB");
-                final Join req = new Join(user, getRef());
+                final Join req = new Join(team, getRef());
                 final JavaTestKit probe = new JavaTestKit(system);
                 final User snd = new User(UUID.randomUUID(), new Credentials("test", "test"));
 
-                subject.tell(new Join(user, probe.getRef()), probe.getRef());
+                subject.tell(new Join(team, probe.getRef()), probe.getRef());
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
-                probe.reply(new Leave(user));
+                probe.reply(new Leave(team));
                 probe.expectMsgClass(duration("1 second"), LeaveSuccess.class);
                 probe.expectNoMsg(duration("1 second"));
                 LobbyBalancer info = (LobbyBalancer) Await.result(Patterns.ask(subject, RequestInformation.INSTANCE, 1000), duration("1 second"));
@@ -191,11 +190,11 @@ public class LobbyBalancerActorTest {
             {
                 final Props props = LobbyBalancerActor.props(configuration, 1, 2);
                 final ActorRef subject = system.actorOf(props);
-                final Join req = new Join(user, getRef());
+                final Join req = new Join(team, getRef());
 
                 subject.tell(req, getRef());
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
-                reply(new Leave(user));
+                reply(new Leave(team));
                 expectMsgClass(duration("1 second"), LeaveSuccess.class);
                 expectNoMsg(duration("1 second"));
                 LobbyBalancer info = (LobbyBalancer) Await.result(Patterns.ask(subject, RequestInformation.INSTANCE, 1000), duration("1 second"));

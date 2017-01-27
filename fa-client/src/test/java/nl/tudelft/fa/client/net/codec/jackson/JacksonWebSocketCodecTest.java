@@ -15,9 +15,12 @@ import akka.testkit.JavaTestKit;
 import akka.util.ByteString;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.tudelft.fa.client.lobby.Lobby;
-import nl.tudelft.fa.client.lobby.message.*;
 import nl.tudelft.fa.client.helper.jackson.LobbyModule;
+import nl.tudelft.fa.client.lobby.Lobby;
+import nl.tudelft.fa.client.lobby.message.Join;
+import nl.tudelft.fa.client.lobby.message.LobbyInboundMessage;
+import nl.tudelft.fa.client.lobby.message.LobbyOutboundMessage;
+import nl.tudelft.fa.client.lobby.message.RequestInformation;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -25,7 +28,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class JacksonWebSocketCodecTest {
     private static ActorSystem system;
@@ -90,7 +93,7 @@ public class JacksonWebSocketCodecTest {
         final Message messageB = TextMessage.create("{ \"@type\": \"info\" }");
         final Source<Message, NotUsed> source = Source.from(Arrays.asList(messageA, messageB));
 
-        Flow<LobbyOutboundMessage, LobbyInboundMessage, NotUsed> join = Flow.fromFunction(ign -> Join.INSTANCE);
+        Flow<LobbyOutboundMessage, LobbyInboundMessage, NotUsed> join = Flow.fromFunction(ign -> RequestInformation.INSTANCE);
         Message msg = source
             .via(codec.bidiFlow().join(join))
             .withAttributes(ActorAttributes.withSupervisionStrategy(Supervision.getResumingDecider()))

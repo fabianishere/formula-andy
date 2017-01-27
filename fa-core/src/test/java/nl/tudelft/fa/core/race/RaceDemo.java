@@ -1,6 +1,9 @@
 package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.team.*;
+import nl.tudelft.fa.core.team.Aerodynamicist;
+import nl.tudelft.fa.core.team.Driver;
+import nl.tudelft.fa.core.team.Mechanic;
+import nl.tudelft.fa.core.team.Strategist;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Engine;
 import nl.tudelft.fa.core.team.inventory.Tire;
@@ -69,7 +72,7 @@ public class RaceDemo {
     static CarSimulator cs9;
 
     static Map<Car, CarSimulator> simulators;
-    static Map<Car, CarSimulationResult> results;
+    static List<CarSimulationResult> results;
 
     public static void main(String[] args) {
         setUpGrandPrix();
@@ -81,9 +84,9 @@ public class RaceDemo {
         boolean racing = true;
         int cycles = 0;
         while(racing) {
-            results = iterator.next().getCars();
+            results = iterator.next().getResults();
             racing = false;
-            for (CarSimulationResult result : results.values()) {
+            for (CarSimulationResult result : results) {
                 if (!result.hasCrashed()) {
                     racing = true;
                 }
@@ -99,8 +102,8 @@ public class RaceDemo {
         System.out.println("Raining: " + rs.isRaining());
         System.out.println("Laps: " + gp.getLaps() + " Length lap: " + gp.getCircuit().getLength() + "\n");
 
-        results.forEach((car, result) -> {
-            System.out.println(simulators.get(car).getConfiguration().getDriver().getName() + ": " + result.getDistanceTraveled() + "  " + result.hasCrashed());
+        results.forEach(result -> {
+            System.out.println(simulators.get(result.getCar()).getConfiguration().getDriver().getName() + ": " + result.getDistanceTraveled() + "  " + result.hasCrashed());
         });
     }
 

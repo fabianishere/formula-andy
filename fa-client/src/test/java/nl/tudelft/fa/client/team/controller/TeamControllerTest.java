@@ -24,9 +24,9 @@ import org.junit.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.*;
-
-import static org.junit.Assert.assertEquals;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class TeamControllerTest {
     private static ActorSystem system;
@@ -51,7 +51,7 @@ public class TeamControllerTest {
         User user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
         List<InventoryItem> inventory = new ArrayList<InventoryItem>();
         List<Member> staff = new ArrayList<>();
-        final Team team = new Team(UUID.randomUUID(), "test", 30000, user, staff, inventory);
+        final nl.tudelft.fa.core.team.Team team = new nl.tudelft.fa.core.team.Team(UUID.randomUUID(), "test", 30000, user, staff, inventory);
         final Car car = new Car(UUID.randomUUID());
         final Engine engine = new Engine(UUID.randomUUID(), "Ferrari", "X", 1, 2, 3);
         final Tire tire = new Tire(UUID.randomUUID(), "Pirelli", TireType.HARD, 1, 1);

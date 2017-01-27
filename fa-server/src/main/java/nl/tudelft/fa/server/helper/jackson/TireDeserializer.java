@@ -29,7 +29,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.inventory.Tire;
 
 import java.io.IOException;

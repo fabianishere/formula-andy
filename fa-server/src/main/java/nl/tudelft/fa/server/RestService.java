@@ -32,15 +32,14 @@ import akka.actor.ActorSystem;
 import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.model.StatusCodes;
 import akka.http.javadsl.server.Route;
-
 import nl.tudelft.fa.core.auth.actor.Authenticator;
 import nl.tudelft.fa.core.lobby.actor.LobbyBalancerActor;
 import nl.tudelft.fa.server.controller.LobbyController;
 import nl.tudelft.fa.server.controller.TeamController;
 import nl.tudelft.fa.server.model.Information;
 
-import javax.persistence.EntityManager;
 import java.lang.management.ManagementFactory;
+import javax.persistence.EntityManager;
 
 /**
  * This class provides the main {@link Route}s for the Formula Andy Akka HTTP REST API.

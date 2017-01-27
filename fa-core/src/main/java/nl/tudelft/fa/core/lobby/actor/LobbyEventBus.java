@@ -25,7 +25,10 @@
 
 package nl.tudelft.fa.core.lobby.actor;
 
-import akka.actor.*;
+import akka.actor.AbstractActor;
+import akka.actor.ActorRef;
+import akka.actor.Props;
+import akka.actor.Terminated;
 import akka.japi.pf.ReceiveBuilder;
 import nl.tudelft.fa.core.lobby.message.LobbyEvent;
 import nl.tudelft.fa.core.lobby.message.Subscribe;

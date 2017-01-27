@@ -26,8 +26,8 @@
 package nl.tudelft.fa.server.controller;
 
 import static akka.http.javadsl.server.Directives.*;
-import static akka.http.javadsl.server.PathMatchers.*;
-import static akka.pattern.PatternsCS.*;
+import static akka.http.javadsl.server.PathMatchers.uuidSegment;
+import static akka.pattern.PatternsCS.ask;
 import static scala.compat.java8.JFunction.func;
 
 import akka.NotUsed;
@@ -64,12 +64,12 @@ import nl.tudelft.fa.server.net.codec.AbstractCodec;
 import nl.tudelft.fa.server.net.codec.jackson.JacksonWebSocketCodec;
 import scala.concurrent.duration.FiniteDuration;
 
-import javax.persistence.EntityManager;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
+import javax.persistence.EntityManager;
 
 /**
  * This controller acts as an interface between a {@link LobbyBalancerActor} and the REST API which

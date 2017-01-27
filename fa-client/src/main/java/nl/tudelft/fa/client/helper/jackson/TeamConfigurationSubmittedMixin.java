@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmitted;
 import nl.tudelft.fa.client.race.CarConfiguration;
-import nl.tudelft.fa.client.user.User;
+import nl.tudelft.fa.client.team.Team;
 
 import java.util.Set;
 
@@ -42,10 +42,10 @@ public abstract class TeamConfigurationSubmittedMixin {
     /**
      * Construct a {@link TeamConfigurationSubmitted} message instance.
      *
-     * @param user The user that wants to submit this configuration.
+     * @param team The team that wants to submit this configuration.
      * @param cars The car configurations of the team to submit.
      */
     @JsonCreator
-    public TeamConfigurationSubmittedMixin(@JsonProperty("user") User user,
+    public TeamConfigurationSubmittedMixin(@JsonProperty("team") Team team,
                                            @JsonProperty("cars") Set<CarConfiguration> cars) {}
 }

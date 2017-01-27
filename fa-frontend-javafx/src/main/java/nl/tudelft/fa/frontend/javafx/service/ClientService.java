@@ -26,7 +26,6 @@
 package nl.tudelft.fa.frontend.javafx.service;
 
 import akka.Done;
-import akka.NotUsed;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.http.javadsl.model.Uri;

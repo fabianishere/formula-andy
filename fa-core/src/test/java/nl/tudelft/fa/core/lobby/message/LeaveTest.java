@@ -1,6 +1,7 @@
 package nl.tudelft.fa.core.lobby.message;
 
 import nl.tudelft.fa.core.auth.Credentials;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.user.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,18 +14,18 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 public class LeaveTest {
-    User user;
+    Team team;
     Leave req;
 
     @Before
     public void setUp() throws Exception {
-        user = new User(UUID.randomUUID(), new Credentials("a", "b"));
-        req = new Leave(user);
+        team = new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null));
+        req = new Leave(team);
     }
 
     @Test
     public void getUser() throws Exception {
-        assertEquals(user, req.getUser());
+        assertEquals(team, req.getTeam());
     }
 
     @Test
@@ -44,22 +45,22 @@ public class LeaveTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new Leave(user), req);
+        assertEquals(new Leave(team), req);
     }
 
     @Test
-    public void equalsDifferentCredentials() {
-        assertNotEquals(new Leave(new User(UUID.randomUUID(), new Credentials("b", "c"))),
+    public void equalsDifferentTeam() {
+        assertNotEquals(new Leave(new Team(UUID.randomUUID(), null, 0, null)),
             req);
     }
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(user), req.hashCode());
+        assertEquals(Objects.hash(team), req.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("Leave(user=%s)", user), req.toString());
+        assertEquals(String.format("Leave(team=%s)", team), req.toString());
     }
 }

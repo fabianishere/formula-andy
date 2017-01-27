@@ -25,12 +25,8 @@
 
 package nl.tudelft.fa.client.lobby.controller;
 
-import akka.http.javadsl.marshallers.jackson.Jackson;
-import akka.http.javadsl.model.HttpMethods;
-import akka.http.javadsl.model.HttpRequest;
 import nl.tudelft.fa.client.Client;
 import nl.tudelft.fa.client.auth.Credentials;
-import nl.tudelft.fa.client.lobby.Lobby;
 import nl.tudelft.fa.client.lobby.LobbyStatus;
 
 import java.util.Set;
@@ -58,6 +54,7 @@ public class AuthorizedLobbyBalancerController extends LobbyBalancerController {
         super(client);
         this.credentials = credentials;
     }
+
     /**
      * Return the controllers of the lobbies running on the server.
      *
@@ -93,8 +90,8 @@ public class AuthorizedLobbyBalancerController extends LobbyBalancerController {
     public CompletionStage<LobbyController> find() {
         return lobbies().thenApply(lobbies -> lobbies.stream()
             .filter(lobby -> lobby.getStatus().equals(LobbyStatus.INTERMISSION))
-            .filter(lobby -> lobby.getUsers().size() < lobby.getConfiguration()
-                .getUserMaximum())
+            .filter(lobby -> lobby.getTeams().size() < lobby.getConfiguration()
+                .getTeamMaximum())
             .findFirst()
             .get()
         )

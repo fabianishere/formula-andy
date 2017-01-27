@@ -9,6 +9,7 @@ import akka.stream.javadsl.Source;
 import akka.stream.testkit.javadsl.TestSink;
 import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.lobby.message.*;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,7 +19,8 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Fabian Mastenbroek <mail.fabianm@gmail.com>
@@ -27,6 +29,7 @@ public class AuthorizedSessionStageTest {
     private static ActorSystem system;
     private static ActorMaterializer mat;
     private User user;
+    private Team team;
     private AuthorizedSessionStage stage;
 
     @BeforeClass
@@ -43,12 +46,13 @@ public class AuthorizedSessionStageTest {
     @Before
     public void setUp() {
         user = new User(UUID.randomUUID(), null);
+        team = new Team(UUID.randomUUID(), "test", 0, user);
         stage = new AuthorizedSessionStage(user);
     }
 
     @Test
     public void acceptMultiple() {
-        final Source<LobbyInboundMessage, NotUsed> source = Source.from(Arrays.asList(new Join(null, null), new Join(null, null)));
+        final Source<LobbyInboundMessage, NotUsed> source = Source.from(Arrays.asList(new Join(team, null), new Join(null, null)));
         final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> join = Flow.fromFunction(LobbyInboundMessageWrapper::new);
         final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> flow =
             BidiFlow.fromGraph(stage).join(join);
@@ -58,7 +62,7 @@ public class AuthorizedSessionStageTest {
             .runWith(TestSink.probe(system), mat)
             .request(1)
             .requestNext();
-        assertEquals(new Join(user, null), msg.message);
+        assertEquals(new Join(team, null), msg.message);
     }
 
     @Test
@@ -78,7 +82,7 @@ public class AuthorizedSessionStageTest {
 
     @Test
     public void acceptLeaveMessage() {
-        final Source<LobbyInboundMessage, NotUsed> source = Source.single(new Leave(null));
+        final Source<LobbyInboundMessage, NotUsed> source = Source.single(new Leave(team));
         final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> join = Flow.fromFunction(LobbyInboundMessageWrapper::new);
         final Flow<LobbyInboundMessage, LobbyOutboundMessage, NotUsed> flow =
             BidiFlow.fromGraph(stage).join(join);
@@ -87,7 +91,7 @@ public class AuthorizedSessionStageTest {
             .via(flow)
             .runWith(TestSink.probe(system), mat)
             .requestNext();
-        assertEquals(new Leave(user), msg.message);
+        assertEquals(new Leave(team), msg.message);
     }
 
     private class LobbyInboundMessageWrapper implements LobbyOutboundMessage {

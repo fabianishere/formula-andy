@@ -116,6 +116,7 @@ public class Driver extends Member {
      */
     @Override
     public String toString() {
-        return getName();
+        return String.format("Driver(id=%s, name=%s, salary=%d, speed=%f, racecraft=%f,"
+            + " strategy=%f)", getId(), getName(), getSalary(), speed, racecraft, strategy);
     }
 }

@@ -206,6 +206,6 @@ public class Team {
      */
     @Override
     public String toString() {
-        return String.format(name);
+        return String.format("Team(id=%s, name=%s)", id, name);
     }
 }

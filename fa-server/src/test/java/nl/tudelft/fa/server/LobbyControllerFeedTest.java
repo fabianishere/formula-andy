@@ -7,8 +7,8 @@ import akka.http.javadsl.model.ws.Message;
 import akka.http.javadsl.model.ws.TextMessage;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
-import akka.stream.javadsl.Source;
 import akka.stream.javadsl.Sink;
+import akka.stream.javadsl.Source;
 import akka.testkit.JavaTestKit;
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
@@ -20,7 +20,6 @@ import nl.tudelft.fa.server.net.AuthorizedSessionStage;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 import java.time.Duration;
 import java.util.Collections;

@@ -40,7 +40,6 @@ import nl.tudelft.fa.client.lobby.message.LobbyStatusChanged;
 import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.client.race.CarConfiguration;
 import nl.tudelft.fa.client.team.Team;
-import nl.tudelft.fa.client.team.inventory.Car;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StoreController;
@@ -51,7 +50,6 @@ import scala.runtime.BoxedUnit;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
-
 import javax.inject.Inject;
 
 /**
@@ -72,6 +70,11 @@ public class SetupScreenController extends AbstractController implements Initial
      */
     @Inject
     private ClientService service;
+
+    /**
+     * The {@link Team} of this controller.
+     */
+    private Team team;
 
     /**
      * The controller for the first car configuration.
@@ -119,6 +122,7 @@ public class SetupScreenController extends AbstractController implements Initial
      * @param team The team to set.
      */
     public void setTeam(Team team) {
+        this.team = team;
         firstController.setTeam(team);
         secondController.setTeam(team);
     }
@@ -129,7 +133,7 @@ public class SetupScreenController extends AbstractController implements Initial
      * @return The configuration of the team.
      */
     public TeamConfigurationSubmission getConfiguration() {
-        return new TeamConfigurationSubmission(null, new HashSet<CarConfiguration>() {
+        return new TeamConfigurationSubmission(team, new HashSet<CarConfiguration>() {
             {
                 add(firstController.getConfiguration());
                 add(secondController.getConfiguration());
@@ -144,7 +148,7 @@ public class SetupScreenController extends AbstractController implements Initial
      * @return The parameters for a car.
      */
     public CarParametersSubmission getParameters(CarConfigurationController controller) {
-        return new CarParametersSubmission(null, controller.getConfiguration().getCar(),
+        return new CarParametersSubmission(team, controller.getConfiguration().getCar(),
             controller.getParameters());
     }
 

@@ -79,24 +79,4 @@ public abstract class Specialist extends Member {
     public double getLevel() {
         return level;
     }
-
-    /**
-     * Return the specialist factor of a specialist. This factor is solely dependant on the level
-     * of the specialist and the risk
-     *
-     * @param risk The the current risk:
-     *             1 = low risk;
-     *             2 = medium risk;
-     *             3 = high risk;
-     * @return The specialist factor.
-     */
-    public double getSpecialistFactor(int risk) {
-        switch (risk) {
-            case 1:
-                return lowRisk * level / 100;
-            case 2:
-                return mediumRisk * level / 100;
-        }
-        return highRisk * level / 100;
-    }
 }

@@ -29,14 +29,11 @@ import akka.actor.AbstractActor;
 import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-
 import akka.japi.pf.ReceiveBuilder;
-
 import nl.tudelft.fa.core.auth.message.AuthenticationRequest;
 import nl.tudelft.fa.core.auth.message.AuthenticationSuccess;
 import nl.tudelft.fa.core.auth.message.InvalidCredentialsError;
 import nl.tudelft.fa.core.user.User;
-
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
@@ -89,7 +86,7 @@ public class Authenticator extends AbstractActor {
      * @param req The {@link AuthenticationRequest} request to handle.
      */
     private void authenticate(AuthenticationRequest req) {
-        log.info("Received authentication request {}", req);
+        log.debug("Received authentication request {}", req);
 
         Optional<User> user = entityManager
             .createQuery("SELECT t FROM Users t where t.credentials.username = :username",
@@ -108,7 +105,7 @@ public class Authenticator extends AbstractActor {
         }
 
         User userUnwrapped = user.get();
-        log.info("User {} has been authenticated", userUnwrapped
+        log.debug("User {} has been authenticated", userUnwrapped
             .getCredentials().getUsername());
 
         sender().tell(new AuthenticationSuccess(userUnwrapped), self());

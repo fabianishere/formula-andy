@@ -42,13 +42,13 @@ public abstract class LobbyConfigurationMixin {
     /**
      * Construct a {@link LobbyConfigurationMixin} instance.
      *
-     * @param maxUsers The maximum amount of users in the lobby.
+     * @param maxTeams The maximum amount of teams in the lobby.
      * @param intermission The duration of the intermission.
      * @param preparation The preparation time in the lobby.
      * @param scheduleFactory The schedule factory to use.
      */
     @JsonCreator
-    public LobbyConfigurationMixin(@JsonProperty("userMaximum") int maxUsers,
+    public LobbyConfigurationMixin(@JsonProperty("teamMaximum") int maxTeams,
                                    @JsonProperty("intermission") Duration intermission,
                                    @JsonProperty("preparation") Duration preparation,
                                    @JsonProperty("schedule-factory")

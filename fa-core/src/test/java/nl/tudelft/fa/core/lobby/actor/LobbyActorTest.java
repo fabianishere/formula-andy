@@ -5,16 +5,18 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.pattern.Patterns;
 import akka.testkit.JavaTestKit;
-
 import nl.tudelft.fa.core.auth.Credentials;
-import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.Lobby;
+import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.lobby.schedule.LobbyScheduleFactory;
 import nl.tudelft.fa.core.lobby.schedule.StaticLobbyScheduleFactory;
-import nl.tudelft.fa.core.race.CarConfiguration;
+import nl.tudelft.fa.core.race.*;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.team.inventory.Car;
+import nl.tudelft.fa.core.team.inventory.Tire;
+import nl.tudelft.fa.core.team.inventory.TireType;
 import nl.tudelft.fa.core.user.User;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,8 +26,10 @@ import scala.concurrent.Await;
 import scala.concurrent.duration.FiniteDuration;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -33,10 +37,11 @@ import static org.junit.Assert.assertEquals;
 
 public class LobbyActorTest {
     private static ActorSystem system;
+    private List<GrandPrix> schedule;
     private UUID id;
     private LobbyScheduleFactory factory;
     private LobbyConfiguration configuration;
-    private User user;
+    private Team team;
 
     @BeforeClass
     public static void setUpClass() {
@@ -45,10 +50,12 @@ public class LobbyActorTest {
 
     @Before
     public void setUp() {
+        schedule = Collections.singletonList(new GrandPrix(UUID.randomUUID(), new Circuit(UUID.randomUUID(), "Monza", "Italy", 700), Instant.now(), 10, 1));
         id = UUID.randomUUID();
-        factory = new StaticLobbyScheduleFactory(Collections.emptyList());
+        factory = new StaticLobbyScheduleFactory(schedule);
+
         configuration = new LobbyConfiguration(2, Duration.ofMinutes(10), Duration.ofMinutes(5), factory);
-        user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
+        team = new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null));
     }
 
 
@@ -62,14 +69,14 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
+                final ActorRef subject = system.actorOf(props);
                 final RequestInformation req = RequestInformation.INSTANCE;
 
                 subject.tell(req, getRef());
 
                 // await the correct response
                 expectMsgEquals(duration("1 second"), new Lobby(
-                    subject.path().name(), LobbyStatus.INTERMISSION, configuration, Collections.emptySet(), Collections.emptyList()));
+                    subject.path().name(), LobbyStatus.INTERMISSION, configuration, Collections.emptySet(), schedule));
             }
         };
     }
@@ -79,8 +86,8 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Join req = new Join(user, getRef());
+                final ActorRef subject = system.actorOf(props);
+                final Join req = new Join(team, getRef());
 
                 subject.tell(req, getRef());
 
@@ -95,9 +102,9 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
+                final ActorRef subject = system.actorOf(props);
                 final JavaTestKit probe = new JavaTestKit(system);
-                final Join req = new Join(user, probe.getRef());
+                final Join req = new Join(team, probe.getRef());
 
                 subject.tell(req, getRef());
                 probe.expectNoMsg();
@@ -111,13 +118,13 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
+                final ActorRef subject = system.actorOf(props);
                 final JavaTestKit probe = new JavaTestKit(system);
-                final Join req = new Join(user, probe.getRef());
+                final Join req = new Join(team, probe.getRef());
 
                 subject.tell(new Subscribe(probe.getRef()), probe.getRef());
                 subject.tell(req, getRef());
-                probe.expectMsgEquals(duration("1 second"), new UserJoined(user));
+                probe.expectMsgEquals(duration("1 second"), new TeamJoined(team));
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
             }
         };
@@ -128,8 +135,8 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(new LobbyConfiguration(0, Duration.ofMinutes(5), Duration.ofMinutes(5), factory));
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Join req = new Join(user, getRef());
+                final ActorRef subject = system.actorOf(props);
+                final Join req = new Join(team, getRef());
 
                 subject.tell(req, getRef());
 
@@ -144,14 +151,14 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave(user);
+                final ActorRef subject = system.actorOf(props);
+                final Leave req = new Leave(team);
 
                 final JavaTestKit probe = new JavaTestKit(system);
 
-                subject.tell(new Join(new User(UUID.randomUUID(), new Credentials("test", "Test")), probe.getRef()), probe.getRef());
+                subject.tell(new Join(new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null)), probe.getRef()), probe.getRef());
 
-                subject.tell(new Join(user, getRef()), getRef());
+                subject.tell(new Join(team, getRef()), getRef());
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());
@@ -165,11 +172,11 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave(user);
+                final ActorRef subject = system.actorOf(props);
+                final Leave req = new Leave(team);
                 final JavaTestKit probe = new JavaTestKit(system);
 
-                subject.tell(new Join(user, probe.getRef()), getRef());
+                subject.tell(new Join(team, probe.getRef()), getRef());
                 probe.expectNoMsg();
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
@@ -185,18 +192,18 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave(user);
+                final ActorRef subject = system.actorOf(props);
+                final Leave req = new Leave(team);
                 final JavaTestKit probe = new JavaTestKit(system);
 
                 subject.tell(new Subscribe(probe.getRef()), probe.getRef());
-                subject.tell(new Join(user, probe.getRef()), getRef());
-                probe.expectMsgClass(duration("1 second"),  UserJoined.class);
+                subject.tell(new Join(team, probe.getRef()), getRef());
+                probe.expectMsgClass(duration("1 second"),  TeamJoined.class);
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(req, getRef());
                 expectMsgClass(duration("1 second"), LeaveSuccess.class);
-                probe.expectMsgEquals(duration("1 second"), new UserLeft(user));
+                probe.expectMsgEquals(duration("1 second"), new TeamLeft(team));
             }
         };
     }
@@ -206,13 +213,13 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave(user);
+                final ActorRef subject = system.actorOf(props);
+                final Leave req = new Leave(team);
                 final JavaTestKit probe = new JavaTestKit(system);
 
                 subject.tell(new Subscribe(probe.getRef()), probe.getRef());
-                subject.tell(new Join(user, probe.getRef()), getRef());
-                probe.expectMsgClass(duration("1 second"),  UserJoined.class);
+                subject.tell(new Join(team, probe.getRef()), getRef());
+                probe.expectMsgClass(duration("1 second"),  TeamJoined.class);
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 subject.tell(new Unsubscribe(probe.getRef()), probe.getRef());
@@ -228,8 +235,8 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave(user);
+                final ActorRef subject = system.actorOf(props);
+                final Leave req = new Leave(team);
 
                 subject.tell(req, getRef());
                 expectMsgClass(duration("1 second"), NotInLobbyException.class);
@@ -242,17 +249,40 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave(user);
+                final ActorRef subject = system.actorOf(props);
+                final Leave req = new Leave(team);
                 final JavaTestKit probe = new JavaTestKit(system);
 
                 subject.tell(new Subscribe(getRef()), getRef());
-                subject.tell(new Join(user, probe.getRef()), probe.getRef());
-                expectMsgClass(duration("1 second"),  UserJoined.class);
+                subject.tell(new Join(team, probe.getRef()), probe.getRef());
+                expectMsgClass(duration("1 second"),  TeamJoined.class);
                 probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
 
                 system.stop(probe.getRef());
-                expectMsgClass(duration("1 second"), UserLeft.class);
+                expectMsgClass(duration("1 second"), TeamLeft.class);
+            }
+        };
+    }
+
+    @Test
+    public void testTerminatedLeaveOtherInLobby() {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyActor.props(configuration);
+                final ActorRef subject = system.actorOf(props);
+                final Leave req = new Leave(team);
+                final JavaTestKit probe = new JavaTestKit(system);
+
+                subject.tell(new Subscribe(getRef()), getRef());
+                subject.tell(new Join(new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null)), getRef()), getRef());
+                subject.tell(new Join(team, probe.getRef()), probe.getRef());
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+                expectMsgClass(duration("1 second"),  TeamJoined.class);
+                expectMsgClass(duration("1 second"),  TeamJoined.class);
+                probe.expectMsgClass(duration("1 second"), JoinSuccess.class);
+
+                system.stop(probe.getRef());
+                expectMsgClass(duration("1 second"), TeamLeft.class);
             }
         };
     }
@@ -262,22 +292,46 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(configuration);
-                final ActorRef subject = system.actorOf(props, id.toString());
-                final Leave req = new Leave(user);
+                final ActorRef subject = system.actorOf(props);
+                final Leave req = new Leave(team);
                 final JavaTestKit probe = new JavaTestKit(system);
                 final User user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
 
-                final TeamConfigurationSubmission msg = new TeamConfigurationSubmission(user, new HashSet<CarConfiguration>() {{
+                final TeamConfigurationSubmission msg = new TeamConfigurationSubmission(team, new HashSet<CarConfiguration>() {{
                     add(new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null));
                 }});
 
                 subject.tell(new Subscribe(probe.getRef()), probe.getRef());
-                subject.tell(new Join(user, getRef()), getRef());
+                subject.tell(new Join(team, getRef()), getRef());
                 expectMsgClass(duration("1 second"),  JoinSuccess.class);
-                probe.expectMsgClass(duration("1 second"), UserJoined.class);
+                probe.expectMsgClass(duration("1 second"), TeamJoined.class);
 
                 subject.tell(msg, getRef());
                 probe.expectMsgClass(duration("1 second"), TeamConfigurationSubmitted.class);
+            }
+        };
+    }
+
+    @Test
+    public void testSubmitParameters() {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyActor.props(configuration);
+                final ActorRef subject = system.actorOf(props);
+                final Leave req = new Leave(team);
+                final JavaTestKit probe = new JavaTestKit(system);
+                final User user = new User(UUID.randomUUID(), new Credentials("fabianishere", "test"));
+
+                final CarParametersSubmission msg = new CarParametersSubmission(team, new Car(UUID.randomUUID()),
+                    new CarParameters(1, 1, 1, new Tire(UUID.randomUUID(), "", TireType.HARD, 1, 1)));
+
+                subject.tell(new Subscribe(probe.getRef()), probe.getRef());
+                subject.tell(new Join(team, getRef()), getRef());
+                expectMsgClass(duration("1 second"),  JoinSuccess.class);
+                probe.expectMsgClass(duration("1 second"), TeamJoined.class);
+
+                subject.tell(msg, getRef());
+                probe.expectNoMsg(duration("1 second"));
             }
         };
     }
@@ -287,10 +341,10 @@ public class LobbyActorTest {
         new JavaTestKit(system) {
             {
                 final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ofMillis(500), Duration.ofMinutes(5), factory));
-                final ActorRef subject = system.actorOf(props, id.toString());
+                final ActorRef subject = system.actorOf(props);
                 final Subscribe req = new Subscribe(getRef());
 
-                subject.tell(new Join(new User(UUID.randomUUID(), null), getRef()), getRef());
+                subject.tell(new Join(new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null)), getRef()), getRef());
                 expectMsgClass(duration("1 second"), JoinSuccess.class);
                 expectNoMsg(duration("1 second"));
                 Lobby info = (Lobby) Await.result(Patterns.ask(subject, RequestInformation.INSTANCE, 1000), FiniteDuration.create(1000, TimeUnit.MILLISECONDS));
@@ -303,8 +357,8 @@ public class LobbyActorTest {
     public void testTransitToPreparationNotEnough() throws Exception {
         new JavaTestKit(system) {
             {
-                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ZERO, Duration.ofMinutes(5), factory));
-                final ActorRef subject = system.actorOf(props, id.toString());
+                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ofMillis(250), Duration.ofMinutes(5), factory));
+                final ActorRef subject = system.actorOf(props);
                 final Subscribe req = new Subscribe(getRef());
 
                 subject.tell(req, getRef());
@@ -313,4 +367,75 @@ public class LobbyActorTest {
             }
         };
     }
+
+    @Test
+    public void testTransitToProgression() throws Exception {
+        new JavaTestKit(system) {
+            {
+                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ofMillis(500), Duration.ofMillis(500), factory));
+                final ActorRef subject = system.actorOf(props);
+                final Subscribe req = new Subscribe(getRef());
+
+                subject.tell(req, getRef());
+                subject.tell(new Join(new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null)), getRef()), getRef());
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+                expectMsgClass(duration("1 second"), TeamJoined.class);
+                expectMsgEquals(duration("1 second"), new LobbyStatusChanged(LobbyStatus.INTERMISSION, LobbyStatus.PREPARATION));
+                expectMsgEquals(duration("2 second"), new LobbyStatusChanged(LobbyStatus.PREPARATION, LobbyStatus.PROGRESSION));
+
+                system.stop(subject);
+            }
+        };
+    }
+
+    @Test
+    public void testTransitToIntermission() throws Exception {
+        new JavaTestKit(system) {
+            {
+                final JavaTestKit probe = new JavaTestKit(system);
+                final LobbyScheduleFactory factory = new StaticLobbyScheduleFactory(Collections.singletonList(new GrandPrix(UUID.randomUUID(), new Circuit(UUID.randomUUID(), "Monza", "Italy", 0), Instant.now(), 0, 1)));
+                final Props props = LobbyActor.props(new LobbyConfiguration(2, Duration.ofMillis(250), Duration.ZERO, factory));
+                final ActorRef subject = system.actorOf(props);
+                final Subscribe req = new Subscribe(probe.getRef());
+
+                subject.tell(req, probe.getRef());
+                subject.tell(new Join(new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null)), getRef()), getRef());
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+                probe.expectMsgClass(duration("1 second"), TeamJoined.class);
+
+                probe.expectMsgEquals(duration("1 second"), new LobbyStatusChanged(LobbyStatus.INTERMISSION, LobbyStatus.PREPARATION));
+                probe.expectMsgEquals(duration("1 second"), new LobbyStatusChanged(LobbyStatus.PREPARATION, LobbyStatus.PROGRESSION));
+                probe.expectMsgClass(duration("1 second"), RaceSimulationStarted.class);
+                probe.expectMsgClass(duration("3 second"), RaceSimulationResult.class);
+                probe.expectMsgEquals(duration("2 second"), new LobbyStatusChanged(LobbyStatus.PROGRESSION, LobbyStatus.INTERMISSION));
+
+                system.stop(subject);
+            }
+        };
+    }
+
+    @Test
+    public void testProgressionInform() throws Exception {
+        new JavaTestKit(system) {
+            {
+                final JavaTestKit probe = new JavaTestKit(system);
+                final LobbyConfiguration configuration = new LobbyConfiguration(2, Duration.ofSeconds(1), Duration.ZERO, factory);
+                final Props props = LobbyActor.props(configuration);
+                final ActorRef subject = system.actorOf(props);
+                final Join req = new Join(team, getRef());
+
+                subject.tell(new Subscribe(probe.getRef()), probe.getRef());
+                subject.tell(req, getRef());
+                expectMsgClass(duration("1 second"), JoinSuccess.class);
+                probe.expectMsgClass(duration("1 second"), TeamJoined.class);
+                probe.expectMsgEquals(duration("2 second"), new LobbyStatusChanged(LobbyStatus.INTERMISSION, LobbyStatus.PREPARATION));
+                probe.expectMsgEquals(duration("1 second"), new LobbyStatusChanged(LobbyStatus.PREPARATION, LobbyStatus.PROGRESSION));
+                subject.tell(RequestInformation.INSTANCE, getRef());
+                expectMsgEquals(duration("1 second"), new Lobby(subject.path().name(), LobbyStatus.PROGRESSION, configuration, Collections.singleton(team), schedule));
+
+                system.stop(subject);
+            }
+        };
+    }
+
 }
