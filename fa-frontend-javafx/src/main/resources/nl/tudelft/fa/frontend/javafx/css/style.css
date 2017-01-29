@@ -44,12 +44,7 @@
     -fx-background-size: cover, auto;
 }
 
-.user-container {
-    -fx-pref-height: 500px;
-    -fx-pref-width: 500px;
-}
-
-.user-container .title {
+.inner-container .title {
     -fx-font-family: 'Open Sans';
     -fx-font-weight: bolder;
     -fx-font-size: 24px;
@@ -60,24 +55,24 @@
                 innershadow(three-pass-box, yellow, 10, 0, 0, 0);
 }
 
-.user-container .title .light {
+.inner-container .title .light {
     -fx-text-fill: rgba(37, 37, 37, 0.5);
 }
 
-.user-container .content {
+.inner-container .content {
     -fx-background-color: rgb(231, 231, 231);
     -fx-effect: dropshadow(three-pass-box, rgba(231, 231, 231, 0.5), 10, 0, 0, 0)
                 innershadow(three-pass-box, white, 10, 0, 0, 0);
     -fx-font-size: 18px;
 }
 
-.user-container .content .icon {
+.inner-container .content .icon {
     -fx-background-color: #ccc;
     -fx-text-fill: #ccc;
     -fx-fill: rgb(48, 54, 58);
 }
 
-.user-container .content .username {
+.inner-container .content .username {
     -fx-label-float: true;
     -fx-focus-color: rgb(30, 36, 5);
     -fx-unfocus-color: rgb(155, 155, 155);
@@ -86,7 +81,7 @@
     -fx-min-width: 300px;
 }
 
-.user-container .content .password {
+.inner-container .content .password {
     -fx-label-float: true;
     -fx-focus-color: rgb(42, 47, 51);
     -fx-unfocus-color: rgb(155, 155, 155);
@@ -94,7 +89,7 @@
     -fx-background-color: transparent;
 }
 
-.user-container .content .submit {
+.inner-container .content .submit {
     -fx-text-fill: white;
     -fx-background-color: rgb(42, 47, 51);
     -fx-background-radius: 0 0 0 0;
@@ -104,9 +99,182 @@
     -fx-font-size: 18px;
 }
 
-.user-container .content .alternative {
+.inner-container .content .alternative {
     -fx-text-fill: #aaa;
     -fx-font-size: 12px;
+}
+
+.page-selection {
+    -fx-fill-width: true;
+    -fx-fill-height: true;
+    -fx-font-family: 'Open Sans';
+    -fx-background-color: rgba(0, 0, 0, 0.8);
+}
+
+.page-selection .selection .title {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 26px;
+}
+
+.page-selection .selection .item .image {
+    -fx-padding: 10;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 255, 255, 0.8), 1, 0, 0, 0);
+    -fx-background-radius: 5;
+}
+
+.page-selection .selection .item:hover .image,
+.page-selection .selection .item:hover .create {
+    -fx-effect: dropshadow(three-pass-box, rgba(237, 59, 28, 0.8), 15, 0, 0, 0);
+}
+
+.page-selection .selection .item .create {
+    -fx-text-fill: white;
+    -fx-font-size: 100px;
+    -fx-text-alignment: center;
+    -fx-border-width: 3px;
+    -fx-border-radius: 5;
+    -fx-border-color: white;
+}
+
+.page-selection .selection .item .name {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: 200;
+}
+
+.inner-container #lobbySelection {
+    -fx-background-color: transparent;
+    -fx-effect: none;
+}
+
+.inner-container #lobbySelection .background {
+    -fx-background-color: rgba(36, 42, 53, 1);
+}
+
+.inner-container #lobbySelection .table-view {
+    -fx-background-color: rgba(42, 47, 51, 0.95);
+    -fx-table-cell-border-color: transparent;
+}
+
+.inner-container #lobbySelection .table-view:focused {
+    -fx-background-color: rgba(42, 47, 51, 0.95);
+}
+
+.inner-container #lobbySelection .table-view .column-header-background {
+    -fx-background-color: rgb(42, 47, 51);
+}
+
+.inner-container #lobbySelection .table-view .column-header-background .label {
+    -fx-background-color: transparent;
+    -fx-text-fill: #efefef;
+    -fx-font-family: 'Open Sans';
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-alignment: center-left;
+}
+
+.inner-container #lobbySelection .table-view .column-header {
+    -fx-alignment: center-left;
+    -fx-background-color: transparent;
+    -fx-cell-size: 46px;
+    -fx-padding: 0 20;
+}
+
+.inner-container #lobbySelection .table-view .column-header .label {
+    -fx-alignment: center-left;
+}
+
+.inner-container #lobbySelection .table-view .table-cell {
+    -fx-alignment: center-left;
+    -fx-text-fill: #efefef;
+    -fx-border-color: transparent transparent transparent transparent;
+    -fx-padding: 0 20;
+}
+
+.inner-container #lobbySelection .table-view .table-row-cell {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-cell-size: 46px;
+    -fx-text-fill: #efefef;
+    -fx-font-family: 'Open Sans';
+    -fx-font-weight: normal;
+    -fx-font-size: 14px;
+}
+
+.inner-container #lobbySelection .table-view .table-row-cell:odd {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+
+.inner-container #lobbySelection .table-view .table-row-cell:selected {
+    -fx-background-color: rgb(237, 59, 28);
+    -fx-border-width: 0;
+}
+
+.inner-container #lobbySelection .table-view #availability {
+    -fx-alignment: center;
+}
+
+.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:vertical,
+.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:vertical > .track,
+.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:vertical > .track-background,
+.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:horizontal,
+.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:horizontal > .track,
+.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
+    -fx-background-color: transparent;
+}
+
+
+.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar > .increment-button,
+.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar > .decrement-button {
+    -fx-opacity: 0;
+}
+
+.profile .team {
+    -fx-border-color: white;
+    -fx-border-width: 0 1 0 0;
+    -fx-padding: 0 50;
+}
+
+.profile .team .image {
+    -fx-padding: 10;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 255, 255, 0.8), 1, 0, 0, 0);
+    -fx-background-radius: 5;
+}
+
+.profile .team:hover .image,
+.profile .team:focused .image {
+    -fx-effect: dropshadow(three-pass-box, rgba(237, 59, 28, 0.8), 15, 0, 0, 0);
+}
+
+.profile .team .name {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: 200;
+}
+
+.profile .info {
+    -fx-padding: 0 50;
+}
+
+.profile .info .label {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: 200;
+}
+
+/* Toast */
+.jfx-snackbar-content {
+    -fx-background-color: #323232;
+}
+
+.jfx-snackbar-toast {
+    -fx-text-fill: WHITE;
+}
+
+.jfx-snackbar-action {
+    -fx-text-fill: #ff4081;
 }
 
 /* Alerts */

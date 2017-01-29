@@ -69,7 +69,7 @@
     <!-- Page content -->
     <BorderPane>
         <center>
-            <GridPane maxHeight="508.0" maxWidth="300.0" styleClass="user-container">
+            <GridPane maxHeight="508.0" maxWidth="300.0" styleClass="inner-container">
                 <HBox styleClass="title" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <Label styleClass="light" text="USER / " />
                     <Label text="REGISTER" />
@@ -78,7 +78,7 @@
                     </GridPane.margin>
                 </HBox>
 
-                <GridPane alignment="CENTER" styleClass="content" GridPane.columnSpan="3" GridPane.rowIndex="1">
+                <GridPane alignment="CENTER" fx:id="register" styleClass="content" GridPane.columnSpan="3" GridPane.rowIndex="1">
                     <padding>
                         <Insets bottom="25" top="25" />
                     </padding>

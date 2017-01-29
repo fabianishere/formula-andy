@@ -34,6 +34,7 @@ import nl.tudelft.fa.client.AbstractClient;
 import nl.tudelft.fa.client.AnonymousClient;
 import nl.tudelft.fa.client.Client;
 import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.client.lobby.Lobby;
 import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
 import nl.tudelft.fa.client.lobby.controller.LobbyController;
 import nl.tudelft.fa.client.lobby.message.LobbyInboundMessage;
@@ -104,6 +105,16 @@ public class ClientService extends AbstractClient {
         return controller.feed(flow)
             .first()
             .thenApply(done -> session);
+    }
+
+    /**
+     * Open a session for the given {@link Lobby} instance.
+     *
+     * @param lobby The lobby to open the session for.
+     * @return The reference to the lobby session actor.
+     */
+    public CompletionStage<ActorRef> open(Lobby lobby) {
+        return open(balancer().controller(lobby));
     }
 
     /**

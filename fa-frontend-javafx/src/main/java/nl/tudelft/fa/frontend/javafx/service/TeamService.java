@@ -23,23 +23,29 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.inject;
+package nl.tudelft.fa.frontend.javafx.service;
 
-import com.google.inject.AbstractModule;
-
-import akka.http.javadsl.model.Uri;
-import nl.tudelft.fa.frontend.javafx.service.ClientService;
-import nl.tudelft.fa.frontend.javafx.service.TeamService;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import nl.tudelft.fa.client.team.Team;
 
 /**
- * Guice module for the user interface.
+ * This service manages the team the user is currently user.
  *
  * @author Fabian Mastenbroek
  */
-public class ClientModule extends AbstractModule {
-    @Override
-    protected void configure() {
-        bind(ClientService.class).toInstance(new ClientService(Uri.create("http://localhost:8080")));
-        bind(TeamService.class).toInstance(new TeamService());
+public class TeamService {
+    /**
+     * The team the user is currently managing.
+     */
+    private final ObjectProperty<Team> team = new SimpleObjectProperty<>();
+
+    /**
+     * Return the team property of this service.
+     *
+     * @return The team property of this service.
+     */
+    public ObjectProperty<Team> teamProperty() {
+        return team;
     }
 }

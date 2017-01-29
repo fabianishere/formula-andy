@@ -26,7 +26,6 @@
 package nl.tudelft.fa.frontend.javafx.controller.user;
 
 import akka.Done;
-import akka.actor.ActorRef;
 import akka.stream.StreamTcpException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,7 +36,7 @@ import javafx.scene.control.TextField;
 import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
-import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
+import nl.tudelft.fa.frontend.javafx.controller.lobby.LobbySelectionController;
 import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
@@ -127,7 +126,7 @@ public class LoginController extends AbstractController {
         // Show the start screen
         try {
             alert.setVisible(false);
-            show(StartScreenController.VIEW);
+            show(LobbySelectionController.VIEW);
         } catch (IOException exc) {
             logger.error("Failed to load start screen for user", exc);
 
