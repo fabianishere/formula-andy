@@ -26,22 +26,11 @@
 -->
 
 <?import com.jfoenix.controls.JFXSnackbar?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.effect.BoxBlur?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
 <StackPane styleClass="page-container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.lobby.LobbySelectionController">
     <stylesheets>
         <URL value="@../../css/style.css" />
@@ -61,25 +50,32 @@
     <!-- Page content -->
     <BorderPane>
         <center>
-            <GridPane fx:id="window" maxHeight="508.0" maxWidth="600" styleClass="inner-container">
-                <HBox styleClass="title" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                    <Label styleClass="light" text="LOBBY / " />
-                    <Label text="SELECT" />
-                    <GridPane.margin>
-                        <Insets bottom="8" />
-                    </GridPane.margin>
-                </HBox>
+            <HBox alignment="CENTER">
+                <GridPane fx:id="window" maxHeight="508.0" styleClass="inner-container">
+                    <HBox.margin>
+                        <Insets top="-150" />
+                    </HBox.margin>
 
-                <StackPane fx:id="lobbySelection" styleClass="content" GridPane.columnSpan="3" GridPane.rowIndex="1">
-                    <TableView fx:id="table" styleClass="table-view">
-                        <columns>
-                            <TableColumn fx:id="name" prefWidth="150" text="NAME" />
-                            <TableColumn fx:id="users" prefWidth="200" text="USERS" />
-                            <TableColumn fx:id="status" prefWidth="200" text="STATUS" />
-                        </columns>
-                    </TableView>
-                </StackPane>
-            </GridPane>
+                    <HBox styleClass="title" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label styleClass="light" text="LOBBY / "/>
+                        <Label text="SELECT"/>
+                        <GridPane.margin>
+                            <Insets bottom="8"/>
+                        </GridPane.margin>
+                    </HBox>
+
+                    <StackPane fx:id="lobbySelection" styleClass="content" GridPane.columnSpan="3"
+                               GridPane.rowIndex="1">
+                        <TableView fx:id="table" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="name" prefWidth="150" text="NAME"/>
+                                <TableColumn fx:id="users" prefWidth="200" text="USERS"/>
+                                <TableColumn fx:id="status" prefWidth="200" text="STATUS"/>
+                            </columns>
+                        </TableView>
+                    </StackPane>
+                </GridPane>
+            </HBox>
         </center>
 
         <top>
