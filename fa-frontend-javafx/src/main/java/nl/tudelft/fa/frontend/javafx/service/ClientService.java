@@ -87,7 +87,6 @@ public class ClientService extends AbstractClient {
      */
     public void authorize(Credentials credentials) {
         client = new Client(system, getBaseUri(), credentials);
-        // TODO throw on invalid credentials
     }
 
     /**
@@ -97,8 +96,12 @@ public class ClientService extends AbstractClient {
      * @return The reference to the lobby session actor.
      */
     public CompletionStage<ActorRef> open(LobbyController controller) {
-        session = system.actorOf(SessionActor.props());
+        if (session != null) {
+            // stop previous session
+            system.stop(session);
+        }
 
+        session = system.actorOf(SessionActor.props());
         Flow<LobbyOutboundMessage, LobbyInboundMessage, CompletionStage<Done>> flow = Flow
             .fromGraph(new SessionStage(session))
             .mapMaterializedValue(mat -> CompletableFuture.completedFuture(Done.getInstance()));
