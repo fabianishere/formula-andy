@@ -43,6 +43,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import nl.tudelft.fa.client.lobby.LobbyStatus;
 import nl.tudelft.fa.client.lobby.message.*;
+import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
@@ -113,7 +114,10 @@ public class LobbyHomeController extends AbstractController {
             LobbyHomeActor::new).withDispatcher("javafx-dispatcher"));
         // Tell the session about the handler
         client.session().tell(ref, ref);
-
+        // Sent a message from the lobby
+        ref.tell(new ChatEvent(new Team(null, "Lobby", 0, null, null),
+            "Welcome to this lobby!"), ActorRef.noSender());
+        
         // Cell factory of the chat list
         chat.setCellFactory(view -> new ListCell<ChatEvent>() {
             @Override
