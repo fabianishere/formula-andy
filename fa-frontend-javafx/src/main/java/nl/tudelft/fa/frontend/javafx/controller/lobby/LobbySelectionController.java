@@ -45,7 +45,6 @@ import nl.tudelft.fa.client.lobby.message.*;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
-import nl.tudelft.fa.frontend.javafx.controller.game.GameScreenController;
 import nl.tudelft.fa.frontend.javafx.controller.team.TeamSelectionController;
 import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
@@ -61,7 +60,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 /**
- * A controller for the login screen of the game.
+ * A controller for the lobby selection view.
  *
  * @author Fabian Mastenbroek
  * @author Christian Slothouber
@@ -230,7 +229,7 @@ public class LobbySelectionController extends AbstractController {
             return ReceiveBuilder
                 .match(JoinSuccess.class, msg -> {
                     context().stop(self());
-                    show(StartScreenController.VIEW);
+                    show(LobbyMainController.VIEW);
                 })
                 .match(JoinException.class, exc -> {
                     log.error("Failed to join lobby", exc);

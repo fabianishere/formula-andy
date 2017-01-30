@@ -144,29 +144,30 @@
     -fx-font-weight: 200;
 }
 
-.inner-container #lobbySelection {
+.inner-container #lobbySelection,
+.inner-container #lobby {
     -fx-background-color: transparent;
     -fx-effect: none;
 }
 
-.inner-container #lobbySelection .background {
+.inner-container .background {
     -fx-background-color: rgba(36, 42, 53, 1);
 }
 
-.inner-container #lobbySelection .table-view {
+.inner-container .table-view {
     -fx-background-color: rgba(42, 47, 51, 0.95);
     -fx-table-cell-border-color: transparent;
 }
 
-.inner-container #lobbySelection .table-view:focused {
+.inner-container .table-view:focused {
     -fx-background-color: rgba(42, 47, 51, 0.95);
 }
 
-.inner-container #lobbySelection .table-view .column-header-background {
+.inner-container .table-view .column-header-background {
     -fx-background-color: rgb(42, 47, 51);
 }
 
-.inner-container #lobbySelection .table-view .column-header-background .label {
+.inner-container .table-view .column-header-background .label {
     -fx-background-color: transparent;
     -fx-text-fill: #efefef;
     -fx-font-family: 'Open Sans';
@@ -175,25 +176,25 @@
     -fx-alignment: center-left;
 }
 
-.inner-container #lobbySelection .table-view .column-header {
+.inner-container .table-view .column-header {
     -fx-alignment: center-left;
     -fx-background-color: transparent;
     -fx-cell-size: 46px;
     -fx-padding: 0 20;
 }
 
-.inner-container #lobbySelection .table-view .column-header .label {
+.inner-container .table-view .column-header .label {
     -fx-alignment: center-left;
 }
 
-.inner-container #lobbySelection .table-view .table-cell {
+.inner-container .table-view .table-cell {
     -fx-alignment: center-left;
     -fx-text-fill: #efefef;
     -fx-border-color: transparent transparent transparent transparent;
     -fx-padding: 0 20;
 }
 
-.inner-container #lobbySelection .table-view .table-row-cell {
+.inner-container .table-view .table-row-cell {
     -fx-background-color: rgba(0, 0, 0, 0.4);
     -fx-cell-size: 46px;
     -fx-text-fill: #efefef;
@@ -202,32 +203,148 @@
     -fx-font-size: 14px;
 }
 
-.inner-container #lobbySelection .table-view .table-row-cell:odd {
+.inner-container .table-view .table-row-cell:odd {
     -fx-background-color: rgba(0, 0, 0, 0.3);
 }
 
-.inner-container #lobbySelection .table-view .table-row-cell:selected {
+.inner-container .table-view .table-row-cell:selected {
     -fx-background-color: rgb(237, 59, 28);
     -fx-border-width: 0;
 }
 
-.inner-container #lobbySelection .table-view #availability {
+.inner-container .table-view #availability {
     -fx-alignment: center;
 }
 
-.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:vertical,
-.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:vertical > .track,
-.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:vertical > .track-background,
-.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:horizontal,
-.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:horizontal > .track,
-.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
+.inner-container .table-view > .virtual-flow > .scroll-bar:vertical,
+.inner-container .table-view > .virtual-flow > .scroll-bar:vertical > .track,
+.inner-container .table-view > .virtual-flow > .scroll-bar:vertical > .track-background,
+.inner-container .table-view > .virtual-flow > .scroll-bar:horizontal,
+.inner-container .table-view > .virtual-flow > .scroll-bar:horizontal > .track,
+.inner-container .table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
     -fx-background-color: transparent;
 }
 
 
-.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar > .increment-button,
-.inner-container #lobbySelection .table-view > .virtual-flow > .scroll-bar > .decrement-button {
+.inner-container .table-view > .virtual-flow > .scroll-bar > .increment-button,
+.inner-container .table-view > .virtual-flow > .scroll-bar > .decrement-button {
     -fx-opacity: 0;
+}
+
+.inner-container .tab-pane {
+     -fx-background-color: rgb(36, 40, 39);
+     -fx-tab-min-width: 90px;
+ }
+
+.inner-container .tab-pane .headers-region {
+    -fx-padding: 0;
+    -fx-background-color: rgb(37, 37, 37);
+    -fx-border-color: rgb(37, 37, 37);
+    -fx-border-width: 0 40 0 40;
+}
+
+.inner-container .tab-header-area {
+    -fx-padding: 0 0 10 0;
+    -fx-background-insets: 0;
+}
+
+.inner-container .tab-pane *.tab-header-area *.tab-header-background {
+    -fx-background-color: transparent;
+    -fx-effect: none;
+}
+
+.inner-container .tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-focus-color:  transparent;
+    -fx-border-color: transparent;
+}
+
+.inner-container .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
+
+.inner-container .tab-pane:focused > .tab-header-area > .headers-region {
+}
+
+.inner-container .tab-pane .tab {
+    -fx-background-color: rgb(37, 37, 37);
+    -fx-background-radius: 0px;
+    -fx-border-color: rgb(62, 64, 63);
+    -fx-border-width: 0 2 0 0;
+}
+
+.inner-container .tab-pane .tab:selected {
+    -fx-background-color: rgb(226, 250, 29);
+}
+
+.inner-container .tab-pane .tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #efefef;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.inner-container .tab-pane .tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: rgb(37, 37, 37);
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.inner-container .chat {
+    -fx-background-color: rgba(42, 47, 51, 0.95);
+}
+
+.inner-container .chat.list-view .scroll-bar:horizontal .increment-arrow,
+.inner-container .chat.list-view .scroll-bar:horizontal .decrement-arrow,
+.inner-container .chat.list-view .scroll-bar:horizontal .increment-button,
+.inner-container .chat.list-view .scroll-bar:horizontal .decrement-button {
+    -fx-padding: 0;
+}
+
+.inner-container .chat .list-cell {
+    -fx-alignment: center-left;
+    -fx-border-color: transparent transparent transparent transparent;
+    -fx-padding: 5 10;
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-font-family: 'Open Sans';
+    -fx-font-weight: normal;
+    -fx-font-size: 14px;
+}
+
+.inner-container .chat .list-cell:even {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+
+.inner-container .chat .list-cell:selected {
+    -fx-background-color: rgb(237, 59, 28);
+}
+
+.inner-container .chat .list-cell .user {
+    -fx-fill: white;
+    -fx-font-weight: bold;
+}
+
+.inner-container .chat .list-cell .message {
+    -fx-fill: white;
+}
+
+.inner-container .chat-input-container {
+    -fx-background-color: rgba(42, 47, 51, 1);
+    -fx-padding: 25 5 10 5;
+}
+
+.inner-container .chat-input-container .chat-input {
+    -fx-text-fill: rgba(255, 255, 255, 0.6);
+    -fx-focus-color: rgba(255, 255, 255, 0.6);
+    -fx-unfocus-color: rgba(255, 255, 255, 0.4);
+    -fx-label-float: true;
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+    -fx-font-family: 'Open Sans';
+    -fx-font-weight: lighter;
 }
 
 .profile .team {
