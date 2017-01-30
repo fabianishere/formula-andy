@@ -114,10 +114,9 @@ public class LobbyHomeController extends AbstractController {
             LobbyHomeActor::new).withDispatcher("javafx-dispatcher"));
         // Tell the session about the handler
         client.session().tell(ref, ref);
-        // Sent a message from the lobby
-        ref.tell(new ChatEvent(new Team(null, "Lobby", 0, null, null),
-            "Welcome to this lobby!"), ActorRef.noSender());
-        
+        // Welcome the user
+        sentMessage(ref, "Welcome in this lobby!");
+
         // Cell factory of the chat list
         chat.setCellFactory(view -> new ListCell<ChatEvent>() {
             @Override
@@ -165,6 +164,18 @@ public class LobbyHomeController extends AbstractController {
         TextFlow flow = new TextFlow();
         flow.getChildren().addAll(user, message);
         return flow;
+    }
+
+    /**
+     * Sent a message from the lobby.
+     *
+     * @param ref The reference to the actor we sent the messages to.
+     * @param message The message to sent.
+     */
+    private void sentMessage(ActorRef ref, String message) {
+        // Sent a message from the lobby
+        ref.tell(new ChatEvent(new Team(null, "Lobby", 0, null, null),
+            message), ActorRef.noSender());
     }
 
     /**
@@ -259,6 +270,10 @@ public class LobbyHomeController extends AbstractController {
                     }
                 })
                 .match(LobbyStatusChanged.class, msg -> status = msg.getStatus())
+                .match(TeamJoined.class, msg -> sentMessage(self(),
+                    String.format("%s has joined the lobby", msg.getTeam().getName())))
+                .match(TeamLeft.class, msg -> sentMessage(self(),
+                    String.format("%s has left the lobby", msg.getTeam().getName())))
                 .build();
         }
     }
