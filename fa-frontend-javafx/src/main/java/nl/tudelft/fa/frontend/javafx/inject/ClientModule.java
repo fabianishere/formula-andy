@@ -25,6 +25,7 @@
 
 package nl.tudelft.fa.frontend.javafx.inject;
 
+
 import com.google.inject.AbstractModule;
 
 import akka.http.javadsl.model.Uri;
