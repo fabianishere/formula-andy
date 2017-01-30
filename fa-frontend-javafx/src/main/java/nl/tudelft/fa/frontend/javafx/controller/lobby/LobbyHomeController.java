@@ -31,6 +31,14 @@ import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
+import de.jensd.fx.glyphs.GlyphsBuilder;
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -41,6 +49,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import nl.tudelft.fa.client.lobby.Lobby;
 import nl.tudelft.fa.client.lobby.LobbyStatus;
 import nl.tudelft.fa.client.lobby.message.*;
 import nl.tudelft.fa.client.team.Team;
@@ -114,6 +123,8 @@ public class LobbyHomeController extends AbstractController {
             LobbyHomeActor::new).withDispatcher("javafx-dispatcher"));
         // Tell the session about the handler
         client.session().tell(ref, ref);
+        // Ask for the current lobby information
+        client.session().tell(RequestInformation.INSTANCE, ref);
         // Welcome the user
         sentMessage(ref, "Welcome in this lobby!");
 
@@ -250,6 +261,13 @@ public class LobbyHomeController extends AbstractController {
                 .match(ChatEvent.class, msg -> {
                     chat.getItems().add(msg);
                     chat.scrollTo(chat.getItems().size() - 1);
+                })
+                .match(Lobby.class, msg -> {
+                    if (remaining == null) {
+                        remaining = msg.getStatus().equals(LobbyStatus.INTERMISSION)
+                            ? msg.getConfiguration().getIntermission()
+                            : msg.getConfiguration().getPreparation();
+                    }
                 })
                 .match(TimeRemaining.class, msg -> {
                     remaining = msg.getRemaining();
