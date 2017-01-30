@@ -68,7 +68,7 @@ public class LobbyCountdownActor extends AbstractActor {
             TimeUnit.NANOSECONDS);
 
         // Schedule the timer
-        timer = context().system().scheduler().schedule(interval, interval, self(),
+        timer = context().system().scheduler().schedule(FiniteDuration.Zero(), interval, self(),
             "tick", context().dispatcher(), self());
     }
 

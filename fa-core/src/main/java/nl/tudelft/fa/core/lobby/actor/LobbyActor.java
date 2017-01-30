@@ -181,7 +181,7 @@ public class LobbyActor extends AbstractActor {
         );
 
         // Create a countdown for the users
-        context().system().actorOf(LobbyCountdownActor.props(bus, configuration.getIntermission(),
+        context().system().actorOf(LobbyCountdownActor.props(bus, configuration.getPreparation(),
             Duration.ofSeconds(10)));
 
         return ReceiveBuilder
