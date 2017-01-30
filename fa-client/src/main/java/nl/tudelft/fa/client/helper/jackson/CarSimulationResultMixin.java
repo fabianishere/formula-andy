@@ -27,8 +27,8 @@ package nl.tudelft.fa.client.helper.jackson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.tudelft.fa.client.race.CarConfiguration;
 import nl.tudelft.fa.client.race.CarSimulationResult;
-import nl.tudelft.fa.client.team.inventory.Car;
 
 /**
  * Mix-in for the {@link CarSimulationResult} class.
@@ -39,13 +39,13 @@ public abstract class CarSimulationResultMixin {
     /**
      * Construct a {@link CarSimulationResult} instance.
      *
-     * @param car The car that produced this result.
+     * @param configuration The configuration that produced this result.
      * @param distanceTraveled The total distance the car has traveled.
      * @param crashed A flag to indicate whether the car crashed.
      * @param finished A flag to indicate whether the car has finished the race.
      */
     @JsonCreator
-    public CarSimulationResultMixin(@JsonProperty("car") Car car,
+    public CarSimulationResultMixin(@JsonProperty("configuration") CarConfiguration configuration,
                                     @JsonProperty("distanceTraveled") double distanceTraveled,
                                     @JsonProperty("crashed") boolean crashed,
                                     @JsonProperty("finished") boolean finished) {}

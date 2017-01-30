@@ -198,7 +198,11 @@ public class LobbyActor extends AbstractActor {
      */
     private PartialFunction<Object, BoxedUnit> progression() {
         context().watch(simulator);
-        simulator.tell("start", self()); // start the simulation
+
+        // start the simulation
+        context().system().scheduler().scheduleOnce(FiniteDuration.create(1, TimeUnit.SECONDS),
+            simulator, "start", context().dispatcher(), self());
+
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform(LobbyStatus.PROGRESSION))
             .match(LobbyStatusChanged.class, this::transitToIntermission)

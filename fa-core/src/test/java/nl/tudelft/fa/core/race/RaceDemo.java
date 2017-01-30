@@ -103,7 +103,7 @@ public class RaceDemo {
         System.out.println("Laps: " + gp.getLaps() + " Length lap: " + gp.getCircuit().getLength() + "\n");
 
         results.forEach(result -> {
-            System.out.println(simulators.get(result.getCar()).getConfiguration().getDriver().getName() + ": " + result.getDistanceTraveled() + "  " + result.hasCrashed());
+            System.out.println(simulators.get(result.getConfiguration().getCar()).getConfiguration().getDriver().getName() + ": " + result.getDistanceTraveled() + "  " + result.hasCrashed());
         });
     }
 

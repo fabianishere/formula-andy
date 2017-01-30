@@ -116,12 +116,8 @@ public class LobbyRaceSimulationActor extends AbstractActor {
         FiniteDuration interval =  FiniteDuration.create(1, TimeUnit.SECONDS);
 
         // schedule the tick
-        Cancellable tick = context().system().scheduler().schedule(interval, interval, self(),
-            "tick", context().dispatcher(), self());
-
-        // tell the bus the simulation is going to start
-        bus.tell(new RaceSimulationStarted(cars.values().stream()
-            .map(CarSimulator::getConfiguration).collect(Collectors.toSet())), self());
+        Cancellable tick = context().system().scheduler().schedule(FiniteDuration.Zero(), interval,
+            self(), "tick", context().dispatcher(), self());
 
         // setup the simulator
         int amount = Math.max(22 - cars.size(), 0);
@@ -143,6 +139,10 @@ public class LobbyRaceSimulationActor extends AbstractActor {
 
         // setup the car simulator
         final Iterator<RaceSimulationResult> results = simulator.iterator();
+
+        // tell the bus the simulation is going to start
+        bus.tell(new RaceSimulationStarted(simulators.stream()
+            .map(CarSimulator::getConfiguration).collect(Collectors.toSet())), self());
 
         return ReceiveBuilder
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),

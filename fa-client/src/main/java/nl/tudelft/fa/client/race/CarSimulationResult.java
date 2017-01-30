@@ -25,8 +25,6 @@
 
 package nl.tudelft.fa.client.race;
 
-import nl.tudelft.fa.client.team.inventory.Car;
-
 import java.util.Objects;
 
 /**
@@ -36,9 +34,9 @@ import java.util.Objects;
  */
 public class CarSimulationResult {
     /**
-     * The car that produced this result.
+     * The configuration that produced this result.
      */
-    private final Car car;
+    private final CarConfiguration configuration;
 
     /**
      * The distance the car has traveled.
@@ -58,25 +56,25 @@ public class CarSimulationResult {
     /**
      * Construct a {@link CarSimulationResult} instance.
      *
-     * @param car The car that produced this result.
+     * @param configuration The configuration that produced this result.
      * @param distanceTraveled The total distance the car has traveled.
      * @param crashed A flag to indicate whether the car crashed.
      */
-    public CarSimulationResult(Car car, double distanceTraveled, boolean crashed,
+    public CarSimulationResult(CarConfiguration configuration, double distanceTraveled, boolean crashed,
                                boolean finished) {
-        this.car = car;
+        this.configuration = configuration;
         this.distanceTraveled = distanceTraveled;
         this.crashed = crashed;
         this.finished = finished;
     }
 
     /**
-     * Return the car that produced this result.
+     * Return the configuration that produced this result.
      *
-     * @return The car that produced this result.
+     * @return The configuration that produced this result.
      */
-    public Car getCar() {
-        return car;
+    public CarConfiguration getConfiguration() {
+        return configuration;
     }
 
     /**
@@ -113,7 +111,7 @@ public class CarSimulationResult {
      * @return A new {@link CarSimulationResult} instance with the same distance, but crashed.
      */
     public CarSimulationResult crash() {
-        return new CarSimulationResult(car, distanceTraveled, true, finished);
+        return new CarSimulationResult(configuration, distanceTraveled, true, finished);
     }
 
     /**
@@ -122,7 +120,7 @@ public class CarSimulationResult {
      * @return A new {@link CarSimulationResult} instance that is finished.
      */
     public CarSimulationResult finish() {
-        return new CarSimulationResult(car, distanceTraveled, crashed, finished);
+        return new CarSimulationResult(configuration, distanceTraveled, crashed, true);
     }
 
     /**
@@ -132,7 +130,7 @@ public class CarSimulationResult {
      * @param distance The distance needed to finish the simulation.
      * @return A new {@link CarSimulationResult} instance that is either finished or the same.
      */
-    public CarSimulationResult finishOn(int distance) {
+    public CarSimulationResult finishOn(double distance) {
         return distance > distanceTraveled ? this : finish();
     }
 
@@ -144,8 +142,8 @@ public class CarSimulationResult {
      * @return A new {@link CarSimulationResult} instance with the increased distance.
      */
     public CarSimulationResult increaseDistance(double delta) {
-        return crashed ? this : new CarSimulationResult(car,distanceTraveled + delta, false,
-            finished);
+        return crashed ? this : new CarSimulationResult(configuration,distanceTraveled + delta,
+            false, finished);
     }
 
     /**
@@ -164,7 +162,7 @@ public class CarSimulationResult {
         CarSimulationResult that = (CarSimulationResult) other;
         return Math.abs(distanceTraveled - that.distanceTraveled) < 0.001
             && Objects.equals(crashed, that.crashed)
-            && Objects.equals(car, that.car)
+            && Objects.equals(configuration, that.configuration)
             && Objects.equals(finished, that.finished);
     }
 
@@ -175,7 +173,7 @@ public class CarSimulationResult {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(distanceTraveled, crashed, car, finished);
+        return Objects.hash(distanceTraveled, crashed, configuration, finished);
     }
 
     /**
@@ -185,7 +183,7 @@ public class CarSimulationResult {
      */
     @Override
     public String toString() {
-        return String.format("CarSimulationResult(car=%s, distanceTraveled=%f, crashed=%s"
-            + ", finished=%s)", car, distanceTraveled, crashed, finished);
+        return String.format("CarSimulationResult(configuration=%s, distanceTraveled=%f, crashed=%s"
+            + ", finished=%s)", configuration, distanceTraveled, crashed, finished);
     }
 }

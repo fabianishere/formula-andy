@@ -160,7 +160,7 @@ public class CarSimulator {
         final Predicate<CarSimulationResult> close =
             res -> Math.abs(carResult.getDistanceTraveled() - res.getDistanceTraveled()) < distance;
         final Predicate<CarSimulationResult> self =
-            res -> !res.getCar().equals(configuration.getCar());
+            res -> !res.getConfiguration().getCar().equals(configuration.getCar());
         return raceResult.getResults().stream().anyMatch(self.and(close));
     }
 }
