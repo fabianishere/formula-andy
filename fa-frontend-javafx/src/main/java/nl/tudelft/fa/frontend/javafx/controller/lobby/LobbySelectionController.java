@@ -50,11 +50,13 @@ import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 import nl.tudelft.fa.frontend.javafx.service.TeamService;
 import scala.PartialFunction;
+import scala.concurrent.duration.FiniteDuration;
 import scala.runtime.BoxedUnit;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -148,11 +150,11 @@ public class LobbySelectionController extends AbstractController {
             }
         });
 
-        /* Fetch the available lobbies */
-        client.balancer().lobbies().thenAcceptAsync(lobbies -> {
-            table.setItems(FXCollections.observableList(lobbies.stream()
-                .collect(Collectors.toList())));
-        }, JavaFxExecutorService.INSTANCE);
+        /* Fetch the available lobbies every 2 seconds */
+        client.system().scheduler().schedule(FiniteDuration.Zero(),
+            FiniteDuration.create(2, TimeUnit.SECONDS), this::fetchLobbies,
+            client.system().dispatcher());
+
 
         Platform.runLater(() -> {
             if (!teamService.teamProperty().isNull().get()) {
@@ -167,6 +169,16 @@ public class LobbySelectionController extends AbstractController {
                     + exc.getMessage()));
             }
         });
+    }
+
+    /**
+     * Fetch the lobbies that can be joined.
+     */
+    private void fetchLobbies() {
+        client.balancer().lobbies().thenAcceptAsync(lobbies -> {
+            table.setItems(FXCollections.observableList(lobbies.stream()
+                .collect(Collectors.toList())));
+        }, JavaFxExecutorService.INSTANCE);
     }
 
     /**
