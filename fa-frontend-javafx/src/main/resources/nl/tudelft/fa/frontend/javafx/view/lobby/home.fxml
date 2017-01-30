@@ -34,6 +34,7 @@
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
 
+<?import javafx.scene.control.Label?>
 <HBox xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="nl.tudelft.fa.frontend.javafx.controller.lobby.LobbyHomeController">
     <stylesheets>
@@ -41,17 +42,15 @@
         <URL value="@../../css/open-sans.css"/>
     </stylesheets>
 
-    <TableView styleClass="table-view">
+    <BorderPane styleClass="table-view" prefWidth="600">
         <HBox.margin>
             <Insets right="20"/>
         </HBox.margin>
 
-        <columns>
-            <TableColumn prefWidth="150" text="NAME"/>
-            <TableColumn prefWidth="200" text="USERS"/>
-            <TableColumn prefWidth="200" text="STATUS"/>
-        </columns>
-    </TableView>
+        <center>
+            <Label fx:id="remaining" styleClass="remaining" text="Fetching remaining time..." />
+        </center>
+    </BorderPane>
 
     <VBox prefWidth="260">
         <JFXListView fx:id="chat" styleClass="chat" VBox.vgrow="ALWAYS">

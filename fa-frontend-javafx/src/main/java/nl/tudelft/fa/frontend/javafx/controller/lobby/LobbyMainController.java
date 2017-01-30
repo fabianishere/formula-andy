@@ -25,40 +25,17 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.lobby;
 
-import akka.actor.AbstractActor;
-import akka.actor.ActorRef;
-import akka.actor.Props;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
-import akka.japi.pf.ReceiveBuilder;
 import com.jfoenix.controls.JFXSnackbar;
-import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import nl.tudelft.fa.client.lobby.Lobby;
-import nl.tudelft.fa.client.lobby.LobbyStatus;
-import nl.tudelft.fa.client.lobby.message.Join;
-import nl.tudelft.fa.client.lobby.message.JoinException;
-import nl.tudelft.fa.client.lobby.message.JoinSuccess;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
-import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
-import nl.tudelft.fa.frontend.javafx.controller.team.TeamSelectionController;
-import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 import nl.tudelft.fa.frontend.javafx.service.TeamService;
-import scala.PartialFunction;
-import scala.runtime.BoxedUnit;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 

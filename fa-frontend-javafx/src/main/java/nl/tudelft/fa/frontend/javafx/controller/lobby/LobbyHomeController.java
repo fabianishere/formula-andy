@@ -31,31 +31,30 @@ import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
-import com.jfoenix.controls.JFXSnackbar;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import nl.tudelft.fa.client.lobby.message.Chat;
-import nl.tudelft.fa.client.lobby.message.ChatEvent;
-import nl.tudelft.fa.client.lobby.message.JoinException;
-import nl.tudelft.fa.client.lobby.message.JoinSuccess;
+import nl.tudelft.fa.client.lobby.LobbyStatus;
+import nl.tudelft.fa.client.lobby.message.*;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 import nl.tudelft.fa.frontend.javafx.service.TeamService;
 import scala.PartialFunction;
+import scala.concurrent.duration.FiniteDuration;
 import scala.runtime.BoxedUnit;
 
 import java.net.URL;
+import java.time.Duration;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -95,6 +94,12 @@ public class LobbyHomeController extends AbstractController {
      */
     @FXML
     private TextField input;
+
+    /**
+     * The label that contains the remaining time.
+     */
+    @FXML
+    private Label remaining;
 
     /**
      * This method is called when the screen is loaded.
@@ -159,6 +164,34 @@ public class LobbyHomeController extends AbstractController {
     }
 
     /**
+     * Set the time remaining of the view.
+     *
+     * @param status The status of the lobby.
+     * @param duration The remaining duration.
+     */
+    private void setRemaining(LobbyStatus status, Duration duration) {
+        String text = duration.toString()
+            .substring(2)
+            .replaceAll("(\\d[HMS])(?!$)", "$1 ")
+            .toLowerCase();
+
+        String message = text;
+
+        switch (status) {
+            case INTERMISSION:
+                message = String.format("Game preparation in %s", text);
+                break;
+            case PREPARATION:
+                message = String.format("Game starting in %s", text);
+                break;
+            default:
+                break;
+        }
+
+        remaining.setText(message.toUpperCase());
+    }
+
+    /**
      * The actor that handles the logic for the lobby home screen.
      *
      * @author Fabian Mastenbroek
@@ -168,6 +201,27 @@ public class LobbyHomeController extends AbstractController {
          * The {@link LoggingAdapter} of this class.
          */
         private final LoggingAdapter log = Logging.getLogger(context().system(), this);
+
+        /**
+         * The time remaining.
+         */
+        private Duration remaining;
+
+        /**
+         * The status of the lobby.
+         */
+        private LobbyStatus status = LobbyStatus.INTERMISSION;
+
+        /**
+         * This method is invoked on the start of this actor.
+         */
+        @Override
+        public void preStart() {
+            // initialize the countdown
+            context().system().scheduler().schedule(FiniteDuration.Zero(),
+                FiniteDuration.create(1, TimeUnit.SECONDS), self(), "tick",
+                context().dispatcher(), self());
+        }
 
         /**
          * This method defines the initial actor behavior, it must return a partial function with
@@ -182,6 +236,25 @@ public class LobbyHomeController extends AbstractController {
                     chat.getItems().add(msg);
                     chat.scrollTo(chat.getItems().size() - 1);
                 })
+                .match(TimeRemaining.class, msg -> {
+                    remaining = msg.getRemaining();
+
+                    if (!remaining.isNegative()) {
+                        setRemaining(status, remaining);
+                    }
+                })
+                .matchEquals("tick", msg -> {
+                    if (remaining == null) {
+                        return;
+                    }
+
+                    remaining = remaining.minusSeconds(1);
+
+                    if (!remaining.isNegative()) {
+                        setRemaining(status, remaining);
+                    }
+                })
+                .match(LobbyStatusChanged.class, msg -> status = msg.getStatus())
                 .build();
         }
     }
