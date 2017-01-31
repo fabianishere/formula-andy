@@ -32,7 +32,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <?import javafx.geometry.Insets?>
-<GridPane styleClass="table-view" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController">
+<GridPane styleClass="content" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController">
     <stylesheets>
         <URL value="@../../css/style.css" />
     </stylesheets>

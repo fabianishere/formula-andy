@@ -78,31 +78,7 @@
                                 <fx:include source="../game/setup.fxml" />
                             </Tab>
 
-                            <Tab text="INFO">
-                                <HBox>
-                                    <TableView styleClass="table-view">
-                                        <HBox.margin>
-                                            <Insets right="20"/>
-                                        </HBox.margin>
-
-                                        <columns>
-                                            <TableColumn prefWidth="150" text="NAME"/>
-                                            <TableColumn prefWidth="200" text="USERS"/>
-                                            <TableColumn prefWidth="200" text="STATUS"/>
-                                        </columns>
-                                    </TableView>
-
-                                    <TableView styleClass="table-view">
-                                        <columns>
-                                            <TableColumn prefWidth="50" text="NAME"/>
-                                            <TableColumn prefWidth="50" text="USERS"/>
-                                            <TableColumn prefWidth="50" text="STATUS"/>
-                                        </columns>
-                                    </TableView>
-                                </HBox>
-                            </Tab>
-
-                            <Tab text="RESULTS">
+                            <Tab text="LEADERBOARDS">
                                 <HBox>
                                     <TableView styleClass="table-view">
                                         <HBox.margin>

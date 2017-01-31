@@ -352,6 +352,7 @@
     -fx-font-family: 'Open Sans';
     -fx-font-weight: 200;
     -fx-font-size: 18px;
+    -fx-text-fill: white;
 }
 
 .profile .team {
@@ -386,6 +387,27 @@
     -fx-text-fill: white;
     -fx-font-size: 12px;
     -fx-font-weight: 200;
+}
+
+#lobby-home {
+    -fx-background-color: rgba(42, 47, 51, 0.95);
+}
+
+#lobby-home .circuit {
+    -fx-background-image: url(../images/circuit/monza.jpg);
+    -fx-background-size: cover, auto;
+    -fx-background-position: bottom;
+}
+
+#lobby-home .circuit .overlay {
+    -fx-background-color: linear-gradient(transparent 0%, transparent 60%, rgba(42, 47, 51, 0.95) 100%);
+}
+
+#lobby-home .circuit-title {
+    -fx-text-fill: rgba(255, 255, 255, 0.7);
+    -fx-font-family: 'Open Sans';
+    -fx-font-weight: 200;
+    -fx-font-size: 14px;
 }
 
 /* Toast */
