@@ -46,6 +46,6 @@ public class ResultScreenController extends AbstractController {
 
     @FXML
     protected void next(ActionEvent event) throws Exception {
-        show(event, SetupScreenController.VIEW);
+        show(SetupScreenController.VIEW);
     }
 }

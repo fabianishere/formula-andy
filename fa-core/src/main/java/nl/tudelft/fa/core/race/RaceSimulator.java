@@ -132,10 +132,10 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
             .map(cs -> {
                 boolean finished = 0 >= grandPrix.getCircuit().getLength();
                 if (cs.hasCrashed(raining, true, random)) {
-                    return new CarSimulationResult(cs.getConfiguration().getCar(), 0,
+                    return new CarSimulationResult(cs.getConfiguration(), 0,
                         true, finished);
                 }
-                return new CarSimulationResult(cs.getConfiguration().getCar(),
+                return new CarSimulationResult(cs.getConfiguration(),
                     cs.calculateDelta(random), false, finished);
             })
             .collect(Collectors.toList());
@@ -163,7 +163,7 @@ public class RaceSimulator implements Iterable<RaceSimulationResult> {
         split.get(false)
             .stream()
             .map(result -> {
-                final CarSimulator cs = simulators.get(result.getCar());
+                final CarSimulator cs = simulators.get(result.getConfiguration().getCar());
                 if (cs.hasCrashed(raining, cs.isNearby(result, previous, 100), random)) {
                     return result.crash();
                 }

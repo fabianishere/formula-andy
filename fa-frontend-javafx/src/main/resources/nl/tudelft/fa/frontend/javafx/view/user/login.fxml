@@ -25,55 +25,122 @@
   THE SOFTWARE.
 -->
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import java.net.URL?>
-<VBox id="login-screen" styleClass="basic" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.user.LoginController">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Hyperlink?>
+<StackPane styleClass="page-container" fx:controller="nl.tudelft.fa.frontend.javafx.controller.user.LoginController"
+           xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@../../css/style.css" />
+        <URL value="@../../css/open-sans.css" />
     </stylesheets>
-    <GridPane gridLinesVisible="false">
-        <columnConstraints>
-            <ColumnConstraints prefWidth="192" />
-            <ColumnConstraints prefWidth="192" />
-            <ColumnConstraints prefWidth="192" />
-            <ColumnConstraints prefWidth="192" />
-            <ColumnConstraints prefWidth="192" />
-            <ColumnConstraints prefWidth="344" />
-            <ColumnConstraints prefWidth="10" />
-            <ColumnConstraints prefWidth="344" />
-            <ColumnConstraints prefWidth="40" />
-            <ColumnConstraints prefWidth="222" />
-        </columnConstraints>
 
-        <rowConstraints>
-            <RowConstraints prefHeight="108" />
-            <RowConstraints prefHeight="108" />
-            <RowConstraints prefHeight="108" />
-            <RowConstraints prefHeight="108" />
-            <RowConstraints prefHeight="108" />
-            <RowConstraints prefHeight="108" />
-            <RowConstraints prefHeight="108" />
-            <RowConstraints prefHeight="108" />
-            <RowConstraints prefHeight="8" />
-            <RowConstraints prefHeight="208" />
-        </rowConstraints>
 
-        <ImageView fitHeight="600.0" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
-            <Image url="@../../images/formula1logo.jpeg" />
-        </ImageView>
-
-        <Label text="Username" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-        <TextField fx:id="username" prefWidth="400" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-
-        <Label text="Password" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-        <PasswordField fx:id="password" prefWidth="400" GridPane.columnIndex="5" GridPane.rowIndex="5" />
-
-        <Button onAction="#login" text="Log in" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-
-        <Label text="Not a member yet?" GridPane.columnIndex="7" GridPane.rowIndex="9" GridPane.halignment="RIGHT" />
-        <Button onAction="#signup" text="Sign up" GridPane.columnIndex="9" GridPane.rowIndex="9" />
+    <!-- Blurred background -->
+    <GridPane styleClass="background-container">
+        <VBox styleClass="background" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <effect>
+                <BoxBlur iterations="200" />
+            </effect>
+        </VBox>
+      <columnConstraints>
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+      </rowConstraints>
     </GridPane>
-</VBox>
+
+    <!-- Page content -->
+    <BorderPane>
+        <center>
+            <GridPane maxHeight="508.0" maxWidth="300.0" styleClass="inner-container">
+                <HBox styleClass="title" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label styleClass="light" text="USER / " />
+                    <Label text="LOGIN" />
+                    <GridPane.margin>
+                        <Insets bottom="8" />
+                    </GridPane.margin>
+                </HBox>
+
+                <GridPane alignment="CENTER" fx:id="login" styleClass="content" GridPane.columnSpan="3" GridPane.rowIndex="1">
+                    <padding>
+                        <Insets bottom="25" top="25" />
+                    </padding>
+
+                    <!-- Keeps the width correct -->
+                    <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="0">
+                        <padding>
+                            <Insets left="15" right="15" />
+                        </padding>
+
+                        <GridPane.margin>
+                            <Insets left="15" right="15" />
+                        </GridPane.margin>
+                    </HBox>
+
+                    <HBox fx:id="alert" styleClass="alert" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+                        <Label fx:id="alertLabel" text="The entered credentials are invalid" />
+
+                        <padding>
+                            <Insets bottom="15" left="15" right="15" top="15" />
+                        </padding>
+                    </HBox>
+
+                    <MaterialDesignIconView glyphName="ACCOUNT" glyphSize="18" styleClass="icon" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="2">
+                        <GridPane.margin>
+                            <Insets bottom="15" left="0" right="15" top="35" />
+                        </GridPane.margin>
+                    </MaterialDesignIconView>
+                    <JFXTextField fx:id="username" promptText="Username" styleClass="username" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
+                        <padding>
+                            <Insets bottom="25" top="40" />
+                        </padding>
+                    </JFXTextField>
+
+                    <MaterialDesignIconView glyphName="LOCK" glyphSize="18" styleClass="icon" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="3">
+                        <GridPane.margin>
+                            <Insets bottom="15" left="0" right="15" top="20" />
+                        </GridPane.margin>
+                    </MaterialDesignIconView>
+                    <JFXPasswordField fx:id="password" alignment="CENTER" promptText="Password" styleClass="password" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3">
+                        <validators>
+                            <RequiredFieldValidator message="Input Required!">
+                            </RequiredFieldValidator>
+                        </validators>
+
+                        <padding>
+                            <Insets bottom="25" top="25" />
+                        </padding>
+                    </JFXPasswordField>
+
+                    <Hyperlink styleClass="alternative" text="Register a free account" onAction="#register"
+                               GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                    </Hyperlink>
+
+                    <JFXButton prefWidth="100.0" styleClass="submit" text="Login" onAction="#login"
+                               GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                        <GridPane.margin>
+                            <Insets bottom="15" left="15" top="15" />
+                        </GridPane.margin>
+                    </JFXButton>
+                </GridPane>
+            </GridPane>
+        </center>
+    </BorderPane>
+</StackPane>

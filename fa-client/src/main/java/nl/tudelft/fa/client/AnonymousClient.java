@@ -25,14 +25,22 @@
 
 package nl.tudelft.fa.client;
 
+import akka.Done;
 import akka.actor.ActorSystem;
 import akka.http.javadsl.Http;
+import akka.http.javadsl.model.HttpMethods;
+import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.Uri;
 import akka.stream.ActorMaterializer;
 import akka.stream.Materializer;
+import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
 import nl.tudelft.fa.client.net.message.NotAuthorizedException;
 import nl.tudelft.fa.client.team.controller.TeamController;
+import nl.tudelft.fa.client.user.User;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 /**
  * This class provides the HTTP connection between client and server that is anonymous.
@@ -85,6 +93,40 @@ public class AnonymousClient extends AbstractClient {
     @Override
     public TeamController teams() throws NotAuthorizedException {
         throw new NotAuthorizedException();
+    }
+
+    /**
+     * Register a user with the given credentials.
+     *
+     * @param credentials The credentials to register the user with.
+     * @return A completion stage that completes with the registered user.
+     */
+    public CompletionStage<User> register(Credentials credentials) {
+        return client.register(credentials);
+    }
+
+    /**
+     * Test whether the connection with the server is valid.
+     *
+     * @return A completion stage that completes if the connection is valid.
+     */
+    @Override
+    public CompletionStage<Done> test() {
+        final HttpRequest request = HttpRequest.create()
+            .withUri(getBaseUri().addPathSegment("information"))
+            .withMethod(HttpMethods.GET);
+
+        return client.http().singleRequest(request, client.materializer())
+            .thenCompose(res -> {
+                if (res.status().isFailure()) {
+                    CompletableFuture<Done> future = new CompletableFuture<>();
+                    future.completeExceptionally(new Exception(res.status().reason()));
+                    return future;
+                }
+
+                res.entity().discardBytes(client.materializer());
+                return CompletableFuture.completedFuture(Done.getInstance());
+            });
     }
 
     /**

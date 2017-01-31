@@ -12,7 +12,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 public class CarSimulationResultTest {
-    private Car car;
+    private CarConfiguration car;
     private double distance;
     private boolean crashed;
     private boolean finished;
@@ -20,7 +20,7 @@ public class CarSimulationResultTest {
 
     @Before
     public void setUp() {
-        car = new Car(UUID.randomUUID());
+        car = new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null);
         distance = 1.0;
         crashed = false;
         finished = false;
@@ -44,7 +44,7 @@ public class CarSimulationResultTest {
 
     @Test
     public void testCar() {
-        assertEquals(car, result.getCar());
+        assertEquals(car, result.getConfiguration());
     }
 
     @Test
@@ -97,7 +97,7 @@ public class CarSimulationResultTest {
 
     @Test
     public void equalsDifferentCar() {
-        assertNotEquals(new CarSimulationResult(new Car(UUID.randomUUID()), distance, crashed, finished), result);
+        assertNotEquals(new CarSimulationResult(new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null), distance, crashed, finished), result);
     }
 
     @Test
@@ -122,6 +122,6 @@ public class CarSimulationResultTest {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("CarSimulationResult(car=%s, distanceTraveled=%f, crashed=%s, finished=%s)", car, distance, crashed, finished), result.toString());
+        assertEquals(String.format("CarSimulationResult(configuration=%s, distanceTraveled=%f, crashed=%s, finished=%s)", car, distance, crashed, finished), result.toString());
     }
 }

@@ -146,7 +146,8 @@ public class TeamController {
     }
 
     /**
-     * Return the {@link Route} instance to list the {@link nl.tudelft.fa.core.team.Team} instances of the user.
+     * Return the {@link Route} instance to list the {@link nl.tudelft.fa.core.team.Team} instances
+     * of the user.
      *
      * @param user The user to list the {@link nl.tudelft.fa.core.team.Team}s of.
      * @return The route that lists the teams.

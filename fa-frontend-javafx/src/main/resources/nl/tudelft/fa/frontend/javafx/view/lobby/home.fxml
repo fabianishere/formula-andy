@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  The MIT License (MIT)
+
+  Copyright (c) 2017 Fabian Mastenbroek, Christian Slothouber,
+  Laetitia Molkenboer, Nikki Bouman, Nils de Beukelaar
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+-->
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.layout.BorderPane?>
+<HBox xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.lobby.LobbyHomeController">
+    <stylesheets>
+        <URL value="@../../css/style.css" />
+        <URL value="@../../css/open-sans.css" />
+    </stylesheets>
+
+    <VBox id="lobby-home" prefWidth="600">
+        <HBox.margin>
+            <Insets right="20" />
+        </HBox.margin>
+
+        <StackPane prefHeight="200" styleClass="circuit">
+            <Pane styleClass="overlay" />
+            <HBox alignment="BOTTOM_RIGHT">
+                <StackPane.margin>
+                    <Insets bottom="15" right="15" />
+                </StackPane.margin>
+
+                <Label text="Autodromo Nazionale Monza, Italy" styleClass="circuit-title">
+                </Label>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT">
+                <StackPane.margin>
+                    <Insets left="25" right="15" />
+                </StackPane.margin>
+
+                <SVGPath content="M331 175L335 117L337 101L340 92L348 84L353 82L361 80L389 78L395 74L413 69L418 70L421 77L421 93L394 109L359 140L358 148L354 153L352 160L346 225L342 231L333 228L329 220L328 198L331 176" stroke="BLACK" strokeWidth="3.0" fill="transparent">
+                </SVGPath>
+            </HBox>
+        </StackPane>
+
+
+        <BorderPane VBox.vgrow="ALWAYS">
+            <center>
+                <Label fx:id="remaining" styleClass="remaining" text="Fetching remaining time..." />
+            </center>
+        </BorderPane>
+    </VBox>
+
+    <VBox prefWidth="260">
+        <JFXListView fx:id="chat" styleClass="chat" VBox.vgrow="ALWAYS">
+        </JFXListView>
+        <VBox alignment="center" prefHeight="50" styleClass="chat-input-container">
+            <JFXTextField fx:id="input" onKeyPressed="#chat" promptText="Message" styleClass="chat-input">
+
+            </JFXTextField>
+        </VBox>
+    </VBox>
+</HBox>

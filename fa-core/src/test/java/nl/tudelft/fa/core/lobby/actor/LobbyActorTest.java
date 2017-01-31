@@ -405,7 +405,7 @@ public class LobbyActorTest {
 
                 probe.expectMsgEquals(duration("1 second"), new LobbyStatusChanged(LobbyStatus.INTERMISSION, LobbyStatus.PREPARATION));
                 probe.expectMsgEquals(duration("1 second"), new LobbyStatusChanged(LobbyStatus.PREPARATION, LobbyStatus.PROGRESSION));
-                probe.expectMsgClass(duration("1 second"), RaceSimulationStarted.class);
+                probe.expectMsgClass(duration("5 second"), RaceSimulationStarted.class);
                 probe.expectMsgClass(duration("3 second"), RaceSimulationResult.class);
                 probe.expectMsgEquals(duration("2 second"), new LobbyStatusChanged(LobbyStatus.PROGRESSION, LobbyStatus.INTERMISSION));
 
