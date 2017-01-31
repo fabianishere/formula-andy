@@ -12,17 +12,19 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 public class CarSimulationResultTest {
-    private Car car;
+    private CarConfiguration car;
     private double distance;
     private boolean crashed;
+    private boolean finished;
     private CarSimulationResult result;
 
     @Before
     public void setUp() {
-        car = new Car(UUID.randomUUID());
+        car = new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null);
         distance = 1.0;
         crashed = false;
-        result = new CarSimulationResult(car, distance, crashed);
+        finished = false;
+        result = new CarSimulationResult(car, distance, crashed, finished);
     }
 
     @Test
@@ -36,8 +38,13 @@ public class CarSimulationResultTest {
     }
 
     @Test
+    public void testFinished() {
+        assertEquals(crashed, result.hasFinished());
+    }
+
+    @Test
     public void testCar() {
-        assertEquals(car, result.getCar());
+        assertEquals(car, result.getConfiguration());
     }
 
     @Test
@@ -59,6 +66,16 @@ public class CarSimulationResultTest {
     }
 
     @Test
+    public void testFinishOnFinished() {
+        assertTrue(result.finishOn(0.7).hasFinished());
+    }
+
+    @Test
+    public void testFinishOnFinishedFailure() {
+        assertFalse(result.finishOn(2).hasFinished());
+    }
+
+    @Test
     public void equalsNull() {
         assertThat(result, not(equalTo(null)));
     }
@@ -75,31 +92,36 @@ public class CarSimulationResultTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new CarSimulationResult(car, distance, crashed), result);
+        assertEquals(new CarSimulationResult(car, distance, crashed, finished), result);
     }
 
     @Test
     public void equalsDifferentCar() {
-        assertNotEquals(new CarSimulationResult(new Car(UUID.randomUUID()), distance, crashed), result);
+        assertNotEquals(new CarSimulationResult(new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null), distance, crashed, finished), result);
     }
 
     @Test
     public void equalsDifferentDistance() {
-        assertNotEquals(new CarSimulationResult(car, distance + 4.0, crashed), result);
+        assertNotEquals(new CarSimulationResult(car, distance + 4.0, crashed, finished), result);
     }
 
     @Test
     public void equalsDifferentCrashed() {
-        assertNotEquals(new CarSimulationResult(car, distance, !crashed), result);
+        assertNotEquals(new CarSimulationResult(car, distance, !crashed, finished), result);
+    }
+
+    @Test
+    public void equalsDifferentFinished() {
+        assertNotEquals(new CarSimulationResult(car, distance, crashed, !finished), result);
     }
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(distance, crashed, car), result.hashCode());
+        assertEquals(Objects.hash(distance, crashed, car, finished), result.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("CarSimulationResult(car=%s, distanceTraveled=%f, crashed=%s)", car, distance, crashed), result.toString());
+        assertEquals(String.format("CarSimulationResult(configuration=%s, distanceTraveled=%f, crashed=%s, finished=%s)", car, distance, crashed, finished), result.toString());
     }
 }

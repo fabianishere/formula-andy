@@ -27,7 +27,7 @@ package nl.tudelft.fa.core.lobby.message;
 
 import akka.actor.ActorRef;
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
-import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.core.team.Team;
 
 import java.util.Objects;
 
@@ -38,9 +38,9 @@ import java.util.Objects;
  */
 public final class Join implements LobbyRequest {
     /**
-     * The {@link User} that wants to join the lobby.
+     * The {@link Team} that wants to join the lobby.
      */
-    private User user;
+    private Team team;
 
     /**
      * The managing actor for this user.
@@ -50,11 +50,11 @@ public final class Join implements LobbyRequest {
     /**
      * Construct a {@link Join} message.
      *
-     * @param user The user that wants to join the lobby.
-     * @param handler The managing actor for this user.
+     * @param team The team that wants to join the lobby.
+     * @param handler The managing actor for this team.
      */
-    public Join(User user, ActorRef handler) {
-        this.user = user;
+    public Join(Team team, ActorRef handler) {
+        this.team = team;
         this.handler = handler;
     }
 
@@ -66,12 +66,12 @@ public final class Join implements LobbyRequest {
     }
 
     /**
-     * Return the {@link User} that wants to join the lobby.
+     * Return the {@link Team} that wants to join the lobby.
      *
-     * @return The user that wants to join the lobby.
+     * @return The team that wants to join the lobby.
      */
-    public User getUser() {
-        return user;
+    public Team getTeam() {
+        return team;
     }
 
     /**
@@ -100,7 +100,7 @@ public final class Join implements LobbyRequest {
             return false;
         }
         Join that = (Join) other;
-        return Objects.equals(user, that.user) && Objects.equals(handler, that.handler);
+        return Objects.equals(team, that.team) && Objects.equals(handler, that.handler);
     }
 
     /**
@@ -110,7 +110,7 @@ public final class Join implements LobbyRequest {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(user, handler);
+        return Objects.hash(team, handler);
     }
 
     /**
@@ -120,6 +120,6 @@ public final class Join implements LobbyRequest {
      */
     @Override
     public String toString() {
-        return String.format("Join(user=%s, handler=%s)", user, handler);
+        return String.format("Join(team=%s, handler=%s)", team, handler);
     }
 }

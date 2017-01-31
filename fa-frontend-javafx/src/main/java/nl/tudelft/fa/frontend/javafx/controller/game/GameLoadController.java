@@ -75,7 +75,7 @@ public class GameLoadController extends AbstractController implements Initializa
      */
     @FXML
     protected void back(ActionEvent event) throws Exception {
-        show(event, StartScreenController.VIEW);
+        show(StartScreenController.VIEW);
     }
 
     /**
@@ -86,9 +86,8 @@ public class GameLoadController extends AbstractController implements Initializa
      */
     @FXML
     protected void next(ActionEvent event) throws Exception {
-        show(event, SetupScreenController.VIEW);
+        show(SetupScreenController.VIEW);
         SetupScreenController controller = loader.getController();
-        controller.setTeam(team.getValue());
     }
 
     /**

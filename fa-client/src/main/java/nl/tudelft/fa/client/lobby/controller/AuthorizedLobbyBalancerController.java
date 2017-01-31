@@ -27,6 +27,7 @@ package nl.tudelft.fa.client.lobby.controller;
 
 import nl.tudelft.fa.client.Client;
 import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.client.lobby.Lobby;
 import nl.tudelft.fa.client.lobby.LobbyStatus;
 
 import java.util.Set;
@@ -54,7 +55,7 @@ public class AuthorizedLobbyBalancerController extends LobbyBalancerController {
         super(client);
         this.credentials = credentials;
     }
-    
+
     /**
      * Return the controllers of the lobbies running on the server.
      *
@@ -76,6 +77,7 @@ public class AuthorizedLobbyBalancerController extends LobbyBalancerController {
      * @param id The identifier of the lobby.
      * @return The controller of the lobby running on the server.
      */
+    @Override
     public CompletionStage<LobbyController> controller(String id) {
         return lobby(id)
             .thenApply(lobby -> new LobbyController(client, mapper, lobby.getId()))
@@ -83,15 +85,27 @@ public class AuthorizedLobbyBalancerController extends LobbyBalancerController {
     }
 
     /**
+     * Return the controller of a lobby running on the server.
+     *
+     * @param lobby The lobby to get the controller of.
+     * @return The controller of the lobby running on the server.
+     */
+    @Override
+    public LobbyController controller(Lobby lobby) {
+        return new AuthorizedLobbyController(client, mapper, lobby.getId(), credentials);
+    }
+
+    /**
      * Find an available lobby controller.
      *
      * @return An available lobby controller.
      */
+    @Override
     public CompletionStage<LobbyController> find() {
         return lobbies().thenApply(lobbies -> lobbies.stream()
             .filter(lobby -> lobby.getStatus().equals(LobbyStatus.INTERMISSION))
-            .filter(lobby -> lobby.getUsers().size() < lobby.getConfiguration()
-                .getUserMaximum())
+            .filter(lobby -> lobby.getTeams().size() < lobby.getConfiguration()
+                .getTeamMaximum())
             .findFirst()
             .get()
         )

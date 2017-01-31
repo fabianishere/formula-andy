@@ -31,7 +31,7 @@ import nl.tudelft.fa.client.lobby.Lobby;
 import nl.tudelft.fa.client.lobby.LobbyConfiguration;
 import nl.tudelft.fa.client.lobby.LobbyStatus;
 import nl.tudelft.fa.client.race.GrandPrix;
-import nl.tudelft.fa.client.user.User;
+import nl.tudelft.fa.client.team.Team;
 
 import java.util.List;
 import java.util.Set;
@@ -48,13 +48,13 @@ public abstract class LobbyMixin {
      * @param id The unique identifier of the lobby.
      * @param status The status of the lobby.
      * @param configuration The configuration of the lobby.
-     * @param users The users in the lobby.
+     * @param teams The teams in the lobby.
      * @param schedule The schedule of the races.
      */
     @JsonCreator
     public LobbyMixin(@JsonProperty("id") String id, @JsonProperty("status") LobbyStatus status,
                       @JsonProperty("configuration") LobbyConfiguration configuration,
-                      @JsonProperty("users") Set<User> users,
+                      @JsonProperty("teams") Set<Team> teams,
                       @JsonProperty("schedule") List<GrandPrix> schedule) {
         // no implementation. Jackson does the work
     }

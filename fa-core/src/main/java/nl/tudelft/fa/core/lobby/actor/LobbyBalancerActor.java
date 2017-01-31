@@ -37,7 +37,7 @@ import nl.tudelft.fa.core.lobby.LobbyBalancer;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.LobbyStatus;
 import nl.tudelft.fa.core.lobby.message.*;
-import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.core.team.Team;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
@@ -163,8 +163,8 @@ public class LobbyBalancerActor extends AbstractActor {
 
         // Update our cache until we get confirmation
         Lobby info = instances.get(ref);
-        Set<User> users = new HashSet<>(info.getUsers());
-        users.add(req.getUser());
+        Set<Team> users = new HashSet<>(info.getTeams());
+        users.add(req.getTeam());
         info = new Lobby(ref.path().name(), info.getStatus(), info.getConfiguration(), users,
             Collections.emptyList());
         instances.put(ref, info);
@@ -178,7 +178,7 @@ public class LobbyBalancerActor extends AbstractActor {
      */
     private void update(Lobby information) {
         int avail = available.containsKey(sender()) ? available.size() : available.size() + 1;
-        if (information.getUsers().size() == 0 && avail > min) {
+        if (information.getTeams().size() == 0 && avail > min) {
             log.debug("Lobby {} is empty and will be killed", sender());
 
             // Kill the lobby if it is empty
@@ -186,8 +186,8 @@ public class LobbyBalancerActor extends AbstractActor {
             instances.remove(sender());
             available.remove(sender());
             return;
-        } else if (information.getUsers().size()
-                == information.getConfiguration().getUserMaximum()) {
+        } else if (information.getTeams().size()
+                == information.getConfiguration().getTeamMaximum()) {
             log.debug("Lobby {} is full and will be forgotten", sender());
 
             // Forget the lobby if it is full

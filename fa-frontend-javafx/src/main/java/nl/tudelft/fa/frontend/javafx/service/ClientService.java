@@ -34,12 +34,14 @@ import nl.tudelft.fa.client.AbstractClient;
 import nl.tudelft.fa.client.AnonymousClient;
 import nl.tudelft.fa.client.Client;
 import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.client.lobby.Lobby;
 import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
 import nl.tudelft.fa.client.lobby.controller.LobbyController;
 import nl.tudelft.fa.client.lobby.message.LobbyInboundMessage;
 import nl.tudelft.fa.client.lobby.message.LobbyOutboundMessage;
 import nl.tudelft.fa.client.net.message.NotAuthorizedException;
 import nl.tudelft.fa.client.team.controller.TeamController;
+import nl.tudelft.fa.client.user.User;
 import nl.tudelft.fa.frontend.javafx.net.SessionActor;
 import nl.tudelft.fa.frontend.javafx.net.SessionStage;
 
@@ -85,7 +87,6 @@ public class ClientService extends AbstractClient {
      */
     public void authorize(Credentials credentials) {
         client = new Client(system, getBaseUri(), credentials);
-        // TODO throw on invalid credentials
     }
 
     /**
@@ -95,14 +96,28 @@ public class ClientService extends AbstractClient {
      * @return The reference to the lobby session actor.
      */
     public CompletionStage<ActorRef> open(LobbyController controller) {
-        session = system.actorOf(SessionActor.props());
+        if (session != null) {
+            // stop previous session
+            system.stop(session);
+        }
 
+        session = system.actorOf(SessionActor.props());
         Flow<LobbyOutboundMessage, LobbyInboundMessage, CompletionStage<Done>> flow = Flow
             .fromGraph(new SessionStage(session))
             .mapMaterializedValue(mat -> CompletableFuture.completedFuture(Done.getInstance()));
         return controller.feed(flow)
             .first()
             .thenApply(done -> session);
+    }
+
+    /**
+     * Open a session for the given {@link Lobby} instance.
+     *
+     * @param lobby The lobby to open the session for.
+     * @return The reference to the lobby session actor.
+     */
+    public CompletionStage<ActorRef> open(Lobby lobby) {
+        return open(balancer().controller(lobby));
     }
 
     /**
@@ -131,5 +146,15 @@ public class ClientService extends AbstractClient {
     @Override
     public TeamController teams() throws NotAuthorizedException {
         return client.teams();
+    }
+
+    @Override
+    public CompletionStage<User> register(Credentials credentials) {
+        return client.register(credentials);
+    }
+
+    @Override
+    public CompletionStage<Done> test() {
+        return client.test();
     }
 }

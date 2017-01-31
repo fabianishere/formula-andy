@@ -25,7 +25,6 @@ import nl.tudelft.fa.client.lobby.message.LobbyOutboundMessage;
 import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.client.net.message.Ping;
 import nl.tudelft.fa.client.race.CarConfiguration;
-import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.core.auth.Credentials;
 import nl.tudelft.fa.core.auth.actor.Authenticator;
 import nl.tudelft.fa.core.lobby.LobbyConfiguration;
@@ -124,12 +123,12 @@ public class LobbyControllerTest {
             .toCompletableFuture()
             .get();
 
-        Team team = client.teams().list().toCompletableFuture().get().get(0);
-        TeamConfigurationSubmission submission = new TeamConfigurationSubmission(team.getOwner(), new HashSet<CarConfiguration>() {{
+        nl.tudelft.fa.client.team.Team team = client.teams().list().toCompletableFuture().get().get(0);
+        TeamConfigurationSubmission submission = new TeamConfigurationSubmission(team, new HashSet<CarConfiguration>() {{
         }});
         final Source<LobbyInboundMessage, Cancellable> source = Source.tick(FiniteDuration.Zero(),
                 FiniteDuration.create(1000, TimeUnit.MILLISECONDS), Ping.INSTANCE)
-            .merge(Source.from(Arrays.asList(Join.INSTANCE, submission)));
+            .merge(Source.from(Arrays.asList(new Join(team), submission)));
         Flow<LobbyOutboundMessage, LobbyInboundMessage, CompletionStage<Done>> flow = Flow.fromSinkAndSourceMat(Sink.foreach(System.out::println), source, Keep.left());
         Pair<CompletionStage<WebSocketUpgradeResponse>, CompletionStage<Done>> pair = controller.authorize(credentials).feed(flow);
 

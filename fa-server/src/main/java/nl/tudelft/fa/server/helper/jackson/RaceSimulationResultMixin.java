@@ -25,26 +25,11 @@
 
 package nl.tudelft.fa.server.helper.jackson;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import nl.tudelft.fa.core.race.CarSimulationResult;
 import nl.tudelft.fa.core.race.RaceSimulationResult;
-import nl.tudelft.fa.core.team.inventory.Car;
-
-import java.util.Map;
 
 /**
  * Mix-in for the {@link RaceSimulationResult} class.
  *
  * @author Fabian Mastenbroek
  */
-public abstract class RaceSimulationResultMixin {
-    /**
-     * Return the cars in the simulation with the results.
-     *
-     * @return The cars in the simulation with the results.
-     */
-    @JsonProperty("results")
-    @JsonSerialize(using = RaceSimulationResultsSerializer.class)
-    public abstract Map<Car, CarSimulationResult> getCars();
-}
+public abstract class RaceSimulationResultMixin {}

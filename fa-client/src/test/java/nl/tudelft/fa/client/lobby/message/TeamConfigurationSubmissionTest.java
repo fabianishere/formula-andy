@@ -1,6 +1,7 @@
 package nl.tudelft.fa.client.lobby.message;
 
 import nl.tudelft.fa.client.race.CarConfiguration;
+import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.client.team.inventory.Car;
 import nl.tudelft.fa.client.user.User;
 import org.junit.Before;
@@ -13,20 +14,20 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 public class TeamConfigurationSubmissionTest {
-    private User user;
+    private Team team;
     private Set<CarConfiguration> configuration;
     private TeamConfigurationSubmission event;
 
     @Before
     public void setUp() throws Exception {
-        user = new User(UUID.randomUUID(), "a");
+        team = new Team(UUID.randomUUID(), "test", 100, new User(UUID.randomUUID(), null));
         configuration = Collections.emptySet();
-        event = new TeamConfigurationSubmission(user, configuration);
+        event = new TeamConfigurationSubmission(team, configuration);
     }
 
     @Test
     public void getUser() throws Exception {
-        assertEquals(user, event.getUser());
+        assertEquals(team, event.getTeam());
     }
 
     @Test
@@ -51,29 +52,29 @@ public class TeamConfigurationSubmissionTest {
 
     @Test
     public void equalsData() {
-        assertEquals(new TeamConfigurationSubmission(user, configuration), event);
+        assertEquals(new TeamConfigurationSubmission(team, configuration), event);
     }
 
     @Test
     public void equalsDifferentUser() {
-        assertNotEquals(new TeamConfigurationSubmission(new User(UUID.randomUUID(), "a"), configuration),
+        assertNotEquals(new TeamConfigurationSubmission(new Team(UUID.randomUUID(), null, 1, null), configuration),
             event);
     }
 
     @Test
     public void equalsDifferentConfiguration() {
-        assertNotEquals(new TeamConfigurationSubmission(user, new HashSet<CarConfiguration>() {{
+        assertNotEquals(new TeamConfigurationSubmission(team, new HashSet<CarConfiguration>() {{
             add(new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null));
-        }}), event);
+            }}), event);
     }
 
     @Test
     public void testHashCode() throws Exception {
-        assertEquals(Objects.hash(user, configuration), event.hashCode());
+        assertEquals(Objects.hash(team, configuration), event.hashCode());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(String.format("TeamConfigurationSubmission(user=%s, cars=%s)", user, configuration), event.toString());
+        assertEquals(String.format("TeamConfigurationSubmission(team=%s, cars=%s)", team, configuration), event.toString());
     }
 }

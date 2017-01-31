@@ -28,6 +28,7 @@ package nl.tudelft.fa.frontend.javafx.controller.game;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ToggleGroup;
 import nl.tudelft.fa.client.race.CarConfiguration;
 import nl.tudelft.fa.client.race.CarParameters;
@@ -37,9 +38,14 @@ import nl.tudelft.fa.client.team.inventory.Engine;
 import nl.tudelft.fa.client.team.inventory.InventoryItem;
 import nl.tudelft.fa.client.team.inventory.Tire;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
+import nl.tudelft.fa.frontend.javafx.service.TeamService;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
+import javax.inject.Inject;
 
 /**
  * The controller for the setup of a car.
@@ -49,6 +55,17 @@ import java.util.stream.Collectors;
  * @author Laetitia Molkenboer
  */
 public class CarConfigurationController extends AbstractController {
+    /**
+     * The car of this configuration.
+     */
+    protected Car car;
+
+    /**
+     * The injected team service.
+     */
+    @Inject
+    private TeamService teamService;
+
     /**
      * The mechanic risk of the configuration.
      */
@@ -104,18 +121,12 @@ public class CarConfigurationController extends AbstractController {
     private ComboBox<Tire> tire;
 
     /**
-     * The car of the configuration.
-     */
-    @FXML
-    private ComboBox<Car> car;
-
-    /**
      * Return the {@link CarConfiguration} the user has created.
      *
      * @return The {@link CarConfiguration} the user has created.
      */
     public CarConfiguration getConfiguration() {
-        return new CarConfiguration(car.getValue(), engine.getValue(), driver.getValue(),
+        return new CarConfiguration(car, engine.getValue(), driver.getValue(),
             mechanic.getValue(), aerodynamicist.getValue(), strategist.getValue());
     }
 
@@ -157,17 +168,19 @@ public class CarConfigurationController extends AbstractController {
     }
 
     /**
-     * Set the team for this controller.
-     *
-     * @param team The team to set.
+     * This method is called when the screen is loaded.
      */
-    public void setTeam(Team team) {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
+        Team team = teamService.teamProperty().get();
+
         initializeStaff(mechanic, Mechanic.class, team);
         initializeStaff(aerodynamicist, Aerodynamicist.class, team);
         initializeStaff(strategist, Strategist.class, team);
         initializeStaff(driver, Driver.class, team);
 
-        initializeInventory(car, Car.class, team);
         initializeInventory(engine, Engine.class, team);
         initializeInventory(tire, Tire.class, team);
     }
@@ -179,6 +192,18 @@ public class CarConfigurationController extends AbstractController {
             .collect(Collectors.toList());
 
         box.setItems(FXCollections.observableList(items));
+        box.setCellFactory(view -> new ListCell<T>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle(null);
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
     }
 
     private <T extends InventoryItem> void initializeInventory(ComboBox<T> box, Class<T> target,
@@ -189,5 +214,21 @@ public class CarConfigurationController extends AbstractController {
             .collect(Collectors.toList());
 
         box.setItems(FXCollections.observableList(items));
+        box.setCellFactory(view -> new ListCell<T>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle(null);
+                } else if (item instanceof Tire) {
+                    Tire tire = (Tire) item;
+                    setText(String.format("%s %s", tire.getBrand(), tire.getType()));
+                } else if (item instanceof Engine) {
+                    Engine engine = (Engine) item;
+                    setText(String.format("%s %s", engine.getBrand(), engine.getName()));
+                }
+            }
+        });
     }
 }

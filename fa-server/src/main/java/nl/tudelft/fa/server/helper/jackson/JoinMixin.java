@@ -29,7 +29,7 @@ import akka.actor.ActorRef;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.tudelft.fa.core.lobby.message.Join;
-import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.core.team.Team;
 
 /**
  * Mix-in for the {@link Join} class.
@@ -40,11 +40,11 @@ public abstract class JoinMixin {
     /**
      * Construct a {@link JoinMixin} instance.
      *
-     * @param user The user to join the lobby.
+     * @param team The tea, to join the lobby.
      * @param handler The handler of the user.
      */
     @JsonCreator
-    public JoinMixin(@JsonProperty("user") User user, @JsonProperty("handler") ActorRef handler) {
+    public JoinMixin(@JsonProperty("team") Team team, @JsonProperty("handler") ActorRef handler) {
         // no implementation. Jackson does the work
     }
 }

@@ -54,11 +54,11 @@ public class TeamCreationController extends AbstractController {
      */
     @FXML
     protected void next(ActionEvent event) throws Exception {
-        show(event, SetupScreenController.VIEW);
+        show(SetupScreenController.VIEW);
     }
 
     @FXML
     protected void back(ActionEvent event) throws Exception {
-        show(event, StartScreenController.VIEW);
+        show(StartScreenController.VIEW);
     }
 }

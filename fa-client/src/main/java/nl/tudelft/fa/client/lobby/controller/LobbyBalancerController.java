@@ -131,6 +131,17 @@ public class LobbyBalancerController {
     }
 
     /**
+     * Return the controller of a lobby running on the server.
+     *
+     * @param lobby The lobby to get the controller of.
+     * @return The controller of the lobby running on the server.
+     */
+    public LobbyController controller(Lobby lobby) {
+        return new LobbyController(client, mapper, lobby.getId());
+    }
+
+
+    /**
      * Find an available lobby controller.
      *
      * @return An available lobby controller.
@@ -138,8 +149,8 @@ public class LobbyBalancerController {
     public CompletionStage<LobbyController> find() {
         return lobbies().thenApply(lobbies -> lobbies.stream()
             .filter(lobby -> lobby.getStatus().equals(LobbyStatus.INTERMISSION))
-            .filter(lobby -> lobby.getUsers().size() < lobby.getConfiguration()
-                .getUserMaximum())
+            .filter(lobby -> lobby.getTeams().size() < lobby.getConfiguration()
+                .getTeamMaximum())
             .findFirst()
             .get()
         )

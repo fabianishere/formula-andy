@@ -25,9 +25,6 @@
 
 package nl.tudelft.fa.core.race;
 
-import nl.tudelft.fa.core.team.inventory.Car;
-
-import java.util.Map;
 import java.util.Random;
 import java.util.function.Predicate;
 
@@ -152,19 +149,18 @@ public class CarSimulator {
     /**
      * Determine whether a car is nearby this car.
      *
-     * @param result The previous simulation result of the car.
-     * @param cars The cars participating in te simulation.
+     * @param carResult The previous simulation result of the car.
+     * @param raceResult The results of the whole cycle.
      * @param distance The distance that is considered close.
      * @return <code>true</code> if there is at least one car in the near vicinity,
      *      <code>false</code> otherwise.
      */
-    public boolean isNearby(CarSimulationResult result, Map<Car, CarSimulationResult> cars,
+    public boolean isNearby(CarSimulationResult carResult, RaceSimulationResult raceResult,
                             double distance) {
-        final Predicate<Map.Entry<Car, CarSimulationResult>> close =
-            entry -> Math.abs(result.getDistanceTraveled() - entry.getValue().getDistanceTraveled())
-                < distance;
-        final Predicate<Map.Entry<Car, CarSimulationResult>> self =
-            entry -> !entry.getKey().equals(configuration.getCar());
-        return cars.entrySet().stream().anyMatch(self.and(close));
+        final Predicate<CarSimulationResult> close =
+            res -> Math.abs(carResult.getDistanceTraveled() - res.getDistanceTraveled()) < distance;
+        final Predicate<CarSimulationResult> self =
+            res -> !res.getConfiguration().getCar().equals(configuration.getCar());
+        return raceResult.getResults().stream().anyMatch(self.and(close));
     }
 }

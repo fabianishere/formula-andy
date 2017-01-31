@@ -27,6 +27,7 @@ package nl.tudelft.fa.frontend.javafx;
 
 import com.gluonhq.ignite.guice.GuiceContext;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -71,6 +72,10 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
+        stage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
 
         stage.show();
     }

@@ -28,7 +28,7 @@ package nl.tudelft.fa.core.lobby;
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.lobby.message.LobbyResponse;
 import nl.tudelft.fa.core.race.GrandPrix;
-import nl.tudelft.fa.core.user.User;
+import nl.tudelft.fa.core.team.Team;
 
 import java.util.List;
 import java.util.Objects;
@@ -56,9 +56,9 @@ public final class Lobby implements LobbyResponse {
     private final LobbyConfiguration configuration;
 
     /**
-     * The {@link User}s in this lobby.
+     * The {@link Team}s in this lobby.
      */
-    private final Set<User> users;
+    private final Set<Team> teams;
 
     /**
      * The schedule of the races.
@@ -71,15 +71,15 @@ public final class Lobby implements LobbyResponse {
      * @param id The unique identifier of the lobby.
      * @param status The status of the lobby.
      * @param configuration The configuration of the lobby.
-     * @param users The users in the lobby.
+     * @param teams The teams in the lobby.
      * @param schedule The schedule of the races.
      */
-    public Lobby(String id, LobbyStatus status, LobbyConfiguration configuration, Set<User> users,
+    public Lobby(String id, LobbyStatus status, LobbyConfiguration configuration, Set<Team> teams,
                  List<GrandPrix> schedule) {
         this.id = id;
         this.status = status;
         this.configuration = configuration;
-        this.users = users;
+        this.teams = teams;
         this.schedule = schedule;
     }
 
@@ -111,12 +111,12 @@ public final class Lobby implements LobbyResponse {
     }
 
     /**
-     * Return the users of the lobby.
+     * Return the teams in the lobby.
      *
-     * @return The users of the lobby.
+     * @return The teams in the lobby.
      */
-    public Set<User> getUsers() {
-        return users;
+    public Set<Team> getTeams() {
+        return teams;
     }
 
     /**
@@ -145,7 +145,7 @@ public final class Lobby implements LobbyResponse {
         return Objects.equals(id, that.id)
             && Objects.equals(status, that.status)
             && Objects.equals(configuration, that.configuration)
-            && Objects.equals(users, that.users)
+            && Objects.equals(teams, that.teams)
             && Objects.equals(schedule, that.schedule);
     }
 
@@ -156,7 +156,7 @@ public final class Lobby implements LobbyResponse {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, configuration, users, schedule);
+        return Objects.hash(id, status, configuration, teams, schedule);
     }
 
     /**
@@ -166,7 +166,7 @@ public final class Lobby implements LobbyResponse {
      */
     @Override
     public String toString() {
-        return String.format("Lobby(id=%s, status=%s, configuration=%s, users=%s, schedule=%s)",
-            id, status, configuration, users, schedule);
+        return String.format("Lobby(id=%s, status=%s, configuration=%s, teams=%s, schedule=%s)",
+            id, status, configuration, teams, schedule);
     }
 }

@@ -37,9 +37,9 @@ import nl.tudelft.fa.core.lobby.message.RaceSimulationStarted;
 import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.core.lobby.message.TeamConfigurationSubmitted;
 import nl.tudelft.fa.core.race.*;
+import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.manager.ComputerControllerManager;
-import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.concurrent.duration.FiniteDuration;
 import scala.runtime.BoxedUnit;
@@ -96,7 +96,7 @@ public class LobbyRaceSimulationActor extends AbstractActor {
     @Override
     public PartialFunction<Object, BoxedUnit> receive() {
         return ReceiveBuilder
-            .match(TeamConfigurationSubmission.class, msg -> submitConfiguration(msg.getUser(),
+            .match(TeamConfigurationSubmission.class, msg -> submitConfiguration(msg.getTeam(),
                 msg.getCars()))
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),
                 msg.getParameters()))
@@ -115,12 +115,8 @@ public class LobbyRaceSimulationActor extends AbstractActor {
         FiniteDuration interval =  FiniteDuration.create(1, TimeUnit.SECONDS);
 
         // schedule the tick
-        Cancellable tick = context().system().scheduler().schedule(interval, interval, self(),
-            "tick", context().dispatcher(), self());
-
-        // tell the bus the simulation is going to start
-        bus.tell(new RaceSimulationStarted(cars.values().stream()
-            .map(CarSimulator::getConfiguration).collect(Collectors.toSet())), self());
+        Cancellable tick = context().system().scheduler().schedule(FiniteDuration.Zero(), interval,
+            self(), "tick", context().dispatcher(), self());
 
         // setup the simulator
         int amount = Math.max(22 - cars.size(), 0);
@@ -143,6 +139,10 @@ public class LobbyRaceSimulationActor extends AbstractActor {
         // setup the car simulator
         final Iterator<RaceSimulationResult> results = simulator.iterator();
 
+        // tell the bus the simulation is going to start
+        bus.tell(new RaceSimulationStarted(simulators.stream()
+            .map(CarSimulator::getConfiguration).collect(Collectors.toSet())), self());
+
         return ReceiveBuilder
             .match(CarParametersSubmission.class, msg -> submitParameters(msg.getCar(),
                 msg.getParameters()))
@@ -162,17 +162,17 @@ public class LobbyRaceSimulationActor extends AbstractActor {
     /**
      * Submit the {@link CarConfiguration} of a user.
      *
-     * @param user The user that wants to submit the configuration.
+     * @param team The team that wants to submit the configuration.
      * @param cars The car configurations to use.
      */
-    private void submitConfiguration(User user, Set<CarConfiguration> cars) {
+    private void submitConfiguration(Team team, Set<CarConfiguration> cars) {
         cars.forEach(conf -> {
             if (conf.getCar() != null) {
                 this.cars.put(conf.getCar(), new CarSimulator(conf, null));
             }
         });
-        bus.tell(new TeamConfigurationSubmitted(user, cars), sender());
-        log.info("User {} has submitted its team configuration", user);
+        bus.tell(new TeamConfigurationSubmitted(team, cars), sender());
+        log.info("Team {} has submitted its team configuration", team);
     }
 
     /**

@@ -34,6 +34,7 @@ import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.race.CarParameters;
+import nl.tudelft.fa.core.race.CarSimulationResult;
 import nl.tudelft.fa.core.race.RaceSimulationResult;
 import nl.tudelft.fa.core.team.*;
 import nl.tudelft.fa.core.team.inventory.Car;
@@ -88,6 +89,7 @@ public class LobbyModule extends SimpleModule {
         deserializers.addDeserializer(Aerodynamicist.class,
             new AerodynamicistDeserializer(entityManager));
         deserializers.addDeserializer(Tire.class, new TireDeserializer(entityManager));
+        deserializers.addDeserializer(Team.class, new TeamDeserializer(entityManager));
         context.addDeserializers(deserializers);
 
         context.setMixInAnnotations(Driver.class, DriverMixin.class);
@@ -101,15 +103,17 @@ public class LobbyModule extends SimpleModule {
         context.setMixInAnnotations(LobbyOutboundMessage.class, LobbyOutboundMessageMixin.class);
         context.setMixInAnnotations(Join.class, JoinMixin.class);
         context.setMixInAnnotations(JoinSuccess.class, JoinSuccessMixin.class);
+        context.setMixInAnnotations(Chat.class, ChatMixin.class);
         context.setMixInAnnotations(CarParametersSubmission.class,
             CarParametersSubmissionMixin.class);
         context.setMixInAnnotations(CarParameters.class, CarParametersMixin.class);
         context.setMixInAnnotations(TeamConfigurationSubmission.class,
             TeamConfigurationSubmissionMixin.class);
         context.setMixInAnnotations(CarConfiguration.class, CarConfigurationMixin.class);
-        context.setMixInAnnotations(Team.class, TeamMixin.class);
+        context.setMixInAnnotations(nl.tudelft.fa.core.team.Team.class, TeamMixin.class);
         context.setMixInAnnotations(Member.class, MemberMixin.class);
         context.setMixInAnnotations(InventoryItem.class, InventoryItemMixin.class);
         context.setMixInAnnotations(RaceSimulationResult.class, RaceSimulationResultMixin.class);
+        context.setMixInAnnotations(CarSimulationResult.class, CarSimulationResultMixin.class);
     }
 }
