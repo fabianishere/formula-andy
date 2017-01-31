@@ -167,6 +167,8 @@ public class GameScreenController extends AbstractController implements Initiali
                         Text icon = GlyphsDude.createIcon(MaterialDesignIcon.ALERT_OUTLINE);
                         icon.setFill(Color.WHITE);
                         setGraphic(icon);
+                    } else {
+                        setGraphic(null);
                     }
                     setText(toName(item));
                 }
