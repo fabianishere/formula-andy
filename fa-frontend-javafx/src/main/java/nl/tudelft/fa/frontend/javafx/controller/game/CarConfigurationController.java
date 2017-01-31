@@ -37,9 +37,14 @@ import nl.tudelft.fa.client.team.inventory.Engine;
 import nl.tudelft.fa.client.team.inventory.InventoryItem;
 import nl.tudelft.fa.client.team.inventory.Tire;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
+import nl.tudelft.fa.frontend.javafx.service.TeamService;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
+import javax.inject.Inject;
 
 /**
  * The controller for the setup of a car.
@@ -49,6 +54,12 @@ import java.util.stream.Collectors;
  * @author Laetitia Molkenboer
  */
 public class CarConfigurationController extends AbstractController {
+    /**
+     * The injected team service.
+     */
+    @Inject
+    private TeamService teamService;
+
     /**
      * The mechanic risk of the configuration.
      */
@@ -157,11 +168,14 @@ public class CarConfigurationController extends AbstractController {
     }
 
     /**
-     * Set the team for this controller.
-     *
-     * @param team The team to set.
+     * This method is called when the screen is loaded.
      */
-    public void setTeam(Team team) {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
+        Team team = teamService.teamProperty().get();
+
         initializeStaff(mechanic, Mechanic.class, team);
         initializeStaff(aerodynamicist, Aerodynamicist.class, team);
         initializeStaff(strategist, Strategist.class, team);

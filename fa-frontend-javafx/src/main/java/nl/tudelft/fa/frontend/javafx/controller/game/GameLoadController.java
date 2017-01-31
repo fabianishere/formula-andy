@@ -91,7 +91,6 @@ public class GameLoadController extends AbstractController implements Initializa
     protected void next(ActionEvent event) throws Exception {
         show(SetupScreenController.VIEW);
         SetupScreenController controller = loader.getController();
-        controller.setTeam(team.getValue());
     }
 
     /**

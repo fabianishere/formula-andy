@@ -25,54 +25,45 @@
   THE SOFTWARE.
 -->
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import java.net.URL?>
-<VBox id="setup-screen" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController">
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-    <GridPane gridLinesVisible="false" styleClass="basic">
-        <stylesheets>
-            <URL value="@../../css/style.css" />
-        </stylesheets>
-        <columnConstraints>
-            <ColumnConstraints prefWidth="72" />
-            <ColumnConstraints prefWidth="344" />
-            <ColumnConstraints prefWidth="20" />
-            <ColumnConstraints prefWidth="20" />
-            <ColumnConstraints prefWidth="344" />
-            <ColumnConstraints prefWidth="40" />
-            <ColumnConstraints prefWidth="344" />
-            <ColumnConstraints prefWidth="180" />
-            <ColumnConstraints prefWidth="292" />
-            <ColumnConstraints prefWidth="300" />
-            <ColumnConstraints prefWidth="80" />
-        </columnConstraints>
+<?import javafx.geometry.Insets?>
+<GridPane styleClass="table-view" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.SetupScreenController">
+    <stylesheets>
+        <URL value="@../../css/style.css" />
+    </stylesheets>
+    <columnConstraints>
+        <ColumnConstraints prefWidth="100" />
+        <ColumnConstraints prefWidth="100" />
+        <ColumnConstraints prefWidth="100" />
+        <ColumnConstraints prefWidth="100" />
+        <ColumnConstraints prefWidth="100" />
+        <ColumnConstraints prefWidth="100" />
+        <ColumnConstraints prefWidth="100" />
+      <ColumnConstraints />
+    </columnConstraints>
 
-        <rowConstraints>
-            <RowConstraints prefHeight="95" />
-            <RowConstraints prefHeight="100" />
-            <RowConstraints prefHeight="350" />
-            <RowConstraints prefHeight="100" />
-            <RowConstraints prefHeight="100" />
-            <RowConstraints prefHeight="350" />
-            <RowConstraints prefHeight="100" />
-            <RowConstraints prefHeight="140" />
-            <RowConstraints prefHeight="100" />
-            <RowConstraints prefHeight="95" />
-        </rowConstraints>
+    <rowConstraints>
+        <RowConstraints prefHeight="100.0" />
+        <RowConstraints prefHeight="100.0" />
+        <RowConstraints prefHeight="350.0" />
+        <RowConstraints prefHeight="10.0" />
+        <RowConstraints prefHeight="10.0" />
+        <RowConstraints prefHeight="350.0" />
+        <RowConstraints prefHeight="100.0" />
+        <RowConstraints prefHeight="100.0" />
+    </rowConstraints>
 
-        <Button onAction="#store" prefWidth="Infinity" text="Go to store" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+    <padding>
+        <Insets left="20" top="10" bottom="10" right="20" />
+    </padding>
 
-        <fx:include fx:id="first" source="setup-car.fxml" GridPane.columnIndex="1" GridPane.columnSpan="10" GridPane.rowIndex="2" />
-        <fx:include fx:id="second" source="setup-car.fxml" GridPane.columnIndex="1" GridPane.columnSpan="10" GridPane.rowIndex="5" />
+    <fx:include fx:id="first" source="setup-car.fxml" GridPane.columnIndex="0" GridPane.columnSpan="8" GridPane.rowIndex="2" />
+    <fx:include fx:id="second" source="setup-car.fxml" GridPane.columnIndex="0" GridPane.columnSpan="8" GridPane.rowIndex="5" />
 
-        <Label prefWidth="Infinity" text="Remaining budget:" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.valignment="TOP" />
-        <Label prefWidth="Infinity" text="100.000.000" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="TOP" />
-        <Label prefWidth="Infinity" text="Total cost:" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-        <Label prefWidth="Infinity" text="1.000.000" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-        <Label prefWidth="Infinity" text="Status:" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
-        <Label fx:id="status" prefWidth="Infinity" text="INTERMISSION" GridPane.columnIndex="9" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
-
-        <Button onAction="#submit" text="Submit" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
-    </GridPane>
-</VBox>
+    <JFXButton onAction="#submit" text="Submit" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+</GridPane>

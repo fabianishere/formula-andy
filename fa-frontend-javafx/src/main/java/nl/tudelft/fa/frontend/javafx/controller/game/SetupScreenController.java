@@ -33,20 +33,20 @@ import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import nl.tudelft.fa.client.lobby.LobbyStatus;
 import nl.tudelft.fa.client.lobby.message.CarParametersSubmission;
 import nl.tudelft.fa.client.lobby.message.LobbyStatusChanged;
 import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.client.race.CarConfiguration;
-import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StoreController;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
+import nl.tudelft.fa.frontend.javafx.service.TeamService;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
@@ -69,12 +69,13 @@ public class SetupScreenController extends AbstractController implements Initial
      * The injected client service.
      */
     @Inject
-    private ClientService service;
+    private ClientService client;
 
     /**
-     * The {@link Team} of this controller.
+     * The injected team service that provides the team.
      */
-    private Team team;
+    @Inject
+    private TeamService teamService;
 
     /**
      * The controller for the first car configuration.
@@ -87,12 +88,6 @@ public class SetupScreenController extends AbstractController implements Initial
      */
     @FXML
     private CarConfigurationController secondController;
-
-    /**
-     * The status of the lobby.
-     */
-    @FXML
-    private Label status;
 
     /**
      * This method is invoked when the store button is pressed.
@@ -111,20 +106,9 @@ public class SetupScreenController extends AbstractController implements Initial
     private void submit() {
         logger.info("Submitting configuration and parameters");
 
-        service.session().tell(getConfiguration(), ActorRef.noSender());
-        service.session().tell(getParameters(firstController), ActorRef.noSender());
-        service.session().tell(getParameters(secondController), ActorRef.noSender());
-    }
-
-    /**
-     * Set the team for this controller.
-     *
-     * @param team The team to set.
-     */
-    public void setTeam(Team team) {
-        this.team = team;
-        firstController.setTeam(team);
-        secondController.setTeam(team);
+        client.session().tell(getConfiguration(), ActorRef.noSender());
+        client.session().tell(getParameters(firstController), ActorRef.noSender());
+        client.session().tell(getParameters(secondController), ActorRef.noSender());
     }
 
     /**
@@ -132,13 +116,15 @@ public class SetupScreenController extends AbstractController implements Initial
      *
      * @return The configuration of the team.
      */
-    public TeamConfigurationSubmission getConfiguration() {
-        return new TeamConfigurationSubmission(team, new HashSet<CarConfiguration>() {
-            {
-                add(firstController.getConfiguration());
-                add(secondController.getConfiguration());
+    private TeamConfigurationSubmission getConfiguration() {
+        return new TeamConfigurationSubmission(teamService.teamProperty().get(),
+            new HashSet<CarConfiguration>() {
+                {
+                    add(firstController.getConfiguration());
+                    add(secondController.getConfiguration());
+                }
             }
-        });
+        );
     }
 
     /**
@@ -147,9 +133,9 @@ public class SetupScreenController extends AbstractController implements Initial
      * @param controller The controller to use.
      * @return The parameters for a car.
      */
-    public CarParametersSubmission getParameters(CarConfigurationController controller) {
-        return new CarParametersSubmission(team, controller.getConfiguration().getCar(),
-            controller.getParameters());
+    private CarParametersSubmission getParameters(CarConfigurationController controller) {
+        return new CarParametersSubmission(teamService.teamProperty().get(),
+            controller.getConfiguration().getCar(), controller.getParameters());
     }
 
     /**
@@ -159,9 +145,9 @@ public class SetupScreenController extends AbstractController implements Initial
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        ActorRef ref = service.system().actorOf(Props.create(SetupScreenActor.class,
+        ActorRef ref = client.system().actorOf(Props.create(SetupScreenActor.class,
             SetupScreenActor::new).withDispatcher("javafx-dispatcher"));
-        service.session().tell(ref, ref);
+        client.session().tell(ref, ref);
     }
 
     /**
@@ -185,13 +171,7 @@ public class SetupScreenController extends AbstractController implements Initial
         public PartialFunction<Object, BoxedUnit> receive() {
             return ReceiveBuilder
                 .match(LobbyStatusChanged.class,
-                    msg -> msg.getStatus().equals(LobbyStatus.PREPARATION),
-                    msg -> {
-                        log.info("Lobby is going in preparation!");
-                        status.setText(msg.getStatus().toString());
-                    })
-                .match(LobbyStatusChanged.class,
-                    msg -> msg.getStatus().equals(LobbyStatus.PROGRESSION),
+                    msg -> LobbyStatus.PROGRESSION.equals(msg.getStatus()),
                     msg -> {
                         log.info("Race is starting in lobby!");
                         show(GameScreenController.VIEW);

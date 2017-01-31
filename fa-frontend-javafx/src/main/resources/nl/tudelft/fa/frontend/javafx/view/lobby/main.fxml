@@ -52,100 +52,82 @@
     <BorderPane>
         <center>
             <HBox alignment="CENTER">
-                <GridPane maxHeight="508.0" styleClass="inner-container">
-                    <HBox.margin>
-                        <Insets top="-150" />
-                    </HBox.margin>
+                <VBox alignment="CENTER">
+                    <GridPane maxHeight="708.0" styleClass="inner-container">
+                        <VBox.margin>
+                            <Insets top="-150" />
+                        </VBox.margin>
 
-                    <HBox styleClass="title" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                        <Label styleClass="light" text="LOBBY / "/>
-                        <Label text="HOME"/>
-                        <GridPane.margin>
-                            <Insets bottom="10"/>
-                        </GridPane.margin>
-                    </HBox>
+                        <HBox styleClass="title" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label styleClass="light" text="LOBBY / "/>
+                            <Label text="HOME"/>
+                            <GridPane.margin>
+                                <Insets bottom="10"/>
+                            </GridPane.margin>
+                        </HBox>
 
-                    <TabPane id="lobby" styleClass="content" tabClosingPolicy="UNAVAILABLE"
-                             GridPane.columnSpan="3"
-                             GridPane.rowIndex="1">
+                        <TabPane id="lobby" styleClass="content" tabClosingPolicy="UNAVAILABLE"
+                                 GridPane.columnSpan="3"
+                                 GridPane.rowIndex="1">
 
-                        <Tab text="HOME">
-                            <fx:include source="home.fxml" />
-                        </Tab>
+                            <Tab text="HOME">
+                                <fx:include source="home.fxml" />
+                            </Tab>
 
-                        <Tab text="SETUP">
-                            <HBox>
-                                <TableView styleClass="table-view">
-                                    <HBox.margin>
-                                        <Insets right="20"/>
-                                    </HBox.margin>
+                            <Tab text="SETUP">
+                                <fx:include source="../game/setup.fxml" />
+                            </Tab>
 
-                                    <columns>
-                                        <TableColumn prefWidth="150" text="NAME"/>
-                                        <TableColumn prefWidth="200" text="USERS"/>
-                                        <TableColumn prefWidth="200" text="STATUS"/>
-                                    </columns>
-                                </TableView>
+                            <Tab text="INFO">
+                                <HBox>
+                                    <TableView styleClass="table-view">
+                                        <HBox.margin>
+                                            <Insets right="20"/>
+                                        </HBox.margin>
 
-                                <TableView styleClass="table-view">
-                                    <columns>
-                                        <TableColumn prefWidth="50" text="NAME"/>
-                                        <TableColumn prefWidth="50" text="USERS"/>
-                                        <TableColumn prefWidth="50" text="STATUS"/>
-                                    </columns>
-                                </TableView>
-                            </HBox>
-                        </Tab>
+                                        <columns>
+                                            <TableColumn prefWidth="150" text="NAME"/>
+                                            <TableColumn prefWidth="200" text="USERS"/>
+                                            <TableColumn prefWidth="200" text="STATUS"/>
+                                        </columns>
+                                    </TableView>
 
-                        <Tab text="INFO">
-                            <HBox>
-                                <TableView styleClass="table-view">
-                                    <HBox.margin>
-                                        <Insets right="20"/>
-                                    </HBox.margin>
+                                    <TableView styleClass="table-view">
+                                        <columns>
+                                            <TableColumn prefWidth="50" text="NAME"/>
+                                            <TableColumn prefWidth="50" text="USERS"/>
+                                            <TableColumn prefWidth="50" text="STATUS"/>
+                                        </columns>
+                                    </TableView>
+                                </HBox>
+                            </Tab>
 
-                                    <columns>
-                                        <TableColumn prefWidth="150" text="NAME"/>
-                                        <TableColumn prefWidth="200" text="USERS"/>
-                                        <TableColumn prefWidth="200" text="STATUS"/>
-                                    </columns>
-                                </TableView>
+                            <Tab text="RESULTS">
+                                <HBox>
+                                    <TableView styleClass="table-view">
+                                        <HBox.margin>
+                                            <Insets right="20"/>
+                                        </HBox.margin>
 
-                                <TableView styleClass="table-view">
-                                    <columns>
-                                        <TableColumn prefWidth="50" text="NAME"/>
-                                        <TableColumn prefWidth="50" text="USERS"/>
-                                        <TableColumn prefWidth="50" text="STATUS"/>
-                                    </columns>
-                                </TableView>
-                            </HBox>
-                        </Tab>
+                                        <columns>
+                                            <TableColumn prefWidth="150" text="NAME"/>
+                                            <TableColumn prefWidth="200" text="USERS"/>
+                                            <TableColumn prefWidth="200" text="STATUS"/>
+                                        </columns>
+                                    </TableView>
 
-                        <Tab text="RESULTS">
-                            <HBox>
-                                <TableView styleClass="table-view">
-                                    <HBox.margin>
-                                        <Insets right="20"/>
-                                    </HBox.margin>
-
-                                    <columns>
-                                        <TableColumn prefWidth="150" text="NAME"/>
-                                        <TableColumn prefWidth="200" text="USERS"/>
-                                        <TableColumn prefWidth="200" text="STATUS"/>
-                                    </columns>
-                                </TableView>
-
-                                <TableView styleClass="table-view">
-                                    <columns>
-                                        <TableColumn prefWidth="50" text="NAME"/>
-                                        <TableColumn prefWidth="50" text="USERS"/>
-                                        <TableColumn prefWidth="50" text="STATUS"/>
-                                    </columns>
-                                </TableView>
-                            </HBox>
-                        </Tab>
-                    </TabPane>
-                </GridPane>
+                                    <TableView styleClass="table-view">
+                                        <columns>
+                                            <TableColumn prefWidth="50" text="NAME"/>
+                                            <TableColumn prefWidth="50" text="USERS"/>
+                                            <TableColumn prefWidth="50" text="STATUS"/>
+                                        </columns>
+                                    </TableView>
+                                </HBox>
+                            </Tab>
+                        </TabPane>
+                    </GridPane>
+                </VBox>
             </HBox>
         </center>
 

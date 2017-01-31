@@ -42,7 +42,7 @@
         <URL value="@../../css/open-sans.css"/>
     </stylesheets>
 
-    <BorderPane styleClass="table-view" prefWidth="600">
+    <BorderPane styleClass="content" prefWidth="600">
         <HBox.margin>
             <Insets right="20"/>
         </HBox.margin>
