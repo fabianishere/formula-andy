@@ -60,8 +60,8 @@ public class CarSimulationResult {
      * @param distanceTraveled The total distance the car has traveled.
      * @param crashed A flag to indicate whether the car crashed.
      */
-    public CarSimulationResult(CarConfiguration configuration, double distanceTraveled, boolean crashed,
-                               boolean finished) {
+    public CarSimulationResult(CarConfiguration configuration, double distanceTraveled,
+                               boolean crashed, boolean finished) {
         this.configuration = configuration;
         this.distanceTraveled = distanceTraveled;
         this.crashed = crashed;

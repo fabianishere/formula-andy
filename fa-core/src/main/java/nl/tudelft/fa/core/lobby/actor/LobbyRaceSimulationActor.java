@@ -40,7 +40,6 @@ import nl.tudelft.fa.core.race.*;
 import nl.tudelft.fa.core.team.Team;
 import nl.tudelft.fa.core.team.inventory.Car;
 import nl.tudelft.fa.core.team.manager.ComputerControllerManager;
-import nl.tudelft.fa.core.user.User;
 import scala.PartialFunction;
 import scala.concurrent.duration.FiniteDuration;
 import scala.runtime.BoxedUnit;

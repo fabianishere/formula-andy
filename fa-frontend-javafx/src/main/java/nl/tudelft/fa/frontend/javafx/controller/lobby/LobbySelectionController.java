@@ -44,7 +44,6 @@ import nl.tudelft.fa.client.lobby.LobbyStatus;
 import nl.tudelft.fa.client.lobby.message.*;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
-import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
 import nl.tudelft.fa.frontend.javafx.controller.team.TeamSelectionController;
 import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;

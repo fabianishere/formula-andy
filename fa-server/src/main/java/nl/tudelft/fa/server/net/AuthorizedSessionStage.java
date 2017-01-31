@@ -92,18 +92,6 @@ public class AuthorizedSessionStage extends AbstractSessionStage {
          */
         private final PartialFunction<LobbyInboundMessage, BoxedUnit> handler =
             new UnitPFBuilder<LobbyInboundMessage>()
-                .match(Join.class,
-                    msg -> msg.getTeam() == null || !user.equals(msg.getTeam().getOwner()),
-                    msg -> { } )
-                .match(Leave.class,
-                    msg -> msg.getTeam() == null || !user.equals(msg.getTeam().getOwner()),
-                    msg -> { } )
-                .match(TeamConfigurationSubmission.class,
-                    msg -> msg.getTeam() == null || !user.equals(msg.getTeam().getOwner()),
-                    msg -> { } )
-                .match(CarParametersSubmission.class,
-                    msg -> msg.getTeam() == null || !user.equals(msg.getTeam().getOwner()),
-                    msg -> { } )
                 .match(LobbyInboundMessage.class, msg -> push(outA, msg))
                 .build();
 

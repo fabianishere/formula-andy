@@ -56,6 +56,11 @@ import javax.inject.Inject;
  */
 public class CarConfigurationController extends AbstractController {
     /**
+     * The car of this configuration.
+     */
+    protected Car car;
+
+    /**
      * The injected team service.
      */
     @Inject
@@ -114,11 +119,6 @@ public class CarConfigurationController extends AbstractController {
      */
     @FXML
     private ComboBox<Tire> tire;
-
-    /**
-     * The car of this configuration.
-     */
-    protected Car car;
 
     /**
      * Return the {@link CarConfiguration} the user has created.

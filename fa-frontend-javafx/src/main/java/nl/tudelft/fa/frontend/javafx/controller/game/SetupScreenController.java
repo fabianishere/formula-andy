@@ -47,7 +47,6 @@ import nl.tudelft.fa.frontend.javafx.service.TeamService;
 import scala.PartialFunction;
 import scala.runtime.BoxedUnit;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;

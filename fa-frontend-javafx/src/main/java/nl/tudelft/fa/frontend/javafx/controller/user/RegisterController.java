@@ -25,8 +25,6 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.user;
 
-import akka.Done;
-import akka.actor.ActorRef;
 import akka.stream.StreamTcpException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,18 +33,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import nl.tudelft.fa.client.auth.Credentials;
-import nl.tudelft.fa.client.lobby.message.Join;
 import nl.tudelft.fa.client.user.User;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
-import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
 import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
-import javax.inject.Inject;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javax.inject.Inject;
 
 /**
  * The controller for the sign-up screen.
