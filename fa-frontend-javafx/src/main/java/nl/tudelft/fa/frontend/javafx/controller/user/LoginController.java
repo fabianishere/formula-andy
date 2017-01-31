@@ -25,17 +25,24 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.user;
 
+import akka.Done;
+import akka.stream.StreamTcpException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import nl.tudelft.fa.client.auth.Credentials;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
-import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
+import nl.tudelft.fa.frontend.javafx.controller.lobby.LobbySelectionController;
+import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ResourceBundle;
 import javax.inject.Inject;
 
 /**
@@ -64,6 +71,18 @@ public class LoginController extends AbstractController {
     private PasswordField password;
 
     /**
+     * The alert to show if the credentials are invalid.
+     */
+    @FXML
+    private Node alert;
+
+    /**
+     * The alert label where the error message is contained.
+     */
+    @FXML
+    private Label alertLabel;
+
+    /**
      * The injected client service.
      */
     @Inject
@@ -79,12 +98,62 @@ public class LoginController extends AbstractController {
     protected void login(ActionEvent event) throws Exception {
         Credentials credentials = new Credentials(username.getText(), password.getText());
         logger.info("User logging in with credentials {}", credentials);
+
+        // Authorize the user
         service.authorize(credentials);
-        show(event, StartScreenController.VIEW);
+        service.test().whenCompleteAsync(this::login, JavaFxExecutorService.INSTANCE);
     }
 
+    /**
+     * Handle the login event of a user.
+     *
+     * @param done A parameter to indicate the user successfully logged in.
+     * @param throwable An exception that occurred when authenticating.
+     */
+    private void login(Done done, Throwable throwable) {
+        if (throwable != null) {
+            String msg = throwable.getCause().getMessage();
+
+            if (throwable.getCause() instanceof StreamTcpException) {
+                msg = "The server is currently not available";
+            }
+
+            alert.setVisible(true);
+            alertLabel.setText(msg);
+            return;
+        }
+
+        // Show the start screen
+        try {
+            alert.setVisible(false);
+            show(LobbySelectionController.VIEW);
+        } catch (IOException exc) {
+            logger.error("Failed to load start screen for user", exc);
+
+            alert.setVisible(true);
+            alertLabel.setText(exc.getMessage());
+        }
+    }
+
+    /**
+     * This method is invoked when the register button is pressed.
+     *
+     * @param event The event that occurred.
+     * @throws Exception if the view failed to load.
+     */
     @FXML
-    protected void signup(ActionEvent event) throws Exception {
-        show(event, SignupController.VIEW);
+    protected void register(ActionEvent event) throws Exception {
+        push(RegisterController.VIEW);
+    }
+
+    /**
+     * This method is called when the screen is loaded.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
+        alert.setVisible(false);
+        alert.managedProperty().bind(alert.visibleProperty());
     }
 }

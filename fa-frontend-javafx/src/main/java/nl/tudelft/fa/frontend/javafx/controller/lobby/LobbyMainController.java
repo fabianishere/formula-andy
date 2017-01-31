@@ -23,48 +23,67 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.fa.frontend.javafx.controller.user;
+package nl.tudelft.fa.frontend.javafx.controller.lobby;
 
-import javafx.event.ActionEvent;
+import com.jfoenix.controls.JFXSnackbar;
 import javafx.fxml.FXML;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
-import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
+import nl.tudelft.fa.frontend.javafx.service.ClientService;
+import nl.tudelft.fa.frontend.javafx.service.TeamService;
 
 import java.net.URL;
+import java.util.ResourceBundle;
+
+import javax.inject.Inject;
 
 /**
- * The controller for the sign-up screen.
+ * A controller for the main lobby view.
  *
  * @author Fabian Mastenbroek
  * @author Christian Slothouber
  * @author Laetitia Molkenboer
  */
-public class SignupController extends AbstractController {
+public class LobbyMainController extends AbstractController {
     /**
      * The reference to the location of the view of this controller.
      */
-    public static final URL VIEW = Main.class.getResource("view/user/signup.fxml");
+    public static final URL VIEW = Main.class.getResource("view/lobby/main.fxml");
 
     /**
-     * This method is invoked when the signup game button is pressed and the user wants to create a
-     * new account
-     *
-     * @param event The {@link ActionEvent} that occurred.
+     * The injected client service.
      */
-    @FXML
-    private void signup(ActionEvent event) throws Exception {
-        show(event, StartScreenController.VIEW);
-    }
+    @Inject
+    private ClientService client;
 
     /**
-     * This method is invoked when the back button is pressed and the user wants to go back to
-     * the login screen.
-     *
-     * @param event The {@link ActionEvent} that occurred.
+     * The injected team service.
+     */
+    @Inject
+    private TeamService teamService;
+
+    /**
+     * The window node.
      */
     @FXML
-    protected void back(ActionEvent event) throws Exception {
-        show(event, LoginController.VIEW);
+    private GridPane window;
+
+    /**
+     * The snackbar to use.
+     */
+    @FXML
+    private JFXSnackbar snackbar;
+
+    /**
+     * This method is called when the screen is loaded.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
+        /* Initialize snackbar */
+        snackbar.registerSnackbarContainer((StackPane) root);
     }
 }

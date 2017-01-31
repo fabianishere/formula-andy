@@ -30,6 +30,7 @@ import com.google.inject.AbstractModule;
 
 import akka.http.javadsl.model.Uri;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
+import nl.tudelft.fa.frontend.javafx.service.TeamService;
 
 /**
  * Guice module for the user interface.
@@ -40,5 +41,6 @@ public class ClientModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(ClientService.class).toInstance(new ClientService(Uri.create("http://localhost:8080")));
+        bind(TeamService.class).toInstance(new TeamService());
     }
 }

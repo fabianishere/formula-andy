@@ -25,13 +25,11 @@
 
 package nl.tudelft.fa.frontend.javafx.controller.game;
 
-import akka.actor.ActorRef;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import nl.tudelft.fa.client.lobby.message.Join;
 import nl.tudelft.fa.client.net.message.NotAuthorizedException;
 import nl.tudelft.fa.client.team.Team;
 import nl.tudelft.fa.frontend.javafx.Main;
@@ -40,7 +38,6 @@ import nl.tudelft.fa.frontend.javafx.controller.StartScreenController;
 import nl.tudelft.fa.frontend.javafx.dispatch.JavaFxExecutorService;
 import nl.tudelft.fa.frontend.javafx.service.ClientService;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javax.inject.Inject;
@@ -78,7 +75,7 @@ public class GameLoadController extends AbstractController implements Initializa
      */
     @FXML
     protected void back(ActionEvent event) throws Exception {
-        show(event, StartScreenController.VIEW);
+        show(StartScreenController.VIEW);
     }
 
     /**
@@ -89,26 +86,8 @@ public class GameLoadController extends AbstractController implements Initializa
      */
     @FXML
     protected void next(ActionEvent event) throws Exception {
-        logger.info("Looking for available lobby for user");
-        service.balancer().find().whenCompleteAsync((lobby, exc) -> {
-            if (exc != null) {
-                logger.error("Failed to find lobby for the user", exc);
-                return;
-            }
-            logger.info("Opening session for found lobby");
-            service.open(lobby).thenAcceptAsync(session -> {
-                session.tell(new Join(team.getValue()), ActorRef.noSender());
-                try {
-                    show(event, SetupScreenController.VIEW);
-                } catch (IOException ioe) {
-                    logger.error("Failed to load new view", ioe);
-                    return;
-                }
-
-                SetupScreenController controller = loader.getController();
-                controller.setTeam(team.getValue());
-            }, JavaFxExecutorService.INSTANCE);
-        });
+        show(SetupScreenController.VIEW);
+        SetupScreenController controller = loader.getController();
     }
 
     /**

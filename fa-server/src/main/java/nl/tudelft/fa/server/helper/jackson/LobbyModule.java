@@ -34,6 +34,7 @@ import nl.tudelft.fa.core.lobby.LobbyConfiguration;
 import nl.tudelft.fa.core.lobby.message.*;
 import nl.tudelft.fa.core.race.CarConfiguration;
 import nl.tudelft.fa.core.race.CarParameters;
+import nl.tudelft.fa.core.race.CarSimulationResult;
 import nl.tudelft.fa.core.race.RaceSimulationResult;
 import nl.tudelft.fa.core.team.*;
 import nl.tudelft.fa.core.team.inventory.Car;
@@ -113,5 +114,6 @@ public class LobbyModule extends SimpleModule {
         context.setMixInAnnotations(Member.class, MemberMixin.class);
         context.setMixInAnnotations(InventoryItem.class, InventoryItemMixin.class);
         context.setMixInAnnotations(RaceSimulationResult.class, RaceSimulationResultMixin.class);
+        context.setMixInAnnotations(CarSimulationResult.class, CarSimulationResultMixin.class);
     }
 }

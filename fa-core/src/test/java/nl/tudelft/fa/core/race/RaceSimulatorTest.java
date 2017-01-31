@@ -72,7 +72,7 @@ public class RaceSimulatorTest {
     @Test
     public void getNextCycle() {
         List<CarSimulationResult> results = new ArrayList<>();
-        results.add(new CarSimulationResult(car,0, true, false));
+        results.add(new CarSimulationResult(new CarConfiguration(car, null, null, null, null, null),0, true, false));
         results = rs.next(new RaceSimulationResult(results, false)).getResults();
         assertEquals(0, results.get(0).getDistanceTraveled(), 0.01);
     }
@@ -80,7 +80,7 @@ public class RaceSimulatorTest {
     @Test
     public void getNextCycle2() {
         List<CarSimulationResult> results = new ArrayList<>();
-        results.add(new CarSimulationResult(car, 0, false, false));
+        results.add(new CarSimulationResult(new CarConfiguration(car, null, null, null, null, null), 0, false, false));
         results = rs.next(new RaceSimulationResult(results, false)).getResults();
         assertNotEquals(0, results.get(0).getDistanceTraveled(), 0.01);
     }
@@ -88,7 +88,7 @@ public class RaceSimulatorTest {
     @Test
     public void getNextCycle3() {
         List<CarSimulationResult> results = new ArrayList<>();
-        results.add(new CarSimulationResult(car, 0, false, false));
+        results.add(new CarSimulationResult(new CarConfiguration(car, null, null, null, null, null), 0, false, false));
         results = rs.next(new RaceSimulationResult(results, false)).getResults();
 
         if (results.get(0).hasCrashed()) {
@@ -102,7 +102,7 @@ public class RaceSimulatorTest {
     public void getNextCycle4() {
         double distance = 0.0;
         List<CarSimulationResult> initial = new ArrayList<>();
-        initial.add(new CarSimulationResult(car, 10, true, false));
+        initial.add(new CarSimulationResult(new CarConfiguration(car, null, null, null, null, null), 10, true, false));
         RaceSimulationResult result = new RaceSimulationResult(initial, false);
 
         distance = result.getResults().get(0).getDistanceTraveled();
@@ -114,8 +114,8 @@ public class RaceSimulatorTest {
     @Test
     public void finishDoNotChangePlacing() {
         List<CarSimulationResult> results = new ArrayList<>();
-        results.add(new CarSimulationResult(car, 5, false, true));
-        results.add(new CarSimulationResult(car2, 6, false, false));
+        results.add(new CarSimulationResult(new CarConfiguration(car, null, null, null, null, null), 5, false, true));
+        results.add(new CarSimulationResult(new CarConfiguration(car2, null, null, null, null, null), 6, false, false));
 
         RaceSimulationResult result = new RaceSimulationResult(results, false);
 
@@ -123,14 +123,14 @@ public class RaceSimulatorTest {
             result = rs.next(new RaceSimulationResult(results, false));
         }
 
-        assertEquals(result.getResults().get(0).getCar(), results.get(0).getCar());
+        assertEquals(result.getResults().get(0).getConfiguration().getCar(), results.get(0).getConfiguration().getCar());
     }
 
     @Test
     public void finishDoNotMove() {
         List<CarSimulationResult> results = new ArrayList<>();
-        results.add(new CarSimulationResult(car, 5, false, true));
-        results.add(new CarSimulationResult(car2, 6, false, false));
+        results.add(new CarSimulationResult(new CarConfiguration(car, null, null, null, null, null), 5, false, true));
+        results.add(new CarSimulationResult(new CarConfiguration(car2, null, null, null, null, null), 6, false, false));
 
         RaceSimulationResult result = new RaceSimulationResult(results, false);
 

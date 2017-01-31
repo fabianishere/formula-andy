@@ -53,7 +53,7 @@ public class StartScreenController extends AbstractController {
      */
     @FXML
     protected void load(ActionEvent event) throws Exception {
-        show(event, GameLoadController.VIEW);
+        show(GameLoadController.VIEW);
     }
 
     /**
@@ -64,6 +64,6 @@ public class StartScreenController extends AbstractController {
      */
     @FXML
     protected void create(ActionEvent event) throws Exception {
-        show(event, GameLoadController.VIEW); // TODO create create-game screen
+        show(GameLoadController.VIEW); // TODO create create-game screen
     }
 }

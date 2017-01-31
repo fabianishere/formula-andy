@@ -25,15 +25,26 @@
 
 package nl.tudelft.fa.client;
 
+import akka.Done;
 import akka.actor.ActorSystem;
 import akka.http.javadsl.Http;
-import akka.http.javadsl.model.Uri;
+import akka.http.javadsl.marshallers.jackson.Jackson;
+import akka.http.javadsl.model.*;
+import akka.http.javadsl.model.headers.Authorization;
+import akka.http.javadsl.unmarshalling.Unmarshaller;
 import akka.stream.ActorMaterializer;
 import akka.stream.Materializer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.tudelft.fa.client.auth.Credentials;
+import nl.tudelft.fa.client.helper.jackson.UserModule;
 import nl.tudelft.fa.client.lobby.controller.AuthorizedLobbyBalancerController;
 import nl.tudelft.fa.client.lobby.controller.LobbyBalancerController;
 import nl.tudelft.fa.client.team.controller.TeamController;
+import nl.tudelft.fa.client.user.User;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 /**
  * This class provides the HTTP connection between client and server.
@@ -57,6 +68,11 @@ public class Client extends AbstractClient {
     private final Credentials credentials;
 
     /**
+     * The {@link ObjectMapper} of teh client.
+     */
+    private final ObjectMapper mapper;
+
+    /**
      * Construct a {@link Client} instance.
      *
      * @param http The {@link Http} instance to use.
@@ -69,6 +85,8 @@ public class Client extends AbstractClient {
         this.http = http;
         this.materializer = materializer;
         this.credentials = credentials;
+        this.mapper = new ObjectMapper();
+        this.mapper.registerModule(new UserModule());
     }
 
     /**
@@ -118,6 +136,68 @@ public class Client extends AbstractClient {
     @Override
     public TeamController teams() {
         return new TeamController(this, credentials);
+    }
+
+    /**
+     * Register a user with the given credentials.
+     *
+     * @param credentials The credentials to register the user with.
+     * @return A completion stage that completes with the registered user.
+     */
+    public CompletionStage<User> register(Credentials credentials) {
+        final HttpRequest request;
+
+        try {
+            request = HttpRequest.create()
+                .withUri(getBaseUri().addPathSegment("users"))
+                .withMethod(HttpMethods.POST)
+                .withEntity(ContentTypes.APPLICATION_JSON, mapper.writeValueAsBytes(credentials));
+        } catch (JsonProcessingException exc) {
+            CompletableFuture<User> future = new CompletableFuture<>();
+            future.completeExceptionally(exc);
+            return future;
+        }
+
+        return http.singleRequest(request, materializer)
+            .thenCompose(res -> {
+                if (res.status().isFailure()) {
+                    return Unmarshaller.entityToString()
+                        .unmarshall(res.entity(), materializer.executionContext(), materializer)
+                        .thenCompose(msg -> {
+                            CompletableFuture<HttpResponse> future = new CompletableFuture<>();
+                            future.completeExceptionally(new Exception(msg));
+                            return future;
+                        });
+                }
+                return CompletableFuture.completedFuture(res);
+            })
+            .thenCompose(res -> Jackson.unmarshaller(mapper, User.class)
+                    .unmarshall(res.entity(), materializer.executionContext(), materializer));
+    }
+
+    /**
+     * Test whether the connection with the server is valid.
+     *
+     * @return A completion stage that completes if the connection is valid.
+     */
+    @Override
+    public CompletionStage<Done> test() {
+        final HttpRequest request = HttpRequest.create()
+            .withUri(getBaseUri().addPathSegment("auth").addPathSegment("basic"))
+            .withMethod(HttpMethods.GET)
+            .addHeader(Authorization.basic(credentials.getUsername(), credentials.getPassword()));
+
+        return http.singleRequest(request, materializer)
+            .thenCompose(res -> {
+                if (res.status().isFailure()) {
+                    CompletableFuture<Done> future = new CompletableFuture<>();
+                    future.completeExceptionally(new Exception(res.status().reason()));
+                    return future;
+                }
+
+                res.entity().discardBytes(materializer);
+                return CompletableFuture.completedFuture(Done.getInstance());
+            });
     }
 
     /**

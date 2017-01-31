@@ -19,7 +19,7 @@ public class RaceSimulationResultTest {
     @Before
     public void setUp() {
         cars = new ArrayList<CarSimulationResult>() {{
-            Car car = new Car(UUID.randomUUID());
+            CarConfiguration car = new CarConfiguration(new Car(UUID.randomUUID()), null, null, null, null, null);
             add(new CarSimulationResult(car, 100, true, false));
         }};
         finished = false;

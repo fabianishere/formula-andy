@@ -28,7 +28,6 @@ package nl.tudelft.fa.core.lobby.message;
 import akka.actor.ActorRef;
 import nl.tudelft.fa.core.lobby.actor.LobbyActor;
 import nl.tudelft.fa.core.team.Team;
-import nl.tudelft.fa.core.user.User;
 
 import java.util.Objects;
 

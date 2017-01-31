@@ -25,7 +25,6 @@
 
 package nl.tudelft.fa.client.lobby.message;
 
-import akka.actor.ActorRef;
 import nl.tudelft.fa.client.team.Team;
 
 import java.util.Objects;

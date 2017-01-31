@@ -181,7 +181,7 @@ public class LobbyActor extends AbstractActor {
         );
 
         // Create a countdown for the users
-        context().system().actorOf(LobbyCountdownActor.props(bus, configuration.getIntermission(),
+        context().system().actorOf(LobbyCountdownActor.props(bus, configuration.getPreparation(),
             Duration.ofSeconds(10)));
 
         return ReceiveBuilder
@@ -198,7 +198,11 @@ public class LobbyActor extends AbstractActor {
      */
     private PartialFunction<Object, BoxedUnit> progression() {
         context().watch(simulator);
-        simulator.tell("start", self()); // start the simulation
+
+        // start the simulation
+        context().system().scheduler().scheduleOnce(FiniteDuration.create(1, TimeUnit.SECONDS),
+            simulator, "start", context().dispatcher(), self());
+
         return ReceiveBuilder
             .match(RequestInformation.class, req -> inform(LobbyStatus.PROGRESSION))
             .match(LobbyStatusChanged.class, this::transitToIntermission)

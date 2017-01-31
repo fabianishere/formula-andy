@@ -25,48 +25,79 @@
   THE SOFTWARE.
 -->
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.*?>
-<?import java.net.URL?>
-<VBox id="game-screen" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.GameScreenController">
-    <GridPane gridLinesVisible="false" styleClass="basic">
-        <stylesheets>
-            <URL value="@../../css/style.css" />
-        </stylesheets>
-        <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-        </padding>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-        <columnConstraints>
-            <ColumnConstraints prefWidth="72" />
-            <ColumnConstraints prefWidth="700" />
-            <ColumnConstraints prefWidth="344" />
-        </columnConstraints>
+<?import com.jfoenix.controls.JFXSnackbar?>
+<StackPane styleClass="page-container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.fa.frontend.javafx.controller.game.GameScreenController">
+    <stylesheets>
+        <URL value="@../../css/style.css" />
+        <URL value="@../../css/open-sans.css" />
+    </stylesheets>
 
-        <rowConstraints>
-            <RowConstraints prefHeight="95" />
-            <RowConstraints prefHeight="700" />
-            <RowConstraints prefHeight="350" />
-        </rowConstraints>
 
-        <TableView fx:id="table" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <columns>
-                <TableColumn prefWidth="150" text="Position">
-                </TableColumn>
-                <TableColumn prefWidth="150" text="Driver">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="car" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn minWidth="0.0" prefWidth="150" text="Distance">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="distanceTraveled" />
-                    </cellValueFactory>
-                </TableColumn>
-            </columns>
-        </TableView>
+    <!-- Blurred background -->
+    <GridPane styleClass="background-container">
+        <VBox styleClass="background" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <effect>
+                <BoxBlur iterations="200" />
+            </effect>
+        </VBox>
+      <columnConstraints>
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+      </rowConstraints>
     </GridPane>
-</VBox>
+
+    <!-- Page content -->
+    <BorderPane>
+        <center>
+            <HBox alignment="CENTER">
+                <GridPane maxHeight="508.0" styleClass="inner-container">
+                    <HBox.margin>
+                        <Insets top="-150" />
+                    </HBox.margin>
+
+                    <HBox styleClass="title" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label styleClass="light" text="LOBBY / " />
+                        <Label text="PROGRESS" />
+                        <GridPane.margin>
+                            <Insets bottom="8" />
+                        </GridPane.margin>
+                    </HBox>
+
+                    <StackPane GridPane.columnSpan="4" GridPane.rowIndex="1" styleClass="results">
+                        <TableView fx:id="table" styleClass="table-view" prefWidth="600">
+                            <columns>
+                                <TableColumn fx:id="position" maxWidth="60" text="#" resizable="false" />
+                                <TableColumn fx:id="name" prefWidth="350" text="NAME" />
+                                <TableColumn fx:id="laps" prefWidth="100" text="LAPS" />
+                            </columns>
+                        </TableView>
+                    </StackPane>
+                </GridPane>
+            </HBox>
+        </center>
+
+        <top>
+            <HBox alignment="CENTER_RIGHT">
+                <fx:include source="../profile.fxml" />
+            </HBox>
+        </top>
+    </BorderPane>
+
+    <JFXSnackbar fx:id="snackbar" />
+</StackPane>
