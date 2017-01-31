@@ -61,9 +61,6 @@
             <ToggleGroup fx:id="strategicRisk"/>
         </fx:define>
 
-        <Label text="Car:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <ComboBox fx:id="car" promptText="Car" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-
         <!-- Mechanic Risk -->
         <ToggleButton styleClass="lowRisk" toggleGroup="$mechanicRisk" text="L" GridPane.columnIndex="1"
                       GridPane.rowIndex="3" GridPane.halignment="LEFT"/>

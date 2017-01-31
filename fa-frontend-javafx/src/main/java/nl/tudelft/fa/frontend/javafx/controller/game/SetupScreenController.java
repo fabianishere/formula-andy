@@ -38,6 +38,7 @@ import nl.tudelft.fa.client.lobby.message.CarParametersSubmission;
 import nl.tudelft.fa.client.lobby.message.LobbyStatusChanged;
 import nl.tudelft.fa.client.lobby.message.TeamConfigurationSubmission;
 import nl.tudelft.fa.client.race.CarConfiguration;
+import nl.tudelft.fa.client.team.inventory.Car;
 import nl.tudelft.fa.frontend.javafx.Main;
 import nl.tudelft.fa.frontend.javafx.controller.AbstractController;
 import nl.tudelft.fa.frontend.javafx.controller.StoreController;
@@ -49,7 +50,9 @@ import scala.runtime.BoxedUnit;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 /**
@@ -148,6 +151,13 @@ public class SetupScreenController extends AbstractController implements Initial
         ActorRef ref = client.system().actorOf(Props.create(SetupScreenActor.class,
             SetupScreenActor::new).withDispatcher("javafx-dispatcher"));
         client.session().tell(ref, ref);
+
+        List<Car> cars = teamService.teamProperty().get().getInventory().stream()
+            .filter(item -> item instanceof Car)
+            .map(Car.class::cast)
+            .collect(Collectors.toList());
+        firstController.car = cars.get(0);
+        secondController.car = cars.get(1);
     }
 
     /**

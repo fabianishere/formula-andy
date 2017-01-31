@@ -28,6 +28,7 @@ package nl.tudelft.fa.frontend.javafx.controller.game;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ToggleGroup;
 import nl.tudelft.fa.client.race.CarConfiguration;
 import nl.tudelft.fa.client.race.CarParameters;
@@ -115,10 +116,9 @@ public class CarConfigurationController extends AbstractController {
     private ComboBox<Tire> tire;
 
     /**
-     * The car of the configuration.
+     * The car of this configuration.
      */
-    @FXML
-    private ComboBox<Car> car;
+    protected Car car;
 
     /**
      * Return the {@link CarConfiguration} the user has created.
@@ -126,7 +126,7 @@ public class CarConfigurationController extends AbstractController {
      * @return The {@link CarConfiguration} the user has created.
      */
     public CarConfiguration getConfiguration() {
-        return new CarConfiguration(car.getValue(), engine.getValue(), driver.getValue(),
+        return new CarConfiguration(car, engine.getValue(), driver.getValue(),
             mechanic.getValue(), aerodynamicist.getValue(), strategist.getValue());
     }
 
@@ -181,7 +181,6 @@ public class CarConfigurationController extends AbstractController {
         initializeStaff(strategist, Strategist.class, team);
         initializeStaff(driver, Driver.class, team);
 
-        initializeInventory(car, Car.class, team);
         initializeInventory(engine, Engine.class, team);
         initializeInventory(tire, Tire.class, team);
     }
@@ -193,6 +192,18 @@ public class CarConfigurationController extends AbstractController {
             .collect(Collectors.toList());
 
         box.setItems(FXCollections.observableList(items));
+        box.setCellFactory(view -> new ListCell<T>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle(null);
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
     }
 
     private <T extends InventoryItem> void initializeInventory(ComboBox<T> box, Class<T> target,
@@ -203,5 +214,21 @@ public class CarConfigurationController extends AbstractController {
             .collect(Collectors.toList());
 
         box.setItems(FXCollections.observableList(items));
+        box.setCellFactory(view -> new ListCell<T>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle(null);
+                } else if (item instanceof Tire) {
+                    Tire tire = (Tire) item;
+                    setText(String.format("%s %s", tire.getBrand(), tire.getType()));
+                } else if (item instanceof Engine) {
+                    Engine engine = (Engine) item;
+                    setText(String.format("%s %s", engine.getBrand(), engine.getName()));
+                }
+            }
+        });
     }
 }
