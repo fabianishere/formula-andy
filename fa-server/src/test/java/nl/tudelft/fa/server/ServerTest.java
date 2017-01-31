@@ -45,7 +45,7 @@ public class ServerTest {
         setupUser(new Credentials("christov",  "test"), manager);
 
         final ActorRef authenticator = system.actorOf(Authenticator.props(manager));
-        final ActorRef balancer = system.actorOf(LobbyBalancerActor.props(new LobbyConfiguration(11, Duration.ofMinutes(1), Duration.ofMinutes(1), new StaticLobbyScheduleFactory(Collections.singletonList(new GrandPrix(UUID.randomUUID(), new Circuit(UUID.randomUUID(), "Monza", "Italy", 700), Instant.now(), 10, 1))))));
+        final ActorRef balancer = system.actorOf(LobbyBalancerActor.props(new LobbyConfiguration(11, Duration.ofMinutes(1), Duration.ofMinutes(1), new StaticLobbyScheduleFactory(Collections.singletonList(new GrandPrix(UUID.randomUUID(), new Circuit(UUID.randomUUID(), "Monza", "Italy", 10000), Instant.now(), 10, 1))))));
 
         // HttpApp.bindRoute expects a route being provided by HttpApp.createRoute
         final RestService app = new RestService(system, authenticator, balancer, manager);
