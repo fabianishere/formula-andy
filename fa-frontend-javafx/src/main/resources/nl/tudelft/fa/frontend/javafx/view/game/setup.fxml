@@ -65,5 +65,5 @@
     <fx:include fx:id="first" source="setup-car.fxml" GridPane.columnIndex="0" GridPane.columnSpan="8" GridPane.rowIndex="2" />
     <fx:include fx:id="second" source="setup-car.fxml" GridPane.columnIndex="0" GridPane.columnSpan="8" GridPane.rowIndex="5" />
 
-    <JFXButton onAction="#submit" text="Submit" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+    <JFXButton styleClass="submit" onAction="#submit" text="Submit" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
 </GridPane>
