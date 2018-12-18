@@ -5,7 +5,6 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.http.javadsl.ConnectHttp;
 import akka.http.javadsl.Http;
-import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.stream.ActorMaterializer;
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletionStage;
 
 public class ServerTest {
     public static void main(String[] args) throws IOException {
@@ -54,14 +52,7 @@ public class ServerTest {
         final ActorMaterializer materializer = ActorMaterializer.create(system);
 
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = app.createRoute().flow(system, materializer);
-        final CompletionStage<ServerBinding> binding = http.bindAndHandle(routeFlow, ConnectHttp.toHost("localhost", 8080), materializer);
-
-        System.out.println("Type RETURN to exit");
-        System.in.read();
-
-        binding
-            .thenCompose(ServerBinding::unbind)
-            .thenAccept(unbound -> system.terminate());
+        http.bindAndHandle(routeFlow, ConnectHttp.toHost("localhost", 8080), materializer);
     }
 
     public static void setupUser(Credentials credentials, EntityManager manager) {
