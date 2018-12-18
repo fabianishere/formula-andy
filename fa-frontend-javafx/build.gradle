@@ -26,6 +26,9 @@ group 'nl.tudelft.fa'
 version '1.0-SNAPSHOT'
 
 apply from: "${project.rootDir}/gradle/java.gradle"
+apply plugin: 'application'
+
+mainClassName = 'nl.tudelft.fa.frontend.javafx.Bootstrap'
 
 repositories {
     mavenCentral()

@@ -45,3 +45,9 @@ dependencies {
     testRuntime 'org.hibernate:hibernate-core:5.2.5.Final'
     testRuntime 'com.h2database:h2:1.4.193'
 }
+
+task runTestServer(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+
+    main = 'nl.tudelft.fa.server.ServerTest'
+}
