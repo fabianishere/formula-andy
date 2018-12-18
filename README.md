@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="misc/artwork/logo.png" width="100" alt="Formula Andy">
-</p>
+
 <h1 align="center">Formula Andy</h1>
 <p align="center">
 Formula Andy is the State of the art Formula One Manager game, open-source and
