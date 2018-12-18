@@ -10,6 +10,11 @@ written in Java.
   </a>
 </p>
 
+
+<p align="center">
+	<img src="misc/artwork/screenshot.png" alt="Screenshot">
+</p>
+
 ## Getting the source
 Download the source code by running the following code in your command prompt:
 ```sh
