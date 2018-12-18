@@ -12,9 +12,6 @@ written in Java.
   </a>
 </p>
 
-## Chat
-Join the Slack channel at [https://formula-andy.slack.com](https://formula-andy.slack.com).
-
 ## Getting the source
 Download the source code by running the following code in your command prompt:
 ```sh
@@ -34,14 +31,27 @@ To test the source code, run the following code in your command prompt
 $ ./gradlew test
 ```
 
-## Contributors
-| Image         | Name                                                    | ID      |
-| ------------- |:-------------------------------------------------------:| :------:|
-| ![Fabian Mastenbroek](misc/contributors/fabian.jpg)      | [Fabian Mastenbroek](https://github.com/fabianishere)   | 4552199 |
-| ![Christian Slothouber](misc/contributors/christian.jpg) | [Christian Slothouber](https://github.com/ChristovS)  | 4485998 |
-| ![Laetitia Molkenboer](misc/contributors/laetitia.jpg)   | [Laetitia Molkenboer](https://github.com/Lmolkenboer)   | 4553934 |
-| ![Nikki Bouman](misc/contributors/nikki.jpg) | [Nikki Bouman](https://github.com/NikkiBouman)          | 4597648 |
-| ![Nils de Beukelaar](misc/contributors/nils.jpg) | [Nils de Beukelaar](https://github.com/NilsBeuki)       | 4457234 |
+## Running
+Formula Andy is a multi-player game and requires a server to run. To quickly start
+a test server on `localhost`, run the following in your command prompt:
+
+```bash
+$ ./gradlew :fa-server:runTestServer
+```
+
+To run the game's frontend, simply enter the following in your command prompt:
+
+```bash
+$ ./gradlew :fa-frontend-javafx:run
+```
+
+This will open the JavaFX frontend of the game and present a login screen. The
+following pre-defined users are available:
+
+| Username     | Password |
+| ------------ | -------- |
+| fabianishere | test     |
+| christov     | test     |
 
 ## License
 The code is released under the MIT license. See the `LICENSE.txt` file.

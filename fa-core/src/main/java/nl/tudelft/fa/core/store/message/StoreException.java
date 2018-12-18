@@ -22,23 +22,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.fa'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
-apply plugin: 'application'
+package nl.tudelft.fa.core.store.message;
 
-mainClassName = 'nl.tudelft.fa.frontend.javafx.Bootstrap'
+/**
+ * This message represents an exception that occurs when handling a store request.
+ *
+ * @author Fabian Mastenbroek
+ */
+public class StoreException extends Exception {
+    /**
+     * Construct a {@link StoreException} instance.
+     *
+     * @param message The message of the exception.
+     */
+    public StoreException(String message) {
+        super(message);
+    }
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile project(':fa-client')
-    compile 'org.slf4j:slf4j-api:1.7.22'
-    compile 'org.slf4j:slf4j-jdk14:1.7.22'
-    compile 'com.gluonhq:ignite-guice:1.0.0'
-    compile 'com.jfoenix:jfoenix:1.0.0'
-    compile 'de.jensd:fontawesomefx:8.9'
+    /**
+     * Construct a {@link StoreException} instance.
+     */
+    public StoreException() {
+        super();
+    }
 }
